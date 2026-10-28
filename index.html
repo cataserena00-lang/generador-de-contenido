@@ -110,10 +110,11 @@ const up=s=>s.toLocaleUpperCase('es-AR');
 const EJES={
  calle:{nombre:'Calle por Calle – Córdoba Mejora',dark:'#17233d',pie:'#17233d',claro:'#bedff7',chip:'#17233d',acento:'#bedff7',emoji:'🛣️',wm:'wordmark-calle',logos:'logos-calle',tags:['#CallePorCalle','#CórdobaMejora','#HacerParaCrecer'],
    marco:'“Calle por Calle, Córdoba Mejora” es el programa que lleva adelante el Gobierno de la Provincia en conjunto con la Municipalidad de Córdoba e incluye trabajos de pavimentación, rehabilitación integral de calzadas, reparación de sectores deteriorados mediante bacheo con asfalto u hormigón, de acuerdo con las características y necesidades de cada intervención, y mantenimiento de calles de tierra.',
+   corto:'Calle por Calle, Córdoba Mejora: pavimentación, rehabilitación de calzadas, bacheo y mantenimiento de calles.',
    contexto:'“Calle por Calle, Córdoba Mejora” incluye trabajos de pavimentación, rehabilitación integral de calzadas, reparación de sectores deteriorados mediante bacheo con asfalto u hormigón, de acuerdo con las características y necesidades de cada intervención, y mantenimiento de calles de tierra.'},
- accesible:{nombre:'Córdoba Accesible',dark:'#172743',pie:'#09467f',claro:'#bedff7',chip:'#eaab3b',acento:'#eaab3b',emoji:'♿',wm:'wordmark-accesible',logos:'logos-accesible',tags:['#CórdobaAccesible','#HacerParaCrecer'],
+ accesible:{nombre:'Córdoba Accesible',corto:'Córdoba Accesible: una Córdoba inclusiva, pensada para todos.',dark:'#172743',pie:'#09467f',claro:'#bedff7',chip:'#eaab3b',acento:'#eaab3b',emoji:'♿',wm:'wordmark-accesible',logos:'logos-accesible',tags:['#CórdobaAccesible','#HacerParaCrecer'],
    marco:'Córdoba Accesible es el programa para una Córdoba inclusiva, pensada para todos: contempla la instalación de '+nf(P.programaRampas.total)+' rampas en el ejido capitalino y busca favorecer la autonomía, la movilidad y la integración de todos los vecinos.'},
- plaza:{nombre:'Nos vemos en la Plaza – Córdoba Mejora',dark:'#09467f',pie:'#09467f',claro:'#c6dfce',chip:'#c6dfce',acento:'#c6dfce',emoji:'🌳',wm:'wordmark-plaza',logos:'logos-plaza',tags:['#NosVemosEnLaPlaza','#CórdobaMejora','#HacerParaCrecer'],
+ plaza:{nombre:'Nos vemos en la Plaza – Córdoba Mejora',corto:'Nos vemos en la Plaza, Córdoba Mejora: espacios verdes para el encuentro, el juego y el deporte.',dark:'#09467f',pie:'#09467f',claro:'#c6dfce',chip:'#c6dfce',acento:'#c6dfce',emoji:'🌳',wm:'wordmark-plaza',logos:'logos-plaza',tags:['#NosVemosEnLaPlaza','#CórdobaMejora','#HacerParaCrecer'],
    marco:'“Nos vemos en la Plaza, Córdoba Mejora” renueva plazas y espacios verdes de la ciudad: lugares de encuentro, deporte, juego y recreación que suman valor ambiental y social a los barrios, con espacios seguros donde los chicos pueden jugar y estar, como alternativa a los entornos de riesgo.'}
 };
 const TIPOS={mant:{label:'Mantenimiento de calles',corto:'Mant. de calles',eje:'calle'},frio:{label:'Bacheo en frío',corto:'Bacheo en frío',eje:'calle'},rampas:{label:'Rampas',corto:'Rampas',eje:'accesible'},bacheo:{label:'Bacheo con asfalto',corto:'Bacheo asfalto',eje:'calle'},
@@ -206,7 +207,7 @@ function hechoX(o){ // versión corta: sin el detalle de calles
 const pie=o=>BAR(o)?`📍 ${BAR(o)}\n\n`:'';
 function textoIG(o){
   const e=EJES[o.eje], cierre=CIERRES[hash(o.id)%CIERRES.length], ctx=contexto(o);
-  return `${e.emoji} ${tituloIG(o)}\n\n${hecho(o)}.${ctx?'\n\n'+ctx:''}\n\n${e.marco}\n\n${pie(o)}${cierre}\n\n👉 ${CTA}\n\n${e.tags.join(' ')}`;
+  return `${e.emoji} ${tituloIG(o)}\n\n${hecho(o)}.${ctx?'\n\n'+ctx:''}\n\n${e.corto}\n\n${pie(o)}${cierre}\n\n👉 ${CTA}\n\n${e.tags.join(' ')}`;
 }
 function textoX(o){
   const e=EJES[o.eje], cierre=CIERRES[hash(o.id)%CIERRES.length], ht=e.tags.slice(0,2).join(' ');
@@ -267,7 +268,7 @@ function generales(){
     bajada:[`Los trabajos generan ${ptos} puestos de trabajo directos.`,`Hacer para Crecer: la obra pública llega a cada barrio de Córdoba.`].concat(FINOK?[`Ya se finalizaron ${P.finalizadas} obras.`]:[]),
     lead:`Con el trabajo conjunto del Gobierno de la Provincia y la Municipalidad de Córdoba, hoy se ejecutan ${R.obras} obras en ${brs} de la ciudad, que generan ${ptos} puestos de trabajo directos.`,
     secciones:[['Qué obras se ejecutan',[`Las obras corresponden a mantenimiento de calles (${cnt('mant')}), bacheo en frío (${cnt('frio')}), bacheo con asfalto (${cnt('bacheo')}), rehabilitación con asfalto (${cnt('rehab')}), rehabilitación y bacheo con hormigón (${cnt('hormigon')}), pavimentación (${cnt('pav')}), rampas de accesibilidad en ${cnt('rampas')} esquinas y renovación de ${cnt('plaza')} plazas.`]],
-               ['Hacer para Crecer, obra a obra',[FINOK?`Además de las obras en marcha, ya se finalizaron ${P.finalizadas}.`:null,EJES.calle.contexto].filter(Boolean)]],
+               ['Hacer para Crecer, obra a obra',[FINOK?`Además de las obras en marcha, ya se finalizaron ${P.finalizadas}.`:null].filter(Boolean)],['Los programas',[EJES.calle.marco,EJES.accesible.marco,EJES.plaza.marco]]],
     cierre:MODELO});
 
   add('g_empleo','Puestos de trabajo directos','calle',
@@ -283,7 +284,7 @@ function generales(){
 
   add('g_accesible','Córdoba Accesible – total de rampas','accesible',
    [`Córdoba Accesible: avanza la colocación de ${R.rampas} rampas en ${R.esquinas} esquinas`,`Una Córdoba inclusiva, pensada para todos: ${R.rampas} rampas en ejecución`,`${R.rampas} rampas en marcha para mejorar la movilidad peatonal en la ciudad`],
-   `♿ CÓRDOBA ACCESIBLE: ${R.rampas} RAMPAS EN EJECUCIÓN\n\nHoy se ejecuta la colocación de ${R.rampas} rampas en ${R.esquinas} esquinas de la ciudad: ${cent.length} esquinas en la zona céntrica, con ${sum(cent,o=>o.rampas)} rampas, y ${pue.length} esquinas de la Av. J. M. de Pueyrredón, con ${sum(pue,o=>o.rampas)} rampas.\n\n${EJES.accesible.marco}\n\n${MODELO}\n\n${tg('accesible')}`,
+   `♿ CÓRDOBA ACCESIBLE: ${R.rampas} RAMPAS EN EJECUCIÓN\n\nHoy se ejecuta la colocación de ${R.rampas} rampas en ${R.esquinas} esquinas de la ciudad: ${cent.length} esquinas en la zona céntrica, con ${sum(cent,o=>o.rampas)} rampas, y ${pue.length} esquinas de la Av. J. M. de Pueyrredón, con ${sum(pue,o=>o.rampas)} rampas.\n\n${EJES.accesible.corto}\n\n${MODELO}\n\n${tg('accesible')}`,
    `♿ Córdoba Accesible: hoy se ejecutan ${R.rampas} rampas en ${R.esquinas} esquinas de la ciudad. Una Córdoba inclusiva, pensada para todos. #CórdobaAccesible #HacerParaCrecer`,
    {kicker:'Córdoba Accesible',valor:String(R.rampas),etiqueta:'Rampas en ejecución',sub:`En ${R.esquinas} esquinas de la ciudad`},
    {titulo:`Córdoba Accesible: avanza la colocación de ${R.rampas} rampas en ${R.esquinas} esquinas de la ciudad`,
@@ -295,7 +296,7 @@ function generales(){
 
   add('g_calle','Calle por Calle – frentes de obra','calle',
    [`Calle por Calle: ${R.calle} frentes de obra en ${brs} de la ciudad`,`${R.calle} frentes de obra de reparación vial en ejecución en Córdoba`,`Hacer para Crecer: la rehabilitación de calles avanza en ${brs}`],
-   `🛣️ CALLE POR CALLE: ${R.calle} FRENTES DE OBRA\n\nHoy, el programa Calle por Calle, Córdoba Mejora tiene ${R.calle} frentes de obra en ${brs} de la ciudad: ${cnt('hormigon')} de rehabilitación y bacheo con hormigón, ${cnt('mant')} de mantenimiento de calles, ${cnt('frio')} de bacheo en frío, ${cnt('bacheo')} de bacheo con asfalto, ${cnt('rehab')} de rehabilitación con asfalto y ${cnt('pav')} de pavimentación.\n\n${EJES.calle.marco}\n\n${MODELO}\n\n${tg('calle')}`,
+   `🛣️ CALLE POR CALLE: ${R.calle} FRENTES DE OBRA\n\nHoy, el programa Calle por Calle, Córdoba Mejora tiene ${R.calle} frentes de obra en ${brs} de la ciudad: ${cnt('hormigon')} de rehabilitación y bacheo con hormigón, ${cnt('mant')} de mantenimiento de calles, ${cnt('frio')} de bacheo en frío, ${cnt('bacheo')} de bacheo con asfalto, ${cnt('rehab')} de rehabilitación con asfalto y ${cnt('pav')} de pavimentación.\n\n${EJES.calle.corto}\n\n${MODELO}\n\n${tg('calle')}`,
    `🛣️ Calle por Calle: hoy hay ${R.calle} frentes de obra de reparación vial en ${brs} de Córdoba. Hacer para Crecer: obra pública en cada barrio. #CallePorCalle #HacerParaCrecer`,
    {kicker:'Calle por Calle',valor:String(R.calle),etiqueta:'Frentes de obra de reparación vial',sub:`En ${brs}`},
    {titulo:`Calle por Calle: ${R.calle} frentes de obra en ${brs} de la ciudad`,
@@ -307,7 +308,7 @@ function generales(){
 
   add('g_cuadras','Pavimentación – cuadras','calle',
    [`Cinco obras de pavimentación alcanzan ${R.cuadras} cuadras en Córdoba`,`Calle por Calle: ${R.cuadras} cuadras en proceso de pavimentación`,`Hacer para Crecer: se pavimentan ${R.cuadras} cuadras en cinco barrios`],
-   `🛣️ ${R.cuadras} CUADRAS A PAVIMENTAR\n\nLas ${R.pav} obras de pavimentación que hoy se ejecutan en la ciudad, en ${listaBarrios(pavs)}, alcanzan ${R.cuadras} cuadras: ${lista(pavs.map(o=>`${o.m.cuadras} en el Barrio ${bar(o)}`))}.\n\nLas obras mejoran el drenaje superficial de las aguas pluviales y el tránsito vehicular y peatonal, y dejan materializadas las líneas de vereda.\n\n${EJES.calle.marco}\n\n${MODELO}\n\n${tg('calle')}`,
+   `🛣️ ${R.cuadras} CUADRAS A PAVIMENTAR\n\nLas ${R.pav} obras de pavimentación que hoy se ejecutan en la ciudad, en ${listaBarrios(pavs)}, alcanzan ${R.cuadras} cuadras: ${lista(pavs.map(o=>`${o.m.cuadras} en el Barrio ${bar(o)}`))}.\n\nLas obras mejoran el drenaje superficial de las aguas pluviales y el tránsito vehicular y peatonal, y dejan materializadas las líneas de vereda.\n\n${EJES.calle.corto}\n\n${MODELO}\n\n${tg('calle')}`,
    `🛣️ Cinco obras de pavimentación alcanzan ${R.cuadras} cuadras en ${listaBarrios(pavs)}. Más calles pavimentadas para los cordobeses. #CallePorCalle #HacerParaCrecer`,
    {kicker:'Pavimentación',valor:String(R.cuadras),etiqueta:'Cuadras a pavimentar',sub:`${R.pav} obras en ejecución`,extra:'En cinco barrios de la ciudad'},
    {titulo:`Cinco obras de pavimentación alcanzan ${R.cuadras} cuadras en Córdoba`,
@@ -320,7 +321,7 @@ function generales(){
   const pl9=plazas.filter(o=>o.circuito==='9D'), plo=plazas.filter(o=>o.circuito!=='9D');
   add('g_plazas','Nos vemos en la Plaza – plazas en renovación','plaza',
    [`${R.plazas} plazas se renuevan en Córdoba: espacios verdes para el encuentro y el juego`,`Nos vemos en la Plaza: renovación de ${R.plazas} espacios públicos en la ciudad`,`Hacer para Crecer: plazas seguras para jugar, hacer deporte y estar`],
-   `🌳 ${R.plazas} PLAZAS EN RENOVACIÓN\n\nHoy se renuevan ${R.plazas} plazas de la ciudad: ${pl9.length} en el Barrio ${bar(pl9[0])} y ${plo.length} en el Barrio ${bar(plo[0])}.\n\n${EJES.plaza.marco}\n\n${MODELO}\n\n${tg('plaza')}`,
+   `🌳 ${R.plazas} PLAZAS EN RENOVACIÓN\n\nHoy se renuevan ${R.plazas} plazas de la ciudad: ${pl9.length} en el Barrio ${bar(pl9[0])} y ${plo.length} en el Barrio ${bar(plo[0])}.\n\n${EJES.plaza.corto}\n\n${MODELO}\n\n${tg('plaza')}`,
    `🌳 Nos vemos en la Plaza: hoy se renuevan ${R.plazas} plazas en la ciudad, ${pl9.length} en el Barrio ${bar(pl9[0])} y ${plo.length} en el Barrio ${bar(plo[0])}. Espacios verdes para el encuentro y el juego. #NosVemosEnLaPlaza #CórdobaMejora`,
    {kicker:'Nos vemos en la Plaza',valor:String(R.plazas),etiqueta:'Plazas en renovación',sub:`En el Barrio ${bar(pl9[0])} y el Barrio ${bar(plo[0])}`},
    {titulo:`${R.plazas} plazas se renuevan en Córdoba: espacios verdes para el encuentro y el juego`,
@@ -332,7 +333,7 @@ function generales(){
 
   add('g_acum','Plan de pavimentación y programa de rampas','calle',
    [`Calle por Calle prevé ${nf(P.acumulados.cuadras_pavimentadas)} nuevas cuadras de pavimento en la ciudad`,`Hacer para Crecer: el plan contempla ${nf(P.acumulados.cuadras_pavimentadas)} nuevas cuadras de pavimento`,`${nf(P.acumulados.cuadras_pavimentadas)} cuadras de pavimento y ${nf(P.acumulados.rampas_programa)} rampas: los planes que transforman los barrios`],
-   `🛣️ ${nf(P.acumulados.cuadras_pavimentadas)} NUEVAS CUADRAS DE PAVIMENTO\n\nEl plan Calle por Calle, Córdoba Mejora contempla la ejecución de ${nf(P.acumulados.cuadras_pavimentadas)} nuevas cuadras de pavimento en diversos barrios de la ciudad, mientras que Córdoba Accesible contempla la instalación de ${nf(P.acumulados.rampas_programa)} rampas en el ejido capitalino.\n\n${EJES.calle.marco}\n\n${MODELO}\n\n#CallePorCalle #CórdobaAccesible #HacerParaCrecer`,
+   `🛣️ ${nf(P.acumulados.cuadras_pavimentadas)} NUEVAS CUADRAS DE PAVIMENTO\n\nEl plan Calle por Calle, Córdoba Mejora contempla la ejecución de ${nf(P.acumulados.cuadras_pavimentadas)} nuevas cuadras de pavimento en diversos barrios de la ciudad, mientras que Córdoba Accesible contempla la instalación de ${nf(P.acumulados.rampas_programa)} rampas en el ejido capitalino.\n\n${EJES.calle.corto}\n\n${MODELO}\n\n#CallePorCalle #CórdobaAccesible #HacerParaCrecer`,
    `🛣️ El plan Calle por Calle contempla ${nf(P.acumulados.cuadras_pavimentadas)} nuevas cuadras de pavimento, y Córdoba Accesible contempla ${nf(P.acumulados.rampas_programa)} rampas. Hacer para Crecer. #CallePorCalle #CórdobaAccesible`,
    {kicker:'Calle por Calle',valor:nf(P.acumulados.cuadras_pavimentadas),etiqueta:'Nuevas cuadras de pavimento previstas',sub:'Córdoba Mejora'},
    {titulo:`Calle por Calle prevé ${nf(P.acumulados.cuadras_pavimentadas)} nuevas cuadras de pavimento en la ciudad`,
@@ -589,7 +590,7 @@ function periodicos(){
       x:limpio(`📊 En ${per}, en promedio, hubo ${w.promEjec} obras en ejecución por día en Córdoba y las obras generaron ${nf(w.promPuestos)} puestos de trabajo directos por día. Hacer para Crecer. #CórdobaMejora #HacerParaCrecer`),
       placa:{eje:'calle',fotos:[],extra:'',kicker:nombre,valor:String(U),etiqueta:`Obras en ${per}`,sub:`${w.promEjec} en ejecución por día, en promedio`},
       gac:limpio(gacetilla({titulo:titulos[0],bajada:[`En promedio, hubo ${w.promEjec} obras en ejecución por día.`,`Las obras generaron ${nf(w.promPuestos)} puestos de trabajo directos por día, en promedio.`,'Hacer para Crecer: obra pública sostenida en toda la ciudad.'],
-        lead:`${cap(dato)}.`,secciones:[['Hacer para Crecer, obra a obra',['Calle por Calle, Córdoba Mejora, Córdoba Accesible y Nos vemos en la Plaza son los programas con los que la obra pública llega a cada barrio de la ciudad.']]],cierre:MODELO}))});
+        lead:`${cap(dato)}.`,secciones:[['Los programas',[EJES.calle.marco,EJES.accesible.marco,EJES.plaza.marco]]],cierre:MODELO}))});
   });
   return out;
 }
