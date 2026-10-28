@@ -173,11 +173,26 @@ function textoIG(o){
 }
 function textoX(o){
   const e=EJES[o.eje], cierre=CIERRES[hash(o.id)%CIERRES.length], ht=e.tags.slice(0,2).join(' ');
-  const h=hecho(o)+'.', t=`${e.emoji} ${tituloIG(o)}`;
-  const c=[`${t}\n${h}\n${ht}`,`${h}\n${ht}`];
-  if(o.tipo!=='pav')c.unshift(`${t}\n${h}\n${cierre}\n${ht}`); // pavimentación lleva monto oficial: sin cierre fiscal pegado
-  for(const x of c) if(x.length<=280) return x;
-  const room=280-(ht.length+2); return h.slice(0,room-1).trimEnd()+'…\n'+ht;
+  const h=hecho(o)+'.', hs=hechoX(o)+'.', t=`${e.emoji} ${tituloIG(o)}`, cf=o.tipo!=='pav'; // pavimentación lleva monto oficial: sin cierre fiscal pegado
+  // del más completo al más resumido: se resume el mensaje, nunca se corta una frase
+  const c=[];
+  if(cf)c.push(`${t}\n${h}\n${cierre}\n${ht}`);
+  c.push(`${t}\n${h}\n${ht}`);
+  if(cf)c.push(`${t}\n${hs}\n${cierre}\n${ht}`);
+  c.push(`${t}\n${hs}\n${ht}`,`${hs}\n${ht}`,`${t}\n${ht}`);
+  return c.find(x=>x.length<=280)||`${hs}`;
+}
+function hechoX(o){ // versión corta del hecho: sin el detalle de calles
+  const m=o.m, bl=barrioDe(o), en=bl?` (${bl})`:'';
+  switch(o.tipo){
+    case 'rampas': return o.grupo?(o.circuito==='1'?`Avanzamos con la colocación de ${o.rampas} rampas en ${o.metricas.esquinas} esquinas de la zona céntrica`:`Avanzamos con la colocación de ${o.rampas} rampas en ${o.metricas.esquinas} esquinas de la Av. J. M. de Pueyrredón`):`Avanzamos con la colocación de ${o.rampas} ${o.rampas===1?'rampa':'rampas'} en ${lugarRampas(o)}`;
+    case 'plaza': return `Avanzan los trabajos de renovación de ${o.via}`;
+    case 'mant': return m.ml?`Avanza el mantenimiento de calles en ${o.sector}: ${nf(m.ml)} metros lineales de calles de tierra`:`Avanzan las tareas de mantenimiento de calles en ${o.sector}`;
+    case 'bacheo': return `Avanza el bacheo con asfalto sobre ${o.via}${en}${m.m2?`: ${nf(m.m2)} m² intervenidos`:''}`;
+    case 'rehab': return `Avanza la rehabilitación con asfalto sobre ${o.via}${en}`;
+    case 'hormigon': return `Avanza la rehabilitación y el bacheo con hormigón sobre ${o.via}${en}${m.m2?`: ${nf(m.m2)} m² intervenidos`:''}`;
+    case 'pav': return `Avanza la pavimentación de ${o.sector}: ${m.cuadras} cuadras, con un plazo de ${m.plazo} días calendario`;
+  }
 }
 function textoPlaca(v){
   const l=[];
@@ -327,12 +342,12 @@ function drawLayout(g,lay,x,y,align,maxW){
 function cover(g,img,x,y,w,h){const r=Math.max(w/img.naturalWidth,h/img.naturalHeight),sw=w/r,sh=h/r;g.drawImage(img,(img.naturalWidth-sw)/2,(img.naturalHeight-sh)/2,sw,sh,x,y,w,h)}
 function rrect(g,x,y,w,h,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath()}
 
-async function footer(g,W,H,e,story,eje){
-  const fh=W*.17, y1=story?H*.80:H, y0=y1-fh;
-  g.fillStyle=e.pie;g.fillRect(0,y0,W,H-y0);
+async function footer(g,W,H,e,story,eje,solo){
+  const fh=W*.17, y1=story?H*.885:H, y0=y1-fh;  // stories: logos más abajo (queda ~11% libre abajo, cerca del mínimo que recomienda Meta)
+  if(!solo){g.fillStyle=e.pie;g.fillRect(0,y0,W,H-y0);}
   const asp=await aspect(e.logos);
   let lx,lw;
-  if(eje==='accesible'){const ca=await aspect('cinta-pie-accesible');const cw=fh*ca;await drawSvg(g,'cinta-pie-accesible',0,y0,cw,fh);lx=cw+W*.03;lw=W-lx-W*.05;}
+  if(eje==='accesible'&&!solo){const ca=await aspect('cinta-pie-accesible');const cw=fh*ca;await drawSvg(g,'cinta-pie-accesible',0,y0,cw,fh);lx=cw+W*.03;lw=W-lx-W*.05;}
   else{lw=W*(eje==='plaza'?.90:.84);lx=(W-lw)/2;}
   const lh=lw/asp, ly=y0+(fh-lh)/2;
   await drawSvg(g,e.logos,lx,ly,lw,lh);
@@ -367,7 +382,7 @@ async function photoCirculo(g,W,H,v,e,y0,topSafe,im){
   if(eje==='accesible')await drawCrop(g,'fondo-accesible',[0,0,1415,483],0,0,W*.5,W*.5*483/1415);
   if(eje==='plaza')await drawCrop(g,'fondo-plaza',[150,220,560,520],W*.04,topSafe+W*.03,W*.1,W*.1*520/560);
   const cTop=story?H*.115:topSafe+W*.03, ring=W*.085;
-  let r=(panelT+W*.07-cTop)/2-ring; r=Math.min(r,W*.36);r=Math.max(r,W*.2);
+  let r=(panelT+W*.07-cTop)/2-ring; r=Math.min(r,W*.385);r=Math.max(r,W*.2);
   const cx=W/2, cy=cTop+ring+r;
   if(eje==='calle'){
     g.fillStyle='#bc1734';g.beginPath();g.arc(cx,cy,r+ring,0,7);g.fill();
@@ -398,16 +413,18 @@ async function photoMarco(g,W,H,v,e,y0,topSafe,im){
 }
 /* Diseño C: foto completa con degradado y texto encima */
 async function photoCompleta(g,W,H,v,e,y0,topSafe,im){
-  cover(g,im,0,0,W,y0);
-  const gr=g.createLinearGradient(0,y0*.28,0,y0);const col=e.dark;
-  gr.addColorStop(0,col+'00');gr.addColorStop(.55,col+'b8');gr.addColorStop(1,col+'f2');g.fillStyle=gr;g.fillRect(0,y0*.28,W,y0*.72);
+  const story=H>W*1.6, fullH=story?H:y0, ytxt=story?H*.885-W*.17-W*.015:y0;  // stories: la foto cubre todo el lienzo (sin azul liso abajo) y los logos van sobre el degradado
+  cover(g,im,0,0,W,fullH);
+  const gr=g.createLinearGradient(0,fullH*.3,0,fullH);const col=e.dark;
+  gr.addColorStop(0,col+'00');gr.addColorStop(.5,col+'b0');gr.addColorStop(1,col+'f5');g.fillStyle=gr;g.fillRect(0,fullH*.3,W,fullH*.7);
   const wa=await aspect(e.wm), cw=W*.36, ch=cw/wa, pad=W*.025, cx=W*.05, cy=topSafe+W*.04;
   g.fillStyle=e.chip;rrect(g,cx,cy,cw+pad*2,ch+pad*2,W*.02);g.fill();await drawSvg(g,e.wm,cx+pad,cy+pad,cw,ch);
   const bm=W*.06, mw=W-bm*2;
   const bl=[{t:v.kicker,w:600,s:W*.032,c:e.acento,up:true,gap:W*.012}];
   if(v.valor)bl.push({t:`${v.valor} ${v.etiqueta}`,w:800,s:W*.085,c:'#fff',lh:1.05,gap:W*.02});else bl.push({t:v.main,w:800,s:W*.085,c:'#fff',lh:1.05,gap:W*.02});
   bl.push({t:v.sub||'',w:600,s:W*.04,c:'#fff',gap:W*.012});bl.push({t:v.circ,w:600,s:W*.03,c:'#fff',op:.8});
-  const lay=layout(g,bl,mw,y0*.55);drawLayout(g,lay,bm,y0-W*.04-lay.tot+(bl.at(-1).gap||0),'left',mw);
+  const lay=layout(g,bl,mw,ytxt*.55);drawLayout(g,lay,bm,ytxt-W*.04-lay.tot+(bl.at(-1).gap||0),'left',mw);
+  return story?'full':undefined;
 }
 const ESTILOS={circulo:photoCirculo,marco:photoMarco,completa:photoCompleta};
 function estiloAuto(v,im){ // elige el diseño que mejor funciona con la foto
@@ -417,7 +434,7 @@ function estiloAuto(v,im){ // elige el diseño que mejor funciona con la foto
 async function photoPlate(g,W,H,v,e,y0,topSafe,fotoIdx,estilo){
   const im=await loadImg(v.fotos[fotoIdx%v.fotos.length]);
   const k=(estilo&&estilo!=='auto')?estilo:estiloAuto(v,im);
-  await ESTILOS[k](g,W,H,v,e,y0,topSafe,im);
+  return await ESTILOS[k](g,W,H,v,e,y0,topSafe,im);
 }
 async function brandPlate(g,W,H,v,e,y0,topSafe,eje){
   const bm=W*.07,mw=W-bm*2;
@@ -437,10 +454,10 @@ async function brandPlate(g,W,H,v,e,y0,topSafe,eje){
     drawLayout(g,lay,bm,top+(y0-top-W*.04-lay.tot)/2,'left',mw);
   } else if(eje==='accesible'){
     const wa=await aspect(e.wm),ww=W*.60,wh=ww/wa;
-    const yh=Math.max(W*1408/2835,topSafe+wh+W*.09);const sc=yh/1408,iw=2835*sc;
+    const yh=topSafe>0?2*topSafe+wh:Math.max(W*1408/2835,wh+W*.09);const sc=yh/1408,iw=2835*sc; // stories: bloque simétrico, el logotipo queda centrado y fuera de la zona segura
     g.fillStyle='#fff';g.fillRect(0,0,W,y0);
     g.save();g.beginPath();g.rect(0,0,W,yh);g.clip();await drawCrop(g,'fondo-accesible',[0,0,2835,1408],(W-Math.max(iw,W))/2,0,Math.max(iw,W),yh);g.restore();
-    await drawSvg(g,e.wm,(W-ww)/2,topSafe+(yh-topSafe-wh)/2,ww,wh);
+    await drawSvg(g,e.wm,(W-ww)/2,(yh-wh)/2,ww,wh);
     const top=yh+W*.03,hh=y0-top-W*.03;
     const b=[];
     if(v.valor)b.push({t:v.valor,w:800,s:W*.27,c:'#09467f',lh:1,gap:W*.012});else b.push({t:v.main,w:800,s:W*.085,c:'#09467f',up:true,gap:W*.02});
@@ -467,10 +484,11 @@ async function brandPlate(g,W,H,v,e,y0,topSafe,eje){
 async function renderPlaca(canvas,v,fmt,fotoIdx=0,estilo='auto'){
   await document.fonts.load('800 40px Poppins');await document.fonts.load('600 40px Poppins');
   const [W,H]=FMT[fmt],g=canvas.getContext('2d');canvas.width=W;canvas.height=H;
-  const story=fmt==='9x16',e=EJES[v.eje],topSafe=story?H*.14:0,y1=story?H*.80:H,y0=y1-W*.17;
+  const story=fmt==='9x16',e=EJES[v.eje],topSafe=story?H*.14:0,y1=story?H*.885:H,y0=y1-W*.17;
   g.fillStyle='#fff';g.fillRect(0,0,W,H);
-  if(v.fotos&&v.fotos.length)await photoPlate(g,W,H,v,e,y0,topSafe,fotoIdx,estilo);else await brandPlate(g,W,H,v,e,y0,topSafe,v.eje);
-  await footer(g,W,H,e,story,v.eje);
+  let full=false;
+  if(v.fotos&&v.fotos.length)full=(await photoPlate(g,W,H,v,e,y0,topSafe,fotoIdx,estilo))==='full';else await brandPlate(g,W,H,v,e,y0,topSafe,v.eje);
+  await footer(g,W,H,e,story,v.eje,full);
 }
 function descargar(canvas,nombre){canvas.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=nombre+'.png';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)},'image/png')}
 async function copiar(txt,btn){try{await navigator.clipboard.writeText(txt)}catch{const t=document.createElement('textarea');t.value=txt;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove()}const o=btn.textContent;btn.textContent='¡Copiado!';btn.classList.add('ok');setTimeout(()=>{btn.textContent=o;btn.classList.remove('ok')},1200)}
