@@ -15,22 +15,46 @@
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:Poppins,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5}
-header{background:#fff;padding:14px 24px 0;position:sticky;top:0;z-index:20;box-shadow:0 2px 14px #00000012}
-header::after{content:"";display:block;height:5px;margin:12px -24px 0;background:linear-gradient(90deg,var(--celeste) 0 33.34%,var(--rojo) 33.34% 66.67%,var(--dorado) 66.67%)}
-.top{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-.top img{height:44px;display:block}
-.top .ttl{border-left:1px solid var(--line);padding-left:18px}
-h1{margin:0;font-weight:900;font-size:21px;line-height:1.1;color:var(--gris);letter-spacing:.2px}
-.sub{color:var(--muted);font-size:12px;margin-top:3px;font-weight:600}
-.kpis{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-.kpi{background:#fff;border:1px solid var(--line);border-top:4px solid var(--celeste);border-radius:10px;padding:5px 14px 6px;min-width:96px}
-.kpi:nth-child(3n+2){border-top-color:var(--rojo)} .kpi:nth-child(3n){border-top-color:var(--dorado)}
-.kpi b{display:block;font-size:21px;font-weight:900;line-height:1.15;color:var(--ink)}
-.kpi span{font-size:11px;color:var(--muted);font-weight:600}
-nav.tabs{display:flex;gap:6px;margin:12px 0 12px}
-nav.tabs button{background:#fff;color:var(--gris);border:1px solid var(--line);border-radius:999px;padding:6px 18px;font:700 13px Poppins;cursor:pointer}
+/* cabecera fina: dos renglones (marca, título y KPIs en línea; pestañas) y la franja tricolor */
+header{background:#fff;padding:8px 20px 0;position:sticky;top:0;z-index:20;box-shadow:0 2px 14px #00000012}
+header::after{content:"";display:block;height:4px;margin:8px -20px 0;background:linear-gradient(90deg,var(--celeste) 0 33.34%,var(--rojo) 33.34% 66.67%,var(--dorado) 66.67%)}
+.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.top img{height:32px;display:block}
+.top .ttl{border-left:1px solid var(--line);padding-left:14px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+h1{margin:0;font-weight:900;font-size:16px;line-height:1.1;color:var(--gris);letter-spacing:.2px}
+.sub{color:var(--muted);font-size:12px;font-weight:600}
+.kpis{display:flex;gap:4px 14px;flex-wrap:wrap;margin-left:auto;align-items:baseline}
+.kpi{display:flex;align-items:baseline;gap:5px;border-left:3px solid var(--celeste);padding-left:7px;line-height:1.1}
+.kpi:nth-child(3n+2){border-left-color:var(--rojo)} .kpi:nth-child(3n){border-left-color:var(--dorado)}
+.kpi b{font-size:15px;font-weight:900;color:var(--ink)}
+.kpi span{font-size:10.5px;color:var(--muted);font-weight:600}
+.per{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:#fff}
+.per button{border:0;background:transparent;padding:5px 14px;font:700 12px Poppins;color:var(--gris);cursor:pointer}
+.per button.on{background:var(--marino);color:#fff}
+.tag.dias{background:#e9f0fa;color:#2f5a8f}
+nav.tabs{display:flex;gap:6px;margin:8px 0 0}
+nav.tabs button{background:#fff;color:var(--gris);border:1px solid var(--line);border-radius:999px;padding:4px 14px;font:700 12.5px Poppins;cursor:pointer}
 nav.tabs button.on{background:var(--rojo);color:#fff;border-color:var(--rojo)}
-main{max-width:1180px;margin:0 auto;padding:18px 16px 40px}
+/* cuerpo: columna lateral fija con los filtros y el área de trabajo a la derecha */
+.wrap{display:grid;grid-template-columns:250px minmax(0,1fr);gap:18px;max-width:1900px;margin:0 auto;padding:14px 16px 40px}
+aside{position:sticky;top:92px;align-self:start;max-height:calc(100vh - 104px);overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 12px 6px;scrollbar-width:thin}
+aside h4{margin:0 0 5px;font-size:10.5px;text-transform:uppercase;letter-spacing:.7px;color:var(--gris);font-weight:800}
+aside .sec{margin-bottom:11px;padding-bottom:9px;border-bottom:1px solid var(--line)} aside .sec:last-child{border-bottom:0}
+aside .chips{gap:4px;margin-bottom:0}
+aside .chip{padding:3px 9px;font-size:11.5px}
+aside .zl{display:grid;grid-template-columns:1fr 1fr;gap:2px 4px} aside .zl .todo,aside .zl .subs{grid-column:1 / -1}
+aside .zl button{display:flex;align-items:center;justify-content:space-between;width:100%;border:0;background:transparent;border-radius:7px;padding:3px 8px;font:700 12px Poppins;color:var(--ink);cursor:pointer;text-align:left}
+aside .zl button:hover{background:#f3f3f4} aside .zl button.on{background:var(--rojo);color:#fff}
+aside .zl button small{font-weight:700;opacity:.55}
+aside .zl .subs{display:flex;flex-wrap:wrap;gap:3px;padding:3px 0 5px 10px}
+aside .zl .subs .chip{padding:1px 8px;font-size:10.5px;background:#f3f3f4;color:#6f747d;border-color:#e6e6e8}
+aside .zl .subs .chip.on{background:#8a8f98;color:#fff;border-color:#8a8f98}
+aside .per{display:flex;width:100%} aside .per button{flex:1;padding:5px 6px;font-size:11.5px}
+aside .search{max-width:none;font-size:12.5px;padding:6px 9px}
+aside .res{font-size:11.5px;color:var(--muted);font-weight:600;margin-top:6px;line-height:1.35}
+aside .clr{font-size:11.5px;color:var(--link);font-weight:700;cursor:pointer;background:none;border:0;padding:0;margin-top:6px}
+main{min-width:0}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}aside{position:static;max-height:none}}
 footer{border-top:1px solid var(--line);background:#fff;padding:22px 16px;text-align:center}
 footer img{height:46px;opacity:.95} footer p{margin:8px 0 0;font-size:11px;color:var(--muted);font-weight:600}
 .filters{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:14px}
@@ -43,7 +67,7 @@ footer img{height:46px;opacity:.95} footer p{margin:8px 0 0;font-size:11px;color
 .search{width:100%;max-width:320px;border:1px solid var(--line);border-radius:8px;padding:7px 10px;font:600 13px Poppins}
 .search:focus,textarea:focus{outline:2px solid var(--celeste);outline-offset:0}
 .count{font-size:12px;color:var(--muted);margin:2px 0 10px;font-weight:600} .count a{color:var(--link)}
-.circ-head{margin:20px 0 8px;font-weight:900;font-size:16px;display:flex;gap:8px;align-items:baseline;color:var(--rojo)}
+.circ-head{margin:14px 0 6px;font-weight:900;font-size:16px;display:flex;gap:8px;align-items:baseline;color:var(--rojo)}
 .circ-head small{font-weight:600;color:var(--gris);font-size:12px}
 .card{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--marino);border-radius:12px;margin-bottom:10px;overflow:hidden}
 .card.e-accesible{border-left-color:var(--amarillo)} .card.e-plaza{border-left-color:var(--verde)}
@@ -58,7 +82,7 @@ footer img{height:46px;opacity:.95} footer p{margin:8px 0 0;font-size:11px;color
 .tag.foto{background:#e7f4ea;color:#1f6a35} .tag.sinfoto{background:#f1f1f1;color:#777} .tag.grupo{background:#f4e6c8;color:#7a5a1c}
 .body{padding:4px 14px 16px;border-top:1px solid var(--line)}
 .grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:18px;margin-top:12px}
-@media(max-width:860px){.grid{grid-template-columns:1fr}.top .ttl{border-left:0;padding-left:0}}
+@media(max-width:1200px){.grid{grid-template-columns:1fr}} @media(max-width:860px){.top .ttl{border-left:0;padding-left:0}.kpis{margin-left:0}}
 .fmts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .fmt{text-align:center}
 .fmt canvas{width:100%;height:auto;border-radius:8px;border:1px solid var(--line);background:#eee;display:block}
@@ -91,11 +115,10 @@ nav.tabs button.cal.on{background:#8a8f98;color:#fff;border-color:#8a8f98}
 </head>
 <body>
 <header>
-  <div class="top"><img id="lockup" alt="Córdoba · Gobierno de la Provincia · Hacer para crecer"><div class="ttl"><h1>GENERADOR DE CONTENIDO</h1><div class="sub" id="sub"></div></div></div>
-  <div class="kpis" id="kpis"></div>
+  <div class="top"><img id="lockup" alt="Córdoba · Gobierno de la Provincia · Hacer para crecer"><div class="ttl"><h1>GENERADOR DE CONTENIDO</h1><div class="sub" id="sub"></div></div><div class="kpis" id="kpis"></div></div>
   <nav class="tabs" id="tabs"></nav>
 </header>
-<main id="main"></main>
+<div class="wrap"><aside id="side"></aside><main id="main"></main></div>
 <footer><img id="lockup2" alt="Córdoba · Gobierno de la Provincia · Hacer para crecer"><p>Comunicación · Municipalidad de Córdoba · uso interno</p></footer>
 <script>const DATA=/*__DATA__*/null;</script>
 <script>
@@ -132,13 +155,17 @@ const hash=s=>[...s].reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7);
 /* ---------- datos derivados ---------- */
 const sinBarras=s=>s==null?s:String(s).replace(/\s*\/\s*/g,' y ');
 const ALIAS={'Gral. Arenales':'General Arenales','Gral. Paz':'General Paz','Gral Paz':'General Paz','Talleres (E)':'Talleres Este','Ombu':'Ombú'};
-const obras=P.obras.map(o=>{
+/* seccional = el número del código de circuito (7A, 7B y 7G son la seccional 7). Dato interno: sirve para agrupar y filtrar, nunca se publica. */
+const secc=c=>{const m=String(c||'').match(/^\d+/);return m?m[0]:'?'};
+const ordSecc=(a,b)=>(parseInt(a)||99)-(parseInt(b)||99)||String(a).localeCompare(String(b));
+const enriquecer=o=>{
   const t=TIPOS[o.tipo], c=CIRC[o.circuito]||null, m=o.metricas||{};
   const fotos=(A.fotos[o.doc]||[]), doc=(A.docs[o.doc]||null), ali=s=>s&&(ALIAS[s]||s);
   const rawB=o.barrio||((o.tipo==='mant'||o.tipo==='pav')?o.sector:null);   // los barrios que el parte une con barra se nombran por separado
   const barrioList=rawB?rawB.split('/').map(s=>ali(s.trim())):null;
-  return {...o,barrioList,via:sinBarras(o.via),entre:sinBarras(o.entre),sector:ali(sinBarras(o.sector)),barrio:ali(sinBarras(o.barrio)),eje:t.eje,circNombre:c,m,fotos,docTxt:doc,driveUrl:m.driveUrl};
-});
+  return {...o,barrioList,via:sinBarras(o.via),entre:sinBarras(o.entre),sector:ali(sinBarras(o.sector)),barrio:ali(sinBarras(o.barrio)),eje:t.eje,circNombre:c,m,fotos,docTxt:doc,driveUrl:m.driveUrl,secc:secc(o.circuito)};
+};
+const obras=P.obras.map(enriquecer);
 const reales=obras.filter(o=>!o.grupo);
 const dnde=o=>o.via?`${o.via}${o.entre?`, entre ${o.entre}`:''}`:o.sector;
 const bar=o=>o.barrioList?o.barrioList.join(' y Barrio '):null;      // 'Barrio ' + bar(o) => 'Barrio A y Barrio B'
@@ -219,6 +246,37 @@ function textoX(o){
   const cx=cierre?[`${t}\n${h}\n${cierre}\n${ht}`]:[],cy=cierre?[`${t}\n${hs}\n${cierre}\n${ht}`]:[];
   const c=[...cx,`${t}\n${h}\n${ht}`,...cy,`${t}\n${hs}\n${ht}`,`${hs}\n${ht}`,`${t}\n${ht}`];
   return c.find(x=>x.length<=280)||hs;
+}
+/* ---------- SMS: un solo mensaje (160 caracteres), con un link corto al final ----------
+   Estructura: apertura según alcance + qué se hace y dónde + "Más info: [link]". El marcador [link] se cuenta como un link corto de LINK_LEN caracteres.
+   Apertura: "tu barrio" si la obra tiene barrio; "tu sector" si no lo tiene (rampas) o si es el resumen de una zona; "tu ciudad" para la ciudad entera o una localidad. */
+const SMS_MAX=160, LINK_LEN=22, LINK='[link]';
+const smsLen=t=>String(t).replace(/\[link\]/g,'x'.repeat(LINK_LEN)).length;
+const sinTildes=t=>String(t).replace(/[áéíóúÁÉÍÓÚ]/g,c=>({á:'a',é:'e',í:'i',ó:'o',ú:'u',Á:'A',É:'E',Í:'I',Ó:'O',Ú:'U'}[c]));
+const SMS_AP={barrio:['Obras en tu barrio: ','Hacer para Crecer en tu barrio: ','Tu barrio avanza: '],sector:['Obras en tu sector: ','Hacer para Crecer en tu sector: ','Tu sector avanza: '],ciudad:['Obras en tu ciudad: ','Hacer para Crecer en tu ciudad: ','Tu ciudad avanza: ']};
+const smsArmar=(alcance,cuerpos,key,apsFijas)=>{ // del cuerpo más completo al más corto, y de la apertura elegida a las más cortas: nunca se corta una frase
+  const aps=apsFijas||SMS_AP[alcance]||SMS_AP.ciudad, ap0=aps[hash(key+'s')%aps.length], aps2=[ap0,...aps.filter(a=>a!==ap0)].sort((a,b)=>a===ap0?-1:b===ap0?1:a.length-b.length);
+  const c=[];for(const b of cuerpos.filter(Boolean))for(const a of aps2)c.push(`${a}${b}. Más info: ${LINK}`);
+  for(const b of cuerpos.filter(Boolean))c.push(`${b}. Más info: ${LINK}`);
+  return c.find(x=>smsLen(x)<=SMS_MAX)||c.at(-1);
+};
+function textoSMS(o){
+  const m=o.m,B=BAR(o),en=B?` en ${B}`:'',r=o.rampas,rr=r===1?'rampa':'rampas';
+  // cuerpos sin verbo (la apertura ya dice que es una obra), del más completo al más corto; "sinB" va sin barrio, para la variante que abre con el nombre del barrio
+  let largo,corto,sinB;
+  switch(o.tipo){
+    case 'rampas': largo=o.grupo?`${r} rampas de accesibilidad en ${esq(o)} esquinas de ${o.circuito==='1'?'la zona céntrica':'la Av. J. M. de Pueyrredón'}`:`${r} ${rr} de accesibilidad en ${lugarRampas(o)}`;corto=o.grupo?`${r} rampas en ${o.circuito==='1'?'la zona céntrica':'la Av. Pueyrredón'}`:`${r} ${rr} en ${o.via}`;break;
+    case 'plaza': largo=`renovación integral de la ${o.via}${en}`;corto=`renovación de la ${o.via}${en}`;sinB=`renovación integral de la ${o.via}`;break;
+    case 'mant': largo=`mantenimiento de calles de tierra${m.ml?` (${nf(m.ml)} metros lineales)`:''}${en}`;corto=`mantenimiento de calles${en}`;sinB=`mantenimiento de calles de tierra${m.ml?` (${nf(m.ml)} metros lineales)`:''}`;break;
+    case 'frio': largo=`bacheo en frío${m.nocturno?' en horario nocturno':''}${en}`;corto=`bacheo en frío${en}`;sinB=`bacheo en frío${m.nocturno?' en horario nocturno':''}`;break;
+    case 'bacheo': largo=`bacheo con asfalto sobre ${o.via}${m.m2?` (${nf(m.m2)} m²)`:''}${en}`;corto=`bacheo con asfalto en ${o.via}${en}`;sinB=`bacheo con asfalto sobre ${o.via}${m.m2?` (${nf(m.m2)} m²)`:''}`;break;
+    case 'rehab': largo=`rehabilitación con asfalto sobre ${o.via}${m.ml?` (${nf(m.ml)} metros)`:''}${en}`;corto=`rehabilitación de ${o.via}${en}`;sinB=`rehabilitación con asfalto sobre ${o.via}${m.ml?` (${nf(m.ml)} metros)`:''}`;break;
+    case 'hormigon': largo=`rehabilitación con hormigón sobre ${o.via}${m.m2?` (${nf(m.m2)} m²)`:''}${en}`;corto=`rehabilitación con hormigón en ${o.via}${en}`;sinB=`rehabilitación con hormigón sobre ${o.via}${m.m2?` (${nf(m.m2)} m²)`:''}`;break;
+    case 'pav': largo=`pavimentación de ${m.cuadras} cuadras${en}`;corto=largo;sinB=`pavimentación de ${m.cuadras} cuadras`;break;
+  }
+  if(o.tipo!=='rampas'&&B&&hash((o.id||'')+'sb')%4===3)return smsArmar('barrio',[sinB,sinB&&sinB.replace(/ \(.*?\)/,'')],o.id||'',[`${B}: `]);   // una de cada cuatro abre con el nombre del barrio
+  const alcance=o.tipo==='rampas'?'sector':(B?'barrio':'sector');
+  return smsArmar(alcance,[largo,corto,corto&&corto.replace(/ en Barrio .*$/,'')],o.id||'');
 }
 /* texto de placa editable: líneas = [título] [dato] [lugar] [barrio] */
 function textoPlaca(v){
@@ -372,7 +430,7 @@ function generales(){
     cierre:'Hacer para Crecer: infraestructura, trabajo y cuentas en orden para los cordobeses.'});
   FISCAL.forEach((f,i)=>add('g_fiscal_'+i,'Cifra oficial: '+(f.titulo||i+1),'calle',[f.titulo||''],f.texto,f.texto.slice(0,280),{kicker:'Dato oficial',valor:f.valor||'',etiqueta:f.etiqueta||'',sub:f.fuente||''},{titulo:f.titulo||'',lead:f.texto,cierre:MODELO}));
   G.forEach(x=>{const c=(CONT.generales||{})[x.id];if(!c)return;
-    if(c.titulos)x.titulos=c.titulos.map(limpio);if(c.ig)x.ig=limpio(c.ig);if(c.x)x.x=limpio(c.x);if(c.gac)x.gac=limpio(c.gac);if(c.placa)Object.assign(x.placa,c.placa);x.redactado=true;});
+    if(c.titulos)x.titulos=c.titulos.map(limpio);if(c.ig)x.ig=limpio(c.ig);if(c.x)x.x=limpio(c.x);if(c.gac)x.gac=limpio(c.gac);if(c.sms)x.sms=limpio(c.sms);if(c.placa)Object.assign(x.placa,c.placa);x.redactado=true;});
   return G;
 }
 
@@ -595,13 +653,14 @@ function periodicos(){
       ig:limpio(`📊 ${up(cap(per))}: ${U} OBRAS EN LA CIUDAD\n\n${dato}.\n\n${MODELO}\n\n#CórdobaMejora #HacerParaCrecer`),
       x:limpio(`📊 En ${per}, en promedio, hubo ${w.promEjec} obras en ejecución por día en Córdoba y las obras generaron ${nf(w.promPuestos)} puestos de trabajo directos por día. Hacer para Crecer. #CórdobaMejora #HacerParaCrecer`),
       placa:{eje:'calle',fotos:[],extra:'',kicker:nombre,valor:String(U),etiqueta:`Obras en ${per}`,sub:`${w.promEjec} en ejecución por día, en promedio`},
+      sms:smsArmar('ciudad',[`en ${per} se ejecutaron ${U} obras en Córdoba, con ${nf(w.promPuestos)} puestos de trabajo por día`,`en ${per} se ejecutaron ${U} obras en Córdoba`,`${U} obras en ${per}`],'p_'+N),
       gac:limpio(gacetilla({titulo:titulos[0],bajada:[`En promedio, hubo ${w.promEjec} obras en ejecución por día.`,`Las obras generaron ${nf(w.promPuestos)} puestos de trabajo directos por día, en promedio.`,'Hacer para Crecer: obra pública sostenida en toda la ciudad.'],
         lead:`${cap(dato)}.`,secciones:[['Los programas',[EJES.calle.marco,EJES.accesible.marco,EJES.plaza.marco]]],cierre:MODELO}))});
   });
   Object.entries(CONT.periodicos||{}).forEach(([id,c])=>{
     const ex=out.find(p=>p.id===id);
     const pz=ex&&!ex.estado?ex:null;
-    const nuevo={id,titulo:c.titulo||(ex&&ex.titulo)||id,eje:c.eje||'calle',titulos:(c.titulos||[]).map(limpio),ig:limpio(c.ig||''),x:limpio(c.x||''),gac:limpio(c.gac||''),placa:{eje:c.eje||'calle',fotos:[],extra:'',...(c.placa||{})},redactado:true,w:ex&&ex.w};
+    const nuevo={id,titulo:c.titulo||(ex&&ex.titulo)||id,eje:c.eje||'calle',titulos:(c.titulos||[]).map(limpio),ig:limpio(c.ig||''),x:limpio(c.x||''),gac:limpio(c.gac||''),sms:c.sms?limpio(c.sms):(ex&&ex.sms)||null,placa:{eje:c.eje||'calle',fotos:[],extra:'',...(c.placa||{})},redactado:true,w:ex&&ex.w};
     if(ex)out[out.indexOf(ex)]=nuevo;else out.push(nuevo);
   });
   const ord=id=>{const m=id.match(/^p_(\d+)(?:_(\w+))?$/);return m?[VENT.findIndex(v=>v[0]==+m[1]),['','plazas','rampas','pav','calle'].indexOf(m[2]||'')]:[99,0]};
@@ -609,16 +668,71 @@ function periodicos(){
   return out;
 }
 
-/* ---------- UI ---------- */
-const S={tab:'obras',circ:null,tipo:null,foto:null,q:''};const ESTILOS_UI=[['sugerido','Sugerido'],['circulo','Círculo'],['marco','Marco'],['completa','Foto completa'],['sinfoto','Sin foto']];
+/* ---------- alcance: zona (seccional, subcircuito) y período (hoy, semana) ----------
+   La zona y el período se eligen arriba y valen para todo el tablero. Seccional y circuito son datos internos: agrupan, filtran y rotulan la interfaz, pero no entran en ningún texto. */
+const S={tab:'obras',secc:null,circ:null,per:'hoy',tipo:null,foto:null,q:''};
+function diasSemana(){const fin=new Date(P.fecha+'T00:00:00'),ini=new Date(fin);ini.setDate(ini.getDate()-6);return {dias:HIST.filter(d=>{const t=new Date(d.fecha+'T00:00:00');return t>=ini&&t<=fin}),w:ventana(7)}}
+let _sem=null;
+function obrasSemana(){ // obras distintas de los últimos 7 días: cada una con los datos de su último parte y en cuántos partes apareció
+  if(_sem)return _sem;const {dias}=diasSemana(),by={},n={};
+  dias.forEach(d=>(d.obras||[]).forEach(o=>{by[o.id]=o;n[o.id]=(n[o.id]||0)+1}));
+  if(!dias.some(d=>d.fecha===P.fecha))P.obras.forEach(o=>{by[o.id]=o;n[o.id]=(n[o.id]||0)+1});
+  _sem=Object.values(by).map(o=>({...enriquecer(o),dias:n[o.id],k:Math.max(dias.length,1)}));return _sem;
+}
+const enZona=(o,z)=>z.circ?o.circuito===z.circ:z.secc?secc(o.circuito)===z.secc:true;
+function alcance(z=S){const todas=(z.per==='semana'?obrasSemana():obras).filter(o=>enZona(o,z));return {todas,reales:todas.filter(o=>!o.grupo),grupos:todas.filter(o=>o.grupo)}}
+const SECCS=uniq(reales.concat(obrasSemana().filter(o=>!o.grupo)).map(o=>o.secc)).sort(ordSecc);
+const zonaId=z=>`z_${z.secc||'ciudad'}${z.circ?'_'+z.circ:''}_${z.per}`;
+const zonaRotulo=z=>z.secc?`Seccional ${z.secc}${z.circ?' · circuito '+z.circ:''}`:'Toda la ciudad';
+function resumenZona(z=S){ // pieza automática para una zona y un período: habla de barrios, nunca de la seccional
+  const {reales:R2,grupos:G2}=alcance(z); if(!R2.length)return null;
+  const sem=z.per==='semana', id=zonaId(z), k=s=>pick(s,{id},'z');
+  const bs=uniq(R2.flatMap(o=>o.barrioList||[]));
+  const lb=n=>bs.length>n?bs.slice(0,n).map(b=>'Barrio '+b).join(', ')+` y ${bs.length-n===1?'otro barrio':'otros '+(bs.length-n)+' barrios'}`:lista(bs.map(b=>'Barrio '+b));
+  const donde=bs.length?`en ${lb(4)}`:(z.secc==='1'?'en la zona céntrica':'en el sector'), dondeCorto=bs.length?`en ${lb(2)}`:(z.secc==='1'?'en la zona céntrica':'en el sector');
+  const por=TIPO_ORDEN.map(t=>[t,R2.filter(o=>o.tipo===t)]).filter(([,a])=>a.length);
+  const nb=a=>uniq(a.flatMap(o=>o.barrioList||[])).length;
+  const frase=(t,a)=>{const n=a.length;switch(t){
+    case 'mant':return (nb(a)||n)===1?'mantenimiento de calles de tierra':`mantenimiento de calles en ${nb(a)||n} barrios`;
+    case 'frio':return (nb(a)||n)===1?'bacheo en frío':`bacheo en frío en ${nb(a)||n} barrios`;
+    case 'rampas':return `${sum(a,o=>o.rampas)} rampas de accesibilidad en ${n} ${n===1?'esquina':'esquinas'}`;
+    case 'bacheo':return `${n} ${n===1?'frente':'frentes'} de bacheo con asfalto`;
+    case 'rehab':return `${n} ${n===1?'frente':'frentes'} de rehabilitación con asfalto`;
+    case 'hormigon':return `${n} ${n===1?'frente':'frentes'} de rehabilitación con hormigón`;
+    case 'pav':return `pavimentación de ${sum(a,o=>o.m.cuadras)} cuadras`;
+    case 'plaza':return `renovación de ${n} ${n===1?'plaza':'plazas'}`;}};
+  const frases=por.map(([t,a])=>frase(t,a)), fr=lista(frases), frCorto=frases.length>2?frases.slice(0,2).join(', ')+', entre otras obras':lista(frases);
+  const ejes=uniq(R2.map(o=>o.eje)), eje=ejes.length===1?ejes[0]:'calle', e=EJES[eje], U=R2.length;
+  const {dias,w}=diasSemana(); const porDia=sem&&dias.length?Math.round(dias.map(d=>(d.obras||[]).filter(o=>!o.grupo&&enZona(o,z)).length).reduce((a,b)=>a+b,0)/dias.length):null;
+  const cuando=sem?'En la última semana':'Hoy', obrasTxt=`${U} ${U===1?'obra':'obras'}`;
+  const dato=sem?`${cuando}, ${GOB} ejecutaron ${obrasTxt} distintas ${donde}: ${fr}${porDia?`. En promedio hubo ${porDia} ${porDia===1?'obra':'obras'} en ejecución por día en la zona`:''}`
+               :`${cuando}, ${GOB} ejecutan ${obrasTxt} ${donde}: ${fr}`;
+  const cierre=k(CIERRES), cta=k(CTAS), tags=e.tags.join(' ');
+  const titulos=uniq([`${U} ${U===1?'obra':'obras'} ${sem?'en la última semana':'en ejecución'} ${dondeCorto}`,`Hacer para Crecer: ${obrasTxt} ${donde}`,bs.length?`${bs.length===1?'El barrio':'Los barrios'} ${lista(bs.slice(0,3))}: ${frCorto}`:`${frCorto} ${donde}`].map(x=>x[0].toUpperCase()+x.slice(1))).map(limpio);
+  const ig=limpio(`${e.emoji} ${up(obrasTxt)} ${up(sem?'ESTA SEMANA':'EN EJECUCIÓN')} ${up(dondeCorto)}\n\n${dato}.\n\n${k(e.cortos)}\n\n${cierre}\n\n👉 ${cta}\n\n${tags}`);
+  const ht=e.tags.slice(0,2).join(' '), cab=`${e.emoji} ${sem?'Esta semana':'Hoy'}, ${obrasTxt} ${donde}: ${fr}.`, cab2=`${e.emoji} ${sem?'Esta semana':'Hoy'}, ${obrasTxt} ${dondeCorto}: ${frCorto}.`, cab3=`${e.emoji} ${sem?'Esta semana':'Hoy'}, ${obrasTxt} ${dondeCorto}.`;
+  const x=limpio([`${cab}\n${cierre}\n${ht}`,`${cab}\n${ht}`,`${cab2}\n${cierre}\n${ht}`,`${cab2}\n${ht}`,`${cab3}\n${ht}`].find(t=>t.length<=280)||cab3);
+  const smsAlc=bs.length===1?'barrio':'sector', smsCuando=sem?'esta semana ':'';
+  const sms=limpio(smsArmar(smsAlc,[`${smsCuando}${obrasTxt} en marcha ${donde}: ${frCorto}`,`${smsCuando}${obrasTxt} en marcha ${dondeCorto}`,`${smsCuando}${obrasTxt} en marcha ${bs.length?'en '+lb(1):donde}`,`${obrasTxt} en marcha cerca tuyo`],id));
+  const placa={eje,fotos:[],kicker:sem?'Lectura semanal':'Obras en ejecución',valor:String(U),etiqueta:sem?(U===1?'Obra en la última semana':'Obras en la última semana'):(U===1?'Obra en ejecución':'Obras en ejecución'),sub:bs.length?lb(3):(z.secc==='1'?'Zona céntrica':'En el sector'),extra:frCorto[0].toUpperCase()+frCorto.slice(1)};
+  const gac=limpio(gacetilla({titulo:titulos[0],bajada:frases.map(f=>f[0].toUpperCase()+f.slice(1)+'.').concat(['Hacer para Crecer: obra pública en cada barrio.']),lead:`${dato}.`,
+    secciones:[['Obra por obra',R2.map(o=>hecho(o)+'.')],['Los programas',ejes.map(x=>EJES[x].marco)]],cierre:MODELO}));
+  const out={id,titulo:`Resumen ${sem?'de la semana':'del día'} · ${zonaRotulo(z)}`,eje,titulos,ig,x,sms,placa,gac,incompleto:sem&&!w.completo?w:null,U,bs,grupos:G2.length};
+  const c=(CONT.zonas||{})[id]; if(c){if(c.titulos)out.titulos=c.titulos.map(limpio);if(c.ig)out.ig=limpio(c.ig);if(c.x)out.x=limpio(c.x);if(c.sms)out.sms=limpio(c.sms);if(c.gac)out.gac=limpio(c.gac);if(c.placa)Object.assign(out.placa,c.placa);out.redactado=true;}
+  return out;
+}
+const smsDePlaca=gx=>{const v=gx.placa||{},low=t=>t?t[0].toLowerCase()+t.slice(1):'';const b=v.valor?`${v.valor} ${low(v.etiqueta)}`:low(v.main||'');return smsArmar('ciudad',[v.sub?`${b}, ${low(v.sub)}`:null,b].filter(Boolean),gx.id||'')};
+
+/* ---------- UI ---------- */const ESTILOS_UI=[['sugerido','Sugerido'],['circulo','Círculo'],['marco','Marco'],['completa','Foto completa'],['sinfoto','Sin foto']];
 const placaHTML=(id,v)=>`<div class="fmts">${Object.entries(FMT).map(([k,f])=>`<div class="fmt"><div class="lbl">${f[2]}</div><canvas data-fmt="${k}"></canvas><div class="btns" style="justify-content:center"><button class="btn" data-dl="${k}">Bajar PNG</button></div></div>`).join('')}</div>
  <div class="btns"><button class="btn sec" data-dlall>Bajar las 3 placas</button></div>
  ${v.fotos&&v.fotos.length?`<div class="fotosel">Diseño: ${ESTILOS_UI.map(([k,l],i)=>`<button class="btn ${i?'sec':''}" data-estilo="${k}">${l}</button>`).join('')}</div><div class="fotosel" data-sug></div>`:''}
  ${v.fotos&&v.fotos.length>1?`<div class="fotosel">Foto: ${v.fotos.map((_,i)=>`<button class="btn sec" data-foto="${i}">${i+1}</button>`).join('')}</div>`:''}`;
-function txHTML(ig,x,pl,gac,titulos){return `
+function txHTML(ig,x,pl,gac,titulos,sms){return `
  ${titulos&&titulos.length?`<div class="tx"><div class="row"><label>Opciones de título</label></div>${titulos.map(t=>`<div class="titulo"><span>${esc(t)}</span><button class="btn sec" data-copytxt="${esc(t)}">Copiar</button></div>`).join('')}</div>`:''}
  <div class="tx"><div class="row"><label>Copy de Instagram</label><button class="btn" data-copy="ig">Copiar</button></div><textarea data-t="ig" rows="11">${esc(ig)}</textarea></div>
  <div class="tx"><div class="row"><label>Texto para X <span class="n" data-n></span></label><button class="btn" data-copy="x">Copiar</button></div><textarea data-t="x" rows="5">${esc(x)}</textarea></div>
+ ${sms!=null?`<div class="tx"><div class="row"><label>Texto para SMS <span class="n" data-nsms></span></label><span><button class="btn sec" data-tildes title="Algunos proveedores cuentan 70 caracteres si el texto lleva tildes">Sin tildes</button> <button class="btn" data-copy="sms">Copiar</button></span></div><textarea data-t="sms" rows="3">${esc(sms)}</textarea><div class="n" style="font-size:11px;color:var(--muted);font-weight:600;margin-top:3px">Un solo mensaje: hasta ${SMS_MAX} caracteres, contando el marcador ${LINK} como un link corto de ${LINK_LEN}. Pegar el link recortado en lugar de ${LINK}.</div></div>`:''}
  <div class="tx"><div class="row"><label>Texto de la placa <span class="n">(editable: cambia la placa)</span></label><button class="btn" data-copy="pl">Copiar</button></div><textarea data-t="pl" rows="4">${esc(pl)}</textarea></div>${gac?`<div class="tx"><div class="row"><label>Gacetilla de prensa</label><button class="btn" data-copy="gac">Copiar</button></div><textarea data-t="gac" rows="16">${esc(gac)}</textarea></div>`:'' }`;}
 function wire(card,id,v){
   const state={foto:0,estilo:'sugerido',done:false};
@@ -635,6 +749,9 @@ function wire(card,id,v){
     else if(b.dataset.copytxt!==undefined){copiar(b.dataset.copytxt,b)}
     else if(b.dataset.copy){copiar(card.querySelector(`textarea[data-t="${b.dataset.copy}"]`).value,b)}});
   const x=card.querySelector('textarea[data-t="x"]'),n=card.querySelector('[data-n]');const cnt=()=>{n.textContent=x.value.length+'/280';n.classList.toggle('bad',x.value.length>280)};x.addEventListener('input',cnt);cnt();
+  const sm=card.querySelector('textarea[data-t="sms"]'),ns=card.querySelector('[data-nsms]');
+  if(sm){const cs=()=>{const L=smsLen(sm.value);ns.textContent=`${L}/${SMS_MAX}${/[áéíóúÁÉÍÓÚ]/.test(sm.value)?' · con tildes':' · sin tildes'}`;ns.classList.toggle('bad',L>SMS_MAX)};sm.addEventListener('input',cs);cs();
+    card.querySelector('[data-tildes]').addEventListener('click',()=>{sm.value=sinTildes(sm.value);cs()});}
   const pl=card.querySelector('textarea[data-t="pl"]');let tm;pl.addEventListener('input',()=>{leerPlaca(v,pl.value);clearTimeout(tm);tm=setTimeout(draw,350)});  // el texto editado se refleja en la placa
 }
 function obraCard(o){
@@ -642,38 +759,44 @@ function obraCard(o){
   const el=document.createElement('details');el.className='card e-'+o.eje;
   const tit=o.tipo==='plaza'?o.via:(o.via||o.sector)+(o.entre?` · entre ${o.entre}`:'');
   el.innerHTML=`<summary><div class="tt"><b>${esc(tit)}</b><span>${esc(TIPOS[o.tipo].label)}${bar(o)?' · Barrio '+esc(bar(o)):''}${o.tipo==='rampas'&&!o.grupo?` · ${o.rampas} ${o.rampas===1?'rampa':'rampas'}`:''}${o.grupo?` · grupo de ${esq(o)} esquinas, ${o.rampas} rampas`:''}</span></div>
-   ${o.grupo?'<span class="tag grupo">Grupo</span>':''}<span class="tag ${o.fotos.length?'foto':'sinfoto'}">${o.fotos.length?'Con foto':'Sin foto'}</span><span class="tag ${o.eje}">${esc(e.nombre.split(' – ')[0])}</span></summary>
-   <div class="body"><div class="grid"><div>${placaHTML(o.id,v)}</div><div>${txHTML(textoIG(o),textoX(o),textoPlaca(v))}</div></div>
+   ${o.grupo?'<span class="tag grupo">Grupo</span>':''}${o.dias!=null&&S.per==='semana'?`<span class="tag dias">en ${o.dias} de ${o.k} partes</span>`:''}<span class="tag ${o.fotos.length?'foto':'sinfoto'}">${o.fotos.length?'Con foto':'Sin foto'}</span><span class="tag ${o.eje}">${esc(e.nombre.split(' – ')[0])}</span></summary>
+   <div class="body"><div class="grid"><div>${placaHTML(o.id,v)}</div><div>${txHTML(textoIG(o),textoX(o),textoPlaca(v),null,null,textoSMS(o))}</div></div>
    <div class="meta">Parte: circuito ${esc(o.circuito)}${o.circNombre?' · '+esc(o.circNombre):''} · ${o.driveUrl?`<a href="${esc(o.driveUrl)}" target="_blank" rel="noopener">Doc/archivo en Drive</a>`:'sin link de Drive'}</div>
    ${o.docTxt?`<details class="doc"><summary>Texto original del doc</summary><pre>${esc(o.docTxt)}</pre></details>`:''}</div>`;
   wire(el,o.id,v);return el;
 }
 function renderObras(root){
-  const f=reales.filter(o=>(!S.circ||o.circuito===S.circ)&&(!S.tipo||o.tipo===S.tipo)&&(!S.foto||(S.foto==='con')===(o.fotos.length>0))&&(!S.q||norm([o.via,o.sector,o.barrio,o.entre,o.circNombre,o.circuito].filter(Boolean).join(' ')).includes(norm(S.q))));
-  const grupos=obras.filter(o=>o.grupo&&(!S.circ||o.circuito===S.circ)&&(!S.tipo||o.tipo===S.tipo)&&(!S.foto||(S.foto==='con')===(o.fotos.length>0)));
-  const circs=uniq(reales.map(o=>o.circuito)).sort((a,b)=>parseInt(a)-parseInt(b)||a.localeCompare(b));
-  const cn=c=>reales.filter(o=>o.circuito===c).length, nCon=reales.filter(o=>o.fotos.length).length;
-  root.innerHTML=`<div class="filters"><h4>Circuito del parte · tocá para filtrar</h4><div class="chips" id="fc">${circs.map(c=>`<button class="chip ${S.circ===c?'on':''}" data-c="${c}">${c}<small>${cn(c)}</small></button>`).join('')}</div>
-   <h4>Tipo de obra</h4><div class="chips" id="ft">${TIPO_ORDEN.map(t=>`<button class="chip t-${TIPOS[t].eje} ${S.tipo===t?'on':''}" data-t="${t}">${TIPOS[t].corto}<small>${reales.filter(o=>o.tipo===t).length}</small></button>`).join('')}</div>
-   <h4>Foto</h4><div class="chips" id="ff"><button class="chip ${S.foto==='con'?'on':''}" data-f="con">Con foto<small>${nCon}</small></button><button class="chip ${S.foto==='sin'?'on':''}" data-f="sin">Sin foto<small>${reales.length-nCon}</small></button></div>
-   <input class="search" placeholder="Buscar calle, barrio…" value="${esc(S.q)}" id="q"></div>
-   <div class="count">${f.length} de ${reales.length} obras${S.circ||S.tipo||S.foto||S.q?' · <a href="#" id="clr">limpiar filtros</a>':''}</div><div id="list"></div>`;
+  const {reales:RZ,grupos:GZ}=alcance(), sem=S.per==='semana', {w}=diasSemana();
+  const f=RZ.filter(o=>(!S.tipo||o.tipo===S.tipo)&&(!S.foto||(S.foto==='con')===(o.fotos.length>0))&&(!S.q||norm([o.via,o.sector,o.barrio,o.entre,o.circNombre,o.circuito].filter(Boolean).join(' ')).includes(norm(S.q))));
+  const grupos=GZ.filter(o=>(!S.tipo||o.tipo===S.tipo)&&(!S.foto||(S.foto==='con')===(o.fotos.length>0)));
+  const nCon=RZ.filter(o=>o.fotos.length).length, reales=RZ;
+  root.innerHTML=`${sem?`<div class="note">Vista semanal: ${RZ.length} obras distintas en los últimos 7 días (${w.k} ${w.k===1?'parte':'partes'}${w.completo?'':` de ${w.req} días hábiles: faltan partes`}), cada una con los datos de su último parte. Los copys hablan de la obra; para el resumen de la semana, ver “Resumen semanal”.</div>`:''}
+   <div class="count">${f.length} de ${reales.length} obras · ${esc(zonaRotulo(S))} · ${sem?'últimos 7 días':'parte del día'}${S.tipo||S.foto||S.q?' · <a href="#" id="clr">limpiar filtros</a>':''}</div><div id="list"></div>`;
   const list=$('#list',root);const byC={};f.concat(grupos).forEach(o=>(byC[o.circuito]??=[]).push(o));
   Object.keys(byC).sort((a,b)=>parseInt(a)-parseInt(b)||a.localeCompare(b)).forEach(c=>{
     const h=document.createElement('div');h.className='circ-head';h.innerHTML=`${esc(c)} <small>${esc(CIRC[c]||'(sin nombre en data/circuitos.json)')} · ${byC[c].filter(o=>!o.grupo).length} obras</small>`;list.appendChild(h);
     byC[c].sort((a,b)=>(b.grupo?1:0)-(a.grupo?1:0)||TIPO_ORDEN.indexOf(a.tipo)-TIPO_ORDEN.indexOf(b.tipo)).forEach(o=>list.appendChild(obraCard(o)));});
-  root.onclick=ev=>{const b=ev.target.closest('.chip');if(b&&b.dataset.c){S.circ=S.circ===b.dataset.c?null:b.dataset.c;renderObras(root)}else if(b&&b.dataset.t){S.tipo=S.tipo===b.dataset.t?null:b.dataset.t;renderObras(root)}else if(b&&b.dataset.f){S.foto=S.foto===b.dataset.f?null:b.dataset.f;renderObras(root)}else if(ev.target.id==='clr'){ev.preventDefault();S.circ=S.tipo=S.foto=null;S.q='';renderObras(root)}};
-  $('#q',root).oninput=ev=>{S.q=ev.target.value;clearTimeout(S._t);S._t=setTimeout(()=>{renderObras(root);const q=$('#q',root);q.focus();q.setSelectionRange(q.value.length,q.value.length)},250)};
+  root.onclick=ev=>{if(ev.target.id==='clr'){ev.preventDefault();S.tipo=S.foto=null;S.q='';go()}};
 }
 function tarjetaContenido(gx,rotulo){
   const el=document.createElement('details');el.className='card e-'+gx.eje;
   el.innerHTML=`<summary><div class="tt"><b>${esc(gx.titulo)}</b><span>${esc(gx.placa.valor||'')} ${esc(gx.placa.etiqueta||'')}</span></div><span class="tag ${gx.eje}">${rotulo}</span></summary>
-   <div class="body"><div class="grid"><div>${placaHTML(gx.id,gx.placa)}</div><div>${txHTML(gx.ig,gx.x,textoPlaca(gx.placa),gx.gac,gx.titulos)}</div></div></div>`;
+   <div class="body"><div class="grid"><div>${placaHTML(gx.id,gx.placa)}</div><div>${txHTML(gx.ig,gx.x,textoPlaca(gx.placa),gx.gac,gx.titulos,gx.sms!=null?gx.sms:smsDePlaca(gx))}</div></div></div>`;
   wire(el,gx.id,gx.placa);return el;
 }
 function renderGenerales(root){
-  root.innerHTML=`<div class="note">Estos contenidos se calculan <b>sumando el parte del día</b> (${R.obras} obras, ${R.rampas} rampas, ${R.cuadras} cuadras de las memorias). Sin montos ni cifras fiscales: el relato del modelo cordobés va con los mensajes oficiales.</div><div class="gen-grid" id="gl"></div>`;
-  generales().forEach(gx=>$('#gl',root).appendChild(tarjetaContenido(gx,'General')));
+  const sem=S.per==='semana';
+  if(!S.secc&&!sem){
+    root.innerHTML=`<div class="note">Estos contenidos se calculan <b>sumando el parte del día</b> (${R.obras} obras, ${R.rampas} rampas, ${R.cuadras} cuadras de las memorias). Sin montos ni cifras fiscales: el relato del modelo cordobés va con los mensajes oficiales.</div><div class="gen-grid" id="gl"></div>`;
+    generales().forEach(gx=>$('#gl',root).appendChild(tarjetaContenido(gx,'General')));return;}
+  if(!S.secc){ // toda la ciudad, semana: las lecturas semanales (también están en “Contenidos periódicos”)
+    const ps=periodicos().filter(p=>/^p_7(_|$)/.test(p.id));
+    root.innerHTML=`<div class="note">Resumen semanal de toda la ciudad: las lecturas de 7 días, con su texto para SMS. Las de 10, 15 y 30 días siguen en “Contenidos periódicos”.</div><div class="gen-grid" id="gl"></div>`;
+    ps.forEach(p=>{if(p.estado){const d=document.createElement('div');d.className='list';d.innerHTML=`<h3>${esc(p.titulo)}</h3><div style="font-size:12.5px;color:var(--muted);font-weight:600">${esc(p.estado)}</div>`;$('#gl',root).appendChild(d);return}$('#gl',root).appendChild(tarjetaContenido(p,'Semanal'))});return;}
+  const rz=resumenZona();
+  root.innerHTML=`<div class="note">Resumen ${sem?'de la última semana':'del día'} para <b>${esc(zonaRotulo(S))}</b>, armado automáticamente con las obras de la zona${rz&&rz.bs.length?` (${rz.bs.length} ${rz.bs.length===1?'barrio':'barrios'})`:''}. Los textos nombran barrios: nunca la seccional ni el circuito.${rz&&rz.incompleto?` <b>Ojo:</b> la semana tiene ${rz.incompleto.k} de ${rz.incompleto.req} partes.`:''}</div><div class="gen-grid" id="gl"></div>`;
+  if(!rz){$('#gl',root).innerHTML=`<div class="list"><h3>Sin obras en esta zona</h3><div style="font-size:12.5px;color:var(--muted);font-weight:600">No hay obras ${sem?'en los últimos 7 días':'en el parte del día'} para ${esc(zonaRotulo(S))}.</div></div>`;return}
+  $('#gl',root).appendChild(tarjetaContenido(rz,sem?'Semanal · zona':'Diario · zona'));
 }
 function renderPeriodicos(root){
   const F=P.finalizadas||0, m50=redondo(F,50), prox=m50+50;
@@ -687,10 +810,16 @@ function renderPeriodicos(root){
 }
 function renderCalidad(root){
   // textos publicables que se revisan
-  const T=[];reales.concat(obras.filter(o=>o.grupo)).forEach(o=>{const v=placaDe(o);T.push([o.id+' · Instagram',textoIG(o)],[o.id+' · X',textoX(o)],[o.id+' · placa',textoPlaca(v)])});
-  generales().concat(periodicos().filter(p=>!p.estado)).forEach(g=>{T.push([g.id+' · Instagram',g.ig],[g.id+' · X',g.x],[g.id+' · gacetilla',g.gac],[g.id+' · placa',textoPlaca(g.placa)]);g.titulos.forEach((t,i)=>T.push([g.id+' · título '+(i+1),t]))});
+  const T=[];reales.concat(obras.filter(o=>o.grupo)).forEach(o=>{const v=placaDe(o);T.push([o.id+' · Instagram',textoIG(o)],[o.id+' · X',textoX(o)],[o.id+' · placa',textoPlaca(v)],[o.id+' · SMS',textoSMS(o)])});
+  obrasSemana().filter(o=>!P.obras.some(p=>p.id===o.id)).forEach(o=>T.push([o.id+' (semana) · SMS',textoSMS(o)],[o.id+' (semana) · X',textoX(o)]));
+  const zonas=[];['hoy','semana'].forEach(per=>SECCS.forEach(sc=>{const r=resumenZona({secc:sc,circ:null,per});if(r)zonas.push(r)}));
+  generales().concat(periodicos().filter(p=>!p.estado)).concat(zonas).forEach(g=>{T.push([g.id+' · Instagram',g.ig],[g.id+' · X',g.x],[g.id+' · gacetilla',g.gac],[g.id+' · placa',textoPlaca(g.placa)],[g.id+' · SMS',g.sms!=null?g.sms:smsDePlaca(g)]);g.titulos.forEach((t,i)=>T.push([g.id+' · título '+(i+1),t]))});
   const test=(re)=>T.filter(([,t])=>re.test(t)).map(([n])=>n);
-  const reglas=[['No menciona “circuito” ni “seccional”',test(/circuito|seccional/i)],['No menciona montos ni signos de pesos',test(/\$|presupuesto|monto/i)],['No usa barras “/” (salvo en links)',T.filter(([,t])=>/\//.test(t.replace(/https?:\/\/\S+/g,''))).map(([n])=>n)],['No menciona asistencia social en textos de obras',test(/asistencia social/i)],['Las piezas generales y periódicas no repiten la misma frase larga',(()=>{const c={};T.filter(([n])=>/^(g_|p_)/.test(n)&&!/· X$/.test(n)&&!/· placa$/.test(n)).forEach(([n,t])=>new Set(t.split(/(?<=[.!?])\s+/).filter(s=>s.length>70)).forEach(s=>{(c[s]=c[s]||[]).push(n.split(' ')[0])}));return Object.entries(c).filter(([,v])=>v.length>2).map(([s,v])=>s.slice(0,40)+'… ('+v.length+' piezas)')})()],['Los textos de X no superan 280 caracteres',T.filter(([n,t])=>/· X$/.test(n)&&t.length>280).map(([n])=>n)],['Los textos de X no terminan cortados (…)',T.filter(([n,t])=>/· X$/.test(n)&&/…/.test(t)).map(([n])=>n)],['Las obras con barrio lo nombran con la palabra “Barrio”',reales.filter(o=>bar(o)&&!new RegExp('Barrio '+bar(o).replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).test(textoIG(o))&&o.tipo!=='rampas').map(o=>o.id)]];
+  const SMS=T.filter(([n])=>/ · SMS$/.test(n));
+  const reglas=[['No menciona “circuito”, “seccional” ni “subcircuito”',test(/circuito|seccional/i)],
+    [`SMS de un solo mensaje (hasta ${SMS_MAX} caracteres, con link corto de ${LINK_LEN})`,SMS.filter(([,t])=>smsLen(t)>SMS_MAX).map(([n])=>n)],
+    ['SMS: dice qué se hace antes del link y termina con el link',SMS.filter(([,t])=>!/\S.*\. Más info: \[link\]$/.test(t)).map(([n])=>n)],
+['No menciona montos ni signos de pesos',test(/\$|presupuesto|monto/i)],['No usa barras “/” (salvo en links)',T.filter(([,t])=>/\//.test(t.replace(/https?:\/\/\S+/g,''))).map(([n])=>n)],['No menciona asistencia social en textos de obras',test(/asistencia social/i)],['Las piezas generales y periódicas no repiten la misma frase larga',(()=>{const c={};T.filter(([n])=>/^(g_|p_)/.test(n)&&!/· X$/.test(n)&&!/· placa$/.test(n)).forEach(([n,t])=>new Set(t.split(/(?<=[.!?])\s+/).filter(s=>s.length>70)).forEach(s=>{(c[s]=c[s]||[]).push(n.split(' ')[0])}));return Object.entries(c).filter(([,v])=>v.length>2).map(([s,v])=>s.slice(0,40)+'… ('+v.length+' piezas)')})()],['Los textos de X no superan 280 caracteres',T.filter(([n,t])=>/· X$/.test(n)&&t.length>280).map(([n])=>n)],['Los textos de X no terminan cortados (…)',T.filter(([n,t])=>/· X$/.test(n)&&/…/.test(t)).map(([n])=>n)],['Las obras con barrio lo nombran con la palabra “Barrio”',reales.filter(o=>bar(o)&&!new RegExp('Barrio '+bar(o).replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).test(textoIG(o))&&o.tipo!=='rampas').map(o=>o.id)]];
   const sf=reales.filter(o=>!o.fotos.length), sd=reales.filter(o=>!o.docTxt), sm=reales.filter(o=>!['rampas','plaza'].includes(o.tipo)&&!o.m.m2&&!o.m.ml&&!o.m.cuadras), sb=reales.filter(o=>!bar(o));
   const nm=o=>esc((o.via||o.sector)+(o.entre?` (${o.entre})`:''));
   const L=(t,a,hint)=>`<div class="list"><h3>${t} <small>(${a.length})</small></h3>${hint?`<div class="hint">${hint}</div>`:''}<ul>${a.map(x=>`<li>${x}</li>`).join('')||'<li>Nada pendiente</li>'}</ul></div>`;
@@ -702,11 +831,36 @@ function renderCalidad(root){
    ${L('Obras sin magnitud (m², cuadras o metros)',sm.map(nm),'Con un dato de magnitud el texto y la placa ganan una cifra concreta.')}
    ${L('Obras sin barrio informado',sb.map(nm),'Se nombran por calle o esquina; si el parte trae el barrio, se usa siempre.')}`;
 }
+function renderSide(){ // columna lateral: período y zona (valen para todo el tablero) y, en la pestaña de obras, tipo, foto y búsqueda
+  const sem=S.per==='semana', base=sem?obrasSemana().filter(o=>!o.grupo):reales;
+  const nS=x=>base.filter(o=>o.secc===x).length, subs=S.secc?uniq(base.filter(o=>o.secc===S.secc).map(o=>o.circuito)).sort(ordSecc):[];
+  const nz=alcance().reales.length, nzOtro=alcance({...S,per:sem?'hoy':'semana'}).reales.length;
+  const RZ=alcance().reales, nCon=RZ.filter(o=>o.fotos.length).length, obrasTab=S.tab==='obras';
+  const zb=(x,label,n)=>`<button class="${x===null?'todo ':''}${(x===null?!S.secc:S.secc===x)?'on':''}" data-z="${x===null?'':x}"><span>${label}</span><small>${n}</small></button>`;
+  $('#side').innerHTML=`
+   <div class="sec"><h4>Período</h4><div class="per"><button class="${!sem?'on':''}" data-p="hoy">Hoy</button><button class="${sem?'on':''}" data-p="semana">Semana</button></div>
+    <div class="res">${sem?'Últimos 7 días: obras distintas, cada una con su último parte.':`Parte del ${esc(P.fecha_texto)}.`}</div></div>
+   <div class="sec"><h4>Zona</h4><div class="zl">${zb(null,'Toda la ciudad',base.length)}${SECCS.map(x=>zb(x,x==='?'?'Sin código':'Secc. '+x,nS(x))+(S.secc===x&&subs.length>1?`<div class="subs">${subs.map(c=>`<button class="chip ${S.circ===c?'on':''}" data-zc="${c}">${esc(c)}<small>${base.filter(o=>o.circuito===c).length}</small></button>`).join('')}</div>`:'')).join('')}</div>
+    <div class="res">${esc(zonaRotulo(S))}: <b>${nz}</b> ${nz===1?'obra':'obras'} ${sem?'en la semana':'hoy'} · ${nzOtro} ${sem?'hoy':'en la semana'}</div></div>
+   ${obrasTab?`<div class="sec"><h4>Tipo de obra</h4><div class="chips">${TIPO_ORDEN.map(t=>`<button class="chip t-${TIPOS[t].eje} ${S.tipo===t?'on':''}" data-t="${t}">${TIPOS[t].corto}<small>${RZ.filter(o=>o.tipo===t).length}</small></button>`).join('')}</div></div>
+   <div class="sec"><h4>Foto</h4><div class="chips"><button class="chip ${S.foto==='con'?'on':''}" data-f="con">Con foto<small>${nCon}</small></button><button class="chip ${S.foto==='sin'?'on':''}" data-f="sin">Sin foto<small>${RZ.length-nCon}</small></button></div></div>
+   <div class="sec"><input class="search" placeholder="Buscar calle, barrio…" value="${esc(S.q)}" id="q">${S.tipo||S.foto||S.q?'<button class="clr" data-clr>Limpiar filtros</button>':''}</div>`:''}`;
+  $('#side').onclick=ev=>{const b=ev.target.closest('button');if(!b)return;
+    if(b.dataset.z!==undefined){S.secc=b.dataset.z||null;S.circ=null;go()}
+    else if(b.dataset.zc){S.circ=S.circ===b.dataset.zc?null:b.dataset.zc;go()}
+    else if(b.dataset.p){S.per=b.dataset.p;go()}
+    else if(b.dataset.t){S.tipo=S.tipo===b.dataset.t?null:b.dataset.t;go()}
+    else if(b.dataset.f){S.foto=S.foto===b.dataset.f?null:b.dataset.f;go()}
+    else if(b.dataset.clr!==undefined){S.tipo=S.foto=null;S.q='';go()}};
+  const q=$('#q');if(q)q.oninput=ev=>{S.q=ev.target.value;clearTimeout(S._t);S._t=setTimeout(()=>{renderObras($('#main'));renderSide();const q2=$('#q');q2.focus();q2.setSelectionRange(q2.value.length,q2.value.length)},250)};
+}
 function renderHeader(){
   const lk='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(A.svg['gobierno-color']);$('#lockup').src=lk;$('#lockup2').src=lk;
   $('#sub').textContent=P.fecha_texto+' · parte de obras';
   $('#kpis').innerHTML=[[P.enEjecucion,'en ejecución'],[P.finalizadas??'—','finalizadas'],[nf(P.puestos),'puestos directos'],[R.barrios,'barrios (mínimo)'],[R.rampas,'rampas'],[R.cuadras,'cuadras (memorias)']].map(([a,b])=>`<div class="kpi"><b>${a}</b><span>${b}</span></div>`).join('');
-  const tabs=[['obras','Contenidos de obras del día'],['generales','Contenidos generales del día'],['periodicos','Contenidos periódicos'],['calidad','Chequeo de calidad']];
+  const sem=S.per==='semana';
+  renderSide();
+  const tabs=[['obras',sem?'Obras de la semana':'Contenidos de obras del día'],['generales',S.secc?(sem?'Resumen semanal de la zona':'Resumen del día de la zona'):(sem?'Resumen semanal':'Contenidos generales del día')],['periodicos','Contenidos periódicos'],['calidad','Chequeo de calidad']];
   $('#tabs').innerHTML=tabs.map(([k,l])=>`<button data-k="${k}" class="${S.tab===k?'on':''}${k==='calidad'?' cal':''}">${l}</button>`).join('');
   $('#tabs').onclick=ev=>{const b=ev.target.closest('button');if(b){S.tab=b.dataset.k;go()}};
 }
