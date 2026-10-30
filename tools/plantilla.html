@@ -15,29 +15,34 @@
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:Poppins,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5}
-/* cabecera fina: dos renglones (marca, título y KPIs en línea; pestañas) y la franja tricolor */
-header{background:#fff;padding:8px 20px 0;position:sticky;top:0;z-index:20;box-shadow:0 2px 14px #00000012}
-header::after{content:"";display:block;height:4px;margin:8px -20px 0;background:linear-gradient(90deg,var(--celeste) 0 33.34%,var(--rojo) 33.34% 66.67%,var(--dorado) 66.67%)}
+/* cabecera mínima: marca, título y fecha del parte, y la franja tricolor (menos de 70 px) */
+header{background:#fff;padding:7px 20px 0;position:sticky;top:0;z-index:20;box-shadow:0 2px 14px #00000012}
+header::after{content:"";display:block;height:4px;margin:7px -20px 0;background:linear-gradient(90deg,var(--celeste) 0 33.34%,var(--rojo) 33.34% 66.67%,var(--dorado) 66.67%)}
 .top{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.top img{height:32px;display:block}
+.top img{height:30px;display:block}
 .top .ttl{border-left:1px solid var(--line);padding-left:14px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 h1{margin:0;font-weight:900;font-size:16px;line-height:1.1;color:var(--gris);letter-spacing:.2px}
 .sub{color:var(--muted);font-size:12px;font-weight:600}
-.kpis{display:flex;gap:4px 14px;flex-wrap:wrap;margin-left:auto;align-items:baseline}
-.kpi{display:flex;align-items:baseline;gap:5px;border-left:3px solid var(--celeste);padding-left:7px;line-height:1.1}
-.kpi:nth-child(3n+2){border-left-color:var(--rojo)} .kpi:nth-child(3n){border-left-color:var(--dorado)}
-.kpi b{font-size:15px;font-weight:900;color:var(--ink)}
-.kpi span{font-size:10.5px;color:var(--muted);font-weight:600}
-.per{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:#fff}
-.per button{border:0;background:transparent;padding:5px 14px;font:700 12px Poppins;color:var(--gris);cursor:pointer}
-.per button.on{background:var(--marino);color:#fff}
-.tag.dias{background:#e9f0fa;color:#2f5a8f}
-nav.tabs{display:flex;gap:6px;margin:8px 0 0}
-nav.tabs button{background:#fff;color:var(--gris);border:1px solid var(--line);border-radius:999px;padding:4px 14px;font:700 12.5px Poppins;cursor:pointer}
-nav.tabs button.on{background:var(--rojo);color:#fff;border-color:var(--rojo)}
+/* barra de contexto: dónde estoy (zona y período) y las pestañas. El color cambia con el período */
+.ctx{position:sticky;top:var(--hh,52px);z-index:15;display:flex;align-items:center;gap:10px 18px;flex-wrap:wrap;border-radius:12px;padding:11px 16px;margin-bottom:14px;background:var(--marino);color:#fff;box-shadow:0 4px 14px #17233d22;transition:background .2s,color .2s}
+.ctx.semana{background:var(--dorado);color:var(--marino);box-shadow:0 4px 14px #cfa55b33}
+.ctx .donde{flex:1;min-width:260px}
+.ctx .l1{font-size:19px;font-weight:900;line-height:1.2}
+.ctx .l1 .sep{opacity:.5;font-weight:700;margin:0 6px}
+.ctx .l1 .pt{font-weight:700}
+.ctx .l2{font-size:12px;font-weight:600;opacity:.8;margin-top:2px}
+.seg{display:inline-flex;background:#ffffff1f;border-radius:10px;padding:3px;gap:2px}
+.ctx.semana .seg{background:#17233d1a}
+.seg button{border:0;background:transparent;color:inherit;border-radius:8px;padding:6px 14px;font:700 12.5px Poppins;cursor:pointer;opacity:.85}
+.seg button:hover{opacity:1;background:#ffffff1a}
+.seg button.on{background:#fff;color:var(--marino);opacity:1;box-shadow:0 1px 4px #0002}
+.ctx.semana .seg button.on{background:var(--marino);color:#fff}
+.seg button.cal{color:#c4c8cf} .ctx.semana .seg button.cal{color:#4f5560}
+.seg button.cal.on{background:#8a8f98;color:#fff}
+.tag.dias{background:#f6ecd8;color:#6b4a05} .tag.circ{background:#f1f1f1;color:#6f747d}
 /* cuerpo: columna lateral fija con los filtros y el área de trabajo a la derecha */
 .wrap{display:grid;grid-template-columns:250px minmax(0,1fr);gap:18px;max-width:1900px;margin:0 auto;padding:14px 16px 40px}
-aside{position:sticky;top:92px;align-self:start;max-height:calc(100vh - 104px);overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 12px 6px;scrollbar-width:thin}
+aside{position:sticky;top:calc(var(--hh,52px) + 12px);align-self:start;max-height:calc(100vh - var(--hh,52px) - 24px);overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 12px 6px;scrollbar-width:thin}
 aside h4{margin:0 0 5px;font-size:10.5px;text-transform:uppercase;letter-spacing:.7px;color:var(--gris);font-weight:800}
 aside .sec{margin-bottom:11px;padding-bottom:9px;border-bottom:1px solid var(--line)} aside .sec:last-child{border-bottom:0}
 aside .chips{gap:4px;margin-bottom:0}
@@ -49,12 +54,24 @@ aside .zl button small{font-weight:700;opacity:.55}
 aside .zl .subs{display:flex;flex-wrap:wrap;gap:3px;padding:3px 0 5px 10px}
 aside .zl .subs .chip{padding:1px 8px;font-size:10.5px;background:#f3f3f4;color:#6f747d;border-color:#e6e6e8}
 aside .zl .subs .chip.on{background:#8a8f98;color:#fff;border-color:#8a8f98}
-aside .per{display:flex;width:100%} aside .per button{flex:1;padding:5px 6px;font-size:11.5px}
+.per{display:flex;width:100%;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}
+.per button{flex:1;border:0;background:transparent;padding:5px 6px;font:700 12px Poppins;color:var(--gris);cursor:pointer;line-height:1.25}
+.per button small{display:block;font-size:10.5px;font-weight:600;opacity:.75}
+.per button.on.hoy{background:var(--marino);color:#fff} .per button.on.semana{background:var(--dorado);color:var(--marino)}
+aside details.datos summary{cursor:pointer;font-size:10.5px;text-transform:uppercase;letter-spacing:.7px;color:var(--gris);font-weight:800;list-style:revert}
+aside .kpis{display:grid;grid-template-columns:1fr 1fr;gap:6px 8px;margin:8px 0 2px}
+aside .kpi{display:flex;flex-direction:column;border-left:3px solid var(--celeste);padding-left:7px;line-height:1.15}
+aside .kpi:nth-child(3n+2){border-left-color:var(--rojo)} aside .kpi:nth-child(3n){border-left-color:var(--dorado)}
+aside .kpi b{font-size:15px;font-weight:900;color:var(--ink)} aside .kpi span{font-size:10.5px;color:var(--muted);font-weight:600}
 aside .search{max-width:none;font-size:12.5px;padding:6px 9px}
 aside .res{font-size:11.5px;color:var(--muted);font-weight:600;margin-top:6px;line-height:1.35}
 aside .clr{font-size:11.5px;color:var(--link);font-weight:700;cursor:pointer;background:none;border:0;padding:0;margin-top:6px}
 main{min-width:0}
-@media(max-width:900px){.wrap{grid-template-columns:1fr}aside{position:static;max-height:none}}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}aside{position:static;max-height:none}.ctx{top:0;position:relative}}
+@media(max-width:700px){.card>summary{flex-wrap:wrap;gap:6px}.card>summary .tt{flex:1 1 100%}}
+.listbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:2px 0 10px}
+.listbar .count{margin:0}
+h2.otras{margin:22px 0 10px;font-size:15px;font-weight:900;color:var(--gris);text-transform:uppercase;letter-spacing:.6px;border-top:1px solid var(--line);padding-top:14px}
 footer{border-top:1px solid var(--line);background:#fff;padding:22px 16px;text-align:center}
 footer img{height:46px;opacity:.95} footer p{margin:8px 0 0;font-size:11px;color:var(--muted);font-weight:600}
 .filters{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:14px}
@@ -82,7 +99,7 @@ footer img{height:46px;opacity:.95} footer p{margin:8px 0 0;font-size:11px;color
 .tag.foto{background:#e7f4ea;color:#1f6a35} .tag.sinfoto{background:#f1f1f1;color:#777} .tag.grupo{background:#f4e6c8;color:#7a5a1c}
 .body{padding:4px 14px 16px;border-top:1px solid var(--line)}
 .grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:18px;margin-top:12px}
-@media(max-width:1200px){.grid{grid-template-columns:1fr}} @media(max-width:860px){.top .ttl{border-left:0;padding-left:0}.kpis{margin-left:0}}
+@media(max-width:1200px){.grid{grid-template-columns:1fr}} @media(max-width:860px){.top .ttl{border-left:0;padding-left:0}}
 .fmts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .fmt{text-align:center}
 .fmt canvas{width:100%;height:auto;border-radius:8px;border:1px solid var(--line);background:#eee;display:block}
@@ -106,8 +123,6 @@ details.doc pre{white-space:pre-wrap;font:600 12px Poppins;background:#f7f7f8;bo
 .list h3{margin:0 0 6px;font-size:14px;font-weight:800;color:var(--rojo)} .list ul{margin:0;padding-left:18px} .list li{margin:2px 0;font-size:12.5px;font-weight:600}
 .gen-grid{display:grid;gap:12px}
 .titulo{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:6px 10px;border:1px solid var(--line);border-radius:8px;margin-bottom:6px;font-weight:700;font-size:12.5px;background:#fafafa}
-nav.tabs button.cal{margin-left:auto;background:#f0f0f1;color:#8a8f98;border-color:#e4e4e7}
-nav.tabs button.cal.on{background:#8a8f98;color:#fff;border-color:#8a8f98}
 .gris{background:#f3f3f4!important;border-color:#e0e0e2!important;border-left-color:#b8bcc4!important;color:#6f747d}
 .gris h3{color:#6f747d!important}
 .list .hint,.list h3 small{font-size:12px;color:var(--muted);font-weight:600}.list .hint{margin-bottom:6px}
@@ -115,10 +130,9 @@ nav.tabs button.cal.on{background:#8a8f98;color:#fff;border-color:#8a8f98}
 </head>
 <body>
 <header>
-  <div class="top"><img id="lockup" alt="Córdoba · Gobierno de la Provincia · Hacer para crecer"><div class="ttl"><h1>GENERADOR DE CONTENIDO</h1><div class="sub" id="sub"></div></div><div class="kpis" id="kpis"></div></div>
-  <nav class="tabs" id="tabs"></nav>
+  <div class="top"><img id="lockup" alt="Córdoba · Gobierno de la Provincia · Hacer para crecer"><div class="ttl"><h1>GENERADOR DE CONTENIDO</h1><div class="sub" id="sub"></div></div></div>
 </header>
-<div class="wrap"><aside id="side"></aside><main id="main"></main></div>
+<div class="wrap"><aside id="side"></aside><main><div class="ctx" id="ctx"></div><div id="main"></div></main></div>
 <footer><img id="lockup2" alt="Córdoba · Gobierno de la Provincia · Hacer para crecer"><p>Comunicación · Municipalidad de Córdoba · uso interno</p></footer>
 <script>const DATA=/*__DATA__*/null;</script>
 <script>
@@ -754,29 +768,39 @@ function wire(card,id,v){
     card.querySelector('[data-tildes]').addEventListener('click',()=>{sm.value=sinTildes(sm.value);cs()});}
   const pl=card.querySelector('textarea[data-t="pl"]');let tm;pl.addEventListener('input',()=>{leerPlaca(v,pl.value);clearTimeout(tm);tm=setTimeout(draw,350)});  // el texto editado se refleja en la placa
 }
-function obraCard(o){
+function obraCard(o,ult){ // ult: fecha del último parte en que apareció (vista semanal)
   const v=placaDe(o),e=EJES[o.eje];
   const el=document.createElement('details');el.className='card e-'+o.eje;
   const tit=o.tipo==='plaza'?o.via:(o.via||o.sector)+(o.entre?` · entre ${o.entre}`:'');
   el.innerHTML=`<summary><div class="tt"><b>${esc(tit)}</b><span>${esc(TIPOS[o.tipo].label)}${bar(o)?' · Barrio '+esc(bar(o)):''}${o.tipo==='rampas'&&!o.grupo?` · ${o.rampas} ${o.rampas===1?'rampa':'rampas'}`:''}${o.grupo?` · grupo de ${esq(o)} esquinas, ${o.rampas} rampas`:''}</span></div>
-   ${o.grupo?'<span class="tag grupo">Grupo</span>':''}${o.dias!=null&&S.per==='semana'?`<span class="tag dias">en ${o.dias} de ${o.k} partes</span>`:''}<span class="tag ${o.fotos.length?'foto':'sinfoto'}">${o.fotos.length?'Con foto':'Sin foto'}</span><span class="tag ${o.eje}">${esc(e.nombre.split(' – ')[0])}</span></summary>
+   ${o.grupo?'<span class="tag grupo">Grupo</span>':''}${o.dias!=null&&S.per==='semana'?`<span class="tag dias">en ${o.dias} de ${o.k} partes${ult?' · último '+ddmm(ult):''}</span><span class="tag circ">${esc(o.circuito)}</span>`:''}<span class="tag ${o.fotos.length?'foto':'sinfoto'}">${o.fotos.length?'Con foto':'Sin foto'}</span><span class="tag ${o.eje}">${esc(e.nombre.split(' – ')[0])}</span></summary>
    <div class="body"><div class="grid"><div>${placaHTML(o.id,v)}</div><div>${txHTML(textoIG(o),textoX(o),textoPlaca(v),null,null,textoSMS(o))}</div></div>
    <div class="meta">Parte: circuito ${esc(o.circuito)}${o.circNombre?' · '+esc(o.circNombre):''} · ${o.driveUrl?`<a href="${esc(o.driveUrl)}" target="_blank" rel="noopener">Doc/archivo en Drive</a>`:'sin link de Drive'}</div>
    ${o.docTxt?`<details class="doc"><summary>Texto original del doc</summary><pre>${esc(o.docTxt)}</pre></details>`:''}</div>`;
   wire(el,o.id,v);return el;
 }
 function renderObras(root){
-  const {reales:RZ,grupos:GZ}=alcance(), sem=S.per==='semana', {w}=diasSemana();
+  const {reales:RZ,grupos:GZ}=alcance(), sem=S.per==='semana', {w,dias}=diasSemana();
   const f=RZ.filter(o=>(!S.tipo||o.tipo===S.tipo)&&(!S.foto||(S.foto==='con')===(o.fotos.length>0))&&(!S.q||norm([o.via,o.sector,o.barrio,o.entre,o.circNombre,o.circuito].filter(Boolean).join(' ')).includes(norm(S.q))));
   const grupos=GZ.filter(o=>(!S.tipo||o.tipo===S.tipo)&&(!S.foto||(S.foto==='con')===(o.fotos.length>0)));
-  const nCon=RZ.filter(o=>o.fotos.length).length, reales=RZ;
-  root.innerHTML=`${sem?`<div class="note">Vista semanal: ${RZ.length} obras distintas en los últimos 7 días (${w.k} ${w.k===1?'parte':'partes'}${w.completo?'':` de ${w.req} días hábiles: faltan partes`}), cada una con los datos de su último parte. Los copys hablan de la obra; para el resumen de la semana, ver “Resumen semanal”.</div>`:''}
-   <div class="count">${f.length} de ${reales.length} obras · ${esc(zonaRotulo(S))} · ${sem?'últimos 7 días':'parte del día'}${S.tipo||S.foto||S.q?' · <a href="#" id="clr">limpiar filtros</a>':''}</div><div id="list"></div>`;
-  const list=$('#list',root);const byC={};f.concat(grupos).forEach(o=>(byC[o.circuito]??=[]).push(o));
-  Object.keys(byC).sort((a,b)=>parseInt(a)-parseInt(b)||a.localeCompare(b)).forEach(c=>{
-    const h=document.createElement('div');h.className='circ-head';h.innerHTML=`${esc(c)} <small>${esc(CIRC[c]||'(sin nombre en data/circuitos.json)')} · ${byC[c].filter(o=>!o.grupo).length} obras</small>`;list.appendChild(h);
-    byC[c].sort((a,b)=>(b.grupo?1:0)-(a.grupo?1:0)||TIPO_ORDEN.indexOf(a.tipo)-TIPO_ORDEN.indexOf(b.tipo)).forEach(o=>list.appendChild(obraCard(o)));});
-  root.onclick=ev=>{if(ev.target.id==='clr'){ev.preventDefault();S.tipo=S.foto=null;S.q='';go()}};
+  const reales=RZ, ult={};
+  if(sem){dias.forEach(d=>(d.obras||[]).forEach(o=>{ult[o.id]=d.fecha}));if(!dias.some(d=>d.fecha===P.fecha))P.obras.forEach(o=>{ult[o.id]=P.fecha})}
+  root.innerHTML=`${sem?`<div class="note">Vista semanal: obras distintas de los últimos 7 días, cada una con los datos de su último parte, ordenadas por cantidad de partes (lo que estuvo toda la semana, primero).${w.completo?'':` Faltan partes: hay ${w.k} de ${w.req} días hábiles.`} Los copys hablan de la obra; para el resumen de la semana, ver “Resumen”.</div>`:''}
+   <div class="listbar"><div class="count">${f.length} de ${reales.length} obras${S.tipo||S.foto||S.q?' · <a href="#" id="clr">limpiar filtros</a>':''}</div>${f.length+grupos.length?'<button class="btn sec" id="abrir">Abrir todas</button>':''}</div><div id="list"></div>`;
+  const list=$('#list',root), todas=f.concat(grupos);
+  if(sem){ // semana: una sola lista, de más a menos partes
+    todas.sort((a,b)=>(b.dias||0)-(a.dias||0)||(b.grupo?1:0)-(a.grupo?1:0)||ordSecc(a.circuito,b.circuito)||TIPO_ORDEN.indexOf(a.tipo)-TIPO_ORDEN.indexOf(b.tipo)).forEach(o=>list.appendChild(obraCard(o,ult[o.id])));
+  }else{
+    const byC={};todas.forEach(o=>(byC[o.circuito]??=[]).push(o));
+    Object.keys(byC).sort((a,b)=>parseInt(a)-parseInt(b)||a.localeCompare(b)).forEach(c=>{
+      const h=document.createElement('div');h.className='circ-head';h.innerHTML=`${esc(c)} <small>${esc(CIRC[c]||'(sin nombre en data/circuitos.json)')} · ${byC[c].filter(o=>!o.grupo).length} obras</small>`;list.appendChild(h);
+      byC[c].sort((a,b)=>(b.grupo?1:0)-(a.grupo?1:0)||TIPO_ORDEN.indexOf(a.tipo)-TIPO_ORDEN.indexOf(b.tipo)).forEach(o=>list.appendChild(obraCard(o)));});
+  }
+  const ab=$('#abrir',root), cards=()=>[...list.querySelectorAll('details.card')];
+  const rotular=()=>{if(ab)ab.textContent=cards().length&&cards().every(c=>c.open)?'Cerrar todas':'Abrir todas'};
+  list.addEventListener('toggle',rotular,true);
+  root.onclick=ev=>{if(ev.target.id==='clr'){ev.preventDefault();S.tipo=S.foto=null;S.q='';go()}
+    else if(ev.target.id==='abrir'){const abrir=!cards().every(c=>c.open);cards().forEach(c=>{c.open=abrir});rotular()}};
 }
 function tarjetaContenido(gx,rotulo){
   const el=document.createElement('details');el.className='card e-'+gx.eje;
@@ -786,27 +810,31 @@ function tarjetaContenido(gx,rotulo){
 }
 function renderGenerales(root){
   const sem=S.per==='semana';
-  if(!S.secc&&!sem){
-    root.innerHTML=`<div class="note">Estos contenidos se calculan <b>sumando el parte del día</b> (${R.obras} obras, ${R.rampas} rampas, ${R.cuadras} cuadras de las memorias). Sin montos ni cifras fiscales: el relato del modelo cordobés va con los mensajes oficiales.</div><div class="gen-grid" id="gl"></div>`;
-    generales().forEach(gx=>$('#gl',root).appendChild(tarjetaContenido(gx,'General')));return;}
-  if(!S.secc){ // toda la ciudad, semana: las lecturas semanales (también están en “Contenidos periódicos”)
-    const ps=periodicos().filter(p=>/^p_7(_|$)/.test(p.id));
-    root.innerHTML=`<div class="note">Resumen semanal de toda la ciudad: las lecturas de 7 días, con su texto para SMS. Las de 10, 15 y 30 días siguen en “Contenidos periódicos”.</div><div class="gen-grid" id="gl"></div>`;
-    ps.forEach(p=>{if(p.estado){const d=document.createElement('div');d.className='list';d.innerHTML=`<h3>${esc(p.titulo)}</h3><div style="font-size:12.5px;color:var(--muted);font-weight:600">${esc(p.estado)}</div>`;$('#gl',root).appendChild(d);return}$('#gl',root).appendChild(tarjetaContenido(p,'Semanal'))});return;}
+  if(!S.secc){ // toda la ciudad: lo del período elegido y, al final, las otras lecturas
+    let mostradas=[];
+    if(!sem){
+      root.innerHTML=`<div class="note">Estos contenidos se calculan <b>sumando el parte del día</b> (${R.obras} obras, ${R.rampas} rampas, ${R.cuadras} cuadras de las memorias). Sin montos ni cifras fiscales: el relato del modelo cordobés va con los mensajes oficiales.</div><div class="gen-grid" id="gl"></div><div id="otras"></div>`;
+      generales().forEach(gx=>$('#gl',root).appendChild(tarjetaContenido(gx,'General')));
+    }else{ // semana: las lecturas de 7 días
+      const ps=periodicos().filter(p=>/^p_7(_|$)/.test(p.id));mostradas=ps.map(p=>p.id);
+      root.innerHTML=`<div class="note">Resumen semanal de toda la ciudad: las lecturas de 7 días, con su texto para SMS. Las de 10, 15 y 30 días y las piezas por tipo están más abajo, en “Otras lecturas”.</div><div class="gen-grid" id="gl"></div><div id="otras"></div>`;
+      ps.forEach(p=>{if(p.estado){const d=document.createElement('div');d.className='list';d.innerHTML=`<h3>${esc(p.titulo)}</h3><div style="font-size:12.5px;color:var(--muted);font-weight:600">${esc(p.estado)}</div>`;$('#gl',root).appendChild(d);return}$('#gl',root).appendChild(tarjetaContenido(p,'Semanal'))});
+    }
+    renderPeriodicos($('#otras',root),mostradas);return;}
   const rz=resumenZona();
-  root.innerHTML=`<div class="note">Resumen ${sem?'de la última semana':'del día'} para <b>${esc(zonaRotulo(S))}</b>, armado automáticamente con las obras de la zona${rz&&rz.bs.length?` (${rz.bs.length} ${rz.bs.length===1?'barrio':'barrios'})`:''}. Los textos nombran barrios: nunca la seccional ni el circuito.${rz&&rz.incompleto?` <b>Ojo:</b> la semana tiene ${rz.incompleto.k} de ${rz.incompleto.req} partes.`:''}</div><div class="gen-grid" id="gl"></div>`;
+  root.innerHTML=`<div class="note">Resumen ${sem?'de la última semana':'del día'} para <b>${esc(zonaRotulo(S))}</b>, armado automáticamente con las obras de la zona${rz&&rz.bs.length?` (${rz.bs.length} ${rz.bs.length===1?'barrio':'barrios'})`:''}. Los textos nombran barrios: nunca la seccional ni el circuito. Las lecturas de 10, 15 y 30 días y por tipo están en el Resumen de “Toda la ciudad”.${rz&&rz.incompleto?` <b>Ojo:</b> la semana tiene ${rz.incompleto.k} de ${rz.incompleto.req} partes.`:''}</div><div class="gen-grid" id="gl"></div>`;
   if(!rz){$('#gl',root).innerHTML=`<div class="list"><h3>Sin obras en esta zona</h3><div style="font-size:12.5px;color:var(--muted);font-weight:600">No hay obras ${sem?'en los últimos 7 días':'en el parte del día'} para ${esc(zonaRotulo(S))}.</div></div>`;return}
   $('#gl',root).appendChild(tarjetaContenido(rz,sem?'Semanal · zona':'Diario · zona'));
 }
-function renderPeriodicos(root){
+function renderPeriodicos(root,excluir=[]){ // "Otras lecturas" al pie del Resumen de toda la ciudad: 7, 10, 15 y 30 días y piezas por tipo
   const F=P.finalizadas||0, m50=redondo(F,50), prox=m50+50;
-  root.innerHTML=`<div class="note">Los contenidos periódicos se arman acumulando los partes diarios guardados: <b>${HIST.length} ${HIST.length===1?'parte cargado':'partes cargados'}</b> (${HIST.map(h=>h.fecha).join(', ')}). Cada día que me pases un parte nuevo se suma al histórico.</div>
+  root.innerHTML=`<h2 class="otras">Otras lecturas</h2><div class="note">Las lecturas periódicas se arman acumulando los partes diarios guardados: <b>${HIST.length} ${HIST.length===1?'parte cargado':'partes cargados'}</b> (${HIST.map(h=>ddmm(h.fecha)).join(', ')}). Cada día que me pases un parte nuevo se suma al histórico.</div>
    <div class="list"><h3>Números redondos para titulares</h3><ul>
     ${FINOK?`<li>${F%50===0?`<b>Ya se finalizaron ${F} obras</b> en la ciudad: número redondo para titular.`:`Obras finalizadas: ${F}. Titular posible hoy: “Ya se finalizaron más de ${m50} obras”. Faltan ${prox-F} para llegar a ${prox}.`}</li>`:'<li>El parte de hoy no trae el total de obras finalizadas: no se arman titulares con ese dato.</li>'}
-    <li>Obras en ejecución hoy: ${R.obras}. Puestos de trabajo directos: ${nf(P.puestos)}.</li></ul></div><div class="gen-grid" id="gl"></div>`;
-  periodicos().forEach(p=>{
-    if(p.estado){const d=document.createElement('div');d.className='list';d.innerHTML=`<h3>${esc(p.titulo)}</h3><div style="font-size:12.5px;color:var(--muted);font-weight:600">${esc(p.estado)}</div>`;$('#gl',root).appendChild(d);return}
-    $('#gl',root).appendChild(tarjetaContenido(p,'Periódico'));});
+    <li>Obras en ejecución hoy: ${R.obras}. Puestos de trabajo directos: ${nf(P.puestos)}.</li></ul></div><div class="gen-grid" id="pl"></div>`;
+  periodicos().filter(p=>!excluir.includes(p.id)).forEach(p=>{
+    if(p.estado){const d=document.createElement('div');d.className='list';d.innerHTML=`<h3>${esc(p.titulo)}</h3><div style="font-size:12.5px;color:var(--muted);font-weight:600">${esc(p.estado)}</div>`;$('#pl',root).appendChild(d);return}
+    $('#pl',root).appendChild(tarjetaContenido(p,'Periódico'));});
 }
 function renderCalidad(root){
   // textos publicables que se revisan
@@ -838,13 +866,15 @@ function renderSide(){ // columna lateral: período y zona (valen para todo el t
   const RZ=alcance().reales, nCon=RZ.filter(o=>o.fotos.length).length, obrasTab=S.tab==='obras';
   const zb=(x,label,n)=>`<button class="${x===null?'todo ':''}${(x===null?!S.secc:S.secc===x)?'on':''}" data-z="${x===null?'':x}"><span>${label}</span><small>${n}</small></button>`;
   $('#side').innerHTML=`
-   <div class="sec"><h4>Período</h4><div class="per"><button class="${!sem?'on':''}" data-p="hoy">Hoy</button><button class="${sem?'on':''}" data-p="semana">Semana</button></div>
+   <div class="sec"><h4>Período</h4><div class="per"><button class="hoy ${!sem?'on':''}" data-p="hoy">Hoy<small>${ddmm(P.fecha)}</small></button><button class="semana ${sem?'on':''}" data-p="semana">Semana<small>${rangoCorto()}</small></button></div>
     <div class="res">${sem?'Últimos 7 días: obras distintas, cada una con su último parte.':`Parte del ${esc(P.fecha_texto)}.`}</div></div>
    <div class="sec"><h4>Zona</h4><div class="zl">${zb(null,'Toda la ciudad',base.length)}${SECCS.map(x=>zb(x,x==='?'?'Sin código':'Secc. '+x,nS(x))+(S.secc===x&&subs.length>1?`<div class="subs">${subs.map(c=>`<button class="chip ${S.circ===c?'on':''}" data-zc="${c}">${esc(c)}<small>${base.filter(o=>o.circuito===c).length}</small></button>`).join('')}</div>`:'')).join('')}</div>
     <div class="res">${esc(zonaRotulo(S))}: <b>${nz}</b> ${nz===1?'obra':'obras'} ${sem?'en la semana':'hoy'} · ${nzOtro} ${sem?'hoy':'en la semana'}</div></div>
    ${obrasTab?`<div class="sec"><h4>Tipo de obra</h4><div class="chips">${TIPO_ORDEN.map(t=>`<button class="chip t-${TIPOS[t].eje} ${S.tipo===t?'on':''}" data-t="${t}">${TIPOS[t].corto}<small>${RZ.filter(o=>o.tipo===t).length}</small></button>`).join('')}</div></div>
    <div class="sec"><h4>Foto</h4><div class="chips"><button class="chip ${S.foto==='con'?'on':''}" data-f="con">Con foto<small>${nCon}</small></button><button class="chip ${S.foto==='sin'?'on':''}" data-f="sin">Sin foto<small>${RZ.length-nCon}</small></button></div></div>
-   <div class="sec"><input class="search" placeholder="Buscar calle, barrio…" value="${esc(S.q)}" id="q">${S.tipo||S.foto||S.q?'<button class="clr" data-clr>Limpiar filtros</button>':''}</div>`:''}`;
+   <div class="sec"><input class="search" placeholder="Buscar calle, barrio…" value="${esc(S.q)}" id="q">${S.tipo||S.foto||S.q?'<button class="clr" data-clr>Limpiar filtros</button>':''}</div>`:''}
+   <div class="sec"><details class="datos"${S.datos?' open':''}><summary>Datos del parte</summary><div class="kpis">${[[P.enEjecucion,'en ejecución'],[P.finalizadas??'—','finalizadas'],[nf(P.puestos),'puestos directos'],[R.barrios,'barrios (mínimo)'],[R.rampas,'rampas'],[R.cuadras,'cuadras (memorias)']].map(([a,b])=>`<div class="kpi"><b>${a}</b><span>${b}</span></div>`).join('')}</div></details></div>`;
+  $('details.datos',$('#side')).ontoggle=ev=>{S.datos=ev.target.open};
   $('#side').onclick=ev=>{const b=ev.target.closest('button');if(!b)return;
     if(b.dataset.z!==undefined){S.secc=b.dataset.z||null;S.circ=null;go()}
     else if(b.dataset.zc){S.circ=S.circ===b.dataset.zc?null:b.dataset.zc;go()}
@@ -852,19 +882,35 @@ function renderSide(){ // columna lateral: período y zona (valen para todo el t
     else if(b.dataset.t){S.tipo=S.tipo===b.dataset.t?null:b.dataset.t;go()}
     else if(b.dataset.f){S.foto=S.foto===b.dataset.f?null:b.dataset.f;go()}
     else if(b.dataset.clr!==undefined){S.tipo=S.foto=null;S.q='';go()}};
-  const q=$('#q');if(q)q.oninput=ev=>{S.q=ev.target.value;clearTimeout(S._t);S._t=setTimeout(()=>{renderObras($('#main'));renderSide();const q2=$('#q');q2.focus();q2.setSelectionRange(q2.value.length,q2.value.length)},250)};
+  const q=$('#q');if(q)q.oninput=ev=>{S.q=ev.target.value;clearTimeout(S._t);S._t=setTimeout(()=>{renderObras($('#main'));renderSide();renderCtx();const q2=$('#q');q2.focus();q2.setSelectionRange(q2.value.length,q2.value.length)},250)};
+}
+/* fechas para la interfaz (no entran en textos publicables) */
+const MESES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const DIAS=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+const fch=s=>new Date(s+'T00:00:00'), ddmm=s=>{const d=fch(s);return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')};
+const iniSemana=()=>{const d=fch(P.fecha);d.setDate(d.getDate()-6);return d};
+function rangoCorto(){const a=iniSemana(),b=fch(P.fecha);return a.getMonth()===b.getMonth()?`${String(a.getDate()).padStart(2,'0')} al ${ddmm(P.fecha)}`:`${String(a.getDate()).padStart(2,'0')}/${String(a.getMonth()+1).padStart(2,'0')} al ${ddmm(P.fecha)}`}
+function rangoLargo(){const a=iniSemana(),b=fch(P.fecha);return a.getMonth()===b.getMonth()?`del ${a.getDate()} al ${b.getDate()} de ${MESES[b.getMonth()]}`:`del ${a.getDate()} de ${MESES[a.getMonth()]} al ${b.getDate()} de ${MESES[b.getMonth()]}`}
+function renderCtx(){ // barra de contexto: zona, período con sus fechas, alcance y pestañas
+  const sem=S.per==='semana', {reales:RZ}=alcance(), {dias}=diasSemana(), d=fch(P.fecha);
+  const zona=S.secc?(S.secc==='?'?'Sin código de zona':`Seccional ${S.secc}`)+(S.circ?` · subcircuito ${S.circ}`:''):'Toda la ciudad';
+  const nb=uniq(RZ.flatMap(o=>o.barrioList||[])).length, nO=RZ.length;
+  const per=sem?`Semana · ${rangoLargo()} · ${dias.length} ${dias.length===1?'parte':'partes'}`:`Hoy · parte del ${DIAS[d.getDay()]} ${d.getDate()} de ${MESES[d.getMonth()]}`;
+  const alc=`${nO} ${nO===1?'obra':'obras'}${sem?(nO===1?' distinta':' distintas'):' en ejecución'} · ${nb} ${nb===1?'barrio':'barrios'}`;
+  const tabs=[['obras','Obra por obra'],['generales','Resumen'],['calidad','Chequeo']];
+  const c=$('#ctx');c.className='ctx '+(sem?'semana':'hoy');
+  c.innerHTML=`<div class="donde"><div class="l1">${esc(zona)}<span class="sep">·</span><span class="pt">${esc(per)}</span></div><div class="l2">${esc(alc)}</div></div>
+   <div class="seg" role="tablist">${tabs.map(([k,l])=>`<button role="tab" data-k="${k}" class="${S.tab===k?'on':''}${k==='calidad'?' cal':''}">${l}</button>`).join('')}</div>`;
+  c.onclick=ev=>{const b=ev.target.closest('button');if(b&&b.dataset.k){S.tab=b.dataset.k;go()}};
 }
 function renderHeader(){
   const lk='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(A.svg['gobierno-color']);$('#lockup').src=lk;$('#lockup2').src=lk;
   $('#sub').textContent=P.fecha_texto+' · parte de obras';
-  $('#kpis').innerHTML=[[P.enEjecucion,'en ejecución'],[P.finalizadas??'—','finalizadas'],[nf(P.puestos),'puestos directos'],[R.barrios,'barrios (mínimo)'],[R.rampas,'rampas'],[R.cuadras,'cuadras (memorias)']].map(([a,b])=>`<div class="kpi"><b>${a}</b><span>${b}</span></div>`).join('');
-  const sem=S.per==='semana';
-  renderSide();
-  const tabs=[['obras',sem?'Obras de la semana':'Contenidos de obras del día'],['generales',S.secc?(sem?'Resumen semanal de la zona':'Resumen del día de la zona'):(sem?'Resumen semanal':'Contenidos generales del día')],['periodicos','Contenidos periódicos'],['calidad','Chequeo de calidad']];
-  $('#tabs').innerHTML=tabs.map(([k,l])=>`<button data-k="${k}" class="${S.tab===k?'on':''}${k==='calidad'?' cal':''}">${l}</button>`).join('');
-  $('#tabs').onclick=ev=>{const b=ev.target.closest('button');if(b){S.tab=b.dataset.k;go()}};
+  document.documentElement.style.setProperty('--hh',$('header').offsetHeight+'px');
+  renderSide();renderCtx();
 }
-function go(){renderHeader();const m=$('#main');m.onclick=null;({obras:renderObras,generales:renderGenerales,periodicos:renderPeriodicos,calidad:renderCalidad})[S.tab](m)}
+function go(){if(!['obras','generales','calidad'].includes(S.tab))S.tab='obras';renderHeader();const m=$('#main');m.onclick=null;({obras:renderObras,generales:renderGenerales,calidad:renderCalidad})[S.tab](m)}
+window.addEventListener('resize',()=>document.documentElement.style.setProperty('--hh',$('header').offsetHeight+'px'));
 go();
 })();
 </script>
