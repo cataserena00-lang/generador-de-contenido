@@ -234,8 +234,10 @@ const SIMB={
  cumplido:c=>`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="${c}" stroke-width="11"/><path d="M29 52 L44 66 L72 36" fill="none" stroke="${c}" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
  en_ejecucion:c=>`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 8 A42 42 0 1 1 8 50" fill="none" stroke="${c}" stroke-width="11" stroke-linecap="round"/><path d="M30 50 H68 M54 35 L69 50 L54 65" fill="none" stroke="${c}" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
  vineta_cumplido:c=>`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M14 54 L38 77 L86 25" fill="none" stroke="${c}" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+ sello_cumplido:(c,i)=>`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="${c}"/><path d="M28 52 L43 67 L73 35" fill="none" stroke="${i}" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+ sello_en_ejecucion:(c,i)=>`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="${c}"/><path d="M27 50 H70 M54 33 L71 50 L54 67" fill="none" stroke="${i}" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
  vineta_en_ejecucion:c=>`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M14 50 H82 M55 23 L84 50 L55 77" fill="none" stroke="${c}" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/></svg>`};
-const simbolo=(k,c)=>loadImg('data:image/svg+xml;charset=utf-8,'+encodeURIComponent(SIMB[k](c)));
+const simbolo=(k,c,i)=>loadImg('data:image/svg+xml;charset=utf-8,'+encodeURIComponent(SIMB[k](c,i)));
 /* variantes de diseño: A = panel del color de la localidad (la del tablero); B = invertida; C = panel marino con celeste;
    D = como C con la banda también marino (alternativa por contraste). Colores nuevos, solo de assets/marca/paleta.json. */
 const PAL={marino:'#17233d',celeste:'#bedff7'};
@@ -244,7 +246,11 @@ const varColores=(k,col)=>({
  A:{panel:col,banda:'#fff',palabra:col,simbolo:col,pillBg:col,pillTx:'#fff',texto:'#fff',vineta:'#fff',fila:null},
  B:{panel:'#fff',banda:col,palabra:'#fff',simbolo:'#fff',pillBg:'#fff',pillTx:col,texto:col,vineta:col,fila:col},
  C:{panel:PAL.marino,banda:'#fff',palabra:PAL.celeste,simbolo:PAL.celeste,pillBg:PAL.marino,pillTx:'#fff',texto:'#fff',vineta:PAL.celeste,fila:null},
- D:{panel:PAL.marino,banda:PAL.marino,palabra:PAL.celeste,simbolo:PAL.celeste,pillBg:PAL.celeste,pillTx:PAL.marino,texto:'#fff',vineta:PAL.celeste,fila:null}}[k]);
+ D:{panel:PAL.marino,banda:PAL.marino,palabra:PAL.celeste,simbolo:PAL.celeste,pillBg:PAL.celeste,pillTx:PAL.marino,texto:'#fff',vineta:PAL.celeste,fila:null},
+ E:{panel:col,banda:'#fff',palabra:col,simbolo:col,pillBg:col,pillTx:'#fff',texto:'#fff',vineta:'#fff',vinetaIn:col,sello:true,fila:null},
+ F:{panel:PAL.marino,banda:col,palabra:'#fff',simbolo:'#fff',pillBg:'#fff',pillTx:col,texto:'#fff',vineta:PAL.celeste,fila:null},
+ G:{panel:'#fff',banda:col,palabra:'#fff',simbolo:'#fff',pillBg:'#fff',pillTx:col,texto:PAL.marino,vineta:col,fila:col},
+ H:{panel:col,banda:'#fff',palabra:PAL.marino,simbolo:col,pillBg:PAL.marino,pillTx:'#fff',texto:'#fff',vineta:'#fff',fila:null}}[k]);
 const MIN_ITEM=44/1080;   // tipografía mínima legible de los ítems: 44 px en 1080 de ancho; lo que no entra a ese tamaño no va en la placa
 // lista: entra la mayor cantidad de ítems (en su orden) que cabe con letra >= mínimo; con esos, la letra más grande que cabe
 function ajustarLista(g,items,bw,avail,W,rot){
@@ -282,7 +288,7 @@ async function renderPlaca(canvas,v,fmt,colorKey,variante){
     const r=ajustarLista(g,items,bw,avail,W,true), rs=W*.036;
     let cy=top+Math.max(0,(avail-r.h)/2);
     if(r.n>1){g.font=`700 ${rs}px Poppins`;g.fillStyle=K.texto;g.globalAlpha=.9;g.fillText(rot,mx,cy+rs*.92);g.globalAlpha=1;cy+=rs*1.1+W*.024}
-    const vin=await simbolo(v.estado==='en_ejecucion'?'vineta_en_ejecucion':'vineta_cumplido',K.vineta), vs=r.s*.62;
+    const est=v.estado==='en_ejecucion'?'en_ejecucion':'cumplido', vin=await simbolo(K.sello?'sello_'+est:'vineta_'+est,K.vineta,K.vinetaIn), vs=r.s*(K.sello?.72:.62);
     g.font=`900 ${r.s}px Poppins`;g.fillStyle=K.texto;
     r.L.forEach(lines=>{g.drawImage(vin,mx,cy+r.s*.62-vs*.62,vs,vs);lines.forEach(ln=>{g.fillText(ln,mx+r.ind,cy+r.s*.92);cy+=r.s*1.1});cy+=r.s*.5});
     canvas.dataset.entran=r.n; return {entran:r.n};
