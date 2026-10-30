@@ -1881,6 +1881,906 @@
    "modelo": "claude-code",
    "fecha": "2026-10-30",
    "revisado": false
+  },
+  "592": {
+   "placa": "Municipio de San Basilio",
+   "titular": "La Provincia entregó los fondos del convenio firmado con el municipio de San Basilio",
+   "resumen": "La Provincia suscribió convenios con los municipios de Washington y San Basilio y entregó los fondos correspondientes a San Basilio.",
+   "duda": "No dice a qué obra o destino se aplican los fondos; solo informa el convenio.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "593": {
+   "placa": "Municipio de Monte de los Gauchos",
+   "titular": "La Provincia entregó fondos al municipio de Monte de los Gauchos",
+   "resumen": "El municipio de Monte de los Gauchos recibió fondos de la Provincia, al igual que otras localidades del departamento Río Cuarto.",
+   "duda": "No dice a qué obra o destino se aplican los fondos.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "594": {
+   "placa": "Municipio de La Tosquita",
+   "titular": "La Provincia entregó fondos al municipio de La Tosquita",
+   "resumen": "El municipio de La Tosquita recibió fondos de la Provincia, al igual que otras localidades del departamento Río Cuarto.",
+   "duda": "No dice a qué obra o destino se aplican los fondos.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "595": {
+   "placa": "Municipio de La Cautiva",
+   "titular": "La Provincia entregó fondos al municipio de La Cautiva",
+   "resumen": "El municipio de La Cautiva recibió fondos de la Provincia, al igual que otras localidades del departamento Río Cuarto.",
+   "duda": "No dice a qué obra o destino se aplican los fondos.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "681": {
+   "placa": "Mejoramiento del camino rural S-280 entre La Gilda y San Ambrosio",
+   "titular": "La Provincia mejora el camino rural S-280, que une La Gilda con San Ambrosio",
+   "resumen": "Avanza el mejoramiento del camino rural S-280, que une La Gilda con San Ambrosio, en el departamento Río Cuarto.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "966": {
+   "placa": "Cloacas, gas, cordón cuneta y adoquinado en Coronel Moldes",
+   "titular": "La Provincia entregó los fondos para cloacas, gas, cordón cuneta y adoquinado en Coronel Moldes",
+   "resumen": "La Provincia entregó los fondos para ejecutar obras de cloacas, gas, cordón cuneta y adoquinado en Coronel Moldes.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "967": {
+   "placa": "Obra de agua potable en Coronel Moldes",
+   "titular": "La Provincia avanza con la licitación de la obra de agua potable de Coronel Moldes",
+   "resumen": "La obra de agua potable de Coronel Moldes, con financiamiento provincial, se encuentra en etapa de licitación.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "968": {
+   "placa": "Aporte para los Bomberos Voluntarios de Coronel Moldes",
+   "titular": "La Provincia entregó un aporte a los Bomberos Voluntarios de Coronel Moldes",
+   "resumen": "Los Bomberos Voluntarios de Coronel Moldes recibieron un aporte de la Provincia.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "969": {
+   "placa": "Taller de discapacidad, hogar de niños, capilla e instituciones de Coronel Moldes",
+   "titular": "La Provincia entregó fondos a instituciones sociales y deportivas de Coronel Moldes",
+   "resumen": "La Provincia entregó fondos al taller para personas con discapacidad, al hogar de niños y a la Capilla de Coronel Moldes. También recibieron aportes el Club Moldes, el Club Atlético Belgrano, la Sociedad Italiana y el Centro Gaucho.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "970": {
+   "placa": "SUM del IPEA de Santa Catalina",
+   "titular": "La Provincia entregó los fondos para concluir el SUM del IPEA de Santa Catalina",
+   "resumen": "La Provincia entregó los fondos para la conclusión del salón de usos múltiples del IPEA de Santa Catalina.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "971": {
+   "placa": "Obra de agua potable en Santa Catalina",
+   "titular": "La Provincia entregó los fondos para la obra de agua potable de Santa Catalina",
+   "resumen": "La Provincia entregó los fondos para la obra de agua potable de Santa Catalina.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "972": {
+   "placa": "Clubes y Centro de Jubilados de Santa Catalina",
+   "titular": "La Provincia entregó fondos a los clubes y al Centro de Jubilados de Santa Catalina",
+   "resumen": "Los clubes locales y el Centro de Jubilados de Santa Catalina recibieron aportes de la Provincia.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "973": {
+   "placa": "Aporte para los Bomberos Voluntarios de Santa Catalina",
+   "titular": "La Provincia entregó un aporte a los Bomberos Voluntarios de Santa Catalina",
+   "resumen": "Los Bomberos Voluntarios de Santa Catalina recibieron un aporte de la Provincia.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "974": {
+   "placa": "Duplicación de calzada y viaducto en la Circunvalación de Río Cuarto",
+   "titular": "La Provincia avanza con la duplicación de calzada y el viaducto de la Circunvalación de Río Cuarto",
+   "resumen": "Avanza la obra del tramo IV, sección 2, de la Circunvalación de Río Cuarto, con duplicación de calzada y viaducto en la avenida Circunvalación, como continuidad de una obra vial clave para la provincia.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "975": {
+   "placa": "Cordón cuneta en barrio Las Ferias y desagües en el macrocentro de Río Cuarto",
+   "titular": "La Provincia entregó los fondos para cordón cuneta en barrio Las Ferias y desagües en Río Cuarto",
+   "resumen": "La Provincia y la Municipalidad de Río Cuarto, a cargo del intendente Guillermo De Rivas, firmaron un convenio para ejecutar cordón cuneta en barrio Las Ferias y desagües urbanos en el macrocentro de la ciudad.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "976": {
+   "placa": "Mejoramiento del sistema de agua potable de Las Albahacas",
+   "titular": "La Provincia entregó los fondos para el mejoramiento del sistema de agua potable de Las Albahacas",
+   "resumen": "La Provincia entregó los fondos para el mejoramiento del sistema de agua potable de Las Albahacas.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "977": {
+   "placa": "Ampliación y refuncionalización de la red de agua de Villa El Chacay",
+   "titular": "La Provincia entregó los fondos para ampliar y refuncionalizar la red de agua de Villa El Chacay",
+   "resumen": "La Provincia entregó los fondos para ampliar y refuncionalizar la red de agua de Villa El Chacay.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "978": {
+   "placa": "Refuncionalización del Dispensario Municipal de Achiras",
+   "titular": "La Provincia entregó los fondos para refuncionalizar el Dispensario Municipal de Achiras",
+   "resumen": "La Provincia entregó los fondos para refuncionalizar el Dispensario Municipal de Achiras.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "979": {
+   "placa": "Cordón cuneta en Suco",
+   "titular": "La Provincia entregó los fondos para obras de cordón cuneta en Suco",
+   "resumen": "La Provincia entregó los fondos para obras de cordón cuneta en Suco.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "980": {
+   "placa": "Adoquinado en Las Peñas Sud",
+   "titular": "La Provincia entregó los fondos para obras de adoquinado en Las Peñas Sud",
+   "resumen": "La Provincia entregó los fondos para obras de adoquinado en Las Peñas Sud.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "981": {
+   "placa": "Piso de hormigón del SUM de Las Vertientes",
+   "titular": "La Provincia entregó los fondos para el piso de hormigón del SUM de Las Vertientes",
+   "resumen": "La Provincia entregó los fondos para el piso de hormigón del SUM de Las Vertientes.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "982": {
+   "placa": "Adoquinado en Chucul",
+   "titular": "La Provincia entregó los fondos para obras de adoquinado en Chucul",
+   "resumen": "La Provincia entregó los fondos para obras de adoquinado en Chucul.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "983": {
+   "placa": "Adoquinado en La Carolina El Potosí",
+   "titular": "La Provincia entregó los fondos para obras de adoquinado en La Carolina El Potosí",
+   "resumen": "La Provincia entregó los fondos para obras de adoquinado en La Carolina El Potosí.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "984": {
+   "placa": "Hogar de Ancianos Municipal de Chaján",
+   "titular": "La Provincia entregó los fondos para construir el Hogar de Ancianos Municipal de Chaján",
+   "resumen": "La Provincia entregó los fondos para construir el Hogar de Ancianos Municipal de Chaján.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "985": {
+   "placa": "Salón de usos múltiples en Malena",
+   "titular": "La Provincia entregó los fondos para un salón de usos múltiples en Malena",
+   "resumen": "La Provincia entregó los fondos para un salón de usos múltiples en Malena.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "986": {
+   "placa": "Obras de agua potable en Alpa Corral",
+   "titular": "La Provincia entregó los fondos para obras de agua potable en Alpa Corral",
+   "resumen": "La Provincia entregó los fondos para obras de agua potable en Alpa Corral.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1009": {
+   "placa": "Obra de gas natural en Las Higueras",
+   "titular": "La Provincia terminó la obra de gas natural en Las Higueras",
+   "resumen": "Finalizó la ejecución de la obra de gas natural en Las Higueras.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1010": {
+   "placa": "Avenida Sarmiento y Centro de Salud municipal de Las Higueras",
+   "titular": "La Provincia entregó los fondos para la avenida Sarmiento y el Centro de Salud de Las Higueras",
+   "resumen": "La Provincia entregó los fondos para completar las obras en la avenida Sarmiento y refuncionalizar el Centro de Salud municipal de Las Higueras.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1011": {
+   "placa": "Nuevas aulas para el IPEAYT Nº 258 de Las Higueras",
+   "titular": "La Provincia proyecta nuevas aulas para el IPEAYT Nº 258 Mayor Ingeniero Francisco de Arteaga",
+   "resumen": "Está en proyecto, con un aporte provincial, la construcción de nuevas aulas en el IPEAYT Nº 258 Mayor Ingeniero Francisco de Arteaga, de Las Higueras.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1012": {
+   "placa": "Clubes, centro de jubilados y parroquia de Las Higueras",
+   "titular": "La Provincia entregó fondos a clubes, al centro de jubilados y a la parroquia de Las Higueras",
+   "resumen": "Distintas instituciones de Las Higueras, como clubes, el centro de jubilados y la parroquia, recibieron aportes de la Provincia.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1063": {
+   "placa": "Expropiación de terrenos para cerrar la Circunvalación de Río Cuarto",
+   "titular": "La Provincia pidió a la Legislatura expropiar terrenos para cerrar la Circunvalación de Río Cuarto",
+   "resumen": "La Provincia envió a la Legislatura el proyecto de ley para expropiar terrenos y avanzar con el cierre del anillo de Circunvalación de Río Cuarto.",
+   "duda": "Lo cumplido es el envío del proyecto de ley; confirmar si la expropiación ya fue aprobada.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1123": {
+   "placa": "Fortalecimiento del sistema de salud municipal de Río Cuarto",
+   "titular": "La Provincia fortaleció el sistema de salud municipal de Río Cuarto con equipamiento y obras",
+   "resumen": "Los aportes de la Provincia se destinaron a incorporar equipamiento y a agilizar los trabajos iniciados en 2024 para reparar la cañería de gas, remodelar las salas de parto y construir nuevos quirófanos.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1124": {
+   "placa": "Polideportivo en barrio Fénix de Río Cuarto",
+   "titular": "La Provincia terminó el polideportivo de barrio Fénix, en Río Cuarto",
+   "resumen": "Finalizó la construcción del polideportivo de barrio Fénix, uno de los dos polideportivos previstos para Río Cuarto.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1125": {
+   "placa": "Polideportivo en barrio Alberdi de Río Cuarto",
+   "titular": "La Provincia terminó el polideportivo de barrio Alberdi, en Río Cuarto",
+   "resumen": "Finalizó la construcción del polideportivo de barrio Alberdi, uno de los dos polideportivos previstos para Río Cuarto.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1209": {
+   "placa": "Aporte para los Bomberos Voluntarios de Vicuña Mackenna",
+   "titular": "La Provincia entregó un aporte a los Bomberos Voluntarios de Vicuña Mackenna",
+   "resumen": "Los Bomberos Voluntarios de Vicuña Mackenna recibieron un aporte de la Provincia para fortalecer su labor.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1218": {
+   "placa": "Salón de usos múltiples de Las Vertientes",
+   "titular": "La Provincia entregó los fondos para completar el salón de usos múltiples de Las Vertientes",
+   "resumen": "La Provincia entregó los fondos para completar el salón de usos múltiples de Las Vertientes, un proyecto del municipio para fomentar las actividades sociales, culturales y recreativas.",
+   "duda": "Puede superponerse con la meta 981 (piso del SUM de Las Vertientes); confirmar para no duplicar.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1219": {
+   "placa": "Mejoras en el centro de salud de Las Vertientes",
+   "titular": "La Provincia entregó los fondos para mejoras en el centro de salud de Las Vertientes",
+   "resumen": "La Provincia entregó los fondos para realizar mejoras en el centro de salud de Las Vertientes.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1220": {
+   "placa": "Planta de bombeo de agua potable de Las Vertientes",
+   "titular": "La Provincia entregó los fondos para potenciar la planta de bombeo de agua potable de Las Vertientes",
+   "resumen": "La Provincia entregó los fondos para potenciar la planta de bombeo de agua potable de Las Vertientes.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1221": {
+   "placa": "Aporte para el cuartel de bomberos voluntarios de Las Vertientes",
+   "titular": "La Provincia tramita un aporte para el cuartel de bomberos voluntarios de Las Vertientes",
+   "resumen": "Está en trámite un aporte de la Provincia para el cuartel de bomberos voluntarios de Las Vertientes.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1222": {
+   "placa": "Puesta en valor de la plaza central de Bulnes",
+   "titular": "La Provincia entregó los fondos para la puesta en valor de la plaza central de Bulnes",
+   "resumen": "La Provincia entregó los fondos para la puesta en valor de la plaza central de Bulnes.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1223": {
+   "placa": "Techado del playón municipal de Bulnes",
+   "titular": "La Provincia terminó el techado del playón municipal de Bulnes",
+   "resumen": "Con la contribución de la Provincia, finalizó el techado del playón municipal de Bulnes, un punto de encuentro para la recreación y la actividad deportiva de chicos y jóvenes de la zona.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1224": {
+   "placa": "Club Peñarol y Club San Lorenzo de Bulnes",
+   "titular": "La Provincia entregó fondos al Club Peñarol y al Club San Lorenzo de Bulnes",
+   "resumen": "El Club Peñarol y el Club San Lorenzo de Bulnes recibieron aportes de la Provincia.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1225": {
+   "placa": "Aporte para el Centro de Jubilados de Bulnes",
+   "titular": "La Provincia entregó un aporte al Centro de Jubilados de Bulnes",
+   "resumen": "El Centro de Jubilados de Bulnes recibió un aporte de la Provincia.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1226": {
+   "placa": "Aporte para los bomberos voluntarios de Bulnes",
+   "titular": "La Provincia entregó un aporte a los bomberos voluntarios de Bulnes",
+   "resumen": "El cuerpo de bomberos voluntarios de Bulnes recibió un aporte de la Provincia para potenciar sus actividades.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1227": {
+   "placa": "Sede de la Agencia Córdoba Innovar y Emprender en Río Cuarto",
+   "titular": "La Provincia construye la sede de la Agencia Córdoba Innovar y Emprender en Río Cuarto",
+   "resumen": "Avanza la construcción de la nueva sede de la Agencia Córdoba Innovar y Emprender en Río Cuarto, junto a la Universidad Nacional de Río Cuarto.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1228": {
+   "placa": "Puesta en valor de la capilla de Las Vertientes",
+   "titular": "La Provincia entregó un aporte para la puesta en valor de la capilla de Las Vertientes",
+   "resumen": "La Provincia entregó un aporte para la puesta en valor de la capilla de Las Vertientes.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1293": {
+   "placa": "Polideportivo de La Cautiva",
+   "titular": "La Provincia entregó los fondos para terminar el polideportivo de La Cautiva",
+   "resumen": "La Provincia entregó los fondos para la culminación del polideportivo de La Cautiva.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1294": {
+   "placa": "Viviendas y elementos deportivos y culturales en La Cautiva",
+   "titular": "La Provincia entregó los fondos para viviendas y elementos deportivos y culturales en La Cautiva",
+   "resumen": "La Provincia entregó fondos al municipio de La Cautiva para la culminación de más viviendas y para elementos de actividades deportivas y culturales.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1295": {
+   "placa": "Polideportivo en San Basilio",
+   "titular": "La Provincia construyó un polideportivo en San Basilio",
+   "resumen": "Finalizó la construcción de un polideportivo en San Basilio.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1296": {
+   "placa": "Pavimento y ampliación del espacio del PAICOR en San Basilio",
+   "titular": "La Provincia entregó los fondos para pavimento y la ampliación del espacio del PAICOR en San Basilio",
+   "resumen": "La Provincia entregó los fondos para avanzar con el pavimento de cuadras de San Basilio y ampliar el espacio donde funciona el PAICOR. Además, sumó un sillón odontológico para el Centro de Salud municipal.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1297": {
+   "placa": "Aporte para el cuartel de bomberos voluntarios de San Basilio",
+   "titular": "La Provincia entregó un aporte al cuartel de bomberos voluntarios de San Basilio",
+   "resumen": "El cuartel de bomberos voluntarios de San Basilio recibió un aporte de la Provincia.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1298": {
+   "placa": "Aportes para cuatro instituciones deportivas de San Basilio",
+   "titular": "La Provincia entregó aportes a cuatro instituciones deportivas de San Basilio",
+   "resumen": "Cuatro instituciones deportivas de San Basilio recibieron aportes de la Provincia a través del programa Fortaleciendo Clubes.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1384": {
+   "placa": "Pavimentación de calles en Río Cuarto",
+   "titular": "La Provincia avanza con la pavimentación de calles en Río Cuarto",
+   "resumen": "La obra de pavimentación de calles en Río Cuarto, con inversión provincial, está a cargo del municipio con supervisión de Vialidad Provincial. El plazo previsto para su finalización es de 12 meses.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1401": {
+   "placa": "Finalización de 13 Centros de Desarrollo Infantil",
+   "titular": "La Provincia avanza con la finalización de 13 Centros de Desarrollo Infantil abandonados por Nación",
+   "resumen": "La Provincia avanza con la finalización de las obras de 13 Centros de Desarrollo Infantil que fueron abandonadas por Nación.",
+   "duda": "No queda claro cuántos de los 13 centros están en Río Cuarto.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1440": {
+   "placa": "Ampliación de la red de gas domiciliario en Las Acequias",
+   "titular": "La Provincia terminó la ampliación de las redes de gas domiciliario en Las Acequias",
+   "resumen": "A través del Plan de Gasificación Córdoba, finalizó la ampliación de las redes de gas domiciliario en Las Acequias.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1471": {
+   "placa": "Conexión interna de establecimientos educativos en Vicuña Mackenna",
+   "titular": "La Provincia terminó la conexión interna de los establecimientos educativos de Vicuña Mackenna",
+   "resumen": "Finalizó la conexión interna de los establecimientos educativos de Vicuña Mackenna.",
+   "duda": "No aclara de qué servicio es la conexión interna (probablemente gas); confirmar antes de publicar.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1476": {
+   "placa": "Reconectadores para la cooperativa de Berrotarán",
+   "titular": "La Provincia entregó reconectadores a la cooperativa de Berrotarán",
+   "resumen": "Berrotarán está entre las localidades cuyas cooperativas recibieron reconectadores de la Provincia.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1477": {
+   "placa": "Reconectadores para la cooperativa de Bulnes",
+   "titular": "La Provincia entregó reconectadores a la cooperativa de Bulnes",
+   "resumen": "Bulnes está entre las localidades cuyas cooperativas recibieron reconectadores de la Provincia.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1498": {
+   "placa": "Reconectadores para la cooperativa de Santa Catalina Holmberg",
+   "titular": "La Provincia entregó reconectadores a la cooperativa de Santa Catalina Holmberg",
+   "resumen": "Santa Catalina Holmberg está entre las localidades cuyas cooperativas recibieron reconectadores de la Provincia.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1512": {
+   "placa": "Aporte del Fondo Ambiental para San Basilio",
+   "titular": "La Provincia avanza con el aporte del Fondo Ambiental para San Basilio",
+   "resumen": "San Basilio es una de las 22 localidades del interior que reciben aportes del Fondo Ambiental, que busca acompañar la transformación de los gobiernos locales hacia un modelo más limpio, saludable y sostenible.",
+   "duda": "El texto dice que el aporte se entregó pero la base lo marca en ejecución; además no precisa a qué se destina.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1687": {
+   "placa": "Obra de agua potable en Coronel Moldes, etapa 2",
+   "titular": "La Provincia avanza con la licitación de la segunda etapa de la obra de agua potable de Coronel Moldes",
+   "resumen": "La segunda etapa de la obra de agua potable de Coronel Moldes, con financiamiento provincial, se encuentra en etapa de licitación.",
+   "duda": "Es la etapa 2 del mismo anuncio que la meta 967: evitar publicarlo dos veces.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1812": {
+   "placa": "Financiamiento para continuar la Circunvalación de Río Cuarto",
+   "titular": "Córdoba obtuvo el financiamiento para continuar la Circunvalación de Río Cuarto",
+   "resumen": "La intervención contempla la duplicación de calzada, intercambiadores a distinto nivel, colectoras y mejoras en los accesos al nodo logístico del sur cordobés, para reducir tiempos de viaje y el tránsito pesado dentro de la ciudad.",
+   "duda": "La etiqueta dice «Obra finalizada» pero el anuncio es la obtención del financiamiento; confirmar qué está cumplido.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1865": {
+   "placa": "Parque Alberdi en Río Cuarto",
+   "titular": "La Provincia avanza con la licitación del Parque Alberdi en Río Cuarto",
+   "resumen": "Está en licitación el futuro Parque Alberdi de Río Cuarto, un espacio verde de más de tres hectáreas totalmente equipado.",
+   "duda": "No queda claro si la licitación es de la Provincia o del municipio.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1920": {
+   "placa": "Cuartel de bomberos de Las Higueras",
+   "titular": "La Provincia entregó los fondos para el cuartel de bomberos de Las Higueras",
+   "resumen": "El cuartel de Las Higueras recibió fondos de la Provincia.",
+   "duda": "El texto dice solo «Cuartel»; se entiende que es de bomberos, confirmar.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2080": {
+   "placa": "Obras de agua potable en Las Higueras",
+   "titular": "La Provincia avanza con obras de agua potable para nuevos loteos en Las Higueras",
+   "resumen": "Con un aporte provincial, avanzan obras de agua potable en Las Higueras para posibilitar nuevos loteos y futuras viviendas.",
+   "duda": "La etiqueta dice «Convenio firmado» pero el estado es en ejecución; confirmar el estado.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2135": {
+   "placa": "Aporte para los bomberos voluntarios de Las Vertientes",
+   "titular": "La Provincia tramita un aporte para los bomberos voluntarios de Las Vertientes",
+   "resumen": "Está en trámite un aporte de la Provincia para los bomberos voluntarios de Las Vertientes.",
+   "duda": "Repite el aporte a bomberos de la meta 1221: evitar duplicar.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2142": {
+   "placa": "Crédito para cuatro nuevas viviendas en Las Acequias",
+   "titular": "La Provincia tramita un crédito para construir cuatro nuevas viviendas en Las Acequias",
+   "resumen": "Durante la inauguración de una Vivienda Semilla en Las Acequias, se dio a conocer un crédito, hoy en trámite, para construir cuatro nuevas unidades habitacionales.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2143": {
+   "placa": "Gas natural para dos escuelas de Las Acequias",
+   "titular": "La Provincia avanza con la obra de gas natural en dos escuelas de Las Acequias",
+   "resumen": "Con vouchers entregados por la Provincia, avanza la obra de gas natural en dos escuelas de Las Acequias.",
+   "duda": "Es una cita textual y no nombra las escuelas.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2145": {
+   "placa": "Café inclusivo de Las Acequias",
+   "titular": "La Provincia entregó los fondos para los insumos del café inclusivo de Las Acequias",
+   "resumen": "La Provincia entregó los fondos para que el café inclusivo de Las Acequias cuente con todos los insumos en materia de inclusión.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2146": {
+   "placa": "Juegos inclusivos para la plaza de Las Acequias",
+   "titular": "La Provincia entregó los fondos para juegos inclusivos en la plaza de Las Acequias",
+   "resumen": "La Provincia entregó los fondos para comprar juegos inclusivos para la plaza de Las Acequias.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2148": {
+   "placa": "Crédito para tres nuevas viviendas en Chucul",
+   "titular": "La Provincia tramita un crédito para construir tres nuevas viviendas en Chucul",
+   "resumen": "Está en trámite un crédito para la construcción de tres nuevas viviendas en Chucul.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2149": {
+   "placa": "Cordón cuneta en Chucul",
+   "titular": "La Provincia entregó los fondos para obras de cordón cuneta en Chucul",
+   "resumen": "La Provincia entregó los fondos para la ejecución de cordón cuneta en la comuna de Chucul.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2150": {
+   "placa": "Centro de salud de Chucul",
+   "titular": "La Provincia entregó los fondos para potenciar el centro de salud de Chucul",
+   "resumen": "La Provincia entregó los fondos para potenciar el centro de salud de Chucul.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2151": {
+   "placa": "Instituciones de Chucul",
+   "titular": "La Provincia entregó aportes a las instituciones de Chucul",
+   "resumen": "Las instituciones de Chucul recibieron aportes de la Provincia.",
+   "duda": "No detalla qué instituciones reciben los fondos ni para qué.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2152": {
+   "placa": "Aporte para los bomberos voluntarios de Chucul",
+   "titular": "La Provincia tramita un aporte para los bomberos voluntarios de Chucul",
+   "resumen": "Está en trámite un aporte de la Provincia para los bomberos voluntarios de Chucul.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2153": {
+   "placa": "Red de gas natural en Las Acequias",
+   "titular": "La Provincia avanza con la red de gas natural en Las Acequias",
+   "resumen": "Con un voucher del Programa de Redes de Gas Natural del Ministerio de Cooperativas y Mutuales, avanza el fortalecimiento de la infraestructura energética de Las Acequias.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2154": {
+   "placa": "Crédito para cuatro nuevas viviendas en Las Acequias",
+   "titular": "La Provincia tramita un crédito para construir cuatro nuevas viviendas en Las Acequias",
+   "resumen": "Está en trámite un crédito para la construcción de cuatro nuevas unidades habitacionales en Las Acequias.",
+   "duda": "Repite el crédito de la meta 2142: evitar duplicar.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2155": {
+   "placa": "Aporte para los Bomberos Voluntarios de Las Acequias",
+   "titular": "La Provincia tramita un aporte para los Bomberos Voluntarios de Las Acequias",
+   "resumen": "Está en trámite un aporte de la Provincia para los Bomberos Voluntarios de Las Acequias, sujeto a la presentación de la documentación correspondiente.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2156": {
+   "placa": "Distribución de agua potable en los sectores norte y sur de Achiras",
+   "titular": "La Provincia entregó los fondos para la segunda etapa de las obras de agua potable de Achiras",
+   "resumen": "Los trabajos de la segunda etapa aseguran la distribución de agua potable en los sectores norte y sur de Achiras, con la etapa «La Huertita» y la zona sur, en beneficio de más de 3.000 habitantes y turistas.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2157": {
+   "placa": "Remodelación del dispensario de Achiras",
+   "titular": "La Provincia entregó los fondos para remodelar el dispensario de Achiras",
+   "resumen": "La Provincia entregó los fondos para la remodelación del dispensario local de Achiras.",
+   "duda": "Puede ser el mismo dispensario de la meta 978; confirmar para no duplicar.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2158": {
+   "placa": "Iglesia de Achiras",
+   "titular": "La Provincia entregó fondos para la iglesia de Achiras",
+   "resumen": "La iglesia de Achiras recibió un aporte de la Provincia.",
+   "duda": "No dice a qué se destinan los fondos para la iglesia.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2159": {
+   "placa": "Juegos inclusivos para la plaza de Achiras",
+   "titular": "La Provincia entregó los fondos para juegos inclusivos en la plaza de Achiras",
+   "resumen": "La Provincia entregó los fondos para incorporar juegos inclusivos en la plaza de Achiras.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2160": {
+   "placa": "Aporte para los bomberos de Achiras",
+   "titular": "La Provincia tramita un aporte para los bomberos de Achiras",
+   "resumen": "Está en trámite un aporte de la Provincia para los bomberos de Achiras.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2272": {
+   "placa": "Obras de repavimentación y cordón cuneta en barrio Banda Norte",
+   "titular": "La Provincia licita obras de repavimentación y cordón cuneta en barrio Banda Norte de Río Cuarto",
+   "resumen": "El acuerdo, suscripto en un encuentro con instituciones y comerciantes del barrio Banda Norte, contempla repavimentación, reparación de calles, nuevos frentes de cordón cuneta e infraestructura urbana. El municipio aporta hasta el 30 por ciento del monto de las obras.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2273": {
+   "placa": "Instituciones sociales, educativas y comunitarias de Río Cuarto",
+   "titular": "La Provincia entregó aportes a instituciones sociales, educativas y comunitarias de Río Cuarto",
+   "resumen": "Distintas instituciones de Río Cuarto que desarrollan tareas sociales, educativas y comunitarias recibieron aportes de la Provincia.",
+   "duda": "No detalla qué instituciones ni para qué; dato vago.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2274": {
+   "placa": "Remodelación de la avenida Reforma Universitaria",
+   "titular": "La Provincia licita la remodelación integral de la avenida Reforma Universitaria, en Río Cuarto",
+   "resumen": "La remodelación integral abarca 2,5 kilómetros de la avenida Reforma Universitaria, una de las principales arterias de Río Cuarto, con duplicación de calzada, nuevas veredas, iluminación y cantero central.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2275": {
+   "placa": "Altonivel en avenida Presidente Perón oeste",
+   "titular": "La Provincia proyecta un altonivel en avenida Presidente Perón oeste, en Río Cuarto",
+   "resumen": "Está en proyecto, con inversión provincial, un altonivel en avenida Presidente Perón oeste, en Río Cuarto, para ordenar la circulación vehicular de la zona.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2357": {
+   "placa": "Aporte para la Fundación Kalen",
+   "titular": "La Provincia entregó una ayuda económica a la Fundación Kalen de Río Cuarto",
+   "resumen": "La Fundación Kalen recibió una ayuda económica del Gobierno de Córdoba para acompañar y fortalecer la tarea que desarrolla.",
+   "duda": "El texto dice que la ayuda estaba en trámite; confirmar que ya se entregó.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2361": {
+   "placa": "Instituciones de Las Peñas Sud",
+   "titular": "La Provincia entregó aportes a las instituciones de Las Peñas Sud",
+   "resumen": "Las instituciones de Las Peñas Sud recibieron aportes de la Provincia.",
+   "duda": "No detalla qué instituciones reciben los fondos ni para qué.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2367": {
+   "placa": "Aporte para los Bomberos Voluntarios de La Carolina El Potosí",
+   "titular": "La Provincia tramita un aporte para los Bomberos Voluntarios de La Carolina El Potosí",
+   "resumen": "Está en trámite un aporte de la Provincia para los Bomberos Voluntarios de La Carolina El Potosí.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2368": {
+   "placa": "Instituciones de La Carolina El Potosí",
+   "titular": "La Provincia entregó aportes a las instituciones de La Carolina El Potosí",
+   "resumen": "Las instituciones de la comuna de La Carolina El Potosí recibieron aportes de la Provincia.",
+   "duda": "No detalla qué instituciones reciben los fondos ni para qué.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2372": {
+   "placa": "Instituciones y cooperativa de Las Albahacas",
+   "titular": "La Provincia entregó aportes a las instituciones y la cooperativa de Las Albahacas",
+   "resumen": "Las instituciones y la cooperativa de Las Albahacas recibieron aportes de la Provincia.",
+   "duda": "No detalla qué instituciones reciben los fondos ni para qué.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2373": {
+   "placa": "Aporte para los Bomberos Voluntarios de Las Albahacas",
+   "titular": "La Provincia tramita un aporte para los Bomberos Voluntarios de Las Albahacas",
+   "resumen": "Está en trámite un aporte de la Provincia para los Bomberos Voluntarios de Las Albahacas.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2374": {
+   "placa": "Unidad de traslado sanitario para Villa El Chacay",
+   "titular": "La Provincia entregó una unidad de traslado 0 kilómetro a Villa El Chacay",
+   "resumen": "Villa El Chacay recibió una unidad de traslado 0 kilómetro destinada a fortalecer la atención sanitaria.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2376": {
+   "placa": "Instituciones de Villa El Chacay",
+   "titular": "La Provincia entregó aportes a las instituciones de Villa El Chacay",
+   "resumen": "Las instituciones de Villa El Chacay recibieron aportes de la Provincia.",
+   "duda": "No detalla qué instituciones reciben los fondos ni para qué.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2501": {
+   "placa": "Créditos a tasa subsidiada para productores agropecuarios",
+   "titular": "La Provincia ofrece créditos del Banco de Córdoba a tasa subsidiada para productores agropecuarios",
+   "resumen": "La línea de créditos del Banco de Córdoba a tasa subsidiada y descuento de cheques financia infraestructura, insumos, ganadería y maquinaria agrícola, además de operaciones de cabañeros y consignatarias.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2502": {
+   "placa": "Aporte para el Instituto Educativo de la Sociedad Rural de Río Cuarto",
+   "titular": "La Provincia asigna un aporte al Instituto Educativo de la Sociedad Rural de Río Cuarto",
+   "resumen": "La Provincia asigna un aporte económico para incorporar un curso por año al Instituto Educativo de la Sociedad Rural de Río Cuarto.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2503": {
+   "placa": "Especialidad de biotecnología en el Instituto Educativo",
+   "titular": "La Provincia acompañó la incorporación de la especialidad de biotecnología en un instituto de Río Cuarto",
+   "resumen": "El Instituto Educativo incorpora la especialidad de biotecnología, con el acompañamiento de la Provincia, para que Río Cuarto potencie el sector junto a la Universidad y el Clúster de Biotecnología.",
+   "duda": "El detalle es una cita de compromiso: no queda claro qué aportó la Provincia ni de qué instituto se trata.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2608": {
+   "placa": "Obras de repavimentación y cordón cuneta en barrio Banda Norte",
+   "titular": "La Provincia licita obras de repavimentación y cordón cuneta en barrio Banda Norte de Río Cuarto",
+   "resumen": "El acuerdo, suscripto en un encuentro con instituciones y comerciantes del barrio Banda Norte, contempla repavimentación, reparación de calles, nuevos frentes de cordón cuneta e infraestructura urbana. El municipio aporta hasta el 30 por ciento del monto de las obras.",
+   "duda": "Repite el acuerdo de la meta 2272 (REF2): confirmar si es otra etapa antes de publicar.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2609": {
+   "placa": "Obras de repavimentación y cordón cuneta en barrio Banda Norte",
+   "titular": "La Provincia licita obras de repavimentación y cordón cuneta en barrio Banda Norte de Río Cuarto",
+   "resumen": "El acuerdo, suscripto en un encuentro con instituciones y comerciantes del barrio Banda Norte, contempla repavimentación, reparación de calles, nuevos frentes de cordón cuneta e infraestructura urbana. El municipio aporta hasta el 30 por ciento del monto de las obras.",
+   "duda": "Repite el acuerdo de la meta 2272 (REF3): confirmar si es otra etapa antes de publicar.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
   }
  }
 }
