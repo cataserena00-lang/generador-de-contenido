@@ -1,6 +1,5 @@
 salida/
 __pycache__/
-# Anuncios: la base, lo que sale de ella y su tablero no se suben mientras el repo sea público (ver para_proyecto/subir/modulo_anuncios.md)
-entrada/anuncios/
-data/anuncios_textos.json
-deploy/anuncios.html
+# Anuncios: la base original (con la columna de inversión) no se sube. anuncios.json, los textos y anuncios.html sí:
+# ya van completos dentro del tablero publicado y hacen falta para volver a armarlo (ver para_proyecto/subir/modulo_anuncios.md)
+entrada/anuncios/*.xlsx

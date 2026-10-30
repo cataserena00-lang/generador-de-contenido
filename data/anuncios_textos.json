@@ -1,0 +1,95 @@
+{
+ "_nota": "Redacción con IA por meta. revisado=false hasta que alguien lo revise. Corregir acá o en contenido.json.",
+ "textos": {
+  "31": {
+   "placa": "Centro comercial a cielo abierto en la ciudad de Córdoba",
+   "titular": "La Provincia firmó el convenio para crear un centro comercial a cielo abierto en la ciudad de Córdoba",
+   "resumen": "La Provincia y la Municipalidad firmaron el convenio para conformar un centro comercial a cielo abierto en la ciudad de Córdoba. El objetivo es generar espacios comerciales delimitados, ordenados, sustentables y competitivos.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "35": {
+   "placa": "Altonivel en la Avenida Ejército Argentino",
+   "titular": "La Provincia terminó el altonivel de la Avenida Ejército Argentino, a la altura de Valle Escondido",
+   "resumen": "Finalizó la obra del altonivel en la Avenida Ejército Argentino, a la altura de la urbanización Valle Escondido, en la zona noroeste de la ciudad de Córdoba.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "36": {
+   "placa": "Pasarela peatonal entre el Parque General Bustos y el Parque del Kempes",
+   "titular": "La Provincia avanzó con la pasarela peatonal que une el Parque General Bustos con el Parque del Kempes",
+   "resumen": "Obra de la pasarela peatonal que une el Parque General Juan Bautista Bustos con el Parque del Kempes, en la zona noroeste de la ciudad de Córdoba.",
+   "duda": "La base la marca como cumplida pero con estado desagregado «Suspendida»: confirmar el estado antes de publicar.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "72": {
+   "placa": "Creación de 12 nuevas fiscalías",
+   "titular": "La Provincia avanza en la creación de 12 nuevas fiscalías como parte del plan contra el narcotráfico",
+   "resumen": "En el marco del plan contra el narcotráfico en Córdoba Capital, avanza la creación de 12 nuevas fiscalías para fortalecer la administración de justicia.",
+   "duda": "Es una cita textual; no queda claro si las 12 fiscalías son todas de Córdoba Capital.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "76": {
+   "placa": "Finalización de 38 edificios escolares",
+   "titular": "La Provincia finalizó los 38 edificios educativos que quedaban en construcción",
+   "resumen": "Se completaron los 38 edificios educativos que aún estaban en construcción, como parte de la inversión en las escuelas.",
+   "duda": "Es una cita textual; no queda claro si los 38 edificios son todos de Córdoba Capital.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "129": {
+   "placa": "Refacción de las residencias de la SeNAF",
+   "titular": "La Provincia puso en marcha la refacción de las 10 residencias de la SeNAF en la ciudad de Córdoba",
+   "resumen": "El programa de refacción abarca en su primera fase las 10 residencias de la SeNAF de la ciudad de Córdoba, donde viven chicas y chicos sin cuidados parentales bajo la responsabilidad del Estado. Se extenderá en sucesivas etapas a otros espacios de protección del Ministerio de Desarrollo Humano.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "174": {
+   "placa": "Nuevo módulo en la cárcel de Bouwer",
+   "titular": "La Provincia sumó un nuevo módulo en la cárcel de Bouwer para alojar a 400 personas detenidas",
+   "resumen": "El complejo penitenciario de Bouwer cuenta con un nuevo módulo para alojar a 400 personas detenidas.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "207": {
+   "placa": "Nuevo hospital en barrio Policial",
+   "titular": "La Provincia construye un nuevo hospital en barrio Policial, al noroeste de Córdoba Capital",
+   "resumen": "Está en ejecución la obra de un nuevo hospital en barrio Policial, en el noroeste de Córdoba Capital, uno de los cuatro hospitales nuevos previstos.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "230": {
+   "placa": "Nueva escuela ProA en el ex predio de «La Araña»",
+   "titular": "La Provincia terminó la nueva escuela ProA en el ex predio de «La Araña», sobre avenida Sabattini",
+   "resumen": "Finalizó la construcción del edificio de la nueva escuela ProA en el ex predio de «La Araña», sobre avenida Sabattini, en bajada Ferreyra.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "311": {
+   "placa": "Dos centros de abordaje de las adicciones",
+   "titular": "La Provincia entregó los fondos para dos nuevos centros de abordaje de las adicciones en la ciudad de Córdoba",
+   "resumen": "La Provincia y la Municipalidad de Córdoba firmaron un convenio para construir dos nuevos centros para el abordaje de las adicciones y la salud mental, que se suman a los tres que ya tiene la ciudad.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  }
+ }
+}
