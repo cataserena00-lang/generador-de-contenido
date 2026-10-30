@@ -240,7 +240,7 @@ const SIMB={
 const simbolo=(k,c,i)=>loadImg('data:image/svg+xml;charset=utf-8,'+encodeURIComponent(SIMB[k](c,i)));
 /* variantes de diseño: A = panel del color de la localidad (la del tablero); B = invertida; C = panel marino con celeste;
    D = como C con la banda también marino (alternativa por contraste). Colores nuevos, solo de assets/marca/paleta.json. */
-const PAL={marino:'#17233d',celeste:'#bedff7'};
+const PAL={marino:'#17233d',celeste:'#bedff7',marino2:'#172743',azul:'#09467f',amarillo:'#eaab3b',crema:'#e8d7b0',verdeClaro:'#c6dfce',verdeMedio:'#89ba96',verde:'#4da070'};   // paleta.json: ejes calle, accesible y plaza
 let VARIANTE='A';
 const varColores=(k,col)=>({
  A:{panel:col,banda:'#fff',palabra:col,simbolo:col,pillBg:col,pillTx:'#fff',texto:'#fff',vineta:'#fff',fila:null},
@@ -250,7 +250,12 @@ const varColores=(k,col)=>({
  E:{panel:col,banda:'#fff',palabra:col,simbolo:col,pillBg:col,pillTx:'#fff',texto:'#fff',vineta:'#fff',vinetaIn:col,sello:true,fila:null},
  F:{panel:PAL.marino,banda:col,palabra:'#fff',simbolo:'#fff',pillBg:'#fff',pillTx:col,texto:'#fff',vineta:PAL.celeste,fila:null},
  G:{panel:'#fff',banda:col,palabra:'#fff',simbolo:'#fff',pillBg:'#fff',pillTx:col,texto:PAL.marino,vineta:col,fila:col},
- H:{panel:col,banda:'#fff',palabra:PAL.marino,simbolo:col,pillBg:PAL.marino,pillTx:'#fff',texto:'#fff',vineta:'#fff',fila:null}}[k]);
+ H:{panel:col,banda:'#fff',palabra:PAL.marino,simbolo:col,pillBg:PAL.marino,pillTx:'#fff',texto:'#fff',vineta:'#fff',fila:null},
+ // pruebas con otros colores de la paleta (verdes del eje plaza, azul y amarillo del eje accesible)
+ I:{panel:PAL.verde,banda:'#fff',palabra:PAL.verde,simbolo:PAL.verde,pillBg:PAL.marino2,pillTx:'#fff',texto:'#fff',vineta:PAL.verdeClaro,fila:null},
+ J:{panel:PAL.verde,banda:PAL.verdeClaro,palabra:PAL.marino2,simbolo:PAL.marino2,pillBg:PAL.marino2,pillTx:'#fff',texto:'#fff',vineta:'#fff',vinetaIn:PAL.verde,sello:true,fila:null},
+ K:{panel:PAL.azul,banda:PAL.amarillo,palabra:PAL.azul,simbolo:PAL.azul,pillBg:PAL.azul,pillTx:'#fff',texto:'#fff',vineta:PAL.amarillo,fila:null},
+ L:{panel:PAL.verdeClaro,banda:PAL.verde,palabra:'#fff',simbolo:'#fff',pillBg:'#fff',pillTx:PAL.verde,texto:PAL.marino2,vineta:PAL.verde,fila:PAL.verde}}[k]);
 const MIN_ITEM=44/1080;   // tipografía mínima legible de los ítems: 44 px en 1080 de ancho; lo que no entra a ese tamaño no va en la placa
 // lista: entra la mayor cantidad de ítems (en su orden) que cabe con letra >= mínimo; con esos, la letra más grande que cabe
 function ajustarLista(g,items,bw,avail,W,rot){
@@ -264,7 +269,7 @@ async function renderPlaca(canvas,v,fmt,colorKey,variante){
   const [W,H]=FMT[fmt], g=canvas.getContext('2d'); canvas.width=W; canvas.height=H;
   const story=fmt==='9x16', col=COLORES[colorKey||v.color], K=varColores(variante||VARIANTE,col), topSafe=story?H*.12:0, botSafe=story?H*.10:0;
   g.fillStyle=K.panel; g.fillRect(0,0,W,H);
-  if(story&&K.panel==='#fff'){g.fillStyle=K.banda;g.fillRect(0,0,W,topSafe)}   // B en historias: el color pleno sigue por encima de la zona segura
+  if(story&&K.fila){g.fillStyle=K.banda;g.fillRect(0,0,W,topSafe)}   // B en historias: el color pleno sigue por encima de la zona segura
   // banda superior con el símbolo y la palabra de campaña (derecha) y la píldora
   const bandH=W*.21, bandY=topSafe; g.fillStyle=K.banda; g.fillRect(0,bandY,W,bandH);
   const mx=W*.06; let ps=W*.12; g.font=`900 ${ps}px Poppins`; while(g.measureText(v.palabra).width>W*.55&&ps>W*.07){ps*=.95;g.font=`900 ${ps}px Poppins`}
