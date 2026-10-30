@@ -90,6 +90,1797 @@
    "modelo": "claude-code",
    "fecha": "2026-10-30",
    "revisado": false
+  },
+  "1092": {
+   "placa": "Fortalecimiento de Clubes para instituciones de Las Varillas",
+   "titular": "La Provincia entregó aportes del programa Fortalecimiento de Clubes a instituciones de Las Varillas",
+   "resumen": "En el marco del programa Fortalecimiento de Clubes recibieron aportes el Club Deportivo y Biblioteca Popular Infantil Almafuerte, el Club Atlético Bartolomé Mitre, la Asociación Católica de Obreros de Las Varillas, el Club Hípico y Deportivo Varillense, El Golazo Las Varillas Asociación Civil, el Club Atlético Huracán, el Complejo Central Argentino, el Automóvil Club Las Varillas, el Aeroclub Las Varillas, el Pinar Club Las Varillas y el Club de Caza y Pesca Las Varillas.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1139": {
+   "placa": "Nueva sede de la UPC en San Francisco",
+   "titular": "La Provincia concretó la nueva sede de la UPC en San Francisco",
+   "resumen": "La nueva sede de la UPC complementa con disciplinas científicas y tecnológicas la oferta académica que brinda el Polo Educativo San Francisco.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1143": {
+   "placa": "Ciclovía en altura en la calle 9 de Julio de San Francisco",
+   "titular": "La Provincia entregó los fondos para la ciclovía en altura de San Francisco",
+   "resumen": "El aporte provincial forma parte del proyecto de puesta en valor de la calle 9 de Julio de San Francisco, en el tramo comprendido entre las calles Juan B. Justo y Caseros, que incluye una ciclovía en altura.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1146": {
+   "placa": "Polideportivo de Altos de Chipión",
+   "titular": "La Provincia terminó el polideportivo de Altos de Chipión",
+   "resumen": "Finalizó la obra del polideportivo de Altos de Chipión, como parte del plan de un polideportivo en cada ciudad, pueblo y comuna del departamento San Justo.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1151": {
+   "placa": "Polideportivo de Colonia Las Pichanas",
+   "titular": "La Provincia construye el polideportivo de Colonia Las Pichanas",
+   "resumen": "Avanza la construcción del polideportivo de Colonia Las Pichanas, como parte del plan de un polideportivo en cada ciudad, pueblo y comuna del departamento San Justo.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1152": {
+   "placa": "Polideportivo de Colonia Marina",
+   "titular": "La Provincia licita la construcción del polideportivo de Colonia Marina",
+   "resumen": "Está en licitación la construcción del polideportivo de Colonia Marina, como parte del plan de un polideportivo en cada ciudad, pueblo y comuna del departamento San Justo.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1158": {
+   "placa": "Polideportivo de Devoto",
+   "titular": "La Provincia licita la construcción del polideportivo de Devoto",
+   "resumen": "Está en licitación la construcción del polideportivo de Devoto, como parte del plan de un polideportivo en cada ciudad, pueblo y comuna del departamento San Justo.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1160": {
+   "placa": "Polideportivo de El Fortín",
+   "titular": "La Provincia licita la construcción del polideportivo de El Fortín",
+   "resumen": "Está en licitación la construcción del polideportivo de El Fortín, como parte del plan de un polideportivo en cada ciudad, pueblo y comuna del departamento San Justo.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1163": {
+   "placa": "Polideportivo de La Francia",
+   "titular": "La Provincia terminó el polideportivo de La Francia",
+   "resumen": "Finalizó la obra del polideportivo de La Francia, como parte del plan de un polideportivo en cada ciudad, pueblo y comuna del departamento San Justo.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1164": {
+   "placa": "Polideportivo de La Paquita",
+   "titular": "La Provincia construye el polideportivo de La Paquita",
+   "resumen": "Avanza la construcción del polideportivo de La Paquita, como parte del plan de un polideportivo en cada ciudad, pueblo y comuna del departamento San Justo.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1165": {
+   "placa": "Polideportivo de La Tordilla",
+   "titular": "La Provincia terminó el polideportivo de La Tordilla",
+   "resumen": "Finalizó la obra del polideportivo de La Tordilla, como parte del plan de un polideportivo en cada ciudad, pueblo y comuna del departamento San Justo.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1166": {
+   "placa": "Polideportivo de Las Varas",
+   "titular": "La Provincia terminó el polideportivo de Las Varas",
+   "resumen": "Finalizó la obra del polideportivo de Las Varas, como parte del plan de un polideportivo en cada ciudad, pueblo y comuna del departamento San Justo.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1168": {
+   "placa": "Polideportivo de Marull",
+   "titular": "La Provincia licita la construcción del polideportivo de Marull",
+   "resumen": "Está en licitación la construcción del polideportivo de Marull, como parte del plan de un polideportivo en cada ciudad, pueblo y comuna del departamento San Justo.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1170": {
+   "placa": "Polideportivo de Morteros",
+   "titular": "La Provincia construye el polideportivo de Morteros",
+   "resumen": "Avanza la construcción del polideportivo de Morteros, como parte del plan de un polideportivo en cada ciudad, pueblo y comuna del departamento San Justo.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1171": {
+   "placa": "Polideportivo de Plaza Luxardo",
+   "titular": "La Provincia terminó el polideportivo de Plaza Luxardo",
+   "resumen": "Finalizó la obra del polideportivo de Plaza Luxardo, como parte del plan de un polideportivo en cada ciudad, pueblo y comuna del departamento San Justo.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1173": {
+   "placa": "Polideportivo de Quebracho Herrado",
+   "titular": "La Provincia licita la construcción del polideportivo de Quebracho Herrado",
+   "resumen": "Está en licitación la construcción del polideportivo de Quebracho Herrado, como parte del plan de un polideportivo en cada ciudad, pueblo y comuna del departamento San Justo.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1175": {
+   "placa": "Polideportivo de Saturnino María Laspiur",
+   "titular": "La Provincia terminó el polideportivo de Saturnino María Laspiur",
+   "resumen": "Finalizó la obra del polideportivo de Saturnino María Laspiur, como parte del plan de un polideportivo en cada ciudad, pueblo y comuna del departamento San Justo.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1177": {
+   "placa": "Polideportivo de Toro Pujio",
+   "titular": "La Provincia licita la construcción del polideportivo de Toro Pujio",
+   "resumen": "Está en licitación la construcción del polideportivo de Toro Pujio, como parte del plan de un polideportivo en cada ciudad, pueblo y comuna del departamento San Justo.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1178": {
+   "placa": "Polideportivo de Tránsito",
+   "titular": "La Provincia terminó el polideportivo de Tránsito",
+   "resumen": "Finalizó la obra del polideportivo de Tránsito, como parte del plan de un polideportivo en cada ciudad, pueblo y comuna del departamento San Justo.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1179": {
+   "placa": "Polideportivo de Villa Concepción del Tío",
+   "titular": "La Provincia terminó el polideportivo de Villa Concepción del Tío",
+   "resumen": "Finalizó la obra del polideportivo de Villa Concepción del Tío, como parte del plan de un polideportivo en cada ciudad, pueblo y comuna del departamento San Justo.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1236": {
+   "placa": "Pavimentación en Saturnino María Laspiur",
+   "titular": "La Provincia entregó los fondos para obras de pavimentación en Saturnino María Laspiur",
+   "resumen": "La Provincia envió un aporte para obras de pavimentación en Saturnino María Laspiur.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1237": {
+   "placa": "Nueva ambulancia para Saturnino María Laspiur",
+   "titular": "La Provincia entregó una nueva ambulancia a Saturnino María Laspiur",
+   "resumen": "Saturnino María Laspiur cuenta con una nueva ambulancia aportada por la Provincia.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1238": {
+   "placa": "Aporte para los Bomberos Voluntarios de Saturnino María Laspiur",
+   "titular": "La Provincia tramita un aporte para los Bomberos Voluntarios de Saturnino María Laspiur",
+   "resumen": "Está en trámite un aporte provincial para los Bomberos Voluntarios de Saturnino María Laspiur.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1239": {
+   "placa": "Aportes para instituciones de Saturnino María Laspiur",
+   "titular": "La Provincia entregó aportes a instituciones de Saturnino María Laspiur",
+   "resumen": "Diversas instituciones de Saturnino María Laspiur recibieron aportes provinciales, con prioridad para el Club Unión Deportiva Laspiur, el Club Caza, Tiro y Deporte y el Centro de Jubilados y Pensionados.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1370": {
+   "placa": "Boulevard en Morteros",
+   "titular": "La Provincia entregó los fondos para la ejecución de un boulevard en Morteros",
+   "resumen": "La Provincia aportó fondos para la ejecución de un boulevard en Morteros.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1371": {
+   "placa": "Obras de infraestructura educativa en Morteros",
+   "titular": "La Provincia concretó obras de infraestructura educativa en Morteros",
+   "resumen": "Finalizaron las obras de infraestructura educativa en Morteros realizadas con aporte provincial.",
+   "duda": "Dato vago: no detalla qué escuelas ni qué obras.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1372": {
+   "placa": "Fortaleciendo Clubes en Morteros",
+   "titular": "La Provincia entregó aportes del programa Fortaleciendo Clubes a clubes de Morteros",
+   "resumen": "En el marco del programa Fortaleciendo Clubes recibieron aportes la Asociación Deportiva 9 de Julio, la Asociación Civil de Bochas Ciudad de Morteros, el Club de Cazadores «El Ciervo», el Club Deportivo y Social Barrio Norte, el Club Sportivo Las Chapas Asociación Civil, el Club Sportivo San Jorge y Roberto Colombo Fútbol Club Asociación Civil.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1373": {
+   "placa": "Aporte para los Bomberos Voluntarios de Morteros",
+   "titular": "La Provincia entregó un aporte a los Bomberos Voluntarios de Morteros",
+   "resumen": "Los Bomberos Voluntarios de Morteros recibieron un aporte provincial.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1374": {
+   "placa": "Centro de Jubilados de Morteros",
+   "titular": "La Provincia entregó los fondos para el Centro de Jubilados de Morteros",
+   "resumen": "El Centro de Jubilados de Morteros recibió un aporte provincial.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1378": {
+   "placa": "Nueva ambulancia para Colonia Marina",
+   "titular": "La Provincia entregó una nueva ambulancia a Colonia Marina",
+   "resumen": "Colonia Marina cuenta con una nueva ambulancia aportada por la Provincia.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1379": {
+   "placa": "Adoquinado en Colonia Marina",
+   "titular": "La Provincia entregó los fondos para obras de adoquinado en Colonia Marina",
+   "resumen": "La Provincia aportó fondos para obras de adoquinado en Colonia Marina.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1380": {
+   "placa": "Aporte para el cuartel de Bomberos Voluntarios de Colonia Marina",
+   "titular": "La Provincia entregó un aporte para el cuartel de Bomberos Voluntarios de Colonia Marina",
+   "resumen": "El cuartel de Bomberos Voluntarios de Colonia Marina recibió un aporte provincial.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1381": {
+   "placa": "Centro de Jubilados e instituciones de Colonia Marina",
+   "titular": "La Provincia entregó los fondos para el Centro de Jubilados e instituciones de Colonia Marina",
+   "resumen": "El Centro de Jubilados y otras instituciones de bien público de Colonia Marina recibieron aportes provinciales.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1383": {
+   "placa": "Equipamiento y mejoras para Colonia Marina Foot-Ball Club",
+   "titular": "La Provincia entregó un aporte de Fortaleciendo Clubes a Colonia Marina Foot-Ball Club",
+   "resumen": "En el marco del programa Fortaleciendo Clubes, Colonia Marina Foot-Ball Club recibió un aporte destinado a la compra de equipamiento deportivo y a mejoras en la infraestructura de la institución.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1444": {
+   "placa": "Ampliación de la red de gas domiciliario en Freyre",
+   "titular": "La Provincia amplía la red de gas domiciliario en Freyre",
+   "resumen": "A través del Plan de Gasificación Córdoba avanza la ampliación de las redes de gas domiciliario en Freyre.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1458": {
+   "placa": "Ampliación de la red de gas domiciliario en Porteña",
+   "titular": "La Provincia amplió la red de gas domiciliario en Porteña",
+   "resumen": "A través del Plan de Gasificación Córdoba finalizó la ampliación de las redes de gas domiciliario en Porteña (Porteña II).",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1460": {
+   "placa": "Ampliación de la red de gas domiciliario en Arroyito",
+   "titular": "La Provincia amplió la red de gas domiciliario en Arroyito",
+   "resumen": "A través del Plan de Gasificación Córdoba finalizó la ampliación de las redes de gas domiciliario en Arroyito.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1475": {
+   "placa": "Reconectadores para la cooperativa de Altos de Chipión",
+   "titular": "La Provincia entregó reconectadores a la cooperativa de Altos de Chipión",
+   "resumen": "La cooperativa de Altos de Chipión recibió sus reconectadores, en el marco de la entrega a otras 33 cooperativas de la provincia.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1481": {
+   "placa": "Reconectadores para la cooperativa de Freyre",
+   "titular": "La Provincia entregó reconectadores a la cooperativa de Freyre",
+   "resumen": "La cooperativa de Freyre recibió sus reconectadores, en el marco de la entrega a otras 33 cooperativas de la provincia.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1487": {
+   "placa": "Reconectadores para la cooperativa de Marull",
+   "titular": "La Provincia entregó reconectadores a la cooperativa de Marull",
+   "resumen": "La cooperativa de Marull recibió sus reconectadores, en el marco de la entrega a otras 33 cooperativas de la provincia.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1516": {
+   "placa": "Aportes del Fondo Ambiental para Seeber",
+   "titular": "La Provincia acompaña a Seeber con aportes del Fondo Ambiental",
+   "resumen": "Seeber es una de las 22 localidades del interior que reciben aportes del Fondo Ambiental, que buscan acompañar la transformación de los gobiernos locales hacia un modelo más limpio, saludable y sostenible.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1517": {
+   "placa": "Aportes del Fondo Ambiental para Marull",
+   "titular": "La Provincia acompaña a Marull con aportes del Fondo Ambiental",
+   "resumen": "Marull es una de las 22 localidades del interior que reciben aportes del Fondo Ambiental, que buscan acompañar la transformación de los gobiernos locales hacia un modelo más limpio, saludable y sostenible.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1814": {
+   "placa": "Ecógrafo de última generación para el hospital de Arroyito",
+   "titular": "La Provincia acompaña la compra de un ecógrafo de última generación para el hospital de Arroyito",
+   "resumen": "La Provincia acompaña al hospital de Arroyito en la adquisición de un ecógrafo de última generación.",
+   "duda": "Es una cita textual de apoyo (Prunotto); no queda claro qué aporta la Provincia.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1815": {
+   "placa": "Asistencia a damnificados en Colonia Marina",
+   "titular": "La Provincia activó el fondo de desastre para asistir a los damnificados de Colonia Marina",
+   "resumen": "La Provincia activó el Fondo Permanente para Atención de Situaciones de Desastre, que permite asistir de manera inmediata a los damnificados de Colonia Marina y avanzar en la recuperación de los bienes afectados.",
+   "duda": "Alcance poco claro: no dice qué situación ni qué asistencia concreta recibió la localidad.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1816": {
+   "placa": "Asistencia a damnificados en El Tío",
+   "titular": "La Provincia activó el fondo de desastre para asistir a los damnificados de El Tío",
+   "resumen": "La Provincia activó el Fondo Permanente para Atención de Situaciones de Desastre, que permite asistir de manera inmediata a los damnificados de El Tío y avanzar en la recuperación de los bienes afectados.",
+   "duda": "Alcance poco claro: no dice qué situación ni qué asistencia concreta recibió la localidad.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1817": {
+   "placa": "Asistencia a damnificados en La Francia",
+   "titular": "La Provincia activó el fondo de desastre para asistir a los damnificados de La Francia",
+   "resumen": "La Provincia activó el Fondo Permanente para Atención de Situaciones de Desastre, que permite asistir de manera inmediata a los damnificados de La Francia y avanzar en la recuperación de los bienes afectados.",
+   "duda": "Alcance poco claro: no dice qué situación ni qué asistencia concreta recibió la localidad.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1917": {
+   "placa": "Nueva ambulancia para Las Varas",
+   "titular": "La Provincia entregó los fondos para la compra de una ambulancia en Las Varas",
+   "resumen": "La Provincia envió fondos para la compra de una ambulancia para Las Varas.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1918": {
+   "placa": "Unidad de traslado para Villa San Esteban",
+   "titular": "La Provincia entregó un fondo para la compra de una unidad de traslado en Villa San Esteban",
+   "resumen": "Villa San Esteban recibió un fondo provincial para la compra de una unidad de traslado.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1943": {
+   "placa": "Nuevos laboratorios con netbooks para estudiantes",
+   "titular": "La Provincia adquirió 20 mil netbooks para nuevos laboratorios en las escuelas",
+   "resumen": "La Provincia adquirió 20 mil netbooks para que cada estudiante cuente con un nuevo laboratorio para aprender en igualdad de condiciones.",
+   "duda": "Cita textual de alcance provincial: no queda claro qué recibió San Francisco.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1944": {
+   "placa": "Proyecto educativo en San Francisco",
+   "titular": "La Provincia entregó los fondos para complementar un proyecto educativo en San Francisco",
+   "resumen": "La Provincia envió fondos a San Francisco para complementar el proyecto educativo.",
+   "duda": "Dato vago: no dice qué proyecto educativo ni qué institución.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1945": {
+   "placa": "Construcción de cuatro viviendas en Las Varas",
+   "titular": "La Provincia financia la construcción de cuatro viviendas en Las Varas",
+   "resumen": "La Provincia financia la construcción de cuatro viviendas en Las Varas.",
+   "duda": "La etiqueta dice «Convenio firmado» pero el estado es en ejecución: confirmar antes de publicar.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1946": {
+   "placa": "Construcción de cinco viviendas en Sacanta",
+   "titular": "La Provincia otorga un crédito para construir cinco viviendas en Sacanta",
+   "resumen": "La Provincia otorga un crédito para la construcción de cinco viviendas en Sacanta.",
+   "duda": "La etiqueta dice «Convenio firmado» pero el estado es en ejecución: confirmar antes de publicar.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1947": {
+   "placa": "Construcción de tres viviendas en Villa San Esteban",
+   "titular": "La Provincia financia la construcción de tres viviendas en Villa San Esteban",
+   "resumen": "La Provincia financia la construcción de tres viviendas en Villa San Esteban.",
+   "duda": "La etiqueta dice «Convenio firmado» pero el estado es en ejecución: confirmar antes de publicar.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1948": {
+   "placa": "Construcción de 5 viviendas en El Arañado",
+   "titular": "La Provincia otorga un crédito para construir 5 viviendas en El Arañado",
+   "resumen": "La Provincia otorga un crédito para la construcción de 5 viviendas en El Arañado.",
+   "duda": "La etiqueta dice «Convenio firmado» pero el estado es en ejecución: confirmar antes de publicar.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1949": {
+   "placa": "Construcción de cinco viviendas en Alicia",
+   "titular": "La Provincia financia la construcción de cinco viviendas en Alicia",
+   "resumen": "La Provincia financia la construcción de cinco viviendas en Alicia.",
+   "duda": "La etiqueta dice «Convenio firmado» pero el estado es en ejecución: confirmar antes de publicar.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1998": {
+   "placa": "Construcción de 5 viviendas semilla en El Fortín",
+   "titular": "La Provincia construye 5 viviendas semilla en El Fortín",
+   "resumen": "Avanza la construcción de 5 viviendas semilla en El Fortín.",
+   "duda": "La etiqueta dice «Convenio firmado» pero el estado es en ejecución: confirmar antes de publicar.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1950": {
+   "placa": "Computadoras para el IPEA N° 403 de Las Varas",
+   "titular": "La Provincia entregó 20 computadoras al IPEA N° 403 de Las Varas",
+   "resumen": "El IPEA N° 403 de Las Varas recibió 20 computadoras.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1952": {
+   "placa": "Cooperativa de Provisión de Electricidad de Las Varas",
+   "titular": "La Provincia entregó los fondos para la Cooperativa de Provisión de Electricidad de Las Varas",
+   "resumen": "La Cooperativa de Provisión de Electricidad, Obras y Servicios Públicos de Las Varas recibió un aporte provincial.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1953": {
+   "placa": "Computadoras para el CENMA Aimé Painé y la Escuela Ituzaingó",
+   "titular": "La Provincia entregó 37 computadoras a dos escuelas de Sacanta",
+   "resumen": "El CENMA Aimé Painé y la Escuela Primaria Ituzaingó de Sacanta recibieron 37 computadoras.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1970": {
+   "placa": "Computadoras para el IPEA N° 225 Atahualpa Yupanqui",
+   "titular": "La Provincia entregó 20 computadoras al IPEA N° 225 Atahualpa Yupanqui de El Arañado",
+   "resumen": "El IPEA N° 225 Atahualpa Yupanqui de El Arañado recibió 20 computadoras.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1971": {
+   "placa": "Escrituras sociales y créditos del Banco de la Gente en El Arañado",
+   "titular": "La Provincia entregó 16 escrituras sociales y créditos del Banco de la Gente en El Arañado",
+   "resumen": "Vecinos de El Arañado recibieron 16 escrituras sociales y créditos del Banco de la Gente.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1972": {
+   "placa": "Computadoras para dos escuelas primarias de Alicia",
+   "titular": "La Provincia entregó 40 computadoras a dos escuelas primarias de Alicia",
+   "resumen": "Dos escuelas primarias de Alicia recibieron 40 computadoras.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1973": {
+   "placa": "Cooperativa Eléctrica y de Servicios Públicos Anexos Alicia",
+   "titular": "La Provincia entregó un crédito a la Cooperativa Eléctrica de Alicia",
+   "resumen": "La Cooperativa Eléctrica y de Servicios Públicos Anexos Alicia Limitada recibió un crédito provincial.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1974": {
+   "placa": "Computadoras para el IPEA N° 235 Julio R. Valenzuela",
+   "titular": "La Provincia entregó computadoras al IPEA N° 235 Julio R. Valenzuela de El Fortín",
+   "resumen": "El IPEA N° 235 Julio R. Valenzuela de El Fortín recibió computadoras.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1975": {
+   "placa": "Créditos del Banco de la Gente en El Fortín",
+   "titular": "La Provincia entregó créditos del Banco de la Gente en El Fortín",
+   "resumen": "Vecinos de El Fortín recibieron créditos del Banco de la Gente.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1976": {
+   "placa": "Cooperativa Lechera El Fortín",
+   "titular": "La Provincia entregó los fondos para la Cooperativa Lechera El Fortín",
+   "resumen": "La Cooperativa Lechera El Fortín Limitada recibió un aporte provincial.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1977": {
+   "placa": "SUM de la Escuela Mariano Moreno de Las Varas",
+   "titular": "La Provincia entregó los fondos para el SUM de la Escuela Mariano Moreno de Las Varas",
+   "resumen": "La Provincia envió fondos para la obra del SUM de la Escuela Mariano Moreno de Las Varas, que genera trabajo local.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1978": {
+   "placa": "Pavimentación de calles en Las Varas",
+   "titular": "La Provincia tramita un aporte para pavimentar calles de Las Varas",
+   "resumen": "Está en trámite un aporte provincial para obras de pavimentación en distintas calles de Las Varas.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1979": {
+   "placa": "Instituciones de Las Varas",
+   "titular": "La Provincia entregó los fondos para las instituciones de Las Varas",
+   "resumen": "Cada una de las instituciones locales de Las Varas recibió un aporte provincial.",
+   "duda": "Dato vago: no nombra las instituciones que reciben el aporte.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1980": {
+   "placa": "Veredas e iluminación de la plaza Manuel Belgrano de Sacanta",
+   "titular": "La Provincia entregó los fondos para veredas e iluminación de la plaza Manuel Belgrano de Sacanta",
+   "resumen": "La Provincia aportó fondos para la obra de veredas de la plaza Manuel Belgrano de Sacanta y mejoras en su sistema lumínico.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1981": {
+   "placa": "Instituciones de Sacanta",
+   "titular": "La Provincia entregó los fondos para las instituciones de Sacanta",
+   "resumen": "Cada una de las instituciones locales de Sacanta recibió un aporte provincial.",
+   "duda": "Dato vago: no nombra las instituciones que reciben el aporte.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1982": {
+   "placa": "Aporte para los bomberos de Sacanta",
+   "titular": "La Provincia entregó un aporte a los bomberos de Sacanta",
+   "resumen": "Los bomberos de Sacanta recibieron un aporte provincial.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1983": {
+   "placa": "Cordón cuneta y adoquinado en Villa San Esteban",
+   "titular": "La Provincia entregó los fondos para cordón cuneta y adoquinado en Villa San Esteban",
+   "resumen": "La Provincia aportó fondos para obras de cordón cuneta y adoquinado en Villa San Esteban.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1984": {
+   "placa": "Remodelación de la plaza de Villa San Esteban",
+   "titular": "La Provincia entregó los fondos para remodelar la plaza de Villa San Esteban",
+   "resumen": "La Provincia aportó fondos para la remodelación de la plaza de Villa San Esteban, que contempla la compra de juegos para niños con discapacidad.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1985": {
+   "placa": "Salón de El Arañado",
+   "titular": "La Provincia entregó los fondos para el salón de El Arañado",
+   "resumen": "La Provincia aportó fondos para el salón de la localidad de El Arañado.",
+   "duda": "Dato vago: no dice qué salón ni qué obra se hace.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1986": {
+   "placa": "Pavimento en las calles de El Arañado",
+   "titular": "La Provincia tramita un aporte para obras de pavimento en El Arañado",
+   "resumen": "Está en trámite un aporte provincial para obras de pavimento en las calles de El Arañado.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1987": {
+   "placa": "Juegos integradores en la Plaza Libertad de El Arañado",
+   "titular": "La Provincia entregó los fondos para mejorar la Plaza Libertad de El Arañado",
+   "resumen": "La Provincia aportó fondos para mejoras de infraestructura en la Plaza Libertad de El Arañado, que contemplan juegos integradores.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1988": {
+   "placa": "Instituciones de El Arañado",
+   "titular": "La Provincia entregó los fondos para las instituciones de El Arañado",
+   "resumen": "Cada institución local de El Arañado recibió un aporte provincial.",
+   "duda": "Dato vago: no nombra las instituciones que reciben el aporte.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1989": {
+   "placa": "Extensión de la red de gas natural en Alicia",
+   "titular": "La Provincia extiende 2.020 metros de cañería de gas natural en Alicia",
+   "resumen": "Avanza la obra de extensión de 2.020 metros de cañería de gas natural en Alicia, financiada con un crédito provincial.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1990": {
+   "placa": "Mejoras en las calles de Alicia",
+   "titular": "La Provincia tramita un aporte para mejorar las calles de Alicia",
+   "resumen": "Está en trámite un aporte provincial para mejorar las calles de Alicia.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1991": {
+   "placa": "Embellecimiento del ingreso a Alicia",
+   "titular": "La Provincia entregó los fondos para embellecer el ingreso a Alicia",
+   "resumen": "La Provincia aportó fondos para embellecer el ingreso a la ciudad de Alicia.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1992": {
+   "placa": "Nueva sala de 3 años en Alicia",
+   "titular": "La Provincia entregó los fondos para construir una nueva sala de 3 años en Alicia",
+   "resumen": "La Provincia aportó fondos para la construcción de una nueva sala de 3 años en Alicia.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1993": {
+   "placa": "Nuevo polideportivo en El Fortín",
+   "titular": "La Provincia licita la construcción de un nuevo polideportivo en El Fortín",
+   "resumen": "Está en licitación la construcción de un nuevo polideportivo para los vecinos de El Fortín y la región.",
+   "duda": "Posible duplicado de la meta 1160 (polideportivo de El Fortín, también en licitación).",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1994": {
+   "placa": "Readecuación eléctrica de la Escuela Faustino Sarmiento de El Fortín",
+   "titular": "La Provincia financió la readecuación eléctrica de la Escuela Faustino Sarmiento de El Fortín",
+   "resumen": "La Provincia dispuso un fondo para la readecuación eléctrica de la Escuela Faustino Sarmiento de El Fortín.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1995": {
+   "placa": "Cordón cuneta y adoquinado en El Fortín",
+   "titular": "La Provincia tramita un aporte para cordón cuneta y adoquinado en El Fortín",
+   "resumen": "Está en trámite la ayuda provincial para obras de cordón cuneta y adoquinado en El Fortín.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1996": {
+   "placa": "Iluminación del ingreso a El Fortín",
+   "titular": "La Provincia entregó los fondos para mejorar la iluminación del ingreso a El Fortín",
+   "resumen": "La Provincia aportó fondos para mejorar la luminaria del ingreso al pueblo de El Fortín.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1997": {
+   "placa": "Aporte para los Bomberos Voluntarios de El Fortín",
+   "titular": "La Provincia tramita un aporte para los Bomberos Voluntarios de El Fortín",
+   "resumen": "Está en trámite un aporte provincial para los Bomberos Voluntarios de El Fortín.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1999": {
+   "placa": "Instituciones de El Fortín",
+   "titular": "La Provincia entregó los fondos para las instituciones de El Fortín",
+   "resumen": "Las instituciones locales de El Fortín recibieron aportes provinciales.",
+   "duda": "Dato vago: no nombra las instituciones que reciben el aporte.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2000": {
+   "placa": "Pavimentación de calles en Las Varillas",
+   "titular": "La Provincia tramita un aporte para pavimentar calles de Las Varillas",
+   "resumen": "Está en trámite un aporte provincial para la pavimentación de calles en Las Varillas.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2002": {
+   "placa": "Puesta en valor de la iglesia de Las Varillas",
+   "titular": "La Provincia entregó los fondos para la puesta en valor de la iglesia de Las Varillas",
+   "resumen": "La Provincia aportó fondos para la puesta en valor de la iglesia de Las Varillas.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2003": {
+   "placa": "Aporte para el cuartel de Bomberos Voluntarios de Las Varillas",
+   "titular": "La Provincia tramita un aporte para el cuartel de Bomberos Voluntarios de Las Varillas",
+   "resumen": "Está en trámite un aporte provincial destinado al cuartel de Bomberos Voluntarios de Las Varillas.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2128": {
+   "placa": "Aporte para los Bomberos Voluntarios de Alicia",
+   "titular": "La Provincia tramita un aporte para los Bomberos Voluntarios de Alicia",
+   "resumen": "Está en trámite un aporte provincial para los Bomberos Voluntarios de Alicia.",
+   "duda": "Posible duplicado: el detalle indica que ya se informó en un listado anterior.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2314": {
+   "placa": "Unidad de traslado para Plaza Luxardo",
+   "titular": "La Provincia entregó una unidad de traslado de pacientes a Plaza Luxardo",
+   "resumen": "Plaza Luxardo cuenta con una unidad de traslado para la derivación de pacientes que requieran atención secundaria en el Hospital Iturraspe.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2315": {
+   "placa": "Nueva ambulancia para Freyre",
+   "titular": "La Provincia incorporó una ambulancia para Freyre",
+   "resumen": "Freyre cuenta con una nueva ambulancia aportada por la Provincia.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2353": {
+   "placa": "Aporte para el cuartel de Bomberos Voluntarios de Freyre",
+   "titular": "La Provincia tramita un aporte para el cuartel de Bomberos Voluntarios de Freyre",
+   "resumen": "Está en trámite un aporte provincial para fortalecer el cuartel de Bomberos Voluntarios de Freyre.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2354": {
+   "placa": "Mejoras en el centro de salud de Plaza Luxardo",
+   "titular": "La Provincia entregó los fondos para mejorar el centro de salud de Plaza Luxardo",
+   "resumen": "La Provincia aportó fondos para obras que mejoran el centro de salud de Plaza Luxardo.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2355": {
+   "placa": "Juegos inclusivos para la plaza de Plaza Luxardo",
+   "titular": "La Provincia entregó los fondos para juegos inclusivos en la plaza de Plaza Luxardo",
+   "resumen": "La Provincia aportó fondos para la compra de juegos para la plaza de la comuna, que incluyen juegos para personas con discapacidad, y de dos desmalezadoras.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2496": {
+   "placa": "Nueva ambulancia para El Arañado",
+   "titular": "La Provincia entregó una nueva ambulancia a El Arañado",
+   "resumen": "El paquete de obras para El Arañado incluye una nueva ambulancia, pavimento y más viviendas.",
+   "duda": "Es un titular que agrupa varias acciones ya cargadas por separado (pavimento y viviendas siguen en trámite): posible duplicado.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2693": {
+   "placa": "Aporte para los Bomberos Voluntarios de Laspiur",
+   "titular": "La Provincia tramita un aporte para los Bomberos Voluntarios de Saturnino María Laspiur",
+   "resumen": "Está en trámite un aporte provincial para los Bomberos Voluntarios de Saturnino María Laspiur.",
+   "duda": "Depende de otra localidad: está cargada en Colonia Prosperidad pero el texto habla de Laspiur; posible duplicado de la meta 1238.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2610": {
+   "placa": "Obras de infraestructura urbana en barrio Banda Norte de Río Cuarto",
+   "titular": "La Provincia licita obras de repavimentación e infraestructura urbana en barrio Banda Norte, Río Cuarto",
+   "resumen": "En el marco del acuerdo suscripto con instituciones y comerciantes del barrio Banda Norte de Río Cuarto, están en licitación obras de repavimentación, reparación de calles, nuevos frentes de cordón cuneta e infraestructura urbana. El municipio aporta hasta el 30 por ciento de las obras que se ejecuten.",
+   "duda": "Repite el mismo texto que otras metas del acuerdo (REF4 a REF7); no dice qué obra corresponde a esta (REF4).",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2611": {
+   "placa": "Obras de infraestructura urbana en barrio Banda Norte de Río Cuarto",
+   "titular": "La Provincia licita obras de repavimentación e infraestructura urbana en barrio Banda Norte, Río Cuarto",
+   "resumen": "En el marco del acuerdo suscripto con instituciones y comerciantes del barrio Banda Norte de Río Cuarto, están en licitación obras de repavimentación, reparación de calles, nuevos frentes de cordón cuneta e infraestructura urbana. El municipio aporta hasta el 30 por ciento de las obras que se ejecuten.",
+   "duda": "Repite el mismo texto que otras metas del acuerdo (REF4 a REF7); no dice qué obra corresponde a esta (REF5).",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2612": {
+   "placa": "Obras de infraestructura urbana en barrio Banda Norte de Río Cuarto",
+   "titular": "La Provincia licita obras de repavimentación e infraestructura urbana en barrio Banda Norte, Río Cuarto",
+   "resumen": "En el marco del acuerdo suscripto con instituciones y comerciantes del barrio Banda Norte de Río Cuarto, están en licitación obras de repavimentación, reparación de calles, nuevos frentes de cordón cuneta e infraestructura urbana. El municipio aporta hasta el 30 por ciento de las obras que se ejecuten.",
+   "duda": "Repite el mismo texto que otras metas del acuerdo (REF4 a REF7); no dice qué obra corresponde a esta (REF6).",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2613": {
+   "placa": "Obras de infraestructura urbana en barrio Banda Norte de Río Cuarto",
+   "titular": "La Provincia licita obras de repavimentación e infraestructura urbana en barrio Banda Norte, Río Cuarto",
+   "resumen": "En el marco del acuerdo suscripto con instituciones y comerciantes del barrio Banda Norte de Río Cuarto, están en licitación obras de repavimentación, reparación de calles, nuevos frentes de cordón cuneta e infraestructura urbana. El municipio aporta hasta el 30 por ciento de las obras que se ejecuten.",
+   "duda": "Repite el mismo texto que otras metas del acuerdo (REF4 a REF7); no dice qué obra corresponde a esta (REF7).",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2615": {
+   "placa": "Aporte para el cuartel de Villa El Chacay",
+   "titular": "La Provincia tramita un aporte para el cuartel de Villa El Chacay",
+   "resumen": "Está en trámite un aporte provincial para el cuartel de Villa El Chacay.",
+   "duda": "Cita textual: no aclara que el cuartel sea el de bomberos voluntarios.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2649": {
+   "placa": "Aporte para los Bomberos Voluntarios de Vicuña Mackenna",
+   "titular": "La Provincia tramita un aporte para los Bomberos Voluntarios de Vicuña Mackenna",
+   "resumen": "Está en trámite un aporte provincial para los Bomberos Voluntarios de Vicuña Mackenna.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2656": {
+   "placa": "Aporte para el cuartel de Bomberos Voluntarios de Tosquita",
+   "titular": "La Provincia tramita un aporte para el cuartel de Bomberos Voluntarios de Tosquita",
+   "resumen": "Está en trámite un aporte provincial para el cuartel de Bomberos Voluntarios de Tosquita.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2667": {
+   "placa": "Puesta en valor de la iglesia de Suco",
+   "titular": "La Provincia tramita un aporte para la puesta en valor de la iglesia de Suco",
+   "resumen": "Está en trámite un aporte provincial para la puesta en valor de la iglesia de Suco.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "2675": {
+   "placa": "Aporte para el cuartel de bomberos de Adelia María",
+   "titular": "La Provincia tramita un aporte para el cuartel de bomberos de Adelia María",
+   "resumen": "Está en trámite un aporte provincial para el cuartel de bomberos de Adelia María.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "66": {
+   "placa": "Corredor ambiental de Mar Chiquita y el Parque Nacional Ansenuza",
+   "titular": "La Provincia impulsó el corredor ambiental y obras para turistas en la zona de Mar Chiquita y Ansenuza",
+   "resumen": "Para desarrollar el potencial turístico de la zona de la Mar Chiquita y el Parque Nacional Ansenuza se impulsó un corredor ambiental hasta las áreas protegidas del norte, con obras de intendencia, camping y un centro de informes para atención al visitante. Las obras son impulsadas por los municipios de Morteros, La Para, Altos de Chipión, Marul, La Paquita y La Rinconada.",
+   "duda": "Alcance poco claro: abarca varias localidades y no precisa qué obras se terminaron.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "130": {
+   "placa": "Obras de la costanera de Arroyito",
+   "titular": "La Provincia entregó los fondos para continuar las obras de la costanera de Arroyito",
+   "resumen": "A través del Fondo Complementario de Obras de Infraestructura para Municipios, Comunas y Comunidades Regionales (FOCOM), la Provincia firmó un convenio con el intendente Gustavo Benedetti para la compra de materiales que permitan dar continuidad a las obras de la costanera de Arroyito.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "131": {
+   "placa": "Aporte para los Bomberos Voluntarios de Arroyito",
+   "titular": "La Provincia entregó un aporte a los Bomberos Voluntarios de Arroyito",
+   "resumen": "La Provincia destinó un aporte al cuartel de Bomberos Voluntarios de Arroyito.",
+   "duda": "Puede superponerse con la meta 437 (otro aporte a los bomberos de Arroyito): confirmar que son entregas distintas.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "199": {
+   "placa": "Festival del Humor, la Buena Mesa y la Canción de San Francisco",
+   "titular": "La Provincia entregó los fondos para el Festival del Humor, la Buena Mesa y la Canción de San Francisco",
+   "resumen": "La Provincia acompañó con un aporte la realización del Festival del Humor, la Buena Mesa y la Canción, en San Francisco.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "254": {
+   "placa": "Infraestructura para la atención de turistas en Miramar de Ansenuza",
+   "titular": "La Provincia desarrolló infraestructura para la atención de turistas en Miramar de Ansenuza",
+   "resumen": "Se trabajó en el desarrollo de infraestructura para la atención de los turistas en Miramar de Ansenuza.",
+   "duda": "Dato vago: no dice qué obras; repite parte de la meta 66.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "257": {
+   "placa": "Construcción de la escuela técnica de Freyre",
+   "titular": "La Provincia terminó la construcción de la escuela técnica de Freyre",
+   "resumen": "Finalizó la construcción del edificio de la escuela técnica de Freyre, que dicta la carrera de Bachiller en Industrialización de Productos Lácteos y cuenta con una matrícula de 32 alumnos.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "258": {
+   "placa": "Polideportivo Social de Freyre",
+   "titular": "La Provincia terminó el Polideportivo Social de Freyre",
+   "resumen": "Finalizó la construcción del Polideportivo Social de Freyre, destinado a actividades recreativas, deportivas y culturales.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "259": {
+   "placa": "Equipamiento para los Bomberos Voluntarios de Freyre",
+   "titular": "La Provincia entregó fondos a los Bomberos Voluntarios de Freyre para comprar equipamiento",
+   "resumen": "Los Bomberos Voluntarios de Freyre recibieron un aporte provincial para la compra de equipamiento.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "260": {
+   "placa": "Obras de cloacas en Porteña",
+   "titular": "La Provincia entregó los fondos para iniciar las obras de cloacas en Porteña",
+   "resumen": "Los fondos, del FOCOM, se destinan al inicio de las obras de cloacas previstas para beneficiar a más de 600 vecinos de Porteña, en el departamento San Justo.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "261": {
+   "placa": "Polideportivo Social de Porteña",
+   "titular": "La Provincia terminó el Polideportivo Social de Porteña",
+   "resumen": "Finalizó la construcción del Polideportivo Social de Porteña.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "262": {
+   "placa": "Equipamiento para los Bomberos Voluntarios de Porteña",
+   "titular": "La Provincia entregó un aporte para equipar a los Bomberos Voluntarios de Porteña",
+   "resumen": "La Provincia destinó un aporte para dotar de más equipamiento al cuartel de Bomberos Voluntarios de Porteña.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "362": {
+   "placa": "Red domiciliaria de cloacas de Devoto",
+   "titular": "La Provincia entregó los fondos para iniciar la red domiciliaria de cloacas de Devoto",
+   "resumen": "La Provincia firmó un convenio con el intendente Adrián Rinero para dar inicio a las obras de la red domiciliaria de cloacas de Devoto, a través del fondo complementario de obras de infraestructura para Municipios, Comunas y Comunidades Regionales.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "363": {
+   "placa": "Aporte para los Bomberos Voluntarios de Devoto",
+   "titular": "La Provincia entregó un aporte a los Bomberos Voluntarios de Devoto",
+   "resumen": "La Provincia destinó un aporte al cuartel de Bomberos Voluntarios de Devoto.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "365": {
+   "placa": "Más recursos para el programa de Buenas Prácticas Agropecuarias",
+   "titular": "La Provincia duplicó los recursos del programa de Buenas Prácticas Agropecuarias",
+   "resumen": "El programa de Buenas Prácticas Agropecuarias duplicó sus recursos, sumó nuevas líneas y cuenta este año con 16 prácticas para validar, para seguir fortaleciendo la producción agropecuaria.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "367": {
+   "placa": "Sede de la Universidad Provincial en Morteros",
+   "titular": "La Provincia avanza con la sede de la Universidad Provincial en Morteros",
+   "resumen": "Avanza la nueva sede de la UPC en Morteros, prevista para recibir estudiantes del departamento San Justo, de localidades de Santa Fe y a quienes hoy asisten al Instituto Superior María Justa Moyano de Ezpeleta. Forma parte del plan de federalización de la Universidad Provincial.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "368": {
+   "placa": "Obras de pavimento en Morteros",
+   "titular": "La Provincia entregó los fondos para obras de pavimento en Morteros",
+   "resumen": "La Provincia firmó un convenio con el intendente Sebastián Demarchi para la ejecución de pavimento en Morteros, a través del fondo complementario para obras de infraestructura en Municipios, Comunas y Comunidades Regionales.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "369": {
+   "placa": "Aporte para los Bomberos Voluntarios de Morteros",
+   "titular": "La Provincia entregó un aporte a los Bomberos Voluntarios de Morteros",
+   "resumen": "La Provincia destinó un aporte al cuartel de Bomberos Voluntarios de Morteros.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "389": {
+   "placa": "Iluminación del predio del ferrocarril y avenidas céntricas de Balnearia",
+   "titular": "La Provincia entregó los fondos para iluminar el predio del ferrocarril y modernizar avenidas de Balnearia",
+   "resumen": "La Provincia firmó un convenio con el intendente Miguel Méndez para obras de infraestructura en Balnearia. Los recursos, del Fondo Complementario de obras de Infraestructura para Municipios, Comunas y Comunidades, se destinan a la iluminación perimetral del predio del ferrocarril y a la modernización de avenidas céntricas.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "390": {
+   "placa": "Aporte para los Bomberos Voluntarios de Balnearia",
+   "titular": "La Provincia entregó un aporte a los Bomberos Voluntarios de Balnearia",
+   "resumen": "La Provincia destinó un aporte al cuartel de Bomberos Voluntarios de Balnearia.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "391": {
+   "placa": "Polideportivo Social de Miramar de Ansenuza",
+   "titular": "La Provincia terminó el Polideportivo Social de Miramar de Ansenuza",
+   "resumen": "Finalizó la construcción del Polideportivo Social de Miramar de Ansenuza.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "392": {
+   "placa": "Aporte para los Bomberos Voluntarios de Miramar de Ansenuza",
+   "titular": "La Provincia entregó un aporte a los Bomberos Voluntarios de Miramar de Ansenuza",
+   "resumen": "La Provincia destinó un aporte al cuartel de Bomberos Voluntarios de Miramar de Ansenuza.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "394": {
+   "placa": "Ampliación del centro de salud de Miramar de Ansenuza",
+   "titular": "La Provincia entregó los fondos para ampliar el centro de salud de Miramar de Ansenuza",
+   "resumen": "La Provincia destinó fondos para la ampliación del centro de salud de Miramar de Ansenuza.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "415": {
+   "placa": "Refacción de la Residencia Infanto Juvenil de San Francisco",
+   "titular": "La Provincia envió los fondos para refaccionar la residencia de varones de San Francisco",
+   "resumen": "La Provincia destinó fondos para las obras de refacción y puesta en valor de la Residencia Infanto Juvenil de varones de San Francisco.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "416": {
+   "placa": "Vehículo para el traslado de residentes en San Francisco",
+   "titular": "La Provincia entregó los fondos para un vehículo de traslado de residentes en San Francisco",
+   "resumen": "A través del FOCOM, la Provincia destinó fondos para la compra de un vehículo para el traslado de los residentes.",
+   "duda": "No aclara de qué residencia son los residentes (posiblemente la de la meta 415).",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "423": {
+   "placa": "Plaza San Martín, nueva plazoleta y adoquinado en La Francia",
+   "titular": "La Provincia entregó los fondos para obras en plazas y calles de La Francia",
+   "resumen": "Los recursos del FOCOM se destinan a un plan de obras que incluye la refacción de la Plaza San Martín, la nueva plazoleta en Barrio Norte y la colocación de adoquines en calles de los barrios Industrial y Don Florentino.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "424": {
+   "placa": "Aporte para los Bomberos Voluntarios de La Francia",
+   "titular": "La Provincia entregó un aporte a los Bomberos Voluntarios de La Francia",
+   "resumen": "La Provincia destinó un aporte al cuartel de Bomberos Voluntarios de La Francia.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "425": {
+   "placa": "Aula virtual del Centro de Formación de La Francia",
+   "titular": "La Provincia entregó los fondos para el aula virtual del Centro de Formación de La Francia",
+   "resumen": "La Provincia destinó fondos para el desarrollo del aula virtual del Centro de Formación de La Francia.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "426": {
+   "placa": "Paneles solares en la capilla de La Francia",
+   "titular": "La Provincia entregó los fondos para instalar paneles solares en la capilla de La Francia",
+   "resumen": "La Provincia destinó fondos para la instalación de paneles solares en la capilla de La Francia.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "427": {
+   "placa": "Club Deportivo y Jockey Club Alianza Sport de La Francia",
+   "titular": "La Provincia entregó fondos al Club Deportivo y al Jockey Club Alianza Sport de La Francia",
+   "resumen": "En el marco del apoyo a los clubes sociales, deportivos y culturales, la Provincia entregó fondos al Club Deportivo y al Jockey Club Alianza Sport de La Francia.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "428": {
+   "placa": "Centro de Jubilados de La Francia",
+   "titular": "La Provincia entregó fondos al Centro de Jubilados de La Francia",
+   "resumen": "La Provincia destinó un aporte al Centro de Jubilados de La Francia.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "431": {
+   "placa": "Cubierta del polideportivo de Tránsito",
+   "titular": "La Provincia entregó los fondos para la cubierta del polideportivo de Tránsito",
+   "resumen": "A través del FOCOM, la Provincia destinó fondos para concretar la obra de la cubierta del polideportivo de Tránsito.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "432": {
+   "placa": "Nueva infraestructura para la plaza central de Tránsito",
+   "titular": "La Provincia entregó los fondos para nueva infraestructura en la plaza central de Tránsito",
+   "resumen": "La Provincia destinó fondos para dotar de nueva infraestructura a la plaza central de Tránsito.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "433": {
+   "placa": "Aporte para los clubes Vélez Sarsfield y La Quemada de Tránsito",
+   "titular": "La Provincia entregó aportes a los clubes Vélez Sarsfield y La Quemada de Tránsito",
+   "resumen": "Las autoridades de los clubes Vélez Sarsfield y La Quemada, de Tránsito, recibieron un aporte provincial cada uno.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "434": {
+   "placa": "Aporte para la iglesia de Tránsito",
+   "titular": "La Provincia entregó un aporte para la iglesia de Tránsito",
+   "resumen": "La Provincia destinó un aporte para el apoyo a la iglesia de Tránsito.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "436": {
+   "placa": "Sede de la Universidad Provincial en Arroyito",
+   "titular": "La Provincia construye el edificio de la sede de la Universidad Provincial en Arroyito",
+   "resumen": "Avanza la creación de una sede de la Universidad Provincial en Arroyito, con la construcción de su edificio.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "437": {
+   "placa": "Aporte para los Bomberos Voluntarios de Arroyito",
+   "titular": "La Provincia entregó un aporte a los Bomberos Voluntarios de Arroyito",
+   "resumen": "La Provincia destinó un aporte al cuartel de Bomberos Voluntarios de Arroyito.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "438": {
+   "placa": "Aporte para el club Cultural de Arroyito",
+   "titular": "La Provincia entregó un aporte al club Cultural de Arroyito",
+   "resumen": "La Provincia destinó un aporte al club Cultural de Arroyito.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "439": {
+   "placa": "Aporte para el Club 24 de Septiembre de Arroyito",
+   "titular": "La Provincia entregó un aporte al Club 24 de Septiembre de Arroyito",
+   "resumen": "La Provincia destinó un aporte al Club 24 de Septiembre de Arroyito.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "440": {
+   "placa": "Aporte para la asociación de Veteranos de Malvinas de Arroyito",
+   "titular": "La Provincia entregó un aporte a la asociación de Veteranos de Malvinas de Arroyito",
+   "resumen": "La Provincia destinó un aporte a la asociación de Veteranos de Malvinas de Arroyito.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "441": {
+   "placa": "Salón de Usos Múltiples de La Tordilla",
+   "titular": "La Provincia entregó los fondos para el Salón de Usos Múltiples de La Tordilla",
+   "resumen": "La Provincia firmó un convenio para la entrega de fondos destinados a un Salón de Usos Múltiples (SUM) en La Tordilla.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "442": {
+   "placa": "Obras del Centro de Salud de La Tordilla",
+   "titular": "La Provincia entregó los fondos para continuar las obras del Centro de Salud de La Tordilla",
+   "resumen": "La Municipalidad de La Tordilla recibió fondos para continuar las obras del Centro de Salud.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "443": {
+   "placa": "Aporte para el Cuartel de Bomberos de La Tordilla",
+   "titular": "La Provincia entregó un aporte al Cuartel de Bomberos de La Tordilla",
+   "resumen": "La Provincia destinó un aporte para cubrir necesidades del Cuartel de Bomberos de La Tordilla.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "444": {
+   "placa": "Iglesia de La Tordilla",
+   "titular": "La Provincia entregó fondos para la iglesia de La Tordilla",
+   "resumen": "La Provincia destinó un aporte a la iglesia de La Tordilla.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "445": {
+   "placa": "Club Atlético Pueblos Unidos de La Tordilla",
+   "titular": "La Provincia entregó fondos al Club Atlético Pueblos Unidos de La Tordilla",
+   "resumen": "La Provincia destinó un aporte al Club Atlético Pueblos Unidos de La Tordilla.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "446": {
+   "placa": "Club Niño de La Tordilla",
+   "titular": "La Provincia entregó fondos al club Niño de La Tordilla",
+   "resumen": "La Provincia destinó un aporte al club Niño de La Tordilla.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "447": {
+   "placa": "Centro de Jubilados de La Tordilla",
+   "titular": "La Provincia entregó fondos al Centro de Jubilados de La Tordilla",
+   "resumen": "La Provincia destinó un aporte al Centro de Jubilados de La Tordilla.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "479": {
+   "placa": "Polideportivo Social de Brinkmann",
+   "titular": "La Provincia terminó el Polideportivo Social de Brinkmann",
+   "resumen": "Finalizó la construcción del Polideportivo Social de Brinkmann.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "480": {
+   "placa": "Cordón cuneta y pavimento en Brinkmann",
+   "titular": "La Provincia entregó los fondos para obras de cordón cuneta y pavimento en Brinkmann",
+   "resumen": "La Provincia firmó un convenio con el intendente Mauricio Actis para la ejecución de cordón cuneta y pavimento en Brinkmann, a través del fondo complementario para obras de infraestructura en Municipios, Comunas y Comunidades Regionales.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "481": {
+   "placa": "Aporte para los Bomberos Voluntarios de Brinkmann",
+   "titular": "La Provincia entregó un aporte a los Bomberos Voluntarios de Brinkmann",
+   "resumen": "La Provincia destinó un aporte al cuartel de Bomberos Voluntarios de Brinkmann.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "482": {
+   "placa": "Obras de adoquinado en Villa Concepción del Tío",
+   "titular": "La Provincia entregó los fondos para obras de adoquinado en Villa Concepción del Tío",
+   "resumen": "La Provincia firmó un convenio con el intendente Jorge Mercado González para la entrega de fondos del FOCOM destinados a obras de adoquinado en Villa Concepción del Tío.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "483": {
+   "placa": "Casa de la Cultura de Villa Concepción del Tío",
+   "titular": "La Provincia entregó fondos para la Casa de la Cultura de Villa Concepción del Tío",
+   "resumen": "La Provincia destinó un aporte a la Casa de la Cultura de Villa Concepción del Tío.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "484": {
+   "placa": "Puesta en valor de la iglesia de Villa Concepción del Tío",
+   "titular": "La Provincia entregó los fondos para la puesta en valor de la iglesia de Villa Concepción del Tío",
+   "resumen": "La Provincia destinó fondos para obras de puesta en valor de la iglesia de Villa Concepción del Tío.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "485": {
+   "placa": "Club de Villa Concepción del Tío",
+   "titular": "La Provincia entregó fondos al club de Villa Concepción del Tío",
+   "resumen": "La Provincia destinó un aporte al club de Villa Concepción del Tío.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "486": {
+   "placa": "Puesta en valor del Centro de Jubilados de Villa Concepción del Tío",
+   "titular": "La Provincia entregó fondos para el Centro de Jubilados de Villa Concepción del Tío",
+   "resumen": "La Provincia destinó fondos para la puesta en valor del Centro de Jubilados de Villa Concepción del Tío.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "487": {
+   "placa": "Apertura de calles y servicios en una nueva urbanización de El Tío",
+   "titular": "La Provincia entregó los fondos para abrir calles y servicios en una nueva urbanización de El Tío",
+   "resumen": "La Provincia firmó un convenio con la intendenta Silvia Bertotti para la apertura de calles y servicios en una nueva urbanización de El Tío, a través del Fondo Complementario para Municipios, Comunas y Comunidades Regionales (FOCOM).",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "488": {
+   "placa": "Aporte para el cuartel de bomberos de El Tío",
+   "titular": "La Provincia entregó un aporte al cuartel de bomberos de El Tío",
+   "resumen": "La Provincia destinó un aporte al cuartel de bomberos de El Tío.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "489": {
+   "placa": "Obra del centro de salud de El Tío",
+   "titular": "La Provincia entregó los fondos para la obra del centro de salud de El Tío",
+   "resumen": "La Provincia destinó fondos para la obra del centro de salud de El Tío.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "490": {
+   "placa": "Baños en el espacio recreativo a cielo abierto de El Tío",
+   "titular": "La Provincia entregó los fondos para baños en el espacio recreativo a cielo abierto de El Tío",
+   "resumen": "La Provincia destinó fondos para construir baños en el espacio recreativo a cielo abierto de El Tío.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "491": {
+   "placa": "Club El Trébol de El Tío",
+   "titular": "La Provincia entregó fondos al club El Trébol de El Tío",
+   "resumen": "La Provincia destinó un aporte para sostener las actividades sociales y deportivas del club El Trébol, de El Tío.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "518": {
+   "placa": "Obras de cordón cuneta en San Francisco",
+   "titular": "La Provincia entregó los fondos para obras de cordón cuneta en San Francisco",
+   "resumen": "La Provincia destinó fondos para la realización de obras de cordón cuneta en San Francisco.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "519": {
+   "placa": "Sede regional de la Universidad Provincial en San Francisco",
+   "titular": "La Provincia sumó una sede regional de la Universidad Provincial de Córdoba en San Francisco",
+   "resumen": "La sede regional de la Universidad Provincial de Córdoba en San Francisco tiene su edificio en un terreno cedido por el municipio, en una zona estudiantil, integrado al polo educativo local y regional.",
+   "duda": "Marcada como cumplida, pero el texto habla de un edificio a construir: confirmar si está terminado.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "599": {
+   "placa": "Sede regional de la Universidad Provincial en Las Varillas",
+   "titular": "La Provincia concretó la sede regional de la Universidad Provincial en Las Varillas",
+   "resumen": "La sede regional de la Universidad Provincial en Las Varillas cuenta con un nuevo edificio de más de 2.500 metros cuadrados para jerarquizar el Nivel Superior de la Escuela Normal Dalmacio Vélez Sarsfield.",
+   "duda": "Figura cumplida, pero la meta 602 (misma sede) está en ejecución: confirmar el estado antes de publicar.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "600": {
+   "placa": "Pavimento, cordón cuneta y gas natural en barrios de Las Varillas",
+   "titular": "La Provincia entregó los fondos para pavimento, cordón cuneta y gas natural en Las Varillas",
+   "resumen": "La Provincia firmó un convenio con el intendente Mauro Daniele para pavimentar calle Avellaneda frente a la Escuela ProA y el Parque de la Familia, hacer cordón cuneta en barrio Raúl Alfonsín, pavimento en los barrios José María Paz, Alta Córdoba e Hipódromo, y gas natural en los barrios Raúl Alfonsín, Peretti y Caldara.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "601": {
+   "placa": "Aporte para los Bomberos Voluntarios de Las Varillas",
+   "titular": "La Provincia entregó un aporte a los Bomberos Voluntarios de Las Varillas",
+   "resumen": "La Provincia destinó un aporte al cuartel de Bomberos Voluntarios de Las Varillas.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "602": {
+   "placa": "Sede regional de la Universidad Provincial en Las Varillas",
+   "titular": "La Provincia construye la sede regional de la Universidad Provincial en Las Varillas",
+   "resumen": "La sede, que incorpora y aloja a la Escuela Normal Dalmacio Vélez Sársfield, tiene un edificio de 5500 m2 con una superficie cubierta de 2515 m2 en dos plantas. Contempla salón de actos, aulas híbridas, aulas taller, gabinete informático, biblioteca, lactario y centro de estudiantes, entre otros espacios.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "603": {
+   "placa": "Titularización de docentes de la Escuela Normal Vélez Sársfield de Las Varillas",
+   "titular": "La Provincia titulariza a los docentes interinos de la Escuela Normal Vélez Sársfield de Las Varillas",
+   "resumen": "En el marco de la federalización de la Universidad Provincial, avanza la titularización del cuerpo docente interino del nivel superior de la Escuela Vélez Sársfield, para garantizar sus derechos laborales.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "639": {
+   "placa": "Última etapa de la costanera de Miramar de Ansenuza",
+   "titular": "La Provincia avanza con la última etapa de la costanera de Miramar de Ansenuza",
+   "resumen": "En el marco del centenario de la localidad, avanza la última etapa de la costanera de Miramar de Ansenuza, prevista para unir los hoteles Viena y Ansenuza.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "640": {
+   "placa": "Nuevo plan de loteo en Miramar de Ansenuza",
+   "titular": "La Provincia entregó los fondos para un nuevo plan de loteo en Miramar de Ansenuza",
+   "resumen": "La Provincia destinó fondos para la ejecución de un nuevo plan de loteo en Miramar de Ansenuza, que permita el desarrollo de más viviendas.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "693": {
+   "placa": "Pavimentación y cordón cuneta en San Francisco",
+   "titular": "La Provincia entregó los fondos para obras de pavimentación y cordón cuneta en San Francisco",
+   "resumen": "La Provincia destinó fondos para obras de pavimentación y cordón cuneta en San Francisco.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "694": {
+   "placa": "Refuncionalización de la Plaza Cívica de San Francisco",
+   "titular": "La Provincia entregó los fondos para refuncionalizar la Plaza Cívica de San Francisco",
+   "resumen": "La Provincia destinó fondos para la refuncionalización de la Plaza Cívica de San Francisco.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "695": {
+   "placa": "Pavimentación de calles en Saturnino María Laspiur",
+   "titular": "La Provincia entregó los fondos para pavimentar calles en Saturnino María Laspiur",
+   "resumen": "El municipio de Saturnino María Laspiur recibió fondos provinciales para la pavimentación de calles.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "696": {
+   "placa": "Pavimentación de calles en Quebracho Herrado",
+   "titular": "La Provincia entregó los fondos para pavimentar calles en Quebracho Herrado",
+   "resumen": "Quebracho Herrado recibió fondos provinciales para la pavimentación de calles.",
+   "duda": "Dice «en el mismo concepto»: se entiende pavimentación por la meta 695; confirmar el destino.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "697": {
+   "placa": "Minibús de traslado para la comuna de Plaza Luxardo",
+   "titular": "La Provincia entregó los fondos para un minibús de traslado en Plaza Luxardo",
+   "resumen": "La comuna de Plaza Luxardo recibió fondos provinciales para la adquisición de una unidad de traslado tipo minibús.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "698": {
+   "placa": "Patio del Polideportivo de Colonia Prosperidad",
+   "titular": "La Provincia entregó los fondos para el patio del Polideportivo de Colonia Prosperidad",
+   "resumen": "Colonia Prosperidad recibió fondos provinciales para el patio del Polideportivo local.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "699": {
+   "placa": "Puesta en valor de la Casona Histórica de Colonia Marina",
+   "titular": "La Provincia entregó los fondos para poner en valor la Casona Histórica de Colonia Marina",
+   "resumen": "Colonia Marina recibió fondos provinciales para la puesta en valor de la Casona Histórica.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "700": {
+   "placa": "Refuncionalización del Canal Mayor de Morteros",
+   "titular": "La Provincia terminó la refuncionalización del Canal Mayor de Morteros",
+   "resumen": "Finalizó la refuncionalización del Canal Mayor de Morteros, una obra para evitar futuras inundaciones en la ciudad.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "701": {
+   "placa": "Obras de pavimento en Morteros",
+   "titular": "La Provincia entregó los fondos para obras de pavimento en Morteros",
+   "resumen": "La Provincia destinó fondos para la ejecución de obras de pavimento en Morteros.",
+   "duda": "Parece repetir la meta 368 (mismo destino y monto en Morteros): confirmar que no es duplicada.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "702": {
+   "placa": "Obras de cordón cuneta en Brinkmann",
+   "titular": "La Provincia entregó los fondos para obras de cordón cuneta en Brinkmann",
+   "resumen": "La Provincia destinó fondos para obras de cordón cuneta en Brinkmann.",
+   "duda": "Parece repetir la meta 480 (mismo monto, cordón cuneta en Brinkmann): confirmar que no es duplicada.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "703": {
+   "placa": "Asfaltado del camino S496 entre Colonia Valtelina y la Ruta Provincial 1",
+   "titular": "La Provincia asfalta el camino S496, de 16 kilómetros, entre Colonia Valtelina y la Ruta Provincial 1",
+   "resumen": "Está en ejecución el asfaltado del camino S496, de 16 kilómetros de extensión, entre Colonia Valtelina y la Ruta Provincial 1, en cercanías de Porteña.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "704": {
+   "placa": "Localidad de Altos de Chipión",
+   "titular": "La Provincia entregó fondos a Altos de Chipión",
+   "resumen": "Altos de Chipión recibió fondos provinciales.",
+   "duda": "No dice a qué se destinan los fondos.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "705": {
+   "placa": "Localidad de La Paquita",
+   "titular": "La Provincia entregó fondos a La Paquita",
+   "resumen": "La Paquita recibió fondos provinciales.",
+   "duda": "No dice a qué se destinan los fondos.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "706": {
+   "placa": "Centro de Salud y polideportivo de Colonia Vignaud",
+   "titular": "La Provincia entregó los fondos para el Centro de Salud y el polideportivo de Colonia Vignaud",
+   "resumen": "Colonia Vignaud recibió fondos provinciales para el Centro de Salud y la culminación del polideportivo.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "707": {
+   "placa": "Centro de Salud de Seeber",
+   "titular": "La Provincia entregó los fondos para el Centro de Salud de Seeber",
+   "resumen": "Seeber recibió fondos provinciales para su Centro de Salud.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "708": {
+   "placa": "Localidad de Colonia Valtelina",
+   "titular": "La Provincia entregó fondos a Colonia Valtelina",
+   "resumen": "Colonia Valtelina recibió fondos provinciales.",
+   "duda": "No dice a qué se destinan los fondos.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1081": {
+   "placa": "Clubes e instituciones deportivas de Brinkmann",
+   "titular": "La Provincia entregó fondos del programa Fortaleciendo Clubes a entidades deportivas de Brinkmann",
+   "resumen": "A través del programa Fortaleciendo Clubes se efectivizó un apoyo para entidades deportivas e instituciones como la Asociación Deportiva 9 de Julio, Cazadores «El Ciervo», Roberto Colombo Fútbol Club, Club Deportivo y Social Barrio Norte, Club Sportivo San Jorge, Club Atlas y Fundación San Jorge.",
+   "duda": "Habla de entidades de «ambas localidades» y el detalle dice «solo Club Atlas»: alcance poco claro.",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1082": {
+   "placa": "Equinoterapia El Andar, Lalcec, Salón Parroquial e instituciones de discapacidad",
+   "titular": "La Provincia entregó fondos a instituciones sociales de Brinkmann",
+   "resumen": "Recibieron apoyo provincial la escuela de equinoterapia El Andar, la entidad de lucha contra el cáncer Lalcec, el Salón Parroquial de Brinkmann e instituciones que trabajan con discapacidad.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1083": {
+   "placa": "Polideportivo Social en barrio San Cayetano",
+   "titular": "La Provincia terminó el Polideportivo Social del barrio San Cayetano, en San Francisco",
+   "resumen": "Finalizó la construcción del Polideportivo Social del barrio San Cayetano, uno de los dos nuevos polideportivos previstos en San Francisco junto con el de barrio La Milka.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1085": {
+   "placa": "Ayuda institucional para la parroquia San José Obrero",
+   "titular": "La Provincia entregó una ayuda institucional a la parroquia San José Obrero de San Francisco",
+   "resumen": "La Provincia entregó una ayuda institucional a la parroquia San José Obrero de San Francisco.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1087": {
+   "placa": "Escrituras para las familias del barrio La Milka",
+   "titular": "La Provincia avanza con las escrituras de las familias del barrio La Milka, en San Francisco",
+   "resumen": "Se expropiaron 25 lotes en barrio La Milka, en San Francisco, lo que permite avanzar con las escrituras de las familias que viven allí.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1090": {
+   "placa": "Fibra óptica de la Cooperativa de Energía Eléctrica de Las Varillas",
+   "titular": "La Provincia entregó un crédito de Bancor a la cooperativa eléctrica de Las Varillas para fibra óptica",
+   "resumen": "Se entregó el certificado del crédito de Bancor otorgado a la Cooperativa de Energía Eléctrica y Otros Servicios Públicos Las Varillas Ltda., destinado al proyecto de instalación de fibra óptica.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
+  },
+  "1091": {
+   "placa": "Aporte para los Bomberos Voluntarios de Saturnino María Laspiur",
+   "titular": "La Provincia entregó un aporte a los Bomberos Voluntarios de Saturnino María Laspiur",
+   "resumen": "La Provincia destinó un aporte al cuartel de Bomberos Voluntarios de Saturnino María Laspiur.",
+   "duda": "",
+   "modelo": "claude-code",
+   "fecha": "2026-10-30",
+   "revisado": false
   }
  }
 }
