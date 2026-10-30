@@ -1,0 +1,26 @@
+estado_desagregado_norm;estado;estado_detalle;etiqueta_placa;publicable
+PAGADO;cumplido;fondos_entregados;Fondos entregados;si
+LISTO PARA PAGAR;cumplido;fondos_entregados;Fondos entregados;si
+PAGO PARCIAL;en_ejecucion;fondos_en_entrega;Fondos en entrega;si
+CUMPLIDO;cumplido;cumplido;Cumplido;si
+FINALIZADA;cumplido;obra_finalizada;Obra finalizada;si
+EN EJECUCION;en_ejecucion;en_ejecucion;En ejecución;si
+OBRA EN EJECUCION;en_ejecucion;obra_en_ejecucion;Obra en ejecución;si
+COMIENZO DE OBRA;en_ejecucion;obra_en_ejecucion;Obra en ejecución;si
+FIRMADO;en_ejecucion;convenio_firmado;Convenio firmado;si
+FIRMA DE CONTRATO;en_ejecucion;convenio_firmado;Convenio firmado;si
+LLAMADO A LICITACION;en_ejecucion;en_licitacion;En licitación;si
+EN LICITACION;en_ejecucion;en_licitacion;En licitación;si
+A LICITAR;en_ejecucion;en_licitacion;En licitación;si
+PROCESO LICITATORIO;en_ejecucion;en_licitacion;En licitación;si
+EN PROCESO DE ADJUDICACION;en_ejecucion;en_licitacion;En licitación;si
+ADJUDICADA;en_ejecucion;adjudicada;Obra adjudicada;si
+EN PROYECTO;en_ejecucion;en_proyecto;En proyecto;si
+ESPERA DOCUMENTACION;en_ejecucion;tramite;En trámite;no
+ESPERA DE DOCUMENTACION;en_ejecucion;tramite;En trámite;no
+TRIBUNAL DE CUENTAS;en_ejecucion;tramite;En trámite;no
+CONTABLE (NOTA DE PEDIDO);en_ejecucion;tramite;En trámite;no
+SAF;en_ejecucion;tramite;En trámite;no
+RESOLUCION;en_ejecucion;tramite;En trámite;no
+PENDIENTE;pendiente;pendiente;Pendiente;no
+SUSPENDIDA;pendiente;suspendida;Suspendida;no

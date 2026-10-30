@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Generador de contenido · Anuncios</title>
+<style>
+/*__FONTS__*/
+:root{--celeste:#6caee5;--rojo:#bc1734;--dorado:#cfa55b;--gris:#808080;--link:#2f7ec2;--ink:#3b3f46;--muted:#8a8f98;--bg:#f5f5f6;--card:#fff;--line:#e4e4e7;--marino:#17233d}
+*{box-sizing:border-box}
+body{margin:0;font-family:Poppins,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5}
+header{background:#fff;padding:8px 20px 0;position:sticky;top:0;z-index:20;box-shadow:0 2px 14px #00000012}
+header::after{content:"";display:block;height:4px;margin:8px -20px 0;background:linear-gradient(90deg,var(--celeste) 0 33.34%,var(--rojo) 33.34% 66.67%,var(--dorado) 66.67%)}
+.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.top img{height:32px;display:block}
+.top .ttl{border-left:1px solid var(--line);padding-left:14px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+h1{margin:0;font-weight:900;font-size:16px;line-height:1.1;color:var(--gris);letter-spacing:.2px}
+.sub{color:var(--muted);font-size:12px;font-weight:600}
+/* navegación entre módulos: a la derecha del título, el módulo actual resaltado */
+nav.mods{display:inline-flex;gap:2px;background:#f3f3f4;border-radius:999px;padding:2px}
+nav.mods a{padding:3px 12px;border-radius:999px;font:700 12px Poppins;color:var(--gris);text-decoration:none}
+nav.mods a:hover{color:var(--ink)} nav.mods a.on{background:var(--marino);color:#fff}
+nav.tabs{display:flex;gap:6px;margin:8px 0 0}
+nav.tabs button{background:#fff;color:var(--gris);border:1px solid var(--line);border-radius:999px;padding:4px 14px;font:700 12.5px Poppins;cursor:pointer}
+nav.tabs button.on{background:var(--rojo);color:#fff;border-color:var(--rojo)}
+nav.tabs button.cal{margin-left:auto;background:#f0f0f1;color:#8a8f98;border-color:#e4e4e7} nav.tabs button.cal.on{background:#8a8f98;color:#fff;border-color:#8a8f98}
+.wrap{display:grid;grid-template-columns:260px minmax(0,1fr);gap:18px;max-width:1900px;margin:0 auto;padding:14px 16px 40px}
+aside{position:sticky;top:92px;align-self:start;max-height:calc(100vh - 104px);overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 12px 6px;scrollbar-width:thin}
+aside h4{margin:0 0 5px;font-size:10.5px;text-transform:uppercase;letter-spacing:.7px;color:var(--gris);font-weight:800}
+aside .sec{margin-bottom:11px;padding-bottom:9px;border-bottom:1px solid var(--line)} aside .sec:last-child{border-bottom:0}
+.chips{display:flex;flex-wrap:wrap;gap:4px}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:3px 9px;font:700 11.5px Poppins;cursor:pointer;color:var(--ink)}
+.chip small{opacity:.55;font-weight:700;margin-left:4px} .chip.on{background:var(--rojo);color:#fff;border-color:var(--rojo)}
+.camp{display:flex;width:100%;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.camp button{flex:1;border:0;background:transparent;padding:6px;font:800 12px Poppins;color:var(--gris);cursor:pointer}
+.camp button.on.c-cumplido{background:var(--celeste);color:#fff} .camp button.on.c-en_ejecucion{background:var(--dorado);color:#fff}
+.zl{display:flex;flex-direction:column;gap:1px;max-height:300px;overflow:auto}
+.zl button{display:flex;align-items:center;justify-content:space-between;border:0;background:transparent;border-radius:7px;padding:3px 8px;font:700 12px Poppins;color:var(--ink);cursor:pointer;text-align:left}
+.zl button:hover{background:#f3f3f4} .zl button.on{background:var(--rojo);color:#fff} .zl button small{font-weight:700;opacity:.55}
+.zl button .pit{font-size:9px;background:#fbe9c2;color:#6b4a05;border-radius:4px;padding:0 4px;margin-left:5px;font-weight:800}
+.zl button.on .pit{background:#fff}
+select,.search{width:100%;border:1px solid var(--line);border-radius:8px;padding:6px 9px;font:600 12.5px Poppins;color:var(--ink);background:#fff}
+.search:focus,textarea:focus,select:focus{outline:2px solid var(--celeste);outline-offset:0}
+aside .res{font-size:11.5px;color:var(--muted);font-weight:600;margin-top:6px;line-height:1.35}
+aside .clr{font-size:11.5px;color:var(--link);font-weight:700;cursor:pointer;background:none;border:0;padding:0;margin-top:6px}
+main{min-width:0}
+.ctx{position:sticky;top:92px;z-index:10;display:flex;align-items:center;gap:14px;border-radius:12px;padding:10px 16px;margin-bottom:12px;color:#fff;background:var(--celeste)}
+.ctx.en_ejecucion{background:var(--dorado)} .ctx b{font-size:18px;font-weight:900} .ctx span{font-size:12px;font-weight:600;opacity:.95}
+.count{font-size:12px;color:var(--muted);margin:2px 0 10px;font-weight:600} .count a{color:var(--link)}
+.dep-head{margin:16px 0 6px;font-weight:900;font-size:15px;display:flex;gap:8px;align-items:baseline;color:var(--rojo)} .dep-head small{font-weight:600;color:var(--gris);font-size:12px}
+.card{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--celeste);border-radius:12px;margin-bottom:10px;overflow:hidden}
+.card.en_ejecucion{border-left-color:var(--dorado)} .card.sub{margin-left:22px;border-left-width:4px}
+.card>summary{list-style:none;cursor:pointer;padding:10px 14px;display:flex;gap:12px;align-items:center}
+.card>summary:hover{background:#fafafa} .card>summary::-webkit-details-marker{display:none}
+.card .tt{flex:1;min-width:0} .card .tt b{font-weight:700;font-size:14px;display:block;color:var(--ink)} .card .tt span{font-size:12px;color:var(--muted);font-weight:600}
+.tag{font-size:10.5px;font-weight:700;border-radius:6px;padding:2px 8px;white-space:nowrap}
+.tag.cumplido{background:#dcebf8;color:#1d4e7c} .tag.en_ejecucion{background:#f5e9cf;color:#6b4a05} .tag.aviso{background:#fde2e2;color:#8a1c1c} .tag.pit{background:#fbe9c2;color:#6b4a05} .tag.nopub{background:#eee;color:#777}
+.body{padding:4px 14px 16px;border-top:1px solid var(--line)}
+.grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:18px;margin-top:12px}
+@media(max-width:1200px){.grid{grid-template-columns:1fr}} @media(max-width:900px){.wrap{grid-template-columns:1fr}aside{position:static;max-height:none}}
+.fmts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px} .fmt{text-align:center}
+.fmt canvas{width:100%;height:auto;border-radius:8px;border:1px solid var(--line);background:#eee;display:block}
+.fmt .lbl{font-size:11px;font-weight:700;margin:5px 0 4px;color:var(--gris)}
+.btn{border:0;border-radius:8px;padding:6px 12px;font:700 12px Poppins;cursor:pointer;background:var(--rojo);color:#fff} .btn:hover{filter:brightness(1.08)}
+.btn.sec{background:#efeff1;color:var(--ink)} .btn.ok{background:#4da070}
+.btns{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;align-items:center;font-size:12px;font-weight:600}
+.sw{width:22px;height:22px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px var(--line);cursor:pointer} .sw.on{box-shadow:0 0 0 2px var(--ink)}
+.tx{margin-bottom:12px} .tx .row{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;gap:8px}
+.tx label{font-weight:800;font-size:12px;color:var(--gris)} .tx .n{font-size:11px;color:var(--muted);font-weight:600} .tx .n.bad{color:var(--rojo);font-weight:800}
+textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font:600 12.5px/1.5 Poppins;resize:vertical;min-height:70px;color:var(--ink)}
+.meta{font-size:12px;color:var(--muted);margin-top:10px;font-weight:600} .meta a{color:var(--link)}
+details.doc{margin-top:8px;font-size:12px} details.doc summary{cursor:pointer;font-weight:700;color:var(--link)}
+details.doc pre{white-space:pre-wrap;font:600 12px Poppins;background:#f7f7f8;border-radius:8px;padding:8px 10px}
+.note{background:#fbf5e8;border:1px solid #ecd9a8;border-left:5px solid var(--dorado);border-radius:10px;padding:10px 14px;font-size:12.5px;margin-bottom:14px;font-weight:600}
+.list{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:12px}
+.list h3{margin:0 0 6px;font-size:14px;font-weight:800;color:var(--rojo)} .list ul{margin:0;padding-left:18px} .list li{margin:2px 0;font-size:12.5px;font-weight:600}
+.gris{background:#f3f3f4!important;border-color:#e0e0e2!important;border-left-color:#b8bcc4!important;color:#6f747d} .gris h3{color:#6f747d!important}
+.list .hint,.list h3 small{font-size:12px;color:var(--muted);font-weight:600}
+footer{border-top:1px solid var(--line);background:#fff;padding:22px 16px;text-align:center} footer img{height:46px} footer p{margin:8px 0 0;font-size:11px;color:var(--muted);font-weight:600}
+</style>
+</head>
+<body>
+<header>
+  <div class="top"><img id="lockup" alt="Córdoba · Gobierno de la Provincia · Hacer para crecer"><div class="ttl"><h1>GENERADOR DE CONTENIDO · ANUNCIOS</h1><div class="sub" id="sub"></div></div><nav class="mods" aria-label="Módulos"><a href="index.html">Obras</a><a href="anuncios.html" class="on" aria-current="page">Anuncios</a></nav></div>
+  <nav class="tabs" id="tabs"></nav>
+</header>
+<div class="wrap"><aside id="side"></aside><main id="main"></main></div>
+<footer><img id="lockup2" alt="Córdoba · Gobierno de la Provincia · Hacer para crecer"><p>Comunicación · Gobierno de la Provincia de Córdoba · uso interno</p></footer>
+<script>const DATA=/*__DATA__*/null;</script>
+<script>
+(()=>{
+const D=DATA.datos, A=D.anuncios, CONT=DATA.contenido||{}, TX=DATA.textos||{}, SVG=DATA.svg, DEP=Object.fromEntries(DATA.deptos.map(d=>[d.departamento_norm,d]));
+/* Ediciones del equipo: viven en el navegador (localStorage) y se exportan con "Exportar ediciones" como contenido.json para entrada/anuncios/<fecha>/.
+   Prioridad de un texto: edición en el navegador > contenido.json > redacción con IA (data/anuncios_textos.json) > limpieza automática del parser. */
+const ED_KEY='gc_anuncios_ediciones';
+let ED={anuncios:{},piezas:{}}; try{ED=Object.assign(ED,JSON.parse(localStorage.getItem(ED_KEY)||'{}'))}catch(e){}
+const guardarED=()=>{try{localStorage.setItem(ED_KEY,JSON.stringify(ED))}catch(e){}};
+const edAnuncio=id=>Object.assign({},TX[id]||{},(CONT.anuncios||{})[id]||{},ED.anuncios[id]||{});
+const aplicarEdicion=(out,tipo)=>{const m=Object.assign({},(CONT[tipo==='piezas'?'localidades_piezas':tipo]||{})[out.id]||{},(ED[tipo]||{})[out.id]||{});
+  if(m.ig)out.ig=limpio(m.ig);if(m.x)out.x=limpio(m.x);if(m.sms)out.sms=limpio(m.sms);if(m.gac)out.gac=limpio(m.gac);if(m.items)out.placa.items=m.items;if(m.placaTxt)out.placaTxt=m.placaTxt;if(Object.keys(m).length)out.redactado=true;};
+function exportarEdiciones(){const out={_nota:'Ediciones hechas en el tablero. Copiar a entrada/anuncios/<fecha>/contenido.json (se fusiona con lo que ya haya).',anuncios:Object.assign({},CONT.anuncios||{},ED.anuncios),localidades_piezas:Object.assign({},CONT.localidades_piezas||{},ED.piezas),localidades:CONT.localidades||{}};
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(out,null,1)],{type:'application/json'}));a.download='contenido.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
+const $=(s,r=document)=>r.querySelector(s), esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const up=s=>String(s).toLocaleUpperCase('es-AR'), uniq=a=>[...new Set(a)], hash=s=>[...String(s)].reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7), pick=(arr,k)=>arr[hash(k)%arr.length];
+const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
+const lista=a=>a.length<2?a.join(''):a.slice(0,-1).join(', ')+' y '+a[a.length-1];
+const MESES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const mesAnio=f=>{if(!f)return null;const [y,m]=f.split('-');return `${MESES[+m-1]} de ${y}`};
+const limpio=s=>String(s).replace(/(https?:\/\/\S+)|\s*\/\s*/g,(m,u)=>u||' y ');
+const low=s=>s?s[0].toLowerCase()+s.slice(1):'';
+
+/* ---------- campañas: una por estado. El texto habla en pasado solo de lo cumplido; lo que está en marcha va en presente. ---------- */
+const CAMP={
+ cumplido:{palabra:'CUMPLIMOS',nombre:'Cumplimos',emoji:'✅',tags:['#Cumplimos','#HacerParaCrecer'],
+   lineas:['Lo dijimos y lo hicimos: Hacer para Crecer.','Con las cuentas en orden, cada compromiso se convierte en hechos.','Palabra cumplida en cada rincón de Córdoba.','Equilibrio fiscal que se transforma en obras y acciones concretas.'],
+   intro:['Lo que anunciamos, lo hicimos.','Compromisos que ya son una realidad.','De la palabra a los hechos.']},
+ en_ejecucion:{palabra:'EN MARCHA',nombre:'En marcha',emoji:'🚧',tags:['#EnMarcha','#HacerParaCrecer'],
+   lineas:['Hacer para Crecer: compromisos que avanzan todos los días.','Con equilibrio fiscal, la inversión sigue llegando a cada localidad.','Córdoba avanza, localidad por localidad.','Cada compromiso en marcha es una obra que se acerca a los vecinos.'],
+   intro:['Compromisos que ya están en marcha.','Lo que anunciamos avanza.','Obras y acciones en ejecución.']}
+};
+const COLORES={celeste:'#6caee5',rojo:'#bc1734',dorado:'#cfa55b'};
+const FMT={'1x1':[1080,1080,'Feed 1:1 · 1080×1080'],'4x5':[1080,1350,'Feed 4:5 · 1080×1350 (recomendado)'],'9x16':[1080,1920,'Stories/Reels 9:16 · 1080×1920']};
+
+/* ---------- SMS (mismas reglas que obras: un solo mensaje, link corto al final) ---------- */
+const SMS_MAX=160, LINK_LEN=22, LINK='[link]';
+const smsLen=t=>String(t).replace(/\[link\]/g,'x'.repeat(LINK_LEN)).length;
+const sinTildes=t=>String(t).replace(/[áéíóúÁÉÍÓÚ]/g,c=>({á:'a',é:'e',í:'i',ó:'o',ú:'u',Á:'A',É:'E',Í:'I',Ó:'O',Ú:'U'}[c]));
+const SMS_AP={cumplido:['Cumplimos en tu ciudad: ','Hacer para Crecer en tu ciudad: ','Lo dijimos y lo hicimos en tu ciudad: '],en_ejecucion:['En marcha en tu ciudad: ','Hacer para Crecer en tu ciudad: ','Avanza en tu ciudad: ']};
+const smsArmar=(estado,cuerpos,key,apsFijas)=>{ // por cada cuerpo (del más completo al más corto): la apertura elegida, las otras más cortas y por último sin apertura; nunca se corta una frase
+  const aps=apsFijas||SMS_AP[estado]||Object.values(SMS_AP)[0],ap0=aps[hash(key+'s')%aps.length],aps2=[ap0,...aps.filter(a=>a!==ap0).sort((a,b)=>a.length-b.length),''];
+  const c=[];for(const b of cuerpos.filter(Boolean))for(const a of aps2)c.push(`${a}${b}. Más info: ${LINK}`);
+  return c.find(x=>smsLen(x)<=SMS_MAX)||c.at(-1)};
+
+/* ---------- datos derivados ---------- */
+A.forEach(a=>{a.depKey=a.departamento_norm||'SIN DEPARTAMENTO';a.locKey=a.localidad?norm(a.localidad):(a.alcance==='provincial'?'__prov':'__sin');a.color=a.localidad?['celeste','rojo','dorado'][hash(a.localidad)%3]:'celeste';a.anioTxt=a.fecha_anuncio?mesAnio(a.fecha_anuncio):null;});
+const PUB=A.filter(a=>a.publicable&&(a.estado==='cumplido'||a.estado==='en_ejecucion'));
+const EJES=uniq(A.map(a=>a.eje).filter(Boolean)).sort(), MINS=uniq(A.map(a=>a.ministerio).filter(Boolean)).sort(), ANIOS=uniq(A.map(a=>a.anio).filter(Boolean)).sort();
+const S={tab:'placas',estado:'cumplido',dep:null,loc:null,alcance:null,eje:null,min:null,anio:null,q:'',nopub:false,ficha:null};
+function alcance(z=S){return (z.nopub?A:PUB).filter(a=>a.estado===z.estado&&(!z.dep||a.depKey===z.dep)&&(!z.loc||a.locKey===z.loc)&&(!z.alcance||a.alcance===z.alcance)&&(!z.eje||a.eje===z.eje)&&(!z.min||a.ministerio===z.min)&&(!z.anio||a.anio===z.anio)&&(!z.q||norm([a.localidad,a.departamento,a.texto_placa,a.texto_original].join(' ')).includes(norm(z.q))))}
+const porLoc=as=>{const m={};as.forEach(a=>(m[a.locKey]??=[]).push(a));return Object.values(m).map(g=>g.sort((x,y)=>(y.fecha_anuncio||'')<(x.fecha_anuncio||'')?-1:1)).sort((x,y)=>y.length-x.length||String(x[0].localidad).localeCompare(String(y[0].localidad)))};
+const nombreLoc=g=>g[0].localidad?tituloLoc(g[0].localidad):(g[0].alcance==='provincial'?'Toda la provincia':'Sin localidad');
+const ciudad=a=>a.departamento_norm==='CAPITAL'?'Córdoba Capital':null;
+function tituloLoc(s){if(norm(s)==='cordoba')return 'Córdoba Capital';const t=String(s).split(' ').map(w=>['de','del','la','las','los','el','y','e'].includes(w.toLowerCase())?w.toLowerCase():w.charAt(0).toUpperCase()+w.slice(1)).join(' ');return (CONT.localidades||{})[norm(s)]||t.charAt(0).toUpperCase()+t.slice(1)}   // la maestra viene en mayúsculas sin tildes: se puede corregir la grafía en contenido.json → localidades
+const textoDe=a=>limpio((edAnuncio(a.id).placa||a.texto_placa||'').replace(/\s*:\s*$/,''));
+const limpioTxt=a=>!!edAnuncio(a.id).placa||!(a.avisos||[]).some(x=>/monto|gobernador|verbo|largo|vacío/.test(x));
+// ranking para el listado de la placa: primero los textos limpios y cortos, después por fecha
+const ranking=g=>g.slice().sort((x,y)=>(limpioTxt(y)-limpioTxt(x))||((textoDe(x).length<=110)-(textoDe(y).length<=110))*-1||((y.fecha_anuncio||'')<(x.fecha_anuncio||'')?-1:1));
+
+/* ---------- piezas ---------- */
+function piezaLocalidad(g){ // placa de listado + copys para una localidad (o toda la provincia) y una campaña
+  const a0=g[0], c=CAMP[a0.estado], L=nombreLoc(g), prov=!a0.localidad, dep=a0.departamento, key=`${a0.estado}_${a0.locKey}`;
+  const top=ranking(g).slice(0,5), items=top.map(a=>textoDe(a)), N=g.length, enL=prov?'en toda la provincia':`en ${L}`, depTxt=dep&&!prov&&norm(dep)!==norm(L)?` (departamento ${dep})`:'';
+  const titulo=`${c.palabra} ${up(enL)}`, intro=pick(c.intro,key+'i'), linea=pick(c.lineas,key+'l');
+  const compromisos=N===1?'un compromiso':`${N} compromisos`;
+  const cuerpo=a0.estado==='cumplido'
+    ?`${intro} ${prov?'En toda la provincia':'En '+L}${depTxt}, el Gobierno de la Provincia ya cumplió ${compromisos}${N>5?'. Entre ellos':''}:`
+    :`${intro} ${prov?'En toda la provincia':'En '+L}${depTxt}, el Gobierno de la Provincia tiene ${compromisos} en marcha${N>5?'. Entre ellos':''}:`;
+  const vi=top.map(a=>`• ${textoDe(a)}${a.estado==='en_ejecucion'&&a.etiqueta?` (${low(a.etiqueta)})`:''}`).join('\n');
+  const ig=limpio(`${c.emoji} ${titulo}\n\n${cuerpo}\n${vi}\n\n${linea}\n\n${c.tags.join(' ')}`);
+  const cuerpoX=cuerpo.replace(/\. Entre ellos:$|:$/,'.');
+  const xs=[`${c.emoji} ${titulo}\n${cuerpoX}\n${linea}\n${c.tags.join(' ')}`,`${c.emoji} ${titulo}\n${cuerpoX}\n${c.tags.join(' ')}`,`${c.emoji} ${titulo}: ${compromisos} ${a0.estado==='cumplido'?'cumplidos':'en marcha'}. ${c.tags.join(' ')}`];
+  const x=limpio(xs.find(t=>t.length<=280)||xs.at(-1));
+  const sms=limpio(smsArmar(a0.estado,[N>1?`${items[0]} y ${N-1} ${N-1===1?'compromiso más':'compromisos más'}`:items[0],`${compromisos} ${a0.estado==='cumplido'?'cumplidos':'en marcha'}`],key));
+  const placa={tipo:'lista',estado:a0.estado,color:a0.color,palabra:c.palabra,pill:prov?'en toda la provincia':`en ${L}`,items,pie:prov?'CÓRDOBA':(dep?`DEPARTAMENTO ${up(dep)}`:''),mas:N>5?`y ${N-5} compromisos más`:''};
+  const out={id:'l_'+key,titulo:`${c.nombre} en ${L}`,sub:`${compromisos} ${a0.estado==='cumplido'?'cumplidos':'en marcha'}${dep?' · '+dep:''}`,estado:a0.estado,ig,x,sms,placa,g};
+  aplicarEdicion(out,'piezas'); return out;
+}
+function piezaAnuncio(a){ // placa individual
+  const c=CAMP[a.estado], L=a.localidad?tituloLoc(a.localidad):'toda la provincia', t=textoDe(a), key='a_'+a.id;
+  const cuando=a.anioTxt?`Lo anunciamos en ${a.anioTxt}.`:'';
+  const hecho=a.estado==='cumplido'?`${t}. ${a.etiqueta==='Fondos entregados'?'Los fondos ya fueron entregados.':a.etiqueta==='Obra finalizada'?'La obra ya está finalizada.':'Ya está cumplido.'}`:`${t}: ${low(a.etiqueta)}.`;
+  const linea=pick(c.lineas,key);
+  const ig=limpio(`${c.emoji} ${c.palabra} EN ${up(L)}\n\n${cuando?cuando+' ':''}${hecho}\n\n${linea}\n\n${c.tags.join(' ')}`);
+  const xs=[`${c.emoji} ${c.palabra} en ${L}: ${hecho} ${linea} ${c.tags.join(' ')}`,`${c.emoji} ${c.palabra} en ${L}: ${hecho} ${c.tags.join(' ')}`,`${c.emoji} ${c.palabra} en ${L}: ${t}. ${c.tags[1]}`];
+  xs.push(`${c.emoji} ${c.palabra} en ${L}: ${a.etiqueta}. ${c.tags[1]}`);
+  const x=limpio(xs.find(s=>s.length<=280)||xs.at(-1));
+  const sms=limpio(smsArmar(a.estado,[`${t}${a.estado==='en_ejecucion'?` (${low(a.etiqueta)})`:''}`,t,`${a.etiqueta} en ${L}`],key));   // si el texto no entra en un SMS, queda la etiqueta y la localidad (nunca se corta)
+  const placa={tipo:'una',estado:a.estado,color:a.color,palabra:c.palabra,pill:a.localidad?`en ${L}`:'en toda la provincia',etiqueta:a.etiqueta,texto:t,cuando:a.anioTxt?`Anunciado en ${a.anioTxt}`:'',pie:a.departamento?`DEPARTAMENTO ${up(a.departamento)}`:'CÓRDOBA'};
+  const e=edAnuncio(a.id), resumen=e.resumen||a.detalle||'';
+  const gac=limpio([`${t}${a.localidad?' en '+L:''}`,
+    [`• ${a.estado==='cumplido'?'Compromiso cumplido':'Compromiso en marcha'}: ${low(a.etiqueta)}.`,a.anioTxt?`• Anunciado en ${a.anioTxt}.`:null,`• ${linea}`].filter(Boolean).join('\n'),
+    a.estado==='cumplido'?`El Gobierno de la Provincia de Córdoba cumplió con ${low(t)}${a.localidad?`, en ${L}`:''}${a.departamento&&a.localidad&&norm(a.departamento)!==norm(L)?` (departamento ${a.departamento})`:''}.${a.anioTxt?` El compromiso había sido anunciado en ${a.anioTxt}.`:''}`
+      :`El Gobierno de la Provincia de Córdoba avanza con ${low(t)}${a.localidad?`, en ${L}`:''}: ${low(a.etiqueta)}.${a.anioTxt?` El compromiso fue anunciado en ${a.anioTxt}.`:''}`,
+    resumen?`Detalle\n\n${resumen}`:null,
+    `Hacer para Crecer\n\n${pick(c.lineas,key+'g')} ${a.estado==='cumplido'?'Cada compromiso cumplido es parte de un modelo que prioriza el equilibrio fiscal para sostener la inversión en toda la provincia.':'Cada compromiso en marcha es parte de un modelo que prioriza el equilibrio fiscal para sostener la inversión en toda la provincia.'}`,
+    a.fuente_anuncio?`Fuente del anuncio: ${a.fuente_anuncio}`:null,'Material de descarga: [pegar enlace]'].filter(Boolean).join('\n\n'));
+  const out={id:key,ig,x,sms,gac,placa,a,redactado:!!(e.placa||e.ig)};
+  aplicarEdicion(out,'anuncios'); if(e.placa){out.placa.texto=limpio(e.placa)} return out;
+}
+function piezaDepartamento(dep,g){ // conteo por departamento: volumen y presencia, nunca "en X localidades" (el que falta se cuenta solo)
+  const c=CAMP[g[0].estado], d=DEP[dep]||{nombre_publicable:dep}, N=g.length, key=`d_${g[0].estado}_${dep}`, cum=g[0].estado==='cumplido';
+  const locs=uniq(g.filter(a=>a.localidad).map(a=>a.localidad)).sort((x,y)=>x.localeCompare(y)), rango=locs.length>=3?`de ${locs[0]} a ${locs.at(-1)}`:'';
+  const top=porLoc(g.filter(a=>a.localidad)).slice(0,3).map(gg=>nombreLoc(gg));
+  const frase=cum?`${N} compromisos que ya son hechos`:`${N} compromisos que avanzan`;
+  const cuerpo=cum?`Hacer para Crecer llega a todo el departamento ${d.nombre_publicable}: ya son ${N} los compromisos cumplidos por el Gobierno de la Provincia${rango?', '+rango:''}.`
+                  :`En el departamento ${d.nombre_publicable} el Gobierno de la Provincia tiene ${N} compromisos en marcha${rango?', '+rango:''}.`;
+  const ig=limpio(`${c.emoji} ${c.palabra} EN ${up(d.nombre_publicable)}\n\n${cuerpo}${top.length>1?` Obras, aportes y programas para ${lista(top)} y cada una de las localidades del departamento.`:''}\n\n${pick(c.lineas,key)}\n\n${c.tags.join(' ')}`);
+  const x=limpio([`${c.emoji} ${c.palabra} en ${d.nombre_publicable}: ${frase}${rango?', '+rango:''}. ${pick(c.lineas,key)} ${c.tags.join(' ')}`,`${c.emoji} ${c.palabra} en ${d.nombre_publicable}: ${frase}. ${c.tags.join(' ')}`].find(t=>t.length<=280));
+  const sms=limpio(smsArmar(g[0].estado,[`${frase} en el departamento ${d.nombre_publicable}${rango?', '+rango:''}`,`${frase} en el departamento ${d.nombre_publicable}`],key,cum?['Cumplimos en tu departamento: ','Hacer para Crecer en tu departamento: ']:['En marcha en tu departamento: ','Hacer para Crecer en tu departamento: ']));
+  const placa={tipo:'dato',estado:g[0].estado,color:['celeste','rojo','dorado'][hash(dep)%3],palabra:c.palabra,pill:`en ${d.nombre_publicable}`,valor:String(N),etiqueta:cum?'compromisos cumplidos':'compromisos en marcha',sub:rango?`en todo el departamento, ${rango}`:'en todo el departamento',pie:d.pit==='si'?'PLAN DE IGUALDAD TERRITORIAL':'CÓRDOBA'};
+  const out={id:key,titulo:`${c.nombre} en el departamento ${d.nombre_publicable}`,sub:`${N} compromisos${rango?' · '+rango:''}`,estado:g[0].estado,ig,x,sms,placa,g};
+  aplicarEdicion(out,'piezas'); return out;
+}
+
+/* ---------- placas (canvas): sistema del manual de marca de gestión (carteles): banda blanca con la palabra de campaña y la píldora,
+   panel de color pleno con el texto en blanco, pie blanco con corte diagonal y el lockup Córdoba | Hacer para Crecer. ---------- */
+const imgCache=new Map(), loadImg=src=>{if(imgCache.has(src))return imgCache.get(src);const p=new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=src});imgCache.set(src,p);return p};
+const svgImg=name=>{const t=SVG[name];const vb=t.match(/viewBox="([\d.\- ]+)"/)[1].split(' ').map(Number);return loadImg('data:image/svg+xml;charset=utf-8,'+encodeURIComponent(t)).then(img=>({img,asp:vb[2]/vb[3]}))};
+function wrap(g,text,maxW){const out=[];for(const par of String(text).split('\n')){let line='';for(const w of par.split(' ')){const t=line?line+' '+w:w;if(g.measureText(t).width>maxW&&line){out.push(line);line=w}else line=t}out.push(line)}return out}
+function layout(g,blocks,maxW,availH){blocks=blocks.filter(b=>b.t!=null&&b.t!=='');let k=1;
+  for(let it=0;it<16;it++){let tot=0;const L=blocks.map(b=>{g.font=`${b.w} ${b.s*k}px Poppins`;const lines=wrap(g,b.up?up(b.t):b.t,maxW-(b.ind||0));const lh=b.s*k*(b.lh||1.1);tot+=lines.length*lh+(b.gap||0)*k;return {b,lines,lh,s:b.s*k}});
+    if(tot-(blocks.at(-1).gap||0)*k<=availH||it===15)return {L,tot,k};k*=.93}}
+function drawLayout(g,lay,x,y,maxW){let cy=y;for(const {b,lines,lh,s} of lay.L){g.font=`${b.w} ${s}px Poppins`;g.fillStyle=b.c;g.globalAlpha=b.op??1;g.textAlign='left';g.textBaseline='alphabetic';
+  lines.forEach((ln,i)=>{if(b.bullet&&i===0){g.beginPath();g.arc(x+s*.22,cy+s*.62,s*.16,0,Math.PI*2);g.fill()}g.fillText(ln,x+(b.ind||0),cy+s*.92);cy+=lh});cy+=(b.gap||0)*lay.k}g.globalAlpha=1}
+function rrect(g,x,y,w,h,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath()}
+async function renderPlaca(canvas,v,fmt,colorKey){
+  await document.fonts.load('900 40px Poppins');await document.fonts.load('700 40px Poppins');
+  const [W,H]=FMT[fmt], g=canvas.getContext('2d'); canvas.width=W; canvas.height=H;
+  const story=fmt==='9x16', col=COLORES[colorKey||v.color], topSafe=story?H*.12:0, botSafe=story?H*.10:0;
+  g.fillStyle=col; g.fillRect(0,0,W,H);
+  // banda blanca superior con la palabra de campaña (derecha) y la píldora
+  const bandH=W*.21, bandY=topSafe; g.fillStyle='#fff'; g.fillRect(0,bandY,W,bandH);   // en historias la banda arranca bajo la zona segura y arriba queda el color
+  const mx=W*.06; let ps=W*.12; g.font=`900 ${ps}px Poppins`; while(g.measureText(v.palabra).width>W*.55&&ps>W*.07){ps*=.95;g.font=`900 ${ps}px Poppins`}
+  const pw=g.measureText(v.palabra).width, px=W-mx-pw, py=bandY+bandH*.58; g.fillStyle=col; g.textAlign='left'; g.textBaseline='alphabetic'; g.fillText(v.palabra,px,py);
+  const pillH=W*.052; g.font=`700 ${pillH*.56}px Poppins`; const pt=v.pill, ptw=Math.min(g.measureText(pt).width+pillH*.9,W*.7), pxx=W-mx-ptw, pyy=py+bandH*.1;
+  g.fillStyle=col; rrect(g,pxx,pyy,ptw,pillH,pillH/2); g.fill(); g.fillStyle='#fff'; g.textAlign='center'; g.fillText(pt,pxx+ptw/2,pyy+pillH*.69); g.textAlign='left';
+  // pie blanco con corte diagonal y lockup
+  const {img:lk,asp}=await svgImg('gobierno-color'); const fh=W*.115, fy=H-botSafe-fh, fx=W*.45, cut=fh*.9;
+  g.fillStyle='#fff'; g.beginPath(); g.moveTo(fx,fy+fh); g.lineTo(fx+cut,fy); g.lineTo(W,fy); g.lineTo(W,H); g.lineTo(0,H); g.lineTo(0,fy+fh); g.closePath(); g.fill();
+  const lw=W*.40, lh=lw/asp; g.drawImage(lk,W-mx-lw,fy+(fh-lh)/2,lw,lh);
+  // cuerpo
+  const top=bandY+bandH+W*.06, bottom=fy-W*.05, bw=W-mx*2, avail=bottom-top;
+  let blocks=[];
+  if(v.tipo==='una'){blocks=[{t:v.etiqueta,w:700,s:W*.036,c:'#fff',up:true,op:.9,gap:W*.02},{t:v.texto,w:900,s:W*.082,c:'#fff',lh:1.05,gap:W*.03},{t:v.cuando,w:600,s:W*.032,c:'#fff',op:.85,gap:W*.015}];}
+  else if(v.tipo==='lista'){blocks=[{t:(v.items||[]).length>1?'Lo que ya es una realidad:':'',w:700,s:W*.036,c:'#fff',op:.9,gap:W*.02}];
+    if(v.estado==='en_ejecucion')blocks[0].t=(v.items||[]).length>1?'Lo que está en marcha:':'';
+    (v.items||[]).forEach(t=>blocks.push({t,w:900,s:W*(v.items.length>3?.042:.05),c:'#fff',lh:1.12,bullet:true,ind:W*.06,gap:W*.016}));
+    if(v.mas)blocks.push({t:v.mas,w:600,s:W*.032,c:'#fff',op:.85});}
+  else {blocks=[{t:v.valor,w:900,s:W*.3,c:'#fff',lh:1,gap:W*.005},{t:v.etiqueta,w:900,s:W*.06,c:'#fff',up:true,gap:W*.03},{t:v.sub,w:600,s:W*.038,c:'#fff',op:.9}];}
+  if(v.pie)blocks.push({t:v.pie,w:700,s:W*.03,c:'#fff',up:true,op:.8});
+  const pieBlock=v.pie?blocks.pop():null;
+  const lay=layout(g,blocks,bw,avail-(pieBlock?W*.06:0));
+  drawLayout(g,lay,mx,top+(v.tipo==='dato'?(avail-lay.tot)/2-W*.03:0),bw);
+  if(pieBlock){g.font=`700 ${pieBlock.s}px Poppins`;g.fillStyle='#fff';g.globalAlpha=.85;g.fillText(up(pieBlock.t),mx,bottom-W*.005);g.globalAlpha=1}
+}
+function descargar(canvas,nombre){canvas.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=nombre+'.png';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)},'image/png')}
+async function copiar(txt,btn){try{await navigator.clipboard.writeText(txt)}catch{const t=document.createElement('textarea');t.value=txt;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove()}const o=btn.textContent;btn.textContent='¡Copiado!';btn.classList.add('ok');setTimeout(()=>{btn.textContent=o;btn.classList.remove('ok')},1200)}
+
+/* ---------- tarjetas ---------- */
+const textoPlaca=v=>v.tipo==='una'?[v.etiqueta,v.texto,v.cuando].filter(Boolean).join('\n'):v.tipo==='lista'?(v.items||[]).join('\n'):[v.valor+' '+v.etiqueta,v.sub].join('\n');
+function leerPlaca(v,txt){const L=txt.split('\n').map(s=>s.trim()).filter(Boolean);if(v.tipo==='una'){v.etiqueta=L[0]||'';v.texto=L[1]||'';v.cuando=L[2]||''}else if(v.tipo==='lista'){v.items=L}else{const m=(L[0]||'').match(/^(\S+)\s*(.*)$/)||[];v.valor=m[1]||v.valor;v.etiqueta=m[2]||v.etiqueta;v.sub=L[1]||''}}
+const placaHTML=v=>`<div class="fmts">${Object.entries(FMT).map(([k,f])=>`<div class="fmt"><div class="lbl">${f[2]}</div><canvas data-fmt="${k}"></canvas><div class="btns" style="justify-content:center"><button class="btn" data-dl="${k}">Bajar PNG</button></div></div>`).join('')}</div>
+ <div class="btns"><button class="btn sec" data-dlall>Bajar las 3 placas</button><span style="margin-left:8px">Color:</span>${Object.entries(COLORES).map(([k,c])=>`<span class="sw ${k===v.color?'on':''}" data-col="${k}" style="background:${c}" title="${k}"></span>`).join('')}</div>`;
+const txHTML=(ig,x,pl,sms,rotPl,gac)=>`
+ <div class="tx"><div class="row"><label>Copy de Instagram</label><button class="btn" data-copy="ig">Copiar</button></div><textarea data-t="ig" rows="9">${esc(ig)}</textarea></div>
+ <div class="tx"><div class="row"><label>Texto para X <span class="n" data-n></span></label><button class="btn" data-copy="x">Copiar</button></div><textarea data-t="x" rows="4">${esc(x)}</textarea></div>
+ <div class="tx"><div class="row"><label>Texto para SMS <span class="n" data-nsms></span></label><span><button class="btn sec" data-tildes>Sin tildes</button> <button class="btn" data-copy="sms">Copiar</button></span></div><textarea data-t="sms" rows="3">${esc(sms)}</textarea></div>
+ <div class="tx"><div class="row"><label>Texto de la placa <span class="n">(${rotPl||'editable: cambia la placa'})</span></label><button class="btn" data-copy="pl">Copiar</button></div><textarea data-t="pl" rows="5">${esc(pl)}</textarea></div>
+ ${gac?`<div class="tx"><div class="row"><label>Gacetilla de prensa</label><button class="btn" data-copy="gac">Copiar</button></div><textarea data-t="gac" rows="14">${esc(gac)}</textarea></div>`:''}`;
+function wire(card,id,v){
+  const st={done:false,col:v.color};
+  const draw=()=>card.querySelectorAll('canvas').forEach(c=>renderPlaca(c,v,c.dataset.fmt,st.col));
+  card.addEventListener('toggle',()=>{if(card.open&&!st.done){st.done=true;draw()}});
+  card.addEventListener('click',ev=>{const b=ev.target.closest('button,.sw');if(!b||b.closest('details.card')!==card)return;
+    if(b.dataset.dl){descargar(card.querySelector(`canvas[data-fmt="${b.dataset.dl}"]`),`${id}_${b.dataset.dl}`)}
+    else if(b.dataset.dlall!==undefined){[...card.querySelectorAll(':scope > .body > .grid canvas')].forEach((c,i)=>setTimeout(()=>descargar(c,`${id}_${c.dataset.fmt}`),i*400))}
+    else if(b.dataset.col){st.col=b.dataset.col;card.querySelectorAll(':scope > .body > .grid .sw').forEach(s=>s.classList.toggle('on',s===b));draw()}
+    else if(b.dataset.copy){copiar(card.querySelector(`:scope > .body > .grid textarea[data-t="${b.dataset.copy}"]`).value,b)}
+    else if(b.dataset.tildes!==undefined){const t=card.querySelector(':scope > .body > .grid textarea[data-t="sms"]');t.value=sinTildes(t.value);t.dispatchEvent(new Event('input'))}});
+  const x=card.querySelector(':scope > .body > .grid textarea[data-t="x"]'),n=card.querySelector(':scope > .body > .grid [data-n]');const cnt=()=>{n.textContent=x.value.length+'/280';n.classList.toggle('bad',x.value.length>280)};x.addEventListener('input',cnt);cnt();
+  const sm=card.querySelector(':scope > .body > .grid textarea[data-t="sms"]'),ns=card.querySelector(':scope > .body > .grid [data-nsms]');const cs=()=>{const L=smsLen(sm.value);ns.textContent=`${L}/${SMS_MAX}${/[áéíóúÁÉÍÓÚ]/.test(sm.value)?' · con tildes':' · sin tildes'}`;ns.classList.toggle('bad',L>SMS_MAX)};sm.addEventListener('input',cs);cs();
+  const pl=card.querySelector(':scope > .body > .grid textarea[data-t="pl"]');let tm;pl.addEventListener('input',()=>{leerPlaca(v,pl.value);clearTimeout(tm);tm=setTimeout(draw,350)});
+  // toda edición queda guardada en este navegador (y sale con "Exportar ediciones")
+  const esAn=/^a_(\d+)$/.exec(id), bucket=esAn?ED.anuncios:ED.piezas, k=esAn?+esAn[1]:id;
+  card.querySelectorAll(':scope > .body > .grid textarea').forEach(t=>t.addEventListener('input',()=>{const o=bucket[k]??={};
+    if(t.dataset.t==='pl'){if(esAn)o.placa=v.texto;else if(v.tipo==='lista')o.items=v.items.slice();else o.placaTxt=t.value}else o[t.dataset.t]=t.value;guardarED();card.dataset.editado='1'}));
+}
+function cardPieza(p,rotulo,sub){
+  const el=document.createElement('details');el.className='card '+p.estado+(sub?' sub':'');
+  el.innerHTML=`<summary><div class="tt"><b>${esc(p.titulo)}</b><span>${esc(p.sub||'')}</span></div>${p.redactado?'<span class="tag cumplido">Redactado</span>':''}<span class="tag ${p.estado}">${rotulo}</span></summary>
+   <div class="body"><div class="grid"><div>${placaHTML(p.placa)}</div><div>${txHTML(p.ig,p.x,textoPlaca(p.placa),p.sms,p.placa.tipo==='lista'?'una línea por anuncio; editable':null)}</div></div><div data-subs></div></div>`;
+  wire(el,p.id,p.placa);return el;
+}
+function cardAnuncio(a){
+  const p=piezaAnuncio(a), el=document.createElement('details');el.className='card sub '+a.estado;
+  const av=(a.avisos||[]).filter(x=>/monto|gobernador|verbo|largo|vacío/.test(x));
+  el.innerHTML=`<summary><div class="tt"><b>${esc(textoDe(a))}</b><span>${esc(a.etiqueta)}${a.anioTxt?' · anunciado en '+esc(a.anioTxt):''}${a.ministerio?' · '+esc(a.ministerio):''}</span></div>
+    ${p.redactado?'<span class="tag cumplido">Redactado</span>':''}${a.pit?'<span class="tag pit">PIT</span>':''}${!a.publicable?'<span class="tag nopub">No publicable</span>':''}${av.length?`<span class="tag aviso" title="${esc(av.join(' · '))}">Revisar texto</span>`:''}<span class="tag ${a.estado}">${esc(a.etiqueta)}</span></summary>
+   <div class="body"><div class="grid"><div>${placaHTML(p.placa)}</div><div>${txHTML(p.ig,p.x,textoPlaca(p.placa),p.sms,null,p.gac)}</div></div>
+   <div class="meta"><button class="btn sec" data-ficha="${a.id}">Abrir ficha completa</button> · Meta ${a.id} · ${esc(a.alcance)}${a.eje?' · '+esc(a.eje):''} · ${a.fuente_anuncio?`<a href="${esc(a.fuente_anuncio)}" target="_blank" rel="noopener">Fuente del anuncio</a>`:'sin fuente'}${a.fuente_seguimiento?` · <a href="${esc(a.fuente_seguimiento)}" target="_blank" rel="noopener">Seguimiento</a>`:''}${av.length?` · <b>Avisos:</b> ${esc(av.join('; '))}`:''}</div>
+   <details class="doc"><summary>Texto original de la base</summary><pre>${esc(a.texto_original)}${a.detalle?'\n\nDetalle: '+esc(a.detalle):''}</pre></details></div>`;
+  wire(el,p.id,p.placa);return el;
+}
+
+/* ---------- UI ---------- */
+function renderSide(){
+  const base=(S.nopub?A:PUB).filter(a=>a.estado===S.estado);
+  const deps=uniq(base.map(a=>a.depKey)).sort((x,y)=>(DEP[x]||{nombre_publicable:x}).nombre_publicable.localeCompare((DEP[y]||{nombre_publicable:y}).nombre_publicable));
+  const nD=d=>base.filter(a=>a.depKey===d).length;
+  const locs=S.dep?porLoc(base.filter(a=>a.depKey===S.dep)):[];
+  const nz=alcance().length;
+  $('#side').innerHTML=`
+   <div class="sec"><h4>Campaña</h4><div class="camp"><button class="c-cumplido ${S.estado==='cumplido'?'on':''}" data-e="cumplido">Cumplimos</button><button class="c-en_ejecucion ${S.estado==='en_ejecucion'?'on':''}" data-e="en_ejecucion">En marcha</button></div>
+    <div class="res">${S.estado==='cumplido'?'Anuncios con estado cumplido: fondos entregados, obras finalizadas y compromisos cumplidos.':'Anuncios en ejecución: obras en marcha, licitaciones, convenios firmados y proyectos.'}</div></div>
+   <div class="sec"><h4>Departamento</h4><div class="zl"><button class="${!S.dep?'on':''}" data-d=""><span>Toda la provincia</span><small>${base.length}</small></button>${deps.map(d=>`<button class="${S.dep===d?'on':''}" data-d="${esc(d)}"><span>${esc((DEP[d]||{nombre_publicable:d}).nombre_publicable)}${(DEP[d]||{}).pit==='si'?'<span class="pit">PIT</span>':''}</span><small>${nD(d)}</small></button>`).join('')}</div></div>
+   ${S.dep?`<div class="sec"><h4>Localidad</h4><div class="zl"><button class="${!S.loc?'on':''}" data-l=""><span>Todas</span><small>${locs.length}</small></button>${locs.map(g=>`<button class="${S.loc===g[0].locKey?'on':''}" data-l="${esc(g[0].locKey)}"><span>${esc(nombreLoc(g))}</span><small>${g.length}</small></button>`).join('')}</div></div>`:''}
+   <div class="sec"><h4>Alcance</h4><div class="chips">${[['local','Local'],['pit','PIT'],['provincial','Provincial']].map(([k,l])=>`<button class="chip ${S.alcance===k?'on':''}" data-a="${k}">${l}<small>${base.filter(a=>a.alcance===k).length}</small></button>`).join('')}</div></div>
+   <div class="sec"><h4>Eje</h4><select data-sel="eje"><option value="">Todos</option>${EJES.map(e=>`<option ${S.eje===e?'selected':''}>${esc(e)}</option>`).join('')}</select></div>
+   <div class="sec"><h4>Ministerio o área</h4><select data-sel="min"><option value="">Todos</option>${MINS.map(e=>`<option ${S.min===e?'selected':''}>${esc(e)}</option>`).join('')}</select></div>
+   <div class="sec"><h4>Año del anuncio</h4><div class="chips">${ANIOS.map(y=>`<button class="chip ${S.anio===y?'on':''}" data-y="${y}">${y}<small>${base.filter(a=>a.anio===y).length}</small></button>`).join('')}</div></div>
+   <div class="sec"><input class="search" id="q" placeholder="Buscar localidad o texto…" value="${esc(S.q)}"><label style="display:block;font-size:11.5px;font-weight:600;margin-top:6px"><input type="checkbox" id="nopub" ${S.nopub?'checked':''}> Mostrar también los no publicables</label>${S.alcance||S.eje||S.min||S.anio||S.q?'<button class="clr" data-clr>Limpiar filtros</button>':''}
+    <div class="res"><b>${nz}</b> anuncios en la selección.</div></div>`;
+  $('#side').onclick=ev=>{const b=ev.target.closest('button');if(!b)return;
+    if(b.dataset.e){S.estado=b.dataset.e;go()}else if(b.dataset.d!==undefined){S.dep=b.dataset.d||null;S.loc=null;go()}else if(b.dataset.l!==undefined){S.loc=b.dataset.l||null;go()}
+    else if(b.dataset.a){S.alcance=S.alcance===b.dataset.a?null:b.dataset.a;go()}else if(b.dataset.y){S.anio=S.anio===+b.dataset.y?null:+b.dataset.y;go()}
+    else if(b.dataset.clr!==undefined){S.alcance=S.eje=S.min=S.anio=null;S.q='';go()}};
+  $('#side').querySelectorAll('select').forEach(s=>s.onchange=()=>{S[s.dataset.sel]=s.value||null;go()});
+  $('#nopub').onchange=ev=>{S.nopub=ev.target.checked;go()};
+  $('#q').oninput=ev=>{S.q=ev.target.value;clearTimeout(S._t);S._t=setTimeout(()=>{go();const q=$('#q');q.focus();q.setSelectionRange(q.value.length,q.value.length)},300)};
+}
+function ctx(){const c=CAMP[S.estado],n=alcance().length,d=S.dep?(DEP[S.dep]||{nombre_publicable:S.dep}).nombre_publicable:null;
+  return `<div class="ctx ${S.estado}"><b>${c.nombre}</b><span>${d?`Departamento ${esc(d)}`:'Toda la provincia'}${S.loc?' · '+esc(nombreLoc(alcance()))+'':''} · ${n} anuncios</span></div>`}
+function renderPlacas(root){
+  const as=alcance(); root.innerHTML=ctx()+`<div class="count">${as.length} anuncios · ${uniq(as.map(a=>a.locKey)).length} localidades · ${uniq(as.map(a=>a.depKey)).length} departamentos</div><div id="list"></div>`;
+  const list=$('#list',root); if(!as.length){list.innerHTML='<div class="list"><h3>Sin anuncios</h3><div class="hint">No hay anuncios para esta selección.</div></div>';return}
+  const byDep={}; as.forEach(a=>(byDep[a.depKey]??=[]).push(a));
+  Object.keys(byDep).sort((x,y)=>byDep[y].length-byDep[x].length).forEach(dk=>{
+    const g=byDep[dk], d=DEP[dk]||{nombre_publicable:dk}, h=document.createElement('div'); h.className='dep-head';
+    h.innerHTML=`${esc(d.nombre_publicable)} <small>${g.length} anuncios · ${uniq(g.map(a=>a.locKey)).length} localidades${d.pit==='si'?' · PIT':''}</small>`; list.appendChild(h);
+    if(!S.loc&&dk!=='SIN DEPARTAMENTO'&&dk!=='CAPITAL'&&uniq(g.map(a=>a.locKey)).length>1)list.appendChild(cardPieza(piezaDepartamento(dk,g),'Departamento'));
+    porLoc(g).forEach(gg=>{const p=piezaLocalidad(gg), c=cardPieza(p,'Localidad'); list.appendChild(c);
+      const subs=c.querySelector('[data-subs]'); subs.innerHTML='<div class="count" style="margin-top:14px">Anuncio por anuncio</div>'; gg.forEach(a=>subs.appendChild(cardAnuncio(a)));});
+  });
+}
+function renderCalidad(root){
+  const T=[]; ['cumplido','en_ejecucion'].forEach(e=>{const as=PUB.filter(a=>a.estado===e); porLoc(as).forEach(g=>{const p=piezaLocalidad(g);T.push([p.id+' · Instagram',p.ig],[p.id+' · X',p.x],[p.id+' · SMS',p.sms],[p.id+' · placa',textoPlaca(p.placa)])});
+    as.forEach(a=>{const p=piezaAnuncio(a);T.push([p.id+' · Instagram',p.ig],[p.id+' · X',p.x],[p.id+' · SMS',p.sms],[p.id+' · placa',textoPlaca(p.placa)])});
+    uniq(as.map(a=>a.depKey)).forEach(dk=>{const p=piezaDepartamento(dk,as.filter(a=>a.depKey===dk));T.push([p.id+' · Instagram',p.ig],[p.id+' · X',p.x],[p.id+' · SMS',p.sms])})});
+  const test=re=>T.filter(([,t])=>re.test(t)).map(([n])=>n), SMS=T.filter(([n])=>/ · SMS$/.test(n));
+  const reglas=[['No menciona “seccional” ni circuitos electorales',test(/seccional|subcircuito|circuito electoral/i)],['No menciona montos ni signos de pesos',test(/\$|millones de pesos|\bmillones\b|presupuesto|monto/i)],['No usa barras “/” (salvo en links)',T.filter(([,t])=>/\//.test(t.replace(/https?:\/\/\S+/g,''))).map(([n])=>n)],
+    [`SMS de un solo mensaje (hasta ${SMS_MAX} caracteres con link corto)`,SMS.filter(([,t])=>smsLen(t)>SMS_MAX).map(([n])=>n)],['SMS: qué se hizo antes del link y el link al final',SMS.filter(([,t])=>!/\S.*\. Más info: \[link\]$/.test(t)).map(([n])=>n)],
+    ['Textos de X dentro de 280 caracteres',T.filter(([n,t])=>/ · X$/.test(n)&&t.length>280).map(([n])=>n)],['Los textos en marcha no dicen “cumplido”',T.filter(([n,t])=>/^(l|d)_en_ejecucion|^a_/.test(n)&&/\bcumplid[oa]s?\b|\bcumplimos\b/i.test(t)&&(n.startsWith('a_')?PUB.some(a=>'a_'+a.id===n.split(' ')[0]&&a.estado==='en_ejecucion'):true)).map(([n])=>n)],
+    ['SMS genéricos (el texto no entra en un mensaje: dicen solo el tipo de cumplimiento)',SMS.filter(([n,t])=>/^a_/.test(n)&&/^(?:[^:]+: )?(?:Fondos entregados|Obra finalizada|Cumplido|En ejecución|Obra en ejecución|En licitación|Convenio firmado|En proyecto|Obra adjudicada|Fondos en entrega) en /.test(t)).map(([n])=>n)]];
+  const rev=PUB.filter(a=>(a.avisos||[]).some(x=>/monto|gobernador|verbo|largo|vacío/.test(x))), sinLoc=A.filter(a=>a.alcance==='local'&&!a.localidad), fuera=A.filter(a=>(a.avisos||[]).some(x=>/fuera de la maestra/.test(x))), sinDic=A.filter(a=>(a.avisos||[]).some(x=>/sin diccionario/.test(x))), noPub=A.filter(a=>!a.publicable&&a.estado!=='pendiente');
+  const L=(t,a,hint)=>`<div class="list"><h3>${t} <small>(${a.length})</small></h3>${hint?`<div class="hint">${hint}</div>`:''}<ul>${a.slice(0,60).map(x=>`<li>${x}</li>`).join('')||'<li>Nada pendiente</li>'}${a.length>60?`<li>… y ${a.length-60} más</li>`:''}</ul></div>`;
+  const nm=a=>`${esc(a.localidad?tituloLoc(a.localidad):a.localidad_base)} · meta ${a.id}: ${esc(textoDe(a).slice(0,90))}`;
+  root.innerHTML=`<div class="note gris">Chequeo automático de los textos publicables y de los datos de la base. Nada se rellena: lo que falta queda afuera y se avisa.</div>
+   <div class="list gris"><h3>Reglas de redacción</h3><ul>${reglas.map(([n,bad])=>`<li>${bad.length?'✖':'✔'} ${n}${bad.length?` — <b>${bad.length}</b> casos: ${esc(bad.slice(0,4).join(', '))}${bad.length>4?'…':''}`:''}</li>`).join('')}</ul><div class="hint">${T.length} textos revisados.</div></div>
+   ${L('Textos de placa para revisar a mano',rev.map(a=>nm(a)+' <small>('+esc(a.avisos.filter(x=>/monto|gobernador|verbo|largo|vacío/.test(x)).join('; '))+')</small>'),'La limpieza automática no alcanzó: editar el texto de la placa en la tarjeta o cargar la corrección en contenido.json → anuncios → {meta: {placa}}.')}
+   ${L('Anuncios locales sin localidad',sinLoc.map(nm))}
+   ${L('Localidades fuera de la maestra',fuera.map(nm),'Agregar a Localidades_maestra.xlsx o definir cómo se tratan las comunidades regionales.')}
+   ${L('Estados desagregados sin diccionario',sinDic.map(nm),'Agregar la fila a data/dic_estado_anuncio.csv.')}
+   ${L('Anuncios no publicables (en trámite, espera de documentación, suspendidos)',noPub.map(nm),'Se excluyen de las placas salvo que se marque “Mostrar también los no publicables”.')}
+   ${Object.keys(TX).length?L('Redacción con IA: dudas sobre si publicar',A.filter(a=>(TX[a.id]||{}).duda).map(a=>nm(a)+' <small>('+esc(TX[a.id].duda)+')</small>'),`${Object.values(TX).filter(t=>!t.revisado).length} textos de IA todavía sin revisar. Marcar revisado=true en data/anuncios_textos.json cuando estén vistos.`):'<div class="list"><h3>Redacción con IA</h3><div class="hint">Todavía no se corrió tools/redactar_anuncios.py: los textos de placa son la limpieza automática del parser.</div></div>'}
+   ${L('Avisos de la base',D.avisos.map(esc))}`;
+}
+function renderFicha(root){
+  const a=A.find(x=>x.id===S.ficha); if(!a){S.tab='placas';return renderPlacas(root)}
+  const p=piezaAnuncio(a), e=edAnuncio(a.id), c=CAMP[a.estado]||CAMP.cumplido, L=a.localidad?tituloLoc(a.localidad):'Toda la provincia';
+  root.innerHTML=`<div class="ctx ${a.estado}"><button class="btn sec" data-volver>← Volver al listado</button><b>${esc(L)}</b><span>${esc(a.etiqueta)}${a.anioTxt?' · anunciado en '+esc(a.anioTxt):''} · meta ${a.id}${a.pit?' · PIT':''}</span></div>
+   <div class="list"><h3>Datos de la base</h3><ul>
+    <li><b>Texto original:</b> ${esc(a.texto_original)}</li>${a.detalle?`<li><b>Detalle del anuncio:</b> ${esc(a.detalle)}</li>`:''}
+    <li><b>Estado:</b> ${esc(a.estado)} · ${esc(a.etiqueta)} ${a.publicable?'':'· <b>no publicable</b>'}</li>
+    <li><b>Alcance:</b> ${esc(a.alcance)} · <b>Departamento:</b> ${esc(a.departamento||'—')} · <b>Localidad:</b> ${esc(a.localidad||a.localidad_base||'—')}</li>
+    <li><b>Eje:</b> ${esc(a.eje||'—')} · <b>Ministerio:</b> ${esc(a.ministerio||'—')} · <b>Fecha del anuncio:</b> ${esc(a.fecha_anuncio||'—')}${a.tipo_discurso?' · '+esc(a.tipo_discurso):''}</li>
+    <li><b>Fuentes:</b> ${a.fuente_anuncio?`<a href="${esc(a.fuente_anuncio)}" target="_blank" rel="noopener">anuncio</a>`:'sin fuente'}${a.fuente_seguimiento?` · <a href="${esc(a.fuente_seguimiento)}" target="_blank" rel="noopener">seguimiento</a>`:''}</li>
+    ${a.avisos.length?`<li><b>Avisos del parser:</b> ${esc(a.avisos.join('; '))}</li>`:''}
+    ${e.placa&&TX[a.id]?`<li><b>Redacción con IA:</b> ${esc(TX[a.id].placa)}${TX[a.id].duda?` · <b>duda:</b> ${esc(TX[a.id].duda)}`:''}</li>`:''}</ul></div>
+   <details class="card ${a.estado}" open><summary><div class="tt"><b>${esc(textoDe(a))}</b><span>Placa, copys, SMS y gacetilla · todo lo que edites queda guardado en este navegador</span></div><span class="tag ${a.estado}">${esc(c.nombre)}</span></summary>
+    <div class="body"><div class="grid"><div>${placaHTML(p.placa)}</div><div>${txHTML(p.ig,p.x,textoPlaca(p.placa),p.sms,null,p.gac)}</div></div></div></details>`;
+  wire(root.querySelector('details.card'),p.id,p.placa);
+  root.querySelector('[data-volver]').onclick=()=>{S.tab='placas';S.ficha=null;go()};
+}
+function renderHeader(){
+  const lk='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(SVG['gobierno-color']);$('#lockup').src=lk;$('#lockup2').src=lk;
+  $('#sub').textContent=`Seguimiento de anuncios · base del ${D.fecha} · ${D.total} anuncios`;
+  const tabs=[['placas','Placas y copys por localidad'],...(S.ficha?[['ficha','Ficha del anuncio']]:[]),['calidad','Chequeo de calidad']];
+  const nEd=Object.keys(ED.anuncios).length+Object.keys(ED.piezas).length;
+  $('#tabs').innerHTML=tabs.map(([k,l])=>`<button data-k="${k}" class="${S.tab===k?'on':''}${k==='calidad'?' cal':''}">${l}</button>`).join('')+`<button data-exp class="${S.tab==='calidad'?'':'cal'}" style="margin-left:${S.tab==='calidad'?'6px':'0'}" title="Baja un contenido.json con todo lo editado en este navegador">Exportar ediciones${nEd?' ('+nEd+')':''}</button>`;
+  $('#tabs').onclick=ev=>{const b=ev.target.closest('button');if(!b)return;if(b.dataset.exp!==undefined)exportarEdiciones();else{S.tab=b.dataset.k;go()}};
+}
+function go(){renderHeader();renderSide();({placas:renderPlacas,calidad:renderCalidad,ficha:renderFicha})[S.tab]($('#main'))}
+$('#main').addEventListener('click',ev=>{const b=ev.target.closest('[data-ficha]');if(b){S.ficha=+b.dataset.ficha;S.tab='ficha';go();window.scrollTo(0,0)}});
+go();
+})();
+</script>
+</body>
+</html>

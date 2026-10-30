@@ -23,6 +23,10 @@ header::after{content:"";display:block;height:4px;margin:7px -20px 0;background:
 .top .ttl{border-left:1px solid var(--line);padding-left:14px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 h1{margin:0;font-weight:900;font-size:16px;line-height:1.1;color:var(--gris);letter-spacing:.2px}
 .sub{color:var(--muted);font-size:12px;font-weight:600}
+/* navegación entre módulos: a la derecha del título, el módulo actual resaltado */
+nav.mods{display:inline-flex;gap:2px;background:#f3f3f4;border-radius:999px;padding:2px}
+nav.mods a{padding:3px 12px;border-radius:999px;font:700 12px Poppins;color:var(--gris);text-decoration:none}
+nav.mods a:hover{color:var(--ink)} nav.mods a.on{background:var(--marino);color:#fff}
 /* barra de contexto: dónde estoy (zona y período) y las pestañas. El color cambia con el período */
 .ctx{position:sticky;top:var(--hh,52px);z-index:15;display:flex;align-items:center;gap:10px 18px;flex-wrap:wrap;border-radius:12px;padding:11px 16px;margin-bottom:14px;background:var(--marino);color:#fff;box-shadow:0 4px 14px #17233d22;transition:background .2s,color .2s}
 .ctx.semana{background:var(--dorado);color:var(--marino);box-shadow:0 4px 14px #cfa55b33}
@@ -130,7 +134,7 @@ details.doc pre{white-space:pre-wrap;font:600 12px Poppins;background:#f7f7f8;bo
 </head>
 <body>
 <header>
-  <div class="top"><img id="lockup" alt="Córdoba · Gobierno de la Provincia · Hacer para crecer"><div class="ttl"><h1>GENERADOR DE CONTENIDO</h1><div class="sub" id="sub"></div></div></div>
+  <div class="top"><img id="lockup" alt="Córdoba · Gobierno de la Provincia · Hacer para crecer"><div class="ttl"><h1>GENERADOR DE CONTENIDO</h1><div class="sub" id="sub"></div></div><nav class="mods" aria-label="Módulos"><a href="index.html" class="on" aria-current="page">Obras</a><a href="anuncios.html">Anuncios</a></nav></div>
 </header>
 <div class="wrap"><aside id="side"></aside><main><div class="ctx" id="ctx"></div><div id="main"></div></main></div>
 <footer><img id="lockup2" alt="Córdoba · Gobierno de la Provincia · Hacer para crecer"><p>Comunicación · Municipalidad de Córdoba · uso interno</p></footer>

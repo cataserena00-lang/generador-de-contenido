@@ -1,2 +1,6 @@
 salida/
 __pycache__/
+# Anuncios: la base, lo que sale de ella y su tablero no se suben mientras el repo sea público (ver para_proyecto/subir/modulo_anuncios.md)
+entrada/anuncios/
+data/anuncios_textos.json
+deploy/anuncios.html

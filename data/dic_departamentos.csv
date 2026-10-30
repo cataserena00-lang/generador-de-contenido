@@ -1,0 +1,27 @@
+departamento_norm;nombre_publicable;alias;pit
+CAPITAL;Capital;;no
+CALAMUCHITA;Calamuchita;;no
+COLON;Colón;;no
+CRUZ DEL EJE;Cruz del Eje;;si
+GENERAL ROCA;General Roca;GRAL. ROCA;si
+GENERAL SAN MARTIN;General San Martín;GRAL. SAN MARTIN|GRAL SAN MARTIN;no
+ISCHILIN;Ischilín;;si
+JUAREZ CELMAN;Juárez Celman;;no
+MARCOS JUAREZ;Marcos Juárez;;no
+MINAS;Minas;;si
+POCHO;Pocho;;si
+PRESIDENTE ROQUE SAENZ PENA;Presidente Roque Sáenz Peña;PTE. ROQUE SAENZ PENA|PTE ROQUE SAENZ PENA|ROQUE SAENZ PENA;si
+PUNILLA;Punilla;;no
+RIO CUARTO;Río Cuarto;;no
+RIO PRIMERO;Río Primero;;no
+RIO SECO;Río Seco;;si
+RIO SEGUNDO;Río Segundo;;no
+SAN ALBERTO;San Alberto;;si
+SAN JAVIER;San Javier;;si
+SAN JUSTO;San Justo;;no
+SANTA MARIA;Santa María;;no
+SOBREMONTE;Sobremonte;;si
+TERCERO ARRIBA;Tercero Arriba;;no
+TOTORAL;Totoral;;si
+TULUMBA;Tulumba;;si
+UNION;Unión;;no
