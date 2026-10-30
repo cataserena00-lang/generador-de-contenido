@@ -1,0 +1,8 @@
+{
+  "_nota": "Datos de las memorias descriptivas (PDF de Drive) de cada pavimentación. No se usan montos.",
+  "policial": {"sector": "Policial Etapa II", "barrio": "Policial", "circuito": "14N", "memoria": "policial_II_memoria", "cuadras": 19, "plazo": 150},
+  "san felipe": {"sector": "San Felipe", "barrio": "San Felipe", "circuito": "12D", "memoria": "san_felipe_memoria", "cuadras": 24, "plazo": 150},
+  "9 de julio": {"sector": "9 de Julio Etapa II", "barrio": "9 de Julio", "circuito": "14O", "memoria": "julio9_II_memoria", "cuadras": 36, "plazo": 210},
+  "rivadavia": {"sector": "Rivadavia Anexo", "barrio": "Villa Rivadavia Anexo", "circuito": "4F", "memoria": "rivadavia_anexo_memoria", "cuadras": 56, "plazo": 210},
+  "general arenales": {"sector": "General Arenales", "barrio": "General Arenales", "circuito": "13D", "memoria": "gral_arenales_memoria", "cuadras": 70, "plazo": 210}
+}

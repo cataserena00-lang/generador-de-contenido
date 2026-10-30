@@ -1,0 +1,77 @@
+{
+ "calle": {
+  "poster_pt": [
+   5669,
+   2835
+  ],
+  "footer_top_pt": 2249.0,
+  "footer_h_ratio": 0.2066,
+  "footer_bg": "#17233d",
+  "logos_bbox": [
+   870.4,
+   2371.5,
+   4798.9,
+   2705.9
+  ],
+  "logos_aspect": 11.747,
+  "wordmark_bbox": [
+   275.6,
+   868.2,
+   1430.3,
+   1474.9
+  ],
+  "wordmark_color": "#ffffff",
+  "n_deco": 19,
+  "n_logo": 79
+ },
+ "accesible": {
+  "poster_pt": [
+   2835,
+   3458
+  ],
+  "footer_top_pt": 2956.2,
+  "footer_h_ratio": 0.1452,
+  "footer_bg": "#09467f",
+  "logos_bbox": [
+   323.5,
+   3106.5,
+   2648.5,
+   3308.0
+  ],
+  "logos_aspect": 11.538,
+  "wordmark_bbox": [
+   543.5,
+   401.3,
+   2297.9,
+   1056.6
+  ],
+  "wordmark_color": "#172743",
+  "n_deco": 23,
+  "n_logo": 79
+ },
+ "plaza": {
+  "poster_pt": [
+   6973,
+   3515
+  ],
+  "footer_top_pt": 2772.2,
+  "footer_h_ratio": 0.2113,
+  "footer_bg": "#09467f",
+  "logos_bbox": [
+   488.8,
+   2921.5,
+   6484.4,
+   3329.5
+  ],
+  "logos_aspect": 14.695,
+  "wordmark_bbox": [
+   403.3,
+   1139.9,
+   1909.8,
+   1803.6
+  ],
+  "wordmark_color": "#172743",
+  "n_deco": 53,
+  "n_logo": 84
+ }
+}

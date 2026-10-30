@@ -1,0 +1,9 @@
+﻿clave;rubro;eje;regla;como_se_nombra_en_texto
+mant;Mantenimiento de calles;calle;Calles de tierra: la línea del parte es el barrio;mantenimiento de calles
+frio;Bacheo en frío;calle;Bacheo en frío: la línea del parte es el barrio;bacheo en frío
+rampas;Rampas;accesible;Una esquina = UNA obra (con N rampas). Sin barrio. Placas: 'Rampas en ejecución';rampas
+bacheo;Bacheo con asfalto;calle;"Calle y entre-calles; barrio explícito";bacheo con asfalto
+rehab;Rehabilitación con asfalto;calle;Puede ser nocturno;rehabilitación con asfalto
+hormigon;Rehabilitación y bacheo con hormigón;calle;Puede tener nota de etapa (3.ª etapa);rehabilitación y bacheo con hormigón
+pav;Pavimentación;calle;Cuadras y plazo salen de las memorias (data/memorias.json), barrio de la memoria si el parte no lo trae;pavimentación
+plaza;Plazas;plaza;"Se deduplica por nombre dentro del día; alias en la plantilla (ALIAS) y en parse_lista.py (PLAZA_ALIAS)";plazas en renovación

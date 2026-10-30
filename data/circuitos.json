@@ -1,0 +1,42 @@
+{
+  "fuente": "Tablero 'Parte de Obras' del 27/10 (claude.ai/artifact/Xbxitst4ZDhQrsBjckBWRu). Validado por el usuario como referencia de a qué circuito va cada obra.",
+  "circuito_es": "codigo completo numero+letra (ej. 14N). El '1', '6', '9', '12', '13' sin letra son circuitos validos.",
+  "circuitos": {
+    "1": "Seccional Primera",
+    "4A": "Pueblo las Flores",
+    "4F": "Ciudad Obispo Angelelli",
+    "5G": "San Vicente",
+    "6": "Alto Gral. Paz",
+    "6C": "Gral. Paz",
+    "7A": "Guiñazú",
+    "7B": "Alta Córdoba",
+    "9": "Escobar",
+    "9D": "Poeta Lugones",
+    "10E": "Estación Flores",
+    "10G": "Observatorio",
+    "10H": "Parque Capital",
+    "10I": "Parque Horizonte",
+    "12": "Avellaneda",
+    "12D": "José Ignacio Díaz",
+    "13": "Leandro N. Alem",
+    "13D": "Jardín Arenales",
+    "13H": "Patricios",
+    "13J": "Villa Azalais",
+    "13N": "Yofre",
+    "14G": "Los Boulevares",
+    "14J": "Urca",
+    "14M": "Villa Centenario",
+    "14N": "Villa Cornu",
+    "14O": "Villa 9 de Julio"
+  },
+  "asignaciones_resueltas": {
+    "Rivadavia Anexo (Pavimentación)": "4F",
+    "Gral. Arenales (Pavimentación)": "13D",
+    "Gral. Arenales (Mant. de calles)": "13D",
+    "Juan Carlos Castagino y Lacamera (Bacheo asfalto)": "14M",
+    "Luis Soler e/ Av. Padre Antonio María Claret y Islas del Atlántico Sur (Bacheo asfalto)": "14G",
+    "Rampas bloque Centro (14 esquinas)": "1",
+    "Rampas Av. J. M. de Pueyrredón (4 esquinas)": "10G",
+    "Sarmiento e/ Maipú y Rivera Indarte (Rehab. asfalto)": "1"
+  }
+}

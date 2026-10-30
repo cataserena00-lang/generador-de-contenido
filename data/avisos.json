@@ -1,0 +1,12 @@
+{
+  "avisos": [
+    "Adolfo Alsina: el parte dice 'entre Av. Las Malvinas y Nicolás Villacorta Ocaña'; el doc dice 'entre Av. Las Malvinas y Arturo Capdevila'. Se usa el parte.",
+    "Menéndez Pidal: el parte y el doc no coinciden en la numeración ni en las calles. Se usa el parte.",
+    "Av. Patria: el parte dice barrio Hogar Propio; el doc titula 'B° Pueyrredón'. Se usa el parte.",
+    "Río Negro: el parte dice Rosedal; el doc dice 'Parque Capital'. El doc cubre dos tramos pero solo da 750 m² para Guayana y Olayón: se asigna a ese tramo.",
+    "Rampas: el parte no informa barrio y no se infiere. El doc del programa dice que de las 2.100 rampas, 2.000 son nuevas y 100 reparaciones; por eso las placas dicen 'Rampas en ejecución'.",
+    "Blvd. Guzmán: el parte trae la esquina incompleta (sin segunda calle).",
+    "Las superficies (m²) y metros lineales salen de los docs de Drive; donde no hay, los textos no llevan magnitud.",
+    "Cuadras y plazos de pavimentación salen de las memorias descriptivas. Son datos del proyecto, no avance de obra."
+  ]
+}

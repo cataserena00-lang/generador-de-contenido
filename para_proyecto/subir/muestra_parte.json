@@ -1,0 +1,200 @@
+{
+ "fecha": "2026-10-29",
+ "fecha_texto": "jueves 29 de octubre de 2026",
+ "enEjecucion": 61,
+ "puestos": 599,
+ "finalizadas": 192,
+ "acumulados": {
+  "cuadras_pavimentadas": 1100,
+  "rampas_programa": 2100
+ },
+ "programaRampas": {
+  "total": 2100,
+  "nuevas": 2000,
+  "en_esquinas_sin_rampa": 1317,
+  "reparadas": 100,
+  "fuente": "Doc Drive 'Córdoba Accesible: 2.100 rampas para una ciudad más inclusiva'"
+ },
+ "avisos": [
+  "Adolfo Alsina: el parte dice 'entre Av. Las Malvinas y Nicolás Villacorta Ocaña'; el doc dice 'entre Av. Las Malvinas y Arturo Capdevila'. Se usa el parte.",
+  "Menéndez Pidal: el parte y el doc no coinciden en la numeración ni en las calles. Se usa el parte.",
+  "Av. Patria: el parte dice barrio Hogar Propio; el doc titula 'B° Pueyrredón'. Se usa el parte."
+ ],
+ "obras": [
+  {
+   "id": "mant_arguello-norte",
+   "circuito": "14A",
+   "tipo": "mant",
+   "via": null,
+   "entre": null,
+   "sector": "Argüello Norte",
+   "barrio": "Argüello Norte",
+   "rampas": null,
+   "doc": null,
+   "grupo": false,
+   "estado": "ejecucion",
+   "nota": [],
+   "barrio_inferido": null,
+   "circ_inferido": false,
+   "metricas": {}
+  },
+  {
+   "id": "frio_24-de-septiembre",
+   "circuito": "6A",
+   "tipo": "frio",
+   "via": null,
+   "entre": null,
+   "sector": "24 De Septiembre",
+   "barrio": "24 De Septiembre",
+   "rampas": null,
+   "doc": null,
+   "grupo": false,
+   "estado": "ejecucion",
+   "nota": [],
+   "barrio_inferido": null,
+   "circ_inferido": false,
+   "metricas": {}
+  },
+  {
+   "id": "rampas_12-de-octubre-y-san-martin",
+   "circuito": "1",
+   "tipo": "rampas",
+   "via": "12 de Octubre y San Martín",
+   "entre": null,
+   "sector": null,
+   "barrio": null,
+   "rampas": 4,
+   "doc": null,
+   "grupo": false,
+   "estado": "ejecucion",
+   "nota": [
+    "4 rampas"
+   ],
+   "barrio_inferido": null,
+   "circ_inferido": false,
+   "metricas": {}
+  },
+  {
+   "id": "bacheo_juan-carlos-castagino-y-lacamera",
+   "circuito": "14M",
+   "tipo": "bacheo",
+   "via": "Juan Carlos Castagino y Lacamera",
+   "entre": null,
+   "sector": null,
+   "barrio": "Villa Centenario/Tablada Park",
+   "rampas": null,
+   "doc": "castagino",
+   "grupo": false,
+   "estado": "ejecucion",
+   "nota": [],
+   "barrio_inferido": null,
+   "circ_inferido": false,
+   "metricas": {
+    "driveUrl": "https://docs.google.com/document/d/1rNgfSQHco7-v__ZE9Ig6U29M8U9thj86JT1aTvgMnZg/edit?tab=t.0",
+    "m2": 100
+   }
+  },
+  {
+   "id": "rehab_sarmiento",
+   "circuito": "1",
+   "tipo": "rehab",
+   "via": "Sarmiento",
+   "entre": "Maipú y Rivera Indarte",
+   "sector": null,
+   "barrio": "Centro",
+   "rampas": null,
+   "doc": "rehab_sarmiento",
+   "grupo": false,
+   "estado": "ejecucion",
+   "nota": [
+    "Nocturno"
+   ],
+   "barrio_inferido": null,
+   "circ_inferido": false,
+   "metricas": {
+    "driveUrl": "https://docs.google.com/document/d/1hC8jSnmW8wZxPq27u98Z9uqmysZ0VUyGhhIQHglMr98/edit?tab=t.0",
+    "nocturno": true,
+    "ml": 515
+   }
+  },
+  {
+   "id": "hormigon_av-patria",
+   "circuito": "6",
+   "tipo": "hormigon",
+   "via": "Av. Patria",
+   "entre": "Av. 24 de Septiembre y Armenia",
+   "sector": null,
+   "barrio": "Hogar Propio",
+   "rampas": null,
+   "doc": "av_patria",
+   "grupo": false,
+   "estado": "ejecucion",
+   "nota": [],
+   "barrio_inferido": null,
+   "circ_inferido": false,
+   "metricas": {
+    "driveUrl": "https://docs.google.com/document/d/1IR15IiJuRKY8YOuxOMNJ-8wdwsQHsRI7f9Zv7EybbUQ/edit?tab=t.0",
+    "m2": 1200
+   }
+  },
+  {
+   "id": "pav_policial-etapa-ii",
+   "circuito": "14N",
+   "tipo": "pav",
+   "via": null,
+   "entre": null,
+   "sector": "Policial Etapa II",
+   "barrio": "Policial",
+   "rampas": null,
+   "doc": "pav_policial",
+   "grupo": false,
+   "estado": "ejecucion",
+   "nota": [],
+   "barrio_inferido": "memoria",
+   "circ_inferido": false,
+   "metricas": {
+    "driveUrl": "https://docs.google.com/document/d/1ceGMDzjyBM8oRjexGg6HtsoF3taPOxT__SQIEHDRywk/edit?tab=t.0",
+    "cuadras": 19,
+    "plazo": 150
+   }
+  },
+  {
+   "id": "plaza_plaza-pedro-luis-galeano",
+   "circuito": "9G",
+   "tipo": "plaza",
+   "via": "Plaza Pedro Luis Galeano",
+   "entre": null,
+   "sector": null,
+   "barrio": "Villa Cabrera",
+   "rampas": null,
+   "doc": null,
+   "grupo": false,
+   "estado": "ejecucion",
+   "nota": [],
+   "barrio_inferido": null,
+   "circ_inferido": false,
+   "metricas": {}
+  },
+  {
+   "id": "rampas_grupo_centro",
+   "circuito": "1",
+   "tipo": "rampas",
+   "via": "Zona céntrica · 18 esquinas",
+   "entre": null,
+   "sector": null,
+   "barrio": null,
+   "rampas": 42,
+   "doc": "rampas_centro",
+   "grupo": true,
+   "estado": "ejecucion",
+   "nota": [],
+   "barrio_inferido": null,
+   "circ_inferido": false,
+   "metricas": {
+    "esquinas": 18,
+    "driveUrl": "https://docs.google.com/document/d/1cUzY3LLl4T-KtxyoVnhhIijxNMXihqxR_bs0zDZ_3nE/edit?tab=t.0"
+   }
+  }
+ ],
+ "_nota": "MUESTRA: 9 de 63 obras del parte 2026-10-29 (una por tipo, más un grupo de rampas)"
+}

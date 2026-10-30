@@ -1,0 +1,27 @@
+{
+  "fuente": "Poppins (ExtraBold titulos, SemiBold etiquetas)",
+  "extraido_de": "carteles .ai (PDF vectorial), valores exactos de relleno",
+  "ejes": {
+    "calle": {
+      "nombre": "Calle por Calle - Córdoba Mejora",
+      "marino": "#17233d", "rojo": "#bd1635", "rojo_alt": "#c01e3a",
+      "celeste": "#bedff7", "celeste_medio": "#82b6e3",
+      "pie": "#17233d", "texto_titulo": "#17233d", "wordmark": "#ffffff"
+    },
+    "accesible": {
+      "nombre": "Córdoba Accesible",
+      "amarillo": "#eaab3b", "crema": "#e8d7b0",
+      "azul": "#09467f", "marino": "#172743",
+      "celeste": "#bedff7", "celeste_medio": "#69acdf",
+      "rojo": "#bd1635",
+      "pie": "#09467f", "texto_dato": "#09467f", "wordmark": "#172743"
+    },
+    "plaza": {
+      "nombre": "Nos vemos en la Plaza - Córdoba Mejora",
+      "verde_claro": "#c6dfce", "verde_medio": "#89ba96", "verde": "#4da070",
+      "azul": "#09467f", "marino": "#172743",
+      "pie": "#09467f", "texto_titulo": "#09467f", "wordmark": "#172743",
+      "logo_extra_pie": "EPEC"
+    }
+  }
+}
