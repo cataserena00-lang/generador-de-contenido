@@ -7,8 +7,8 @@ Los dos tableros se enlazan desde la cabecera: "Obras" (`index.html`) y "Anuncio
 ## Flujo semanal
 1. Guardar la base nueva en `entrada/anuncios/Seguimiento_de_anuncios_ML.xlsx`.
 2. `python tools/parse_anuncios.py entrada/anuncios/Seguimiento_de_anuncios_ML.xlsx <fecha>` → `entrada/anuncios/<fecha>/anuncios.json`. Revisar el total y los avisos (localidades fuera de la maestra, estados sin diccionario, duplicados).
-3. Redacción con IA (solo cumplidos y en ejecución): con `ANTHROPIC_API_KEY` en el entorno (nunca en un archivo), `python tools/redactar_anuncios.py <fecha> --solo-nuevos`. La primera vez, o si cambian las reglas, probar con `--limite 30` y aprobar el tono antes de correr el total. Guarda cada 25 en `data/anuncios_textos.json`; lo revisado a mano no se pisa.
-4. `python tools/build_anuncios.py <fecha>` → `salida/anuncios/<fecha>/tablero_anuncios.html` y copia a `deploy/anuncios.html`.
+3. Redacción (solo cumplidos y en ejecución): con `ANTHROPIC_API_KEY` en el entorno (nunca en un archivo), `python tools/redactar_anuncios.py <fecha> --solo-nuevos`. La primera vez, o si cambian las reglas, probar con `--limite 30` y aprobar el tono antes de correr el total. Guarda cada 25 en `data/anuncios_textos.json`; lo revisado a mano no se pisa. Sin clave, la redacción la hace Claude Code a mano con las mismas reglas (bloque SISTEMA del script más los ajustes de abajo), en tandas de 100, con `modelo: "claude-code"`.
+4. `python tools/build_anuncios.py <fecha>` → `salida/anuncios/<fecha>/tablero_anuncios.html` y copia a `deploy/anuncios.html`. Para publicar, copiar también `deploy/index.html` y `deploy/anuncios.html` a la raíz del repo (Vercel publica la raíz).
 5. Verificar en el navegador: sin errores de consola, el Chequeo de calidad carga, una ficha abre, una edición sobrevive a recargar y "Exportar ediciones" baja un `contenido.json`.
 6. Las ediciones del equipo viven en el navegador (localStorage) hasta exportarlas: copiar el `contenido.json` exportado a `entrada/anuncios/<fecha>/` y volver a correr el build.
 7. Mostrar el resultado y pedir confirmación. No publicar sin un "sí" explícito.
@@ -23,17 +23,19 @@ Los dos tableros se enlazan desde la cabecera: "Obras" (`index.html`) y "Anuncio
 ## Reglas de redacción del módulo
 - Las de CLAUDE.md: sin montos ni "millones", sin "/", nunca "circuito" ni "seccional", no inventar nada.
 - Sin "el gobernador", "Llaryora", "anunció", "prometió" ni "comprometió" en placas y titulares. Sustantivo adelante.
-- Lo cumplido, en pasado o como hecho; lo que está en ejecución, en presente; nunca en futuro.
+- Lo cumplido, en pasado o como hecho; lo que está en ejecución, en presente; nunca en futuro. El estado de la base manda sobre lo que diga el texto; si se contradicen, va en "duda".
+- Ajustes aprobados el 30/10: el titular empieza con sujeto explícito ("La Provincia", "Córdoba" o "El Gobierno de Córdoba"), nunca "Se terminó" ni el gobernador. Con "Fondos entregados", la placa nombra el destino ("Dos centros de abordaje de las adicciones"), no el aporte ("Fondos para…").
 
 ## Decisiones tomadas
 - Redacción con IA una sola vez por meta, guardada en `data/anuncios_textos.json`; el build no llama a la API.
-- La base, `entrada/anuncios/`, `data/anuncios_textos.json` y `deploy/anuncios.html` están en `.gitignore` mientras el repo de GitHub sea público.
+- El repo de GitHub quedó **público por decisión del equipo el 30/10**, pendiente de pasarlo a privado. Se publica `anuncios.html` (raíz y `deploy/`) y se suben `anuncios.json` y `data/anuncios_textos.json`, que ya van completos dentro del tablero. Solo el xlsx original (con la columna de inversión) queda fuera (`.gitignore`).
 - Navegación entre módulos en la cabecera; cada build copia su tablero a `deploy/` (`index.html` y `anuncios.html`).
 
 ## Pendientes
-- Correr el pipeline con la base real: `Seguimiento_de_anuncios_ML.xlsx` no vino en el zip del módulo (se esperan 2639 anuncios).
-- Redacción con IA: falta la clave en el entorno de trabajo; aprobar 10 resultados de la prueba de 30 antes del total (unos 2.244 pedidos).
-- Pasar el repo a privado; recién ahí sacar del `.gitignore` lo necesario para publicar `anuncios.html`.
+- Pasar el repo de GitHub a privado (quedó público por decisión del equipo el 30/10).
+- Redactar los 1.835 cumplidos y en ejecución del resto de los departamentos. Hoy esos llevan la placa automática y explican los ✖ del Chequeo (94 con montos, 469 SMS genéricos, 4 de la meta 1659 en marcha que dice "cumplido"); ninguno es de Capital, Río Cuarto ni San Justo.
+- Revisar las 86 metas con "duda" de los tres departamentos redactados (estado contra etiqueta, posibles duplicados, fondos sin destino) y marcar `revisado: true` lo aprobado.
+- Confirmar en Vercel que el despliegue quedó Ready y que `/anuncios.html` pide usuario y clave (desde esta sesión no se llega a vercel.app ni a la cuenta del proyecto).
 - `deploy/LEEME.md` todavía habla solo de `index.html`.
 
 ## Traspaso · primera versión del módulo (30/10)
@@ -42,3 +44,10 @@ Los dos tableros se enlazan desde la cabecera: "Obras" (`index.html`) y "Anuncio
 - Archivos: tools/ (4 nuevos; en `plantilla.html` solo la cabecera), data/ (4 csv), assets/marca/cinta-tricolor.svg, deploy/index.html, .gitignore y este archivo.
 - Estado: build de obras listo en la rama `claude/loving-albattani-pfeg17`, sin publicar. Anuncios todavía no corrió con datos reales.
 - Dudas: falta la base xlsx y la clave de la API; confirmar si la base puede ir al repo (hoy es público).
+
+## Traspaso · redacción de Capital, Río Cuarto y San Justo y publicación (30/10)
+- Hecho: base real parseada (2639 anuncios); 409 textos redactados a mano (cumplidos y en ejecución de Capital, Río Cuarto y San Justo) con los ajustes aprobados, en 4 tandas validadas; 86 con duda.
+- Archivos: data/anuncios_textos.json, entrada/anuncios/2026-10-30/anuncios.json, anuncios.html e index.html (raíz y deploy/), .gitignore y este archivo.
+- Verificado: anuncios.html 3,9 MB e index.html 3,2 MB; sin errores de consola; ficha, edición tras recargar, exportar y navegación Obras/Anuncios funcionan; Chequeo de obras todo ✔.
+- Estado: publicado en main a pedido de Tomás (repo público por decisión del equipo). Falta confirmar en Vercel el Ready y el 401 en /anuncios.html.
+- Dudas: las 86 metas con duda y los ✖ del Chequeo, que vienen todos de departamentos todavía sin redactar.
