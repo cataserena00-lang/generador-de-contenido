@@ -141,10 +141,17 @@ for _, r in df.iterrows():
         estado=e["estado"], estado_detalle=e["estado_detalle"], etiqueta=e["etiqueta_placa"], publicable=(e["publicable"] == "si"),
         texto_original=anuncio, texto_placa=placa, detalle=str(r["Detalle del anuncio"]).strip() if pd.notna(r["Detalle del anuncio"]) else None,
         tiene_inversion=bool(pd.notna(inv) and str(inv).strip() not in ("-", "")),
+        _inv=pd.to_numeric(str(inv).replace("$", "").replace(".", "").replace(",", ".").strip(), errors="coerce") if pd.notna(inv) else None,
         fuente_anuncio=str(r["Fuente del anuncio"]).strip() if pd.notna(r["Fuente del anuncio"]) else None,
         fuente_seguimiento=str(r["Fuente de Seguimiento"]).strip() if pd.notna(r["Fuente de Seguimiento"]) else None,
         avisos=avisos,
     ))
+
+# la inversión no sale del parser: solo el puesto (1 = mayor), que usa la placa de listado para ordenar
+_rk = sorted((a for a in out if a["_inv"] is not None and pd.notna(a["_inv"]) and a["_inv"] > 0), key=lambda a: -a["_inv"])
+_pos = {a["id"]: k + 1 for k, a in enumerate(_rk)}
+for a in out:
+    a.pop("_inv"); a["orden_inversion"] = _pos.get(a["id"])
 
 res = dict(fecha=fecha, fuente=os.path.basename(src), total=len(out), avisos=avisos_glob, anuncios=out)
 json.dump(res, open(os.path.join(OUT, "anuncios.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)

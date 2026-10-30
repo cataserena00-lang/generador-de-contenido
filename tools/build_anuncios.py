@@ -4,7 +4,7 @@ Uso:  python tools/build_anuncios.py 2026-10-30
 Lee:  entrada/anuncios/<fecha>/anuncios.json, entrada/anuncios/<fecha>/contenido.json (opcional: textos editados a mano),
       data/dic_departamentos.csv, assets/marca/gobierno-color.svg, assets/marca/cinta-tricolor.svg, assets/fuentes/*.ttf
 """
-import base64, csv, json, os, sys
+import base64, csv, json, os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 fecha = sys.argv[1] if len(sys.argv) > 1 else sorted(d for d in os.listdir(os.path.join(ROOT, "entrada", "anuncios")) if d[:2] == "20")[-1]
@@ -15,6 +15,21 @@ rd = lambda p: open(p, encoding="utf-8").read()
 b64 = lambda p: base64.b64encode(open(p, "rb").read()).decode()
 
 datos = json.load(open(os.path.join(IN, "anuncios.json"), encoding="utf-8"))
+
+# Orden por inversión para el listado de la placa: al tablero solo llega el puesto (orden_inv, 1 = mayor inversión), nunca el monto.
+# Fuente: orden_inversion del parser (columna Inversión de la base). Si el anuncios.json es anterior y no lo trae, se estima con
+# el monto escrito en texto_original ("80 millones de pesos"); sin monto queda al final de su grupo.
+RE_MILL = re.compile(r"(\d[\d\.,]*)\s*(mil\s+millones|millones|mill[oó]n)", re.I)
+def _monto_txt(t):
+    m = RE_MILL.search(t or "")
+    if not m: return None
+    n = float(m.group(1).replace(".", "").replace(",", "."))
+    return n * (1e9 if m.group(2).lower().startswith("mil ") else 1e6)
+if not any("orden_inversion" in a for a in datos["anuncios"]):
+    _v = sorted(((_monto_txt(a.get("texto_original")), a["id"]) for a in datos["anuncios"] if a.get("tiene_inversion")), key=lambda x: -(x[0] or 0))
+    _rk = {i: k + 1 for k, (v, i) in enumerate(_v) if v}
+    for a in datos["anuncios"]: a["orden_inversion"] = _rk.get(a["id"])
+for a in datos["anuncios"]: a["orden_inv"] = a.pop("orden_inversion", None)
 _cp = os.path.join(IN, "contenido.json")
 contenido = json.load(open(_cp, encoding="utf-8")) if os.path.exists(_cp) else {}
 with open(os.path.join(ROOT, "data", "dic_departamentos.csv"), encoding="utf-8-sig") as f:
