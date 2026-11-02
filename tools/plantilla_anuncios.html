@@ -53,6 +53,7 @@ aside .sec{margin-bottom:11px;padding-bottom:9px;border-bottom:1px solid var(--l
 .zl button:hover{background:#f3f3f4} .zl button.on{background:var(--rojo);color:#fff} .zl button small{font-weight:700;opacity:.55}
 .zl button .pit{font-size:9px;background:#fbe9c2;color:#6b4a05;border-radius:4px;padding:0 4px;margin-left:5px;font-weight:800}
 .zl button.on .pit{background:#fff}
+.zl button .loc{font-size:10.5px;color:var(--muted);font-weight:600} .zl button.on .loc{color:#ffffffcc}
 select,.search{width:100%;border:1px solid var(--line);border-radius:8px;padding:6px 9px;font:600 12.5px Poppins;color:var(--ink);background:#fff}
 .search:focus,textarea:focus,select:focus{outline:2px solid var(--celeste);outline-offset:0}
 aside .res{font-size:11.5px;color:var(--muted);font-weight:600;margin-top:6px;line-height:1.35}
@@ -81,9 +82,12 @@ main{min-width:0}
 .btns{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;align-items:center;font-size:12px;font-weight:600}
 .sw{width:22px;height:22px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px var(--line);cursor:pointer} .sw.on{box-shadow:0 0 0 2px var(--ink)}
 /* qué anuncios entran en la placa: casillas, con la placa y los copys rearmándose en vivo */
-.sel{border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:12px;background:#fafafa}
-.sel .row{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
-.sel .row b{font-size:12px;color:var(--gris);font-weight:800}
+.sel{border:1px solid var(--line);border-radius:10px;padding:0;margin-bottom:12px;background:#fafafa}
+.sel>summary{list-style:none;cursor:pointer;padding:9px 12px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap} .sel>summary::-webkit-details-marker{display:none}
+.sel>summary b{font-size:12.5px;color:var(--ink);font-weight:800} .sel>summary b::before{content:"▸ ";color:var(--gris)} .sel[open]>summary b::before{content:"▾ "}
+.sel>summary .n{font-size:11.5px;color:var(--muted);font-weight:600;flex:1}
+.sel .cuerpo{padding:4px 12px 10px;border-top:1px solid var(--line)}
+.sel .row{display:flex;justify-content:flex-end;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
 .sel .row .n{font-size:11px;color:var(--muted);font-weight:600}
 .sel .btns{margin-top:0}
 .sel ul{list-style:none;margin:0;padding:0;max-height:220px;overflow:auto}
@@ -127,7 +131,7 @@ const guardarED=()=>{try{localStorage.setItem(ED_KEY,JSON.stringify(ED))}catch(e
 const edAnuncio=id=>Object.assign({},TX[id]||{},(CONT.anuncios||{})[id]||{},ED.anuncios[id]||{});
 const aplicarEdicion=(out,tipo)=>{const m=Object.assign({},(CONT[tipo==='piezas'?'localidades_piezas':tipo]||{})[out.id]||{},(ED[tipo]||{})[out.id]||{});
   if(m.ig)out.ig=limpio(m.ig);if(m.x)out.x=limpio(m.x);if(m.sms)out.sms=limpio(m.sms);if(m.gac)out.gac=limpio(m.gac);if(m.items)out.placa.items=m.items;if(m.placaTxt){out.placaTxt=m.placaTxt;if(out.placa.tipo!=='lista')leerPlaca(out.placa,m.placaTxt)}if(Object.keys(m).length)out.redactado=true;};
-function exportarEdiciones(){const out={_nota:'Ediciones hechas en el tablero. Copiar a entrada/anuncios/<fecha>/contenido.json (se fusiona con lo que ya haya).',anuncios:Object.assign({},CONT.anuncios||{},ED.anuncios),localidades_piezas:Object.assign({},CONT.localidades_piezas||{},ED.piezas),seleccion:Object.assign({},CONT.seleccion||{},ED.seleccion),localidades:CONT.localidades||{}};
+function exportarEdiciones(){const out={_nota:'Ediciones hechas en el tablero. Copiar a entrada/anuncios/<fecha>/contenido.json (se fusiona con lo que ya haya).',anuncios:Object.assign({},CONT.anuncios||{},ED.anuncios),localidades_piezas:Object.fromEntries(Object.entries(Object.assign({},CONT.localidades_piezas||{},ED.piezas)).map(([k,v])=>[k,Object.fromEntries(Object.entries(v).filter(([,x])=>x!=null))])),seleccion:Object.assign({},CONT.seleccion||{},ED.seleccion),localidades:CONT.localidades||{}};
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(out,null,1)],{type:'application/json'}));a.download='contenido.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
 const $=(s,r=document)=>r.querySelector(s), esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const up=s=>String(s).toLocaleUpperCase('es-AR'), uniq=a=>[...new Set(a)], hash=s=>[...String(s)].reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7), pick=(arr,k)=>arr[hash(k)%arr.length];
@@ -167,7 +171,7 @@ const smsArmar=(estado,cuerpos,key,apsFijas)=>{ // por cada cuerpo (del más com
 A.forEach(a=>{a.depKey=a.departamento_norm||'SIN DEPARTAMENTO';a.locKey=a.localidad?norm(a.localidad):(a.alcance==='provincial'?'__prov':'__sin');a.color=colorPor(a.estado);a.anioTxt=a.fecha_anuncio?mesAnio(a.fecha_anuncio):null;});
 const PUB=A.filter(a=>a.publicable&&(a.estado==='cumplido'||a.estado==='en_ejecucion'));
 const EJES=uniq(A.map(a=>a.eje).filter(Boolean)).sort(), MINS=uniq(A.map(a=>a.ministerio).filter(Boolean)).sort(), ANIOS=uniq(A.map(a=>a.anio).filter(Boolean)).sort();
-const S={tab:'placas',estado:'cumplido',dep:null,loc:null,alcance:null,eje:null,min:null,anio:null,q:'',nopub:false,ficha:null};
+const S={tab:'placas',estado:'cumplido',qz:'',dep:null,loc:null,alcance:null,eje:null,min:null,anio:null,q:'',nopub:false,ficha:null};
 function alcance(z=S){return (z.nopub?A:PUB).filter(a=>a.estado===z.estado&&(!z.dep||a.depKey===z.dep)&&(!z.loc||a.locKey===z.loc)&&(!z.alcance||a.alcance===z.alcance)&&(!z.eje||a.eje===z.eje)&&(!z.min||a.ministerio===z.min)&&(!z.anio||a.anio===z.anio)&&(!z.q||norm([a.localidad,a.departamento,a.texto_placa,a.texto_original].join(' ')).includes(norm(z.q))))}
 const porLoc=as=>{const m={};as.forEach(a=>(m[a.locKey]??=[]).push(a));return Object.values(m).map(g=>g.sort((x,y)=>(y.fecha_anuncio||'')<(x.fecha_anuncio||'')?-1:1)).sort((x,y)=>y.length-x.length||String(x[0].localidad).localeCompare(String(y[0].localidad)))};
 const nombreLoc=g=>g[0].localidad?tituloLoc(g[0].localidad):(g[0].alcance==='provincial'?'Toda la provincia':'Sin localidad');
@@ -331,15 +335,15 @@ function wire(card,id,v){
 function selHTML(p){ // casillas: qué anuncios entran en la placa (uno solo → placa individual; varios → lista)
   const g=ranking(p.g||[]), sel=selDe(p.id), on=a=>sel&&sel.length?sel.includes(a.id):(!p.manual&&p.eligeN?g.slice(0,p.eligeN).some(x=>x.id===a.id):false);
   const esDep=/^d_/.test(p.id);
-  return `<div class="sel"><div class="row"><b>Anuncios en la placa</b><span class="n">${p.eligeN||0} de ${g.length}${esDep&&!p.eligeN?' · sin elegir, la placa muestra el total':''}</span><span class="btns"><button class="btn sec" data-sel="sug">${esDep?'Los 5 mejores':'Los 5 sugeridos'}</button><button class="btn sec" data-sel="nada">Ninguno</button></span></div>
+  return `<details class="sel"><summary><b>Anuncios en la placa</b><span class="n">${p.eligeN||0} de ${g.length}${p.manual?' · selección propia':esDep?' · sin elegir, la placa muestra el total':' · los 5 sugeridos'} · tocá para elegir</span></summary><div class="cuerpo"><div class="row"><span class="btns"><button class="btn sec" data-sel="sug">${esDep?'Los 5 mejores':'Los 5 sugeridos'}</button><button class="btn sec" data-sel="nada">Ninguno</button></span></div>
    <ul>${g.map(a=>`<li><input type="checkbox" data-selid="${a.id}" id="sel_${p.id}_${a.id}" ${on(a)?'checked':''}><label for="sel_${p.id}_${a.id}">${esc(textoDe(a))}${esDep&&a.localidad?`<span class="loc">· ${esc(tituloLoc(a.localidad))}</span>`:''}${!limpioTxt(a)?' <span class="tag aviso">Revisar texto</span>':''}</label></li>`).join('')}</ul>
-   <div class="hint">Con un solo anuncio la placa es individual; con varios, una lista con tilde por ítem (hasta cinco se leen bien). El texto de cada ítem se edita en “Texto de la placa”.</div></div>`}
+   <div class="hint">Con un solo anuncio la placa es individual; con varios, una lista con tilde por ítem (hasta cinco se leen bien). El texto de cada ítem se edita en “Texto de la placa”.</div></div></details>`}
 function cardPieza(p,rotulo,sub,rearmar){
   const el=document.createElement('details');el.className='card '+p.estado+(sub?' sub':'');
   el.innerHTML=`<summary><div class="tt"><b>${esc(p.titulo)}</b><span>${esc(p.sub||'')}</span></div>${p.redactado?'<span class="tag cumplido">Redactado</span>':''}${p.manual?'<span class="tag cumplido">Selección propia</span>':''}<span class="tag ${p.estado}">${rotulo}</span></summary>
    <div class="body">${p.g?selHTML(p):''}<div class="grid"><div>${placaHTML(p.placa)}</div><div>${txHTML(p.ig,p.x,textoPlaca(p.placa),p.sms,p.placa.tipo==='lista'?'una línea por anuncio; editable':null)}</div></div><div data-subs></div></div>`;
   wire(el,p.id,p.placa);
-  if(p.g&&rearmar){const guardar=ids=>{ED.seleccion[p.id]=ids;if(ED.piezas[p.id]){delete ED.piezas[p.id].items;delete ED.piezas[p.id].placaTxt}guardarED();const n=rearmar();n.open=true;el.replaceWith(n)};
+  if(p.g&&rearmar){const guardar=ids=>{ED.seleccion[p.id]=ids;Object.assign(ED.piezas[p.id]??={},{items:null,placaTxt:null});guardarED();const n=rearmar();n.open=true;n.querySelector(':scope > .body > .sel').open=true;el.replaceWith(n)};
     el.querySelector(':scope > .body > .sel').addEventListener('change',ev=>{if(ev.target.dataset.selid)guardar([...el.querySelectorAll(':scope > .body > .sel input:checked')].map(i=>+i.dataset.selid))});
     el.querySelector(':scope > .body > .sel').addEventListener('click',ev=>{const b=ev.target.closest('button[data-sel]');if(!b)return;guardar(b.dataset.sel==='sug'?ranking(p.g).slice(0,5).map(a=>a.id):[])})}
   return el;
@@ -363,6 +367,11 @@ function renderSide(){
   const locs=S.dep?porLoc(base.filter(a=>a.depKey===S.dep)):[];
   const nz=alcance().length;
   $('#side').innerHTML=`
+   <div class="sec"><h4>Departamento o localidad</h4><input class="search" id="qz" placeholder="Buscar departamento o localidad…" value="${esc(S.qz)}" autocomplete="off">
+    ${S.qz?`<div class="zl" style="margin-top:6px">${(()=>{const q=norm(S.qz);const ds=deps.filter(d=>norm((DEP[d]||{nombre_publicable:d}).nombre_publicable).includes(q));const ls=porLoc(base.filter(a=>a.localidad&&norm(tituloLoc(a.localidad)).includes(q)));
+      return ds.map(d=>`<button class="${S.dep===d&&!S.loc?'on':''}" data-d="${esc(d)}"><span>${esc((DEP[d]||{nombre_publicable:d}).nombre_publicable)} <span class="loc">departamento</span></span><small>${nD(d)}</small></button>`).join('')
+       +ls.slice(0,40).map(g=>`<button class="${S.loc===g[0].locKey?'on':''}" data-dl="${esc(g[0].depKey)}" data-l="${esc(g[0].locKey)}"><span>${esc(nombreLoc(g))} <span class="loc">· ${esc((DEP[g[0].depKey]||{nombre_publicable:g[0].depKey}).nombre_publicable)}</span></span><small>${g.length}</small></button>`).join('')
+       +(!ds.length&&!ls.length?'<div class="res">Sin coincidencias en esta campaña.</div>':'')+(ls.length>40?`<div class="res">… y ${ls.length-40} localidades más: afiná la búsqueda.</div>`:'')})()}</div>`:''}</div>
    <div class="sec"><h4>Departamento</h4><div class="zl"><button class="${!S.dep?'on':''}" data-d=""><span>Toda la provincia</span><small>${base.length}</small></button>${deps.map(d=>`<button class="${S.dep===d?'on':''}" data-d="${esc(d)}"><span>${esc((DEP[d]||{nombre_publicable:d}).nombre_publicable)}${(DEP[d]||{}).pit==='si'?'<span class="pit">PIT</span>':''}</span><small>${nD(d)}</small></button>`).join('')}</div></div>
    ${S.dep?`<div class="sec"><h4>Localidad</h4><div class="zl"><button class="${!S.loc?'on':''}" data-l=""><span>Todas</span><small>${locs.length}</small></button>${locs.map(g=>`<button class="${S.loc===g[0].locKey?'on':''}" data-l="${esc(g[0].locKey)}"><span>${esc(nombreLoc(g))}</span><small>${g.length}</small></button>`).join('')}</div></div>`:''}
    <div class="sec"><h4>Alcance</h4><div class="chips">${[['local','Local'],['pit','PIT'],['provincial','Provincial']].map(([k,l])=>`<button class="chip ${S.alcance===k?'on':''}" data-a="${k}">${l}<small>${base.filter(a=>a.alcance===k).length}</small></button>`).join('')}</div></div>
@@ -372,12 +381,13 @@ function renderSide(){
    <div class="sec"><input class="search" id="q" placeholder="Buscar localidad o texto…" value="${esc(S.q)}"><label style="display:block;font-size:11.5px;font-weight:600;margin-top:6px"><input type="checkbox" id="nopub" ${S.nopub?'checked':''}> Mostrar también los no publicables</label>${S.alcance||S.eje||S.min||S.anio||S.q?'<button class="clr" data-clr>Limpiar filtros</button>':''}
     <div class="res"><b>${nz}</b> anuncios en la selección.</div></div>`;
   $('#side').onclick=ev=>{const b=ev.target.closest('button');if(!b)return;
-    if(b.dataset.d!==undefined){S.dep=b.dataset.d||null;S.loc=null;go()}else if(b.dataset.l!==undefined){S.loc=b.dataset.l||null;go()}
+    if(b.dataset.dl!==undefined){S.dep=b.dataset.dl;S.loc=b.dataset.l;S.qz='';go()}else if(b.dataset.d!==undefined){S.dep=b.dataset.d||null;S.loc=null;go()}else if(b.dataset.l!==undefined){S.loc=b.dataset.l||null;go()}
     else if(b.dataset.a){S.alcance=S.alcance===b.dataset.a?null:b.dataset.a;go()}else if(b.dataset.y){S.anio=S.anio===+b.dataset.y?null:+b.dataset.y;go()}
     else if(b.dataset.clr!==undefined){S.alcance=S.eje=S.min=S.anio=null;S.q='';go()}};
   $('#side').querySelectorAll('select').forEach(s=>s.onchange=()=>{S[s.dataset.sel]=s.value||null;go()});
   $('#nopub').onchange=ev=>{S.nopub=ev.target.checked;go()};
   $('#q').oninput=ev=>{S.q=ev.target.value;clearTimeout(S._t);S._t=setTimeout(()=>{go();const q=$('#q');q.focus();q.setSelectionRange(q.value.length,q.value.length)},300)};
+  $('#qz').oninput=ev=>{S.qz=ev.target.value;clearTimeout(S._tz);S._tz=setTimeout(()=>{renderSide();const q=$('#qz');q.focus();q.setSelectionRange(q.value.length,q.value.length)},200)};
 }
 function ctx(){const c=CAMP[S.estado],n=alcance().length,d=S.dep?(DEP[S.dep]||{nombre_publicable:S.dep}).nombre_publicable:null;
   return `<div class="ctx ${S.estado}"><b>${c.nombre}</b><span>${d?`Departamento ${esc(d)}`:'Toda la provincia'}${S.loc?' · '+esc(nombreLoc(alcance()))+'':''} · ${n} anuncios</span></div>`}
