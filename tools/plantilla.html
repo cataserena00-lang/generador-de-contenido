@@ -15,34 +15,45 @@
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:Poppins,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5}
-/* cabecera mínima: marca, título y fecha del parte, y la franja tricolor (menos de 70 px) */
-header{background:#fff;padding:7px 20px 0;position:sticky;top:0;z-index:20;box-shadow:0 2px 14px #00000012}
-header::after{content:"";display:block;height:4px;margin:7px -20px 0;background:linear-gradient(90deg,var(--celeste) 0 33.34%,var(--rojo) 33.34% 66.67%,var(--dorado) 66.67%)}
-.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.top img{height:30px;display:block}
-.top .ttl{border-left:1px solid var(--line);padding-left:14px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-h1{margin:0;font-weight:900;font-size:16px;line-height:1.1;color:var(--gris);letter-spacing:.2px}
-.sub{color:var(--muted);font-size:12px;font-weight:600}
-/* navegación entre módulos: a la derecha del título, el módulo actual resaltado */
-nav.mods{display:inline-flex;gap:2px;background:#f3f3f4;border-radius:999px;padding:2px}
-nav.mods a{padding:3px 12px;border-radius:999px;font:700 12px Poppins;color:var(--gris);text-decoration:none}
+/* cabecera: marca, título grande con la última actualización y el selector de módulo; debajo, la franja tricolor y la barra de vista */
+header{background:#fff;padding:12px 20px 0;position:sticky;top:0;z-index:20;box-shadow:0 2px 14px #00000012}
+.top{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.top img{height:38px;display:block}
+.top .ttl{border-left:1px solid var(--line);padding-left:18px;min-width:0}
+h1{margin:0;font-weight:900;font-size:24px;line-height:1.1;color:var(--marino);letter-spacing:.2px}
+.sub{color:var(--muted);font-size:12.5px;font-weight:600;margin-top:3px} .sub b{color:var(--ink);font-weight:700}
+/* navegación entre módulos (tipo de contenido): a la derecha, el módulo actual resaltado */
+nav.mods{margin-left:auto;display:inline-flex;gap:3px;background:#f3f3f4;border-radius:999px;padding:3px}
+nav.mods a{padding:7px 18px;border-radius:999px;font:700 13.5px Poppins;color:var(--gris);text-decoration:none}
 nav.mods a:hover{color:var(--ink)} nav.mods a.on{background:var(--marino);color:#fff}
-/* barra de contexto: dónde estoy (zona y período) y las pestañas. El color cambia con el período */
-.ctx{position:sticky;top:var(--hh,52px);z-index:15;display:flex;align-items:center;gap:10px 18px;flex-wrap:wrap;border-radius:12px;padding:11px 16px;margin-bottom:14px;background:var(--marino);color:#fff;box-shadow:0 4px 14px #17233d22;transition:background .2s,color .2s}
-.ctx.semana{background:var(--dorado);color:var(--marino);box-shadow:0 4px 14px #cfa55b33}
-.ctx .donde{flex:1;min-width:260px}
-.ctx .l1{font-size:19px;font-weight:900;line-height:1.2}
-.ctx .l1 .sep{opacity:.5;font-weight:700;margin:0 6px}
-.ctx .l1 .pt{font-weight:700}
-.ctx .l2{font-size:12px;font-weight:600;opacity:.8;margin-top:2px}
-.seg{display:inline-flex;background:#ffffff1f;border-radius:10px;padding:3px;gap:2px}
-.ctx.semana .seg{background:#17233d1a}
-.seg button{border:0;background:transparent;color:inherit;border-radius:8px;padding:6px 14px;font:700 12.5px Poppins;cursor:pointer;opacity:.85}
-.seg button:hover{opacity:1;background:#ffffff1a}
-.seg button.on{background:#fff;color:var(--marino);opacity:1;box-shadow:0 1px 4px #0002}
-.ctx.semana .seg button.on{background:var(--marino);color:#fff}
-.seg button.cal{color:#c4c8cf} .ctx.semana .seg button.cal{color:#4f5560}
-.seg button.cal.on{background:#8a8f98;color:#fff}
+.cinta{height:4px;margin:12px -20px 0;background:linear-gradient(90deg,var(--celeste) 0 33.34%,var(--rojo) 33.34% 66.67%,var(--dorado) 66.67%)}
+/* barra de vista: cruza toda la hoja. Primero se elige qué ver (Obra por obra, Resumen); Chequeo queda como enlace discreto a la derecha */
+.vista{display:flex;align-items:flex-end;gap:6px;flex-wrap:wrap;padding-top:8px;margin:0 -20px;padding-left:20px;padding-right:20px;background:#fff}
+.vista .tab{border:0;background:transparent;padding:9px 18px 11px;border-radius:10px 10px 0 0;font:700 15px Poppins;color:var(--gris);position:relative;cursor:pointer;line-height:1.2;text-align:left}
+.vista .tab small{display:block;font-size:11px;font-weight:600;opacity:.8;margin-top:1px}
+.vista .tab.on{color:var(--marino);background:var(--bg)}
+.vista .tab.on::after{content:"";position:absolute;left:18px;right:18px;top:0;height:3px;border-radius:0 0 3px 3px;background:var(--rojo)}
+.vista .tab:focus-visible{outline:2px solid var(--celeste);outline-offset:-2px}
+.vista .chequeo{margin-left:auto;align-self:center;border:0;background:transparent;font:600 12.5px Poppins;color:var(--muted);display:inline-flex;align-items:center;gap:7px;padding:6px 10px;border-radius:8px;margin-bottom:6px;cursor:pointer}
+.vista .chequeo .dot{width:9px;height:9px;border-radius:50%;background:#2e8b57;box-shadow:0 0 0 3px #2e8b5722}
+.vista .chequeo.avisos .dot{background:var(--amarillo);box-shadow:0 0 0 3px #eaab3b33}
+.vista .chequeo:hover,.vista .chequeo.on{background:#f3f3f4;color:var(--ink)}
+/* período: pertenece a la vista elegida (fila completa, arriba de la columna lateral y del contenido) */
+.perbar{grid-column:1 / -1;display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:-2px 0 2px}
+.perbar .lbl{font-size:10.5px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--gris);margin-right:4px}
+.pchip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 14px;font:700 12.5px Poppins;color:var(--ink);cursor:pointer;display:inline-flex;align-items:baseline;gap:6px}
+.pchip small{font-weight:600;color:var(--muted);font-size:11px}
+.pchip:hover{border-color:#c9ccd3}
+.pchip.on{background:var(--marino);border-color:var(--marino);color:#fff} .pchip.on small{color:#ffffffb3}
+.pchip.semana.on{background:var(--dorado);border-color:var(--dorado);color:var(--marino)} .pchip.semana.on small{color:#17233dcc}
+.pchip:disabled{opacity:.5;cursor:not-allowed}
+/* rótulo de contexto: dónde estoy (zona, período con sus fechas y alcance). El período se marca con el color de siempre: marino el día, dorado la semana */
+.ctx{display:flex;align-items:baseline;justify-content:space-between;gap:8px 16px;flex-wrap:wrap;margin:2px 0 12px}
+.ctx .l1{font-size:19px;font-weight:900;line-height:1.2;color:var(--marino)}
+.ctx .l1 .sep{opacity:.4;font-weight:700;margin:0 6px}
+.ctx .l1 .pt{font-weight:700;font-size:15px;color:var(--gris)}
+.ctx.semana .l1 .pt{color:#9a7a3a}
+.ctx .l2{font-size:12px;font-weight:600;color:var(--muted)}
 .tag.dias{background:#f6ecd8;color:#6b4a05} .tag.circ{background:#f1f1f1;color:#6f747d}
 /* cuerpo: columna lateral fija con los filtros y el área de trabajo a la derecha */
 .wrap{display:grid;grid-template-columns:250px minmax(0,1fr);gap:18px;max-width:1900px;margin:0 auto;padding:14px 16px 40px}
@@ -58,10 +69,6 @@ aside .zl button small{font-weight:700;opacity:.55}
 aside .zl .subs{display:flex;flex-wrap:wrap;gap:3px;padding:3px 0 5px 10px}
 aside .zl .subs .chip{padding:1px 8px;font-size:10.5px;background:#f3f3f4;color:#6f747d;border-color:#e6e6e8}
 aside .zl .subs .chip.on{background:#8a8f98;color:#fff;border-color:#8a8f98}
-.per{display:flex;width:100%;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}
-.per button{flex:1;border:0;background:transparent;padding:5px 6px;font:700 12px Poppins;color:var(--gris);cursor:pointer;line-height:1.25}
-.per button small{display:block;font-size:10.5px;font-weight:600;opacity:.75}
-.per button.on.hoy{background:var(--marino);color:#fff} .per button.on.semana{background:var(--dorado);color:var(--marino)}
 aside details.datos summary{cursor:pointer;font-size:10.5px;text-transform:uppercase;letter-spacing:.7px;color:var(--gris);font-weight:800;list-style:revert}
 aside .kpis{display:grid;grid-template-columns:1fr 1fr;gap:6px 8px;margin:8px 0 2px}
 aside .kpi{display:flex;flex-direction:column;border-left:3px solid var(--celeste);padding-left:7px;line-height:1.15}
@@ -71,7 +78,7 @@ aside .search{max-width:none;font-size:12.5px;padding:6px 9px}
 aside .res{font-size:11.5px;color:var(--muted);font-weight:600;margin-top:6px;line-height:1.35}
 aside .clr{font-size:11.5px;color:var(--link);font-weight:700;cursor:pointer;background:none;border:0;padding:0;margin-top:6px}
 main{min-width:0}
-@media(max-width:900px){.wrap{grid-template-columns:1fr}aside{position:static;max-height:none}.ctx{top:0;position:relative}}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}aside{position:static;max-height:none}}
 @media(max-width:700px){.card>summary{flex-wrap:wrap;gap:6px}.card>summary .tt{flex:1 1 100%}}
 .listbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:2px 0 10px}
 .listbar .count{margin:0}
@@ -134,9 +141,11 @@ details.doc pre{white-space:pre-wrap;font:600 12px Poppins;background:#f7f7f8;bo
 </head>
 <body>
 <header>
-  <div class="top"><img id="lockup" alt="Córdoba · Gobierno de la Provincia · Hacer para crecer"><div class="ttl"><h1>GENERADOR DE CONTENIDO</h1><div class="sub" id="sub"></div></div><nav class="mods" aria-label="Módulos"><a href="index.html" class="on" aria-current="page">Obras</a><a href="anuncios.html">Anuncios</a></nav></div>
+  <div class="top"><img id="lockup" alt="Córdoba · Gobierno de la Provincia · Hacer para crecer"><div class="ttl"><h1>GENERADOR DE CONTENIDO</h1><div class="sub" id="sub"></div></div><nav class="mods" aria-label="Tipo de contenido"><a href="index.html" class="on" aria-current="page">Obras</a><a href="anuncios.html">Anuncios</a></nav></div>
+  <div class="cinta"></div>
+  <div class="vista" id="vista" role="tablist"></div>
 </header>
-<div class="wrap"><aside id="side"></aside><main><div class="ctx" id="ctx"></div><div id="main"></div></main></div>
+<div class="wrap"><div class="perbar" id="per"></div><aside id="side"></aside><main><div class="ctx" id="ctx"></div><div id="main"></div></main></div>
 <footer><img id="lockup2" alt="Córdoba · Gobierno de la Provincia · Hacer para crecer"><p>Comunicación · Municipalidad de Córdoba · uso interno</p></footer>
 <script>const DATA=/*__DATA__*/null;</script>
 <script>
@@ -813,7 +822,12 @@ function tarjetaContenido(gx,rotulo){
   wire(el,gx.id,gx.placa);return el;
 }
 function renderGenerales(root){
-  const sem=S.per==='semana';
+  const sem=S.per==='semana', N=perN(S.per);
+  if(N>7){ // lecturas de 10, 15 y 30 días: son de toda la ciudad
+    const ps=periodicos().filter(p=>new RegExp('^p_'+N+'(_|$)').test(p.id)), v=VENT.find(x=>x[0]===N);
+    root.innerHTML=`<div class="note">Resumen de <b>${esc(v?v[1]:N+' días')}</b> para toda la ciudad: la lectura general y las piezas por tipo de obra.${S.secc?' Las lecturas de 10, 15 y 30 días no se arman por zona.':''} Las demás lecturas están más abajo, en “Otras lecturas”.</div><div class="gen-grid" id="gl"></div><div id="otras"></div>`;
+    ps.forEach(p=>{if(p.estado){const d=document.createElement('div');d.className='list';d.innerHTML=`<h3>${esc(p.titulo)}</h3><div style="font-size:12.5px;color:var(--muted);font-weight:600">${esc(p.estado)}</div>`;$('#gl',root).appendChild(d);return}$('#gl',root).appendChild(tarjetaContenido(p,'Periódico'))});
+    renderPeriodicos($('#otras',root),ps.map(p=>p.id));return;}
   if(!S.secc){ // toda la ciudad: lo del período elegido y, al final, las otras lecturas
     let mostradas=[];
     if(!sem){
@@ -870,8 +884,6 @@ function renderSide(){ // columna lateral: período y zona (valen para todo el t
   const RZ=alcance().reales, nCon=RZ.filter(o=>o.fotos.length).length, obrasTab=S.tab==='obras';
   const zb=(x,label,n)=>`<button class="${x===null?'todo ':''}${(x===null?!S.secc:S.secc===x)?'on':''}" data-z="${x===null?'':x}"><span>${label}</span><small>${n}</small></button>`;
   $('#side').innerHTML=`
-   <div class="sec"><h4>Período</h4><div class="per"><button class="hoy ${!sem?'on':''}" data-p="hoy">Hoy<small>${ddmm(P.fecha)}</small></button><button class="semana ${sem?'on':''}" data-p="semana">Semana<small>${rangoCorto()}</small></button></div>
-    <div class="res">${sem?'Últimos 7 días: obras distintas, cada una con su último parte.':`Parte del ${esc(P.fecha_texto)}.`}</div></div>
    <div class="sec"><h4>Zona</h4><div class="zl">${zb(null,'Toda la ciudad',base.length)}${SECCS.map(x=>zb(x,x==='?'?'Sin código':'Secc. '+x,nS(x))+(S.secc===x&&subs.length>1?`<div class="subs">${subs.map(c=>`<button class="chip ${S.circ===c?'on':''}" data-zc="${c}">${esc(c)}<small>${base.filter(o=>o.circuito===c).length}</small></button>`).join('')}</div>`:'')).join('')}</div>
     <div class="res">${esc(zonaRotulo(S))}: <b>${nz}</b> ${nz===1?'obra':'obras'} ${sem?'en la semana':'hoy'} · ${nzOtro} ${sem?'hoy':'en la semana'}</div></div>
    ${obrasTab?`<div class="sec"><h4>Tipo de obra</h4><div class="chips">${TIPO_ORDEN.map(t=>`<button class="chip t-${TIPOS[t].eje} ${S.tipo===t?'on':''}" data-t="${t}">${TIPOS[t].corto}<small>${RZ.filter(o=>o.tipo===t).length}</small></button>`).join('')}</div></div>
@@ -882,7 +894,6 @@ function renderSide(){ // columna lateral: período y zona (valen para todo el t
   $('#side').onclick=ev=>{const b=ev.target.closest('button');if(!b)return;
     if(b.dataset.z!==undefined){S.secc=b.dataset.z||null;S.circ=null;go()}
     else if(b.dataset.zc){S.circ=S.circ===b.dataset.zc?null:b.dataset.zc;go()}
-    else if(b.dataset.p){S.per=b.dataset.p;go()}
     else if(b.dataset.t){S.tipo=S.tipo===b.dataset.t?null:b.dataset.t;go()}
     else if(b.dataset.f){S.foto=S.foto===b.dataset.f?null:b.dataset.f;go()}
     else if(b.dataset.clr!==undefined){S.tipo=S.foto=null;S.q='';go()}};
@@ -895,25 +906,44 @@ const fch=s=>new Date(s+'T00:00:00'), ddmm=s=>{const d=fch(s);return String(d.ge
 const iniSemana=()=>{const d=fch(P.fecha);d.setDate(d.getDate()-6);return d};
 function rangoCorto(){const a=iniSemana(),b=fch(P.fecha);return a.getMonth()===b.getMonth()?`${String(a.getDate()).padStart(2,'0')} al ${ddmm(P.fecha)}`:`${String(a.getDate()).padStart(2,'0')}/${String(a.getMonth()+1).padStart(2,'0')} al ${ddmm(P.fecha)}`}
 function rangoLargo(){const a=iniSemana(),b=fch(P.fecha);return a.getMonth()===b.getMonth()?`del ${a.getDate()} al ${b.getDate()} de ${MESES[b.getMonth()]}`:`del ${a.getDate()} de ${MESES[a.getMonth()]} al ${b.getDate()} de ${MESES[b.getMonth()]}`}
-function renderCtx(){ // barra de contexto: zona, período con sus fechas, alcance y pestañas
-  const sem=S.per==='semana', {reales:RZ}=alcance(), {dias}=diasSemana(), d=fch(P.fecha);
-  const zona=S.secc?(S.secc==='?'?'Sin código de zona':`Seccional ${S.secc}`)+(S.circ?` · subcircuito ${S.circ}`:''):'Toda la ciudad';
-  const nb=uniq(RZ.flatMap(o=>o.barrioList||[])).length, nO=RZ.length;
-  const per=sem?`Semana · ${rangoLargo()} · ${dias.length} ${dias.length===1?'parte':'partes'}`:`Hoy · parte del ${DIAS[d.getDay()]} ${d.getDate()} de ${MESES[d.getMonth()]}`;
-  const alc=`${nO} ${nO===1?'obra':'obras'}${sem?(nO===1?' distinta':' distintas'):' en ejecución'} · ${nb} ${nb===1?'barrio':'barrios'}`;
-  const tabs=[['obras','Obra por obra'],['generales','Resumen'],['calidad','Chequeo']];
+const perN=p=>p==='semana'?7:(+((/^d(\d+)$/.exec(p)||[])[1])||0); // 0 = hoy; 7 = semana; 10, 15 y 30 = lecturas periódicas (solo en Resumen)
+function renderCtx(){ // rótulo de contexto: zona, período con sus fechas y alcance
+  const sem=S.per==='semana', N=perN(S.per), {reales:RZ}=alcance(), {dias}=diasSemana(), d=fch(P.fecha);
   const c=$('#ctx');c.className='ctx '+(sem?'semana':'hoy');
-  c.innerHTML=`<div class="donde"><div class="l1">${esc(zona)}<span class="sep">·</span><span class="pt">${esc(per)}</span></div><div class="l2">${esc(alc)}</div></div>
-   <div class="seg" role="tablist">${tabs.map(([k,l])=>`<button role="tab" data-k="${k}" class="${S.tab===k?'on':''}${k==='calidad'?' cal':''}">${l}</button>`).join('')}</div>`;
-  c.onclick=ev=>{const b=ev.target.closest('button');if(b&&b.dataset.k){S.tab=b.dataset.k;go()}};
+  if(S.tab==='calidad'){c.innerHTML=`<div class="l1">Chequeo de calidad</div><div class="l2">Textos publicables y datos que faltan, revisados con las reglas del módulo</div>`;return}
+  const zona=S.secc?(S.secc==='?'?'Sin código de zona':`Seccional ${S.secc}`)+(S.circ?` · subcircuito ${S.circ}`:''):'Toda la ciudad';
+  if(N>7){const v=VENT.find(x=>x[0]===N),w=ventana(N);c.innerHTML=`<div class="l1">Toda la ciudad<span class="sep">·</span><span class="pt">Resumen de ${esc(v?v[1]:N+' días')}</span></div><div class="l2">${w.k} ${w.k===1?'parte':'partes'} de ${w.req} días hábiles${w.completo?` · ${w.unicas} obras distintas`:' · faltan partes'}</div>`;return}
+  const nb=uniq(RZ.flatMap(o=>o.barrioList||[])).length, nO=RZ.length, res=S.tab==='generales';
+  const per=sem?`${res?'Resumen de la semana':'Semana'} · ${rangoLargo()} · ${dias.length} ${dias.length===1?'parte':'partes'}`:`${res?'Resumen del día':'Hoy'} · parte del ${DIAS[d.getDay()]} ${d.getDate()} de ${MESES[d.getMonth()]}`;
+  const alc=`${nO} ${nO===1?'obra':'obras'}${sem?(nO===1?' distinta':' distintas'):' en ejecución'} · ${nb} ${nb===1?'barrio':'barrios'}`;
+  c.innerHTML=`<div class="l1">${esc(zona)}<span class="sep">·</span><span class="pt">${esc(per)}</span></div><div class="l2">${esc(alc)}</div>`;
+}
+function renderVista(){ // barra de vista (cruza toda la hoja) y, debajo, el período que esa vista admite
+  const tabs=[['obras','Obra por obra','copys, placas y textos de cada obra'],['generales','Resumen','lecturas generales y periódicas']];
+  const cal=S._cal; // resultado del chequeo (se calcula una vez, después del primer dibujo)
+  $('#vista').innerHTML=tabs.map(([k,l,s])=>`<button role="tab" class="tab ${S.tab===k?'on':''}" data-k="${k}" aria-selected="${S.tab===k}">${l}<small>${s}</small></button>`).join('')+
+   `<button class="chequeo ${S.tab==='calidad'?'on':''} ${cal&&cal.n?'avisos':''}" data-k="calidad" title="Chequeo de calidad"><span class="dot"></span>Chequeo de calidad${cal?(cal.n?` · ${cal.n} ${cal.n===1?'regla con casos':'reglas con casos'}`:' · todo ✔'):''}</button>`;
+  $('#vista').onclick=ev=>{const b=ev.target.closest('button[data-k]');if(b){S.tab=b.dataset.k;go()}};
+  const per=$('#per');
+  if(S.tab==='calidad'){per.innerHTML='';per.hidden=true;return}
+  per.hidden=false;
+  const chips=S.tab==='obras'
+    ?[['hoy','Hoy',ddmm(P.fecha),''],['semana','Últimos 7 días',rangoCorto(),'semana'],['fin','Finalizadas','próximamente','no']]
+    :[['hoy','Del día',ddmm(P.fecha),''],['semana','Semana',rangoCorto(),'semana'],...[[10,'Últimos 10 días'],[15,'Últimos 15 días'],[30,'Último mes']].map(([N,l])=>{const w=ventana(N);return ['d'+N,l,w.completo?`${w.k} partes`:'faltan partes',w.completo?'':'no']})];
+  per.innerHTML=`<span class="lbl">Período</span>`+chips.map(([k,l,s,c])=>`<button class="pchip ${c==='no'?'':c} ${S.per===k?'on':''}" data-per="${k}" ${c==='no'?'disabled title="'+(k==='fin'?'Todavía no hay datos de obras finalizadas por obra':'Faltan partes para armar esta lectura')+'"':''}>${l}<small>${s}</small></button>`).join('');
+  per.onclick=ev=>{const b=ev.target.closest('button[data-per]');if(b&&!b.disabled){S.per=b.dataset.per;go()}};
 }
 function renderHeader(){
   const lk='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(A.svg['gobierno-color']);$('#lockup').src=lk;$('#lockup2').src=lk;
-  $('#sub').textContent=P.fecha_texto+' · parte de obras';
+  $('#sub').innerHTML=`Última actualización: <b>parte del ${esc(P.fecha_texto)}</b>`;
+  renderVista();
   document.documentElement.style.setProperty('--hh',$('header').offsetHeight+'px');
   renderSide();renderCtx();
 }
-function go(){if(!['obras','generales','calidad'].includes(S.tab))S.tab='obras';renderHeader();const m=$('#main');m.onclick=null;({obras:renderObras,generales:renderGenerales,calidad:renderCalidad})[S.tab](m)}
+function go(){if(!['obras','generales','calidad'].includes(S.tab))S.tab='obras';
+  if(S.tab!=='generales'&&perN(S.per)>7)S.per='hoy'; // las lecturas de 10, 15 y 30 días existen solo en Resumen
+  renderHeader();const m=$('#main');m.onclick=null;({obras:renderObras,generales:renderGenerales,calidad:renderCalidad})[S.tab](m);
+  if(!S._cal){S._cal={n:null};setTimeout(()=>{try{const d=document.createElement('div');renderCalidad(d);const li=[...d.querySelectorAll('.list.gris li')];S._cal={n:li.filter(x=>x.textContent.trim().startsWith('✖')).length}}catch(e){S._cal={n:null}}renderVista()},0)}}
 window.addEventListener('resize',()=>document.documentElement.style.setProperty('--hh',$('header').offsetHeight+'px'));
 go();
 })();
