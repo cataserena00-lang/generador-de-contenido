@@ -81,6 +81,16 @@ main{min-width:0}
 .btn.sec{background:#efeff1;color:var(--ink)} .btn.ok{background:#4da070}
 .btns{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;align-items:center;font-size:12px;font-weight:600}
 .sw{width:22px;height:22px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px var(--line);cursor:pointer} .sw.on{box-shadow:0 0 0 2px var(--ink)}
+/* foto de la placa: se sube desde la tarjeta, queda en este navegador, y se elige el diseño */
+.foto{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px;font-size:12px;font-weight:600}
+.foto .mini{width:44px;height:44px;object-fit:cover;border-radius:6px;border:1px solid var(--line);background:#eee}
+.foto .btn.sec{cursor:pointer} .foto input[type=file]{display:none}
+.foto .dis{display:inline-flex;gap:4px} .foto .dis .chip.on{background:var(--marino);border-color:var(--marino);color:#fff}
+.foto .dis .chip:disabled{opacity:.45;cursor:not-allowed}
+.foto .sug{font-size:10.5px;color:var(--muted);font-weight:700;margin-left:2px}
+.foto .aviso{font-size:11px;color:var(--rojo);font-weight:700}
+.foto .enc{flex-basis:100%;font-size:11px;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:6px} .foto .enc input{width:120px;margin:0}
+.fmt canvas.movible{cursor:grab} .fmt canvas.movible:active{cursor:grabbing}
 /* qué anuncios entran en la placa: casillas, con la placa y los copys rearmándose en vivo */
 .sel{border:1px solid var(--line);border-radius:10px;padding:0;margin-bottom:12px;background:#fafafa}
 .sel>summary{list-style:none;cursor:pointer;padding:9px 12px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap} .sel>summary::-webkit-details-marker{display:none}
@@ -125,6 +135,11 @@ const D=DATA.datos, A=D.anuncios, CONT=DATA.contenido||{}, TX=DATA.textos||{}, S
    Prioridad de un texto: edición en el navegador > contenido.json > redacción con IA (data/anuncios_textos.json) > limpieza automática del parser. */
 const ED_KEY='gc_anuncios_ediciones';
 let ED={anuncios:{},piezas:{},seleccion:{}}; try{ED=Object.assign(ED,JSON.parse(localStorage.getItem(ED_KEY)||'{}'))}catch(e){} ED.seleccion??={};
+// fotos de las placas: por pieza, reducidas a 1600 px, en el navegador (aparte de las ediciones de texto para no pesar el export)
+const FOTO_KEY='gc_anuncios_fotos'; let FOTOS={}; try{FOTOS=JSON.parse(localStorage.getItem(FOTO_KEY)||'{}')}catch(e){}
+const guardarFotos=()=>{try{localStorage.setItem(FOTO_KEY,JSON.stringify(FOTOS));return true}catch(e){return false}};
+const reducirFoto=file=>new Promise((res,rej)=>{const fr=new FileReader();fr.onerror=rej;fr.onload=()=>{const i=new Image();i.onerror=rej;i.onload=()=>{const M=1600,k=Math.min(1,M/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=Math.round(i.width*k);c.height=Math.round(i.height*k);c.getContext('2d').drawImage(i,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.85))};i.src=fr.result};fr.readAsDataURL(file)});
+const disSugerido=v=>v.tipo==='lista'?'arriba':'completa';
 // anuncios elegidos para la placa de una localidad o departamento: edición en el navegador > contenido.json → seleccion > sugeridos (los 5 mejores del ranking)
 const selDe=id=>ED.seleccion[id]||(CONT.seleccion||{})[id]||null;
 const guardarED=()=>{try{localStorage.setItem(ED_KEY,JSON.stringify(ED))}catch(e){}};
@@ -263,13 +278,14 @@ function drawLayout(g,lay,x,y,maxW,acc,fondo){let cy=y;for(const {b,lines,lh,s} 
   if(b.chip){const tw=g.measureText(lines[0]).width,h=s*1.9,w=tw+s*1.6;g.strokeStyle=b.c;g.lineWidth=Math.max(2,s*.09);rrect(g,x,cy,w,h,h/2);g.stroke();g.fillText(lines[0],x+s*.8,cy+h*.68);cy+=h+(b.gap||0)*lay.k;continue}
   lines.forEach((ln,i)=>{if(b.check&&i===0){icono(g,x+s*.3,cy+s*.5,s*.3,b.c,fondo||acc||'#17233d','cumplido');g.fillStyle=b.c}if(b.bullet&&i===0){g.beginPath();g.arc(x+s*.22,cy+s*.62,s*.16,0,Math.PI*2);g.fill()}g.fillText(ln,x+(b.ind||0),cy+s*.92);cy+=lh});cy+=(b.gap||0)*lay.k}g.globalAlpha=1}
 function rrect(g,x,y,w,h,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath()}
-async function renderPlaca(canvas,v,fmt,colorKey){
+async function renderPlaca(canvas,v,fmt,colorKey,foto,dis,enc){
   await document.fonts.load('900 40px Poppins');await document.fonts.load('800 40px Poppins');await document.fonts.load('700 40px Poppins');await document.fonts.load('600 40px Poppins');
   const [W,H]=FMT[fmt], g=canvas.getContext('2d'); canvas.width=W; canvas.height=H;
   const story=fmt==='9x16', key=colorKey||v.color, blanco=key==='blanco', col=COLORES[key], topSafe=story?H*.12:0, botSafe=story?H*.10:0;
   // en la variante blanca el fondo es blanco y todo el texto va en el color de la campaña (azul Cumplimos, verde En marcha)
   const acc=blanco?(v.estado==='en_ejecucion'?COLORES.verde:COLORES.azul):col, tinta=blanco?acc:'#fff';
   g.fillStyle=blanco?'#fff':col; g.fillRect(0,0,W,H);
+  const fondo=blanco?'#fff':col, conFoto=!!foto&&dis&&dis!=='sin';
   // banda blanca superior: ícono, palabra de campaña (a la derecha) y píldora con la zona
   const bandH=W*.225, bandY=topSafe, mx=W*.06; if(!blanco){g.fillStyle='#fff';g.fillRect(0,bandY,W,bandH)}
   let ps=W*.118; g.font=`900 ${ps}px Poppins`; while(g.measureText(v.palabra).width>W*.58&&ps>W*.07){ps*=.95;g.font=`900 ${ps}px Poppins`}
@@ -277,13 +293,22 @@ async function renderPlaca(canvas,v,fmt,colorKey){
   const ir=ps*.34, ix=px-ir*1.5, iy=py-ps*.33; icono(g,ix,iy,ir,acc,'#fff',v.estado);
   const pillH=W*.056; g.font=`700 ${pillH*.55}px Poppins`; const pt=v.pill, ptw=Math.min(g.measureText(pt).width+pillH*1.1,W*.72), pxx=W-mx-ptw, pyy=py+bandH*.09;
   g.fillStyle=acc; rrect(g,pxx,pyy,ptw,pillH,pillH/2); g.fill(); g.fillStyle='#fff'; g.textAlign='center'; g.fillText(pt,pxx+ptw/2,pyy+pillH*.68); g.textAlign='left';
+  // foto: "arriba" ocupa la parte alta del panel y se funde en el color; "completa" cubre todo el panel y el texto va abajo sobre un degradado
+  const fh=W*.115, fy=H-botSafe-fh, fx=W*.45, cut=fh*.9, cuerpoY=bandY+bandH, cuerpoH=fy-cuerpoY;
+  let fotoFin=0;
+  if(conFoto){try{const im=await loadImg(foto); const ph=dis==='arriba'?cuerpoH*.47:cuerpoH+fh; fotoFin=cuerpoY+ph;
+    g.save(); g.beginPath(); g.rect(0,cuerpoY,W,ph); g.clip();
+    const e={fx:(enc&&enc.fx)??.5,fy:(enc&&enc.fy)??.35,z:(enc&&enc.z)||1}, k=Math.max(W/im.width,ph/im.height)*e.z, dw=im.width*k, dh=im.height*k; g.drawImage(im,-(dw-W)*e.fx,cuerpoY-(dh-ph)*e.fy,dw,dh); g.restore();
+    if(dis==='arriba'){const fade=g.createLinearGradient(0,fotoFin-W*.22,0,fotoFin);fade.addColorStop(0,fondo+'00');fade.addColorStop(1,fondo);g.fillStyle=fade;g.fillRect(0,cuerpoY,W,fotoFin-cuerpoY)}
+    else{g.fillStyle=fondo+'f2';g.fillRect(0,fy,W,H-fy)}   // con foto completa el degradado se dibuja después, según dónde arranca el texto
+  }catch(e){fotoFin=0}}
   // pie blanco con corte diagonal y lockup Córdoba | Hacer para Crecer (en la variante blanca, una línea diagonal en el color)
-  const {img:lk,asp}=await svgImg('gobierno-color'); const fh=W*.115, fy=H-botSafe-fh, fx=W*.45, cut=fh*.9;
+  const {img:lk,asp}=await svgImg('gobierno-color');
   g.beginPath(); g.moveTo(fx,fy+fh); g.lineTo(fx+cut,fy); g.lineTo(W,fy); g.lineTo(W,H); g.lineTo(0,H); g.lineTo(0,fy+fh); g.closePath();
   if(blanco){g.strokeStyle=acc;g.lineWidth=W*.004;g.stroke()}else{g.fillStyle='#fff';g.fill()}
   const lw=W*.40, lh=lw/asp; g.drawImage(lk,W-mx-lw,fy+(fh-lh)/2,lw,lh);
-  // cuerpo
-  const top=bandY+bandH+W*.06, bottom=fy-W*.05, bw=W-mx*2, avail=bottom-top;
+  // cuerpo (con foto arriba arranca debajo de la foto; con foto completa el texto se apoya abajo)
+  const top=(conFoto&&dis==='arriba'?fotoFin-W*.02:bandY+bandH+W*.06), bottom=fy-W*.05, bw=W-mx*2, avail=bottom-top, abajo=conFoto&&dis!=='arriba';
   let blocks=[];
   if(v.tipo==='una'){blocks=[{t:v.etiqueta,w:600,s:W*.03,c:tinta,chip:true,gap:W*.045},{t:v.texto,w:900,s:W*.082,c:tinta,lh:1.05,gap:W*.03},{t:v.cuando,w:500,s:W*.04,c:tinta,lh:1.2,op:.95}];}
   else if(v.tipo==='lista'){const n=(v.items||[]).length;blocks=[{t:n>1?(v.estado==='en_ejecucion'?'Lo que está en marcha:':'Lo que ya es una realidad:'):'',w:600,s:W*.036,c:tinta,gap:W*.035}];
@@ -291,8 +316,10 @@ async function renderPlaca(canvas,v,fmt,colorKey){
     if(v.mas)blocks.push({t:v.mas,w:600,s:W*.032,c:tinta,op:.9});}
   else {blocks=[{t:v.valor,w:900,s:W*.3,c:tinta,lh:1,gap:W*.005},{t:v.etiqueta,w:900,s:W*.06,c:tinta,up:true,gap:W*.03},{t:v.sub,w:600,s:W*.038,c:tinta,op:.9}];}
   const pieBlock=v.pie?{t:v.pie,w:800,s:W*.03,c:tinta,up:true,op:.95}:null;
-  const lay=layout(g,blocks,bw,avail-(pieBlock?W*.07:0));
-  drawLayout(g,lay,mx,top+(v.tipo==='dato'?(avail-lay.tot)/2-W*.03:0),bw,acc,blanco?'#fff':col);
+  const lay=layout(g,blocks,bw,(abajo?Math.min(avail,cuerpoH*.6):avail)-(pieBlock?W*.07:0));
+  const textoY=abajo?bottom-(pieBlock?W*.07:0)-lay.tot:top+(v.tipo==='dato'?(avail-lay.tot)/2-W*.03:0);
+  if(abajo){const g0=Math.max(cuerpoY,textoY-W*.3),fade=g.createLinearGradient(0,g0,0,Math.min(textoY+W*.02,fy));fade.addColorStop(0,fondo+'00');fade.addColorStop(1,fondo+'f2');g.fillStyle=fade;g.fillRect(0,g0,W,fy-g0);g.fillStyle=fondo+'f2';g.fillRect(0,Math.min(textoY+W*.02,fy),W,Math.max(0,fy-textoY-W*.02))}
+  drawLayout(g,lay,mx,textoY,bw,acc,blanco?'#fff':col);
   if(pieBlock){g.font=`800 ${pieBlock.s}px Poppins`;g.fillStyle=tinta;g.globalAlpha=pieBlock.op;g.fillText(up(pieBlock.t),mx,bottom-W*.005);g.globalAlpha=1}
 }
 function icono(g,x,y,r,fill,ink,estado){ // círculo con tilde (Cumplimos) o flecha (En marcha)
@@ -306,8 +333,11 @@ async function copiar(txt,btn){try{await navigator.clipboard.writeText(txt)}catc
 /* ---------- tarjetas ---------- */
 const textoPlaca=v=>v.tipo==='una'?[v.etiqueta,v.texto,v.cuando].filter(Boolean).join('\n'):v.tipo==='lista'?(v.items||[]).join('\n'):[v.valor+' '+v.etiqueta,v.sub].join('\n');
 function leerPlaca(v,txt){const L=txt.split('\n').map(s=>s.trim()).filter(Boolean);if(v.tipo==='una'){v.etiqueta=L[0]||'';v.texto=L[1]||'';v.cuando=L[2]||''}else if(v.tipo==='lista'){v.items=L}else{const m=(L[0]||'').match(/^(\S+)\s*(.*)$/)||[];v.valor=m[1]||v.valor;v.etiqueta=m[2]||v.etiqueta;v.sub=L[1]||''}}
-const placaHTML=v=>`<div class="fmts">${Object.entries(FMT).map(([k,f])=>`<div class="fmt"><div class="lbl">${f[2]}</div><canvas data-fmt="${k}"></canvas><div class="btns" style="justify-content:center"><button class="btn" data-dl="${k}">Bajar PNG</button></div></div>`).join('')}</div>
- <div class="btns"><button class="btn sec" data-dlall>Bajar las 3 placas</button><span style="margin-left:8px">Color:</span>${(PALETA[v.estado]||PALETA.cumplido).map(k=>`<span class="sw ${k===v.color?'on':''}" data-col="${k}" style="background:${COLORES[k]}${k==='blanco'?';box-shadow:0 0 0 1px #bbb':''}" title="${k}"></span>`).join('')}</div>`;
+const fotoHTML=(id,v)=>{const f=FOTOS[id]||{}, dis=f.data?(f.dis||disSugerido(v)):'sin', sug=disSugerido(v);
+  return `<div class="foto"><span>Foto:</span>${f.data?`<img class="mini" src="${f.data}" alt="">`:''}<label class="btn sec">${f.data?'Cambiar foto':'Subir foto'}<input type="file" accept="image/*" data-foto></label>${f.data?'<button class="btn sec" data-foto-quitar>Quitar</button>':''}
+   <span class="dis">${[['sin','Sin foto'],['arriba','Foto arriba'],['completa','Foto completa']].map(([k,l])=>`<button class="chip ${dis===k?'on':''}" data-dis="${k}" ${!f.data&&k!=='sin'?'disabled':''}>${l}${k===sug&&f.data?'<span class="sug">sugerido</span>':''}</button>`).join('')}</span><span class="aviso" data-foto-aviso></span>${f.data&&dis!=='sin'?`<span class="enc">Encuadre: arrastrá la foto en la placa · zoom <input type="range" min="1" max="2.5" step="0.05" value="${f.z||1}" data-zoom></span>`:''}</div>`};
+const placaHTML=(v,id)=>`<div class="fmts">${Object.entries(FMT).map(([k,f])=>`<div class="fmt"><div class="lbl">${f[2]}</div><canvas data-fmt="${k}"></canvas><div class="btns" style="justify-content:center"><button class="btn" data-dl="${k}">Bajar PNG</button></div></div>`).join('')}</div>
+ <div class="btns"><button class="btn sec" data-dlall>Bajar las 3 placas</button><span style="margin-left:8px">Color:</span>${(PALETA[v.estado]||PALETA.cumplido).map(k=>`<span class="sw ${k===v.color?'on':''}" data-col="${k}" style="background:${COLORES[k]}${k==='blanco'?';box-shadow:0 0 0 1px #bbb':''}" title="${k}"></span>`).join('')}</div>${id?fotoHTML(id,v):''}`;
 const txHTML=(ig,x,pl,sms,rotPl,gac)=>`
  <div class="tx"><div class="row"><label>Copy de Instagram</label><button class="btn" data-copy="ig">Copiar</button></div><textarea data-t="ig" rows="9">${esc(ig)}</textarea></div>
  <div class="tx"><div class="row"><label>Texto para X <span class="n" data-n></span></label><button class="btn" data-copy="x">Copiar</button></div><textarea data-t="x" rows="4">${esc(x)}</textarea></div>
@@ -316,9 +346,25 @@ const txHTML=(ig,x,pl,sms,rotPl,gac)=>`
  ${gac?`<div class="tx"><div class="row"><label>Gacetilla de prensa</label><button class="btn" data-copy="gac">Copiar</button></div><textarea data-t="gac" rows="14">${esc(gac)}</textarea></div>`:''}`;
 function wire(card,id,v){
   const st={done:false,col:v.color};
-  const draw=()=>card.querySelectorAll('canvas').forEach(c=>renderPlaca(c,v,c.dataset.fmt,st.col));
+  const fotoDe=()=>{const f=FOTOS[id]||{};return f.data?[f.data,f.dis||disSugerido(v)]:[null,'sin']};
+  const draw=()=>{const [fd,dis]=fotoDe(),f=FOTOS[id]||{};card.querySelectorAll(':scope > .body > .grid canvas').forEach(c=>{c.classList.toggle('movible',!!fd&&dis!=='sin');renderPlaca(c,v,c.dataset.fmt,st.col,fd,dis,{fx:f.fx,fy:f.fy,z:f.z})})};
+  // encuadre: arrastrar la foto dentro de la placa mueve el recorte (se guarda con la foto); el zoom va con el control deslizante
+  let arr=null;const cvs=card.querySelector(':scope > .body > .grid .fmts');
+  if(cvs){cvs.addEventListener('pointerdown',ev=>{const c=ev.target.closest('canvas');if(!c||!c.classList.contains('movible'))return;const f=FOTOS[id];if(!f)return;arr={x:ev.clientX,y:ev.clientY,fx:f.fx??.5,fy:f.fy??.35,w:c.getBoundingClientRect().width,h:c.getBoundingClientRect().height};c.setPointerCapture(ev.pointerId);ev.preventDefault()});
+    cvs.addEventListener('pointermove',ev=>{if(!arr)return;const f=FOTOS[id];f.fx=Math.min(1,Math.max(0,arr.fx-(ev.clientX-arr.x)/arr.w*1.2));f.fy=Math.min(1,Math.max(0,arr.fy-(ev.clientY-arr.y)/arr.h*1.2));if(!st._raf){st._raf=requestAnimationFrame(()=>{st._raf=null;draw()})}});
+    const fin=()=>{if(arr){arr=null;guardarFotos()}};cvs.addEventListener('pointerup',fin);cvs.addEventListener('pointercancel',fin);
+    card.querySelector(':scope > .body > .grid').addEventListener('input',ev=>{if(ev.target.dataset.zoom===undefined)return;const f=FOTOS[id];if(!f)return;f.z=+ev.target.value;if(!st._raf){st._raf=requestAnimationFrame(()=>{st._raf=null;draw()})}});
+    card.querySelector(':scope > .body > .grid').addEventListener('change',ev=>{if(ev.target.dataset.zoom!==undefined)guardarFotos()});}
+  const refrescarFoto=()=>{const box=card.querySelector(':scope > .body > .grid .foto');if(box)box.outerHTML=fotoHTML(id,v)};
+  const fotoBox=card.querySelector(':scope > .body > .grid .foto');
+  if(fotoBox){card.querySelector(':scope > .body > .grid').addEventListener('change',async ev=>{const inp=ev.target;if(inp.dataset.foto===undefined||!inp.files||!inp.files[0])return;
+      try{const data=await reducirFoto(inp.files[0]);FOTOS[id]={data,dis:(FOTOS[id]||{}).dis};const ok=guardarFotos();refrescarFoto();if(!ok)card.querySelector(':scope > .body > .grid [data-foto-aviso]').textContent='La foto se usa ahora pero no entró en la memoria del navegador (hay muchas fotos guardadas): quitá otras.';draw()}
+      catch(e){card.querySelector(':scope > .body > .grid [data-foto-aviso]').textContent='No se pudo leer la imagen.'}});
+    card.querySelector(':scope > .body > .grid').addEventListener('click',ev=>{const b=ev.target.closest('button');if(!b||!b.closest('.foto'))return;ev.preventDefault();
+      if(b.dataset.fotoQuitar!==undefined){delete FOTOS[id];guardarFotos();refrescarFoto();draw()}
+      else if(b.dataset.dis&&!b.disabled){if(FOTOS[id]){FOTOS[id].dis=b.dataset.dis;guardarFotos()}refrescarFoto();draw()}});}
   card.addEventListener('toggle',()=>{if(card.open&&!st.done){st.done=true;draw()}});
-  card.addEventListener('click',ev=>{const b=ev.target.closest('button,.sw');if(!b||b.closest('details.card')!==card||b.closest('.sel'))return;
+  card.addEventListener('click',ev=>{const b=ev.target.closest('button,.sw');if(!b||b.closest('details.card')!==card||b.closest('.sel')||b.closest('.foto'))return;
     if(b.dataset.dl){descargar(card.querySelector(`canvas[data-fmt="${b.dataset.dl}"]`),`${id}_${b.dataset.dl}`)}
     else if(b.dataset.dlall!==undefined){[...card.querySelectorAll(':scope > .body > .grid canvas')].forEach((c,i)=>setTimeout(()=>descargar(c,`${id}_${c.dataset.fmt}`),i*400))}
     else if(b.dataset.col){st.col=b.dataset.col;card.querySelectorAll(':scope > .body > .grid .sw').forEach(s=>s.classList.toggle('on',s===b));draw()}
@@ -341,7 +387,7 @@ function selHTML(p){ // casillas: qué anuncios entran en la placa (uno solo →
 function cardPieza(p,rotulo,sub,rearmar){
   const el=document.createElement('details');el.className='card '+p.estado+(sub?' sub':'');
   el.innerHTML=`<summary><div class="tt"><b>${esc(p.titulo)}</b><span>${esc(p.sub||'')}</span></div>${p.redactado?'<span class="tag cumplido">Redactado</span>':''}${p.manual?'<span class="tag cumplido">Selección propia</span>':''}<span class="tag ${p.estado}">${rotulo}</span></summary>
-   <div class="body">${p.g?selHTML(p):''}<div class="grid"><div>${placaHTML(p.placa)}</div><div>${txHTML(p.ig,p.x,textoPlaca(p.placa),p.sms,p.placa.tipo==='lista'?'una línea por anuncio; editable':null)}</div></div><div data-subs></div></div>`;
+   <div class="body">${p.g?selHTML(p):''}<div class="grid"><div>${placaHTML(p.placa,p.id)}</div><div>${txHTML(p.ig,p.x,textoPlaca(p.placa),p.sms,p.placa.tipo==='lista'?'una línea por anuncio; editable':null)}</div></div><div data-subs></div></div>`;
   wire(el,p.id,p.placa);
   if(p.g&&rearmar){const guardar=ids=>{ED.seleccion[p.id]=ids;Object.assign(ED.piezas[p.id]??={},{items:null,placaTxt:null});guardarED();const n=rearmar();n.open=true;n.querySelector(':scope > .body > .sel').open=true;el.replaceWith(n)};
     el.querySelector(':scope > .body > .sel').addEventListener('change',ev=>{if(ev.target.dataset.selid)guardar([...el.querySelectorAll(':scope > .body > .sel input:checked')].map(i=>+i.dataset.selid))});
@@ -353,7 +399,7 @@ function cardAnuncio(a){
   const av=(a.avisos||[]).filter(x=>/monto|gobernador|verbo|largo|vacío/.test(x));
   el.innerHTML=`<summary><div class="tt"><b>${esc(textoDe(a))}</b><span>${esc(a.etiqueta)}${a.anioTxt?' · anunciado en '+esc(a.anioTxt):''}${a.ministerio?' · '+esc(a.ministerio):''}</span></div>
     ${p.redactado?'<span class="tag cumplido">Redactado</span>':''}${a.pit?'<span class="tag pit">PIT</span>':''}${!a.publicable?'<span class="tag nopub">No publicable</span>':''}${av.length?`<span class="tag aviso" title="${esc(av.join(' · '))}">Revisar texto</span>`:''}<span class="tag ${a.estado}">${esc(a.etiqueta)}</span></summary>
-   <div class="body"><div class="grid"><div>${placaHTML(p.placa)}</div><div>${txHTML(p.ig,p.x,textoPlaca(p.placa),p.sms,null,p.gac)}</div></div>
+   <div class="body"><div class="grid"><div>${placaHTML(p.placa,p.id)}</div><div>${txHTML(p.ig,p.x,textoPlaca(p.placa),p.sms,null,p.gac)}</div></div>
    <div class="meta"><button class="btn sec" data-ficha="${a.id}">Abrir ficha completa</button> · Meta ${a.id} · ${esc(a.alcance)}${a.eje?' · '+esc(a.eje):''} · ${a.fuente_anuncio?`<a href="${esc(a.fuente_anuncio)}" target="_blank" rel="noopener">Fuente del anuncio</a>`:'sin fuente'}${a.fuente_seguimiento?` · <a href="${esc(a.fuente_seguimiento)}" target="_blank" rel="noopener">Seguimiento</a>`:''}${av.length?` · <b>Avisos:</b> ${esc(av.join('; '))}`:''}</div>
    <details class="doc"><summary>Texto original de la base</summary><pre>${esc(a.texto_original)}${a.detalle?'\n\nDetalle: '+esc(a.detalle):''}</pre></details></div>`;
   wire(el,p.id,p.placa);return el;
@@ -439,7 +485,7 @@ function renderFicha(root){
     ${a.avisos.length?`<li><b>Avisos del parser:</b> ${esc(a.avisos.join('; '))}</li>`:''}
     ${e.placa&&TX[a.id]?`<li><b>Redacción con IA:</b> ${esc(TX[a.id].placa)}${TX[a.id].duda?` · <b>duda:</b> ${esc(TX[a.id].duda)}`:''}</li>`:''}</ul></div>
    <details class="card ${a.estado}" open><summary><div class="tt"><b>${esc(textoDe(a))}</b><span>Placa, copys, SMS y gacetilla · todo lo que edites queda guardado en este navegador</span></div><span class="tag ${a.estado}">${esc(c.nombre)}</span></summary>
-    <div class="body"><div class="grid"><div>${placaHTML(p.placa)}</div><div>${txHTML(p.ig,p.x,textoPlaca(p.placa),p.sms,null,p.gac)}</div></div></div></details>`;
+    <div class="body"><div class="grid"><div>${placaHTML(p.placa,p.id)}</div><div>${txHTML(p.ig,p.x,textoPlaca(p.placa),p.sms,null,p.gac)}</div></div></div></details>`;
   wire(root.querySelector('details.card'),p.id,p.placa);
   root.querySelector('[data-volver]').onclick=()=>{S.tab='placas';S.ficha=null;go()};
 }
