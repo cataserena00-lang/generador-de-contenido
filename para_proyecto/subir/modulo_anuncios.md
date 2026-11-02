@@ -60,3 +60,9 @@ Los dos tableros se enlazan desde la cabecera: "Obras" (`index.html`) y "Anuncio
 - Verificado: anuncios.html 3,9 MB e index.html 3,2 MB; sin errores de consola; ficha, edición tras recargar, exportar y navegación Obras/Anuncios funcionan; Chequeo de obras todo ✔.
 - Estado: publicado en main a pedido de Tomás (repo público por decisión del equipo). Falta confirmar en Vercel el Ready y el 401 en /anuncios.html.
 - Dudas: las 86 metas con duda y los ✖ del Chequeo, que vienen todos de departamentos todavía sin redactar.
+
+## Traspaso · placas con selección, diseño aprobado y foto (2026-11-02)
+- Hecho: selección de anuncios por casilla (panel plegable "Anuncios en la placa"), placa individual o de lista según lo tildado, diseño de los carteles aprobados con paleta por campaña, "en la ciudad de Córdoba" para la capital, búsqueda de departamento o localidad en la columna lateral, y foto en la placa (Subir, Cambiar, Quitar; Foto arriba y Foto completa; encuadre arrastrando y zoom). Precargados Berrotarán, departamento Río Cuarto y ciudad de Córdoba con los textos aprobados.
+- Archivos: tools/plantilla_anuncios.html, entrada/anuncios/2026-10-30/contenido.json (nuevo), deploy/anuncios.html, anuncios.html, este archivo.
+- Estado: **publicado en main** (commits d5f6e14, 3956f94 vía PR #2 y 498be03); deploys de Vercel Ready en Production. La rama `novedades` quedó creada para los próximos cambios (los previews de Vercel responden "Sitio no configurado" hasta que las variables de usuario y clave se habiliten también para Preview).
+- Dudas: ninguna abierta. La meta 129 (SeNAF) figura cumplida en la base; se dejó así.
