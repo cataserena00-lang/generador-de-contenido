@@ -1,0 +1,95 @@
+{
+ "_nota": "Textos y selecciones aprobados por el equipo (placas de referencia del 2026-11-02). Se fusiona con lo que exporte el tablero.",
+ "seleccion": {
+  "l_cumplido_berrotaran": [
+   1476,
+   325,
+   326,
+   327,
+   328
+  ],
+  "d_cumplido_RIO CUARTO": [
+   99,
+   326,
+   331,
+   385,
+   1124,
+   1125,
+   1295,
+   1293,
+   384,
+   978,
+   1010,
+   1219,
+   2150,
+   2157,
+   19,
+   302,
+   327,
+   332,
+   338,
+   388,
+   968,
+   973,
+   1209,
+   1226,
+   1297,
+   971,
+   976,
+   986,
+   1220,
+   374
+  ],
+  "l_cumplido_cordoba": [
+   35
+  ]
+ },
+ "localidades_piezas": {
+  "l_cumplido_berrotaran": {
+   "items": [
+    "Entregamos reconectadores a la cooperativa",
+    "Llevamos gas natural al parque industrial",
+    "Construimos el polideportivo",
+    "Construimos el cuartel de bomberos",
+    "Adoquinamos calles"
+   ]
+  },
+  "d_cumplido_RIO CUARTO": {
+   "items": [
+    "Construimos 8 polideportivos",
+    "Pusimos en marcha centros de salud y dispensarios",
+    "Equipamos a los bomberos voluntarios de 12 cuarteles",
+    "Llevamos agua potable a 6 localidades",
+    "Hicimos la doble calzada de la Ruta Provincial 30"
+   ]
+  }
+ },
+ "anuncios": {
+  "325": {
+   "placa": "Llevamos gas natural al parque industrial",
+   "etiquetaPlaca": "Compromiso cumplido",
+   "bajada": ""
+  },
+  "326": {
+   "placa": "Construimos el polideportivo"
+  },
+  "327": {
+   "placa": "Construimos el cuartel de bomberos"
+  },
+  "328": {
+   "placa": "Adoquinamos calles"
+  },
+  "1476": {
+   "placa": "Entregamos reconectadores a la cooperativa"
+  },
+  "35": {
+   "placa": "Terminamos el altonivel de la Avenida Ejército Argentino",
+   "etiquetaPlaca": "Obra finalizada",
+   "bajada": "La obra está ubicada a la altura de Valle Escondido."
+  },
+  "129": {
+   "placa": "Refaccionamos las 10 residencias de la SeNAF",
+   "bajada": "Allí viven chicas y chicos sin cuidados parentales bajo la responsabilidad del Estado."
+  }
+ }
+}

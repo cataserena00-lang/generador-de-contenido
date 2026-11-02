@@ -31,7 +31,16 @@ Los dos tableros se enlazan desde la cabecera: "Obras" (`index.html`) y "Anuncio
 - El repo de GitHub quedó **público por decisión del equipo el 30/10**, pendiente de pasarlo a privado. Se publica `anuncios.html` (raíz y `deploy/`) y se suben `anuncios.json` y `data/anuncios_textos.json`, que ya van completos dentro del tablero. Solo el xlsx original (con la columna de inversión) queda fuera (`.gitignore`).
 - Navegación entre módulos en la cabecera; cada build copia su tablero a `deploy/` (`index.html` y `anuncios.html`).
 
+## Placas: selección de anuncios y diseño aprobado (2026-11-02, rama novedades)
+- En cada tarjeta de localidad y de departamento hay un panel "Anuncios en la placa" con una casilla por anuncio. Uno solo → placa individual (etiqueta en píldora de contorno, título grande, bajada); varios → lista "Lo que ya es una realidad:" / "Lo que está en marcha:" con tilde por ítem (hasta cinco se leen bien). Sin elegir, la localidad muestra los 5 sugeridos del ranking y el departamento la placa con el total. La selección se guarda en el navegador y sale en "Exportar ediciones" (`seleccion`); se puede precargar en `contenido.json → seleccion` con el id de la pieza (`l_<estado>_<localidad>`, `d_<estado>_<DEPARTAMENTO>`).
+- Al cambiar la selección se descarta la edición anterior del texto de placa de esa pieza (items o placaTxt) y se rearma todo: placa, IG, X y SMS.
+- Paleta aprobada: Cumplimos en celeste (por defecto), marino, azul, dorado o blanco (fondo blanco, todo en azul); En marcha en verde o blanco (todo en verde). Ícono de campaña en la banda (tilde o flecha). La capital se nombra "en la ciudad de Córdoba" y no lleva pie; los departamentos "en el departamento X".
+- Estilo aprobado para los ítems y títulos de placa: primera persona del plural y verbo adelante ("Construimos el polideportivo", "Llevamos gas natural al parque industrial"). Los textos redactados con IA siguen siendo sustantivos; se corrigen a mano en "Texto de la placa" o en `contenido.json → anuncios → {meta: {placa, bajada, etiquetaPlaca}}`. `bajada` vacía deja la placa sin tercera línea.
+- Precargados en `entrada/anuncios/2026-10-30/contenido.json`: Berrotarán (5 anuncios, textos aprobados), departamento Río Cuarto (selección y 5 líneas aprobadas), ciudad de Córdoba (altonivel de Ejército Argentino, meta 35). La meta 129 (residencias de la SeNAF) figura como cumplida en la base, no como en marcha: se dejó con el texto aprobado pero sin forzar el estado.
+- Pendiente de la segunda entrega: foto en la placa (subir desde la tarjeta; diseños foto arriba con degradado y foto completa con título abajo).
+
 ## Pendientes
+- Foto en las placas de anuncios (segunda entrega).
 - Pasar el repo de GitHub a privado (quedó público por decisión del equipo el 30/10).
 - Redactar los 1.835 cumplidos y en ejecución del resto de los departamentos. Hoy esos llevan la placa automática y explican los ✖ del Chequeo (94 con montos, 469 SMS genéricos, 4 de la meta 1659 en marcha que dice "cumplido"); ninguno es de Capital, Río Cuarto ni San Justo.
 - Revisar las 86 metas con "duda" de los tres departamentos redactados (estado contra etiqueta, posibles duplicados, fondos sin destino) y marcar `revisado: true` lo aprobado.
