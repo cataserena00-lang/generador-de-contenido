@@ -104,6 +104,7 @@ main{min-width:0}
 .sel li{display:flex;gap:8px;align-items:flex-start;padding:3px 2px;font-size:12.5px;font-weight:600;line-height:1.3}
 .sel li input{margin:3px 0 0;flex:none}
 .sel li .loc{color:var(--muted);font-weight:600;font-size:11.5px;margin-left:4px}
+.sel li label{flex:1;min-width:0} .sel .mv{border:1px solid var(--line);background:#fff;border-radius:6px;width:24px;height:22px;cursor:pointer;font:700 12px Poppins;color:var(--ink);flex:none} .sel .mv:disabled{opacity:.3;cursor:default}
 .sel .hint{font-size:11px;color:var(--muted);font-weight:600;margin-top:6px}
 .tx{margin-bottom:12px} .tx .row{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;gap:8px}
 .tx label{font-weight:800;font-size:12px;color:var(--gris)} .tx .n{font-size:11px;color:var(--muted);font-weight:600} .tx .n.bad{color:var(--rojo);font-weight:800}
@@ -166,10 +167,11 @@ const CAMP={
    lineas:['Hacer para Crecer: compromisos que avanzan todos los días.','Con equilibrio fiscal, la inversión sigue llegando a cada localidad.','Córdoba avanza, localidad por localidad.','Cada compromiso en marcha es una obra que se acerca a los vecinos.'],
    intro:['Compromisos que ya están en marcha.','Lo que anunciamos avanza.','Obras y acciones en ejecución.']}
 };
-/* paleta de las placas aprobadas (carteles de gestión): Cumplimos en celeste, marino, azul, dorado o blanco; En marcha en verde o blanco */
-const COLORES={celeste:'#5faee3',marino:'#17233d',azul:'#09467f',dorado:'#cfa55b',verde:'#4da070',blanco:'#ffffff'};
-const PALETA={cumplido:['celeste','marino','azul','dorado','blanco'],en_ejecucion:['verde','blanco']};
-const colorPor=estado=>estado==='en_ejecucion'?'verde':'celeste';
+/* paleta de las placas (carteles de gestión): Cumplimos en celeste, marino, azul, dorado o blanco; En marcha en celeste, dorado o azul.
+   El verde se sacó el 5/11 porque no respeta el manual de marca. */
+const COLORES={celeste:'#5faee3',marino:'#17233d',azul:'#09467f',dorado:'#cfa55b',blanco:'#ffffff'};
+const PALETA={cumplido:['celeste','marino','azul','dorado','blanco'],en_ejecucion:['celeste','dorado','azul']};
+const colorPor=estado=>estado==='en_ejecucion'?'dorado':'celeste';
 const FMT={'1x1':[1080,1080,'Feed 1:1 · 1080×1080'],'4x5':[1080,1350,'Feed 4:5 · 1080×1350 (recomendado)'],'9x16':[1080,1920,'Stories/Reels 9:16 · 1080×1920']};
 
 /* ---------- SMS (mismas reglas que obras: un solo mensaje, link corto al final) ---------- */
@@ -195,13 +197,16 @@ const enLoc=L=>norm(L)==='cordoba capital'?'en la ciudad de Córdoba':`en ${L}`;
 function tituloLoc(s){if(norm(s)==='cordoba')return 'Córdoba Capital';const t=String(s).split(' ').map(w=>['de','del','la','las','los','el','y','e'].includes(w.toLowerCase())?w.toLowerCase():w.charAt(0).toUpperCase()+w.slice(1)).join(' ');return (CONT.localidades||{})[norm(s)]||t.charAt(0).toUpperCase()+t.slice(1)}   // la maestra viene en mayúsculas sin tildes: se puede corregir la grafía en contenido.json → localidades
 const textoDe=a=>limpio((edAnuncio(a.id).placa||a.texto_placa||'').replace(/\s*:\s*$/,''));
 const limpioTxt=a=>!!edAnuncio(a.id).placa||!(a.avisos||[]).some(x=>/monto|gobernador|verbo|largo|vacío/.test(x));
-// ranking para el listado de la placa: primero los textos limpios y cortos, después por fecha
-const ranking=g=>g.slice().sort((x,y)=>(limpioTxt(y)-limpioTxt(x))||((textoDe(x).length<=110)-(textoDe(y).length<=110))*-1||((y.fecha_anuncio||'')<(x.fecha_anuncio||'')?-1:1));
+// prioridad del listado de la placa: primero el eje social (viviendas, salud, educación, desarrollo social), después el resto;
+// dentro de cada grupo, de mayor a menor inversión (orden_inv = puesto que calcula el build; el monto nunca llega al tablero); después textos limpios y fecha
+const EJE_SOCIAL=/INCLUSIVA Y SOSTENIBLE/i, MIN_SOCIAL=/Salud|Educaci[oó]n|Desarrollo Humano|Desarrollo Social|H[aá]bitat/i;
+const esSocial=a=>EJE_SOCIAL.test(a.eje||'')||MIN_SOCIAL.test(a.ministerio||'');
+const ranking=g=>g.slice().sort((x,y)=>(esSocial(y)-esSocial(x))||((x.orden_inv??1e9)-(y.orden_inv??1e9))||(limpioTxt(y)-limpioTxt(x))||((y.fecha_anuncio||'')<(x.fecha_anuncio||'')?-1:1));
 
 /* ---------- piezas ---------- */
-function elegidos(g,id){ // anuncios que entran en la placa: los elegidos (en orden del ranking) o, si no se eligió nada, los 5 sugeridos
-  const sel=selDe(id); if(sel&&sel.length){const r=ranking(g).filter(a=>sel.includes(a.id));if(r.length)return {top:r,manual:true}}
-  return {top:ranking(g).slice(0,5),manual:false}}
+function elegidos(g,id){ // anuncios de la placa: los elegidos, en el orden elegido; si no se eligió nada, todos por prioridad (la placa dibuja los que entran)
+  const sel=selDe(id); if(sel&&sel.length){const r=sel.map(i=>g.find(a=>a.id===i)).filter(Boolean);if(r.length)return {top:r,manual:true}}
+  return {top:ranking(g),manual:false}}
 function piezaLocalidad(g){ // placa de listado + copys para una localidad (o toda la provincia) y una campaña
   const a0=g[0], c=CAMP[a0.estado], L=nombreLoc(g), prov=!a0.localidad, dep=a0.departamento, key=`${a0.estado}_${a0.locKey}`;
   const {top,manual}=elegidos(g,'l_'+key), items=top.map(a=>textoDe(a)), N=g.length, enL=prov?'en toda la provincia':enLoc(L), depTxt=dep&&!prov&&norm(dep)!==norm(L)?` (departamento ${dep})`:'';
@@ -211,15 +216,15 @@ function piezaLocalidad(g){ // placa de listado + copys para una localidad (o to
   const titulo=`${c.palabra} ${up(enL)}`, intro=pick(c.intro,key+'i'), linea=pick(c.lineas,key+'l');
   const compromisos=N===1?'un compromiso':`${N} compromisos`;
   const cuerpo=a0.estado==='cumplido'
-    ?`${intro} ${prov?'En toda la provincia':'En '+L}${depTxt}, el Gobierno de la Provincia ya cumplió ${compromisos}${N>5?'. Entre ellos':''}:`
-    :`${intro} ${prov?'En toda la provincia':'En '+L}${depTxt}, el Gobierno de la Provincia tiene ${compromisos} en marcha${N>5?'. Entre ellos':''}:`;
+    ?`${intro} ${prov?'En toda la provincia':'En '+L}${depTxt}, el Gobierno de la Provincia ya cumplió ${compromisos}${N>top.length?'. Entre ellos':''}:`
+    :`${intro} ${prov?'En toda la provincia':'En '+L}${depTxt}, el Gobierno de la Provincia tiene ${compromisos} en marcha${N>top.length?'. Entre ellos':''}:`;
   const vi=top.map(a=>`• ${textoDe(a)}${a.estado==='en_ejecucion'&&a.etiqueta?` (${low(a.etiqueta)})`:''}`).join('\n');
   const ig=limpio(`${c.emoji} ${titulo}\n\n${cuerpo}\n${vi}\n\n${linea}\n\n${c.tags.join(' ')}`);
   const cuerpoX=cuerpo.replace(/\. Entre ellos:$|:$/,'.');
   const xs=[`${c.emoji} ${titulo}\n${cuerpoX}\n${linea}\n${c.tags.join(' ')}`,`${c.emoji} ${titulo}\n${cuerpoX}\n${c.tags.join(' ')}`,`${c.emoji} ${titulo}: ${compromisos} ${a0.estado==='cumplido'?'cumplidos':'en marcha'}. ${c.tags.join(' ')}`];
   const x=limpio(xs.find(t=>t.length<=280)||xs.at(-1));
   const sms=limpio(smsArmar(a0.estado,[N>1?`${items[0]} y ${N-1} ${N-1===1?'compromiso más':'compromisos más'}`:items[0],`${compromisos} ${a0.estado==='cumplido'?'cumplidos':'en marcha'}`],key));
-  const placa={tipo:'lista',estado:a0.estado,color:a0.color,palabra:c.palabra,pill:prov?'en toda la provincia':enLoc(L),items,pie:prov?'CÓRDOBA':(a0.departamento_norm==='CAPITAL'?'':(dep?`DEPARTAMENTO ${up(dep)}`:'')),mas:!manual&&N>top.length?`y ${N-top.length} compromisos más`:''};
+  const placa={tipo:'lista',estado:a0.estado,color:a0.color,palabra:c.palabra,pill:prov?'en toda la provincia':enLoc(L),items,pie:prov?'CÓRDOBA':(a0.departamento_norm==='CAPITAL'?'':(dep?`DEPARTAMENTO ${up(dep)}`:''))};
   const out={id:'l_'+key,titulo:`${c.nombre} en ${L}`,sub:`${compromisos} ${a0.estado==='cumplido'?'cumplidos':'en marcha'} · ${top.length} en la placa${dep?' · '+dep:''}`,estado:a0.estado,ig,x,sms,placa,g,manual,eligeN:top.length};
   aplicarEdicion(out,'piezas'); return out;
 }
@@ -257,10 +262,10 @@ function piezaDepartamento(dep,g){ // conteo por departamento: volumen y presenc
   const x=limpio([`${c.emoji} ${c.palabra} en ${d.nombre_publicable}: ${frase}${rango?', '+rango:''}. ${pick(c.lineas,key)} ${c.tags.join(' ')}`,`${c.emoji} ${c.palabra} en ${d.nombre_publicable}: ${frase}. ${c.tags.join(' ')}`].find(t=>t.length<=280));
   const sms=limpio(smsArmar(g[0].estado,[`${frase} en el departamento ${d.nombre_publicable}${rango?', '+rango:''}`,`${frase} en el departamento ${d.nombre_publicable}`],key,cum?['Cumplimos en tu departamento: ','Hacer para Crecer en tu departamento: ']:['En marcha en tu departamento: ','Hacer para Crecer en tu departamento: ']));
   const pill=dep==='CAPITAL'?'en la ciudad de Córdoba':`en el departamento ${d.nombre_publicable}`, pie=d.pit==='si'?'PLAN DE IGUALDAD TERRITORIAL':'CÓRDOBA';
-  const sel=selDe(key), selTop=sel&&sel.length?ranking(g).filter(a=>sel.includes(a.id)):[];
+  const sel=selDe(key), selTop=sel&&sel.length?sel.map(i=>g.find(a=>a.id===i)).filter(Boolean):[];
   let placa;
   if(selTop.length===1){const pa=piezaAnuncio(selTop[0]);placa=Object.assign({},pa.placa,{pill,pie:d.pit==='si'?pie:''})}
-  else if(selTop.length)placa={tipo:'lista',estado:g[0].estado,color:colorPor(g[0].estado),palabra:c.palabra,pill,items:selTop.map(a=>textoDe(a)),pie:d.pit==='si'?pie:'',mas:''};
+  else if(selTop.length)placa={tipo:'lista',estado:g[0].estado,color:colorPor(g[0].estado),palabra:c.palabra,pill,items:selTop.map(a=>textoDe(a)),pie:d.pit==='si'?pie:''};
   else placa={tipo:'dato',estado:g[0].estado,color:colorPor(g[0].estado),palabra:c.palabra,pill,valor:String(N),etiqueta:cum?'compromisos cumplidos':'compromisos en marcha',sub:rango?`en todo el departamento, ${rango}`:'en todo el departamento',pie};
   const out={id:key,titulo:`${c.nombre} en el departamento ${d.nombre_publicable}`,sub:`${N} compromisos${rango?' · '+rango:''}${selTop.length?` · ${selTop.length} en la placa`:' · placa con el total'}`,estado:g[0].estado,ig,x,sms,placa,g,manual:!!selTop.length,eligeN:selTop.length};
   aplicarEdicion(out,'piezas'); return out;
@@ -276,23 +281,25 @@ function layout(g,blocks,maxW,availH){blocks=blocks.filter(b=>b.t!=null&&b.t!=='
     if(tot-(blocks.at(-1).gap||0)*k<=availH||it===15)return {L,tot,k};k*=.93}}
 function drawLayout(g,lay,x,y,maxW,acc,fondo){let cy=y;for(const {b,lines,lh,s} of lay.L){g.font=`${b.w} ${s}px Poppins`;g.fillStyle=b.c;g.globalAlpha=b.op??1;g.textAlign='left';g.textBaseline='alphabetic';
   if(b.chip){const tw=g.measureText(lines[0]).width,h=s*1.9,w=tw+s*1.6;g.strokeStyle=b.c;g.lineWidth=Math.max(2,s*.09);rrect(g,x,cy,w,h,h/2);g.stroke();g.fillText(lines[0],x+s*.8,cy+h*.68);cy+=h+(b.gap||0)*lay.k;continue}
-  lines.forEach((ln,i)=>{if(b.check&&i===0){icono(g,x+s*.3,cy+s*.5,s*.3,b.c,fondo||acc||'#17233d','cumplido');g.fillStyle=b.c}if(b.bullet&&i===0){g.beginPath();g.arc(x+s*.22,cy+s*.62,s*.16,0,Math.PI*2);g.fill()}g.fillText(ln,x+(b.ind||0),cy+s*.92);cy+=lh});cy+=(b.gap||0)*lay.k}g.globalAlpha=1}
+  lines.forEach((ln,i)=>{if(b.check&&i===0){icono(g,x+s*.3,cy+s*.5,s*.3,b.c,fondo||acc||'#17233d',b.estado||'cumplido');g.fillStyle=b.c}if(b.bullet&&i===0){g.beginPath();g.arc(x+s*.22,cy+s*.62,s*.16,0,Math.PI*2);g.fill()}g.fillText(ln,x+(b.ind||0),cy+s*.92);cy+=lh});cy+=(b.gap||0)*lay.k}g.globalAlpha=1}
 function rrect(g,x,y,w,h,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath()}
 async function renderPlaca(canvas,v,fmt,colorKey,foto,dis,enc){
   await document.fonts.load('900 40px Poppins');await document.fonts.load('800 40px Poppins');await document.fonts.load('700 40px Poppins');await document.fonts.load('600 40px Poppins');
   const [W,H]=FMT[fmt], g=canvas.getContext('2d'); canvas.width=W; canvas.height=H;
   const story=fmt==='9x16', key=colorKey||v.color, blanco=key==='blanco', col=COLORES[key], topSafe=story?H*.12:0, botSafe=story?H*.10:0;
-  // en la variante blanca el fondo es blanco y todo el texto va en el color de la campaña (azul Cumplimos, verde En marcha)
-  const acc=blanco?(v.estado==='en_ejecucion'?COLORES.verde:COLORES.azul):col, tinta=blanco?acc:'#fff';
+  // en la variante blanca el fondo es blanco y todo el texto va en el color de la campaña (azul)
+  const acc=blanco?COLORES.azul:col, tinta=blanco?acc:'#fff';
   g.fillStyle=blanco?'#fff':col; g.fillRect(0,0,W,H);
   const fondo=blanco?'#fff':col, conFoto=!!foto&&dis&&dis!=='sin';
-  // banda blanca superior: ícono, palabra de campaña (a la derecha) y píldora con la zona
-  const bandH=W*.225, bandY=topSafe, mx=W*.06; if(!blanco){g.fillStyle='#fff';g.fillRect(0,bandY,W,bandH)}
-  let ps=W*.118; g.font=`900 ${ps}px Poppins`; while(g.measureText(v.palabra).width>W*.58&&ps>W*.07){ps*=.95;g.font=`900 ${ps}px Poppins`}
-  const pw=g.measureText(v.palabra).width, px=W-mx-pw, py=bandY+bandH*.56; g.fillStyle=acc; g.textAlign='left'; g.textBaseline='alphabetic'; g.fillText(v.palabra,px,py);
-  const ir=ps*.34, ix=px-ir*1.5, iy=py-ps*.33; icono(g,ix,iy,ir,acc,'#fff',v.estado);
-  const pillH=W*.056; g.font=`700 ${pillH*.55}px Poppins`; const pt=v.pill, ptw=Math.min(g.measureText(pt).width+pillH*1.1,W*.72), pxx=W-mx-ptw, pyy=py+bandH*.09;
-  g.fillStyle=acc; rrect(g,pxx,pyy,ptw,pillH,pillH/2); g.fill(); g.fillStyle='#fff'; g.textAlign='center'; g.fillText(pt,pxx+ptw/2,pyy+pillH*.68); g.textAlign='left';
+  // banda blanca superior (pedido del 5/11): la zona grande arriba ("En Berrotarán") y debajo la palabra de campaña en píldora con el ícono; alineado a la derecha
+  const mx=W*.06, maxW=W-mx*2, locTxt=v.pill.charAt(0).toUpperCase()+v.pill.slice(1);
+  let ps=W*.105; g.font=`900 ${ps}px Poppins`; while(g.measureText(locTxt).width>maxW&&ps>W*.07){ps*=.95;g.font=`900 ${ps}px Poppins`}
+  const locL=g.measureText(locTxt).width>maxW?wrap(g,locTxt,maxW):[locTxt];
+  const pillH=W*.08, bandH=W*.07+locL.length*ps*1.02+W*.03+pillH+W*.06, bandY=topSafe; if(!blanco){g.fillStyle='#fff';g.fillRect(0,bandY,W,bandH)}
+  let ly=bandY+W*.07+ps*.8; g.fillStyle=acc; g.textAlign='right'; g.textBaseline='alphabetic'; locL.forEach(t=>{g.fillText(t,W-mx,ly);ly+=ps*1.02});
+  const pfs=pillH*.58; g.font=`900 ${pfs}px Poppins`; const ir=pillH*.3, ptw=g.measureText(v.palabra).width+ir*2+pillH*1.1, pxx=W-mx-ptw, pyy=ly-ps*1.02+ps*.3+W*.03;
+  g.fillStyle=acc; rrect(g,pxx,pyy,ptw,pillH,pillH/2); g.fill(); icono(g,pxx+pillH*.4+ir,pyy+pillH/2,ir,'#fff',acc,v.estado);
+  g.fillStyle='#fff'; g.textAlign='left'; g.fillText(v.palabra,pxx+pillH*.4+ir*2+pillH*.22,pyy+pillH*.7);
   // foto: "arriba" ocupa la parte alta del panel y se funde en el color; "completa" cubre todo el panel y el texto va abajo sobre un degradado
   const fh=W*.115, fy=H-botSafe-fh, fx=W*.45, cut=fh*.9, cuerpoY=bandY+bandH, cuerpoH=fy-cuerpoY;
   let fotoFin=0;
@@ -311,17 +318,21 @@ async function renderPlaca(canvas,v,fmt,colorKey,foto,dis,enc){
   const top=(conFoto&&dis==='arriba'?fotoFin-W*.02:bandY+bandH+W*.06), bottom=fy-W*.05, bw=W-mx*2, avail=bottom-top, abajo=conFoto&&dis!=='arriba';
   let blocks=[];
   if(v.tipo==='una'){blocks=[{t:v.etiqueta,w:600,s:W*.03,c:tinta,chip:true,gap:W*.045},{t:v.texto,w:900,s:W*.082,c:tinta,lh:1.05,gap:W*.03},{t:v.cuando,w:500,s:W*.04,c:tinta,lh:1.2,op:.95}];}
-  else if(v.tipo==='lista'){const n=(v.items||[]).length;blocks=[{t:n>1?(v.estado==='en_ejecucion'?'Lo que está en marcha:':'Lo que ya es una realidad:'):'',w:600,s:W*.036,c:tinta,gap:W*.035}];
-    (v.items||[]).forEach(t=>blocks.push({t,w:800,s:W*(n>4?.046:n>2?.05:.056),c:tinta,lh:1.12,check:true,ind:W*.08,gap:W*.02}));
-    if(v.mas)blocks.push({t:v.mas,w:600,s:W*.032,c:tinta,op:.9});}
+  else if(v.tipo==='lista'){const n=(v.items||[]).length;blocks=[{t:n>1?(v.estado==='en_ejecucion'?'Lo que estamos haciendo:':'Lo que ya es una realidad:'):'',w:600,s:W*.036,c:tinta,gap:W*.035}];
+    (v.items||[]).forEach(t=>blocks.push({t,w:800,s:W*(n>4?.046:n>2?.05:.056),c:tinta,lh:1.12,check:true,estado:v.estado,ind:W*.08,gap:W*.02}));}
   else {blocks=[{t:v.valor,w:900,s:W*.3,c:tinta,lh:1,gap:W*.005},{t:v.etiqueta,w:900,s:W*.06,c:tinta,up:true,gap:W*.03},{t:v.sub,w:600,s:W*.038,c:tinta,op:.9}];}
   const pieBlock=v.pie?{t:v.pie,w:800,s:W*.03,c:tinta,up:true,op:.95}:null;
-  const lay=layout(g,blocks,bw,(abajo?Math.min(avail,cuerpoH*.6):avail)-(pieBlock?W*.07:0));
-  const textoY=abajo?bottom-(pieBlock?W*.07:0)-lay.tot:top+(v.tipo==='dato'?(avail-lay.tot)/2-W*.03:0);
+  const availT=(abajo?Math.min(avail,cuerpoH*.6):avail)-(pieBlock?W*.07:0);
+  let lay=layout(g,blocks,bw,availT), entran=(v.items||[]).length;
+  if(v.tipo==='lista'){ // entran los ítems que caben con letra >= MIN_ITEM (44 px en 1080); los que no, quedan en el copy de IG y en sus placas
+    while(entran>1&&blocks[entran].s*lay.k<W*MIN_ITEM){entran--;lay=layout(g,blocks.slice(0,entran+1),bw,availT)}
+    canvas.dataset.entran=entran}
+  const textoY=abajo?bottom-(pieBlock?W*.07:0)-lay.tot:top+(v.tipo==='dato'||v.tipo==='lista'?Math.max(0,(availT-lay.tot)/2-W*.02):0);
   if(abajo){const g0=Math.max(cuerpoY,textoY-W*.3),fade=g.createLinearGradient(0,g0,0,Math.min(textoY+W*.02,fy));fade.addColorStop(0,fondo+'00');fade.addColorStop(1,fondo+'f2');g.fillStyle=fade;g.fillRect(0,g0,W,fy-g0);g.fillStyle=fondo+'f2';g.fillRect(0,Math.min(textoY+W*.02,fy),W,Math.max(0,fy-textoY-W*.02))}
   drawLayout(g,lay,mx,textoY,bw,acc,blanco?'#fff':col);
   if(pieBlock){g.font=`800 ${pieBlock.s}px Poppins`;g.fillStyle=tinta;g.globalAlpha=pieBlock.op;g.fillText(up(pieBlock.t),mx,bottom-W*.005);g.globalAlpha=1}
 }
+const MIN_ITEM=44/1080;   // tipografía mínima legible de los ítems de la lista
 function icono(g,x,y,r,fill,ink,estado){ // círculo con tilde (Cumplimos) o flecha (En marcha)
   g.fillStyle=fill;g.beginPath();g.arc(x,y,r,0,Math.PI*2);g.fill();g.strokeStyle=ink;g.lineCap='round';g.lineJoin='round';g.lineWidth=r*.26;g.beginPath();
   if(estado==='en_ejecucion'){g.moveTo(x-r*.42,y);g.lineTo(x+r*.42,y);g.moveTo(x+r*.05,y-r*.38);g.lineTo(x+r*.42,y);g.lineTo(x+r*.05,y+r*.38)}
@@ -347,7 +358,7 @@ const txHTML=(ig,x,pl,sms,rotPl,gac)=>`
 function wire(card,id,v){
   const st={done:false,col:v.color};
   const fotoDe=()=>{const f=FOTOS[id]||{};return f.data?[f.data,f.dis||disSugerido(v)]:[null,'sin']};
-  const draw=()=>{const [fd,dis]=fotoDe(),f=FOTOS[id]||{};card.querySelectorAll(':scope > .body > .grid canvas').forEach(c=>{c.classList.toggle('movible',!!fd&&dis!=='sin');renderPlaca(c,v,c.dataset.fmt,st.col,fd,dis,{fx:f.fx,fy:f.fy,z:f.z})})};
+  const draw=()=>{const [fd,dis]=fotoDe(),f=FOTOS[id]||{};Promise.all([...card.querySelectorAll(':scope > .body > .grid canvas')].map(c=>{c.classList.toggle('movible',!!fd&&dis!=='sin');return renderPlaca(c,v,c.dataset.fmt,st.col,fd,dis,{fx:f.fx,fy:f.fy,z:f.z})})).then(()=>card._dibujada&&card._dibujada())};
   // encuadre: arrastrar la foto dentro de la placa mueve el recorte (se guarda con la foto); el zoom va con el control deslizante
   let arr=null;const cvs=card.querySelector(':scope > .body > .grid .fmts');
   if(cvs){cvs.addEventListener('pointerdown',ev=>{const c=ev.target.closest('canvas');if(!c||!c.classList.contains('movible'))return;const f=FOTOS[id];if(!f)return;arr={x:ev.clientX,y:ev.clientY,fx:f.fx??.5,fy:f.fy??.35,w:c.getBoundingClientRect().width,h:c.getBoundingClientRect().height};c.setPointerCapture(ev.pointerId);ev.preventDefault()});
@@ -379,11 +390,12 @@ function wire(card,id,v){
     if(t.dataset.t==='pl'){if(esAn)o.placa=v.texto;else if(v.tipo==='lista')o.items=v.items.slice();else o.placaTxt=t.value}else o[t.dataset.t]=t.value;guardarED();card.dataset.editado='1'}));
 }
 function selHTML(p){ // casillas: qué anuncios entran en la placa (uno solo → placa individual; varios → lista)
-  const g=ranking(p.g||[]), sel=selDe(p.id), on=a=>sel&&sel.length?sel.includes(a.id):(!p.manual&&p.eligeN?g.slice(0,p.eligeN).some(x=>x.id===a.id):false);
-  const esDep=/^d_/.test(p.id);
-  return `<details class="sel"><summary><b>Anuncios en la placa</b><span class="n">${p.eligeN||0} de ${g.length}${p.manual?' · selección propia':esDep?' · sin elegir, la placa muestra el total':' · los 5 sugeridos'} · tocá para elegir</span></summary><div class="cuerpo"><div class="row"><span class="btns"><button class="btn sec" data-sel="sug">${esDep?'Los 5 mejores':'Los 5 sugeridos'}</button><button class="btn sec" data-sel="nada">Ninguno</button></span></div>
-   <ul>${g.map(a=>`<li><input type="checkbox" data-selid="${a.id}" id="sel_${p.id}_${a.id}" ${on(a)?'checked':''}><label for="sel_${p.id}_${a.id}">${esc(textoDe(a))}${esDep&&a.localidad?`<span class="loc">· ${esc(tituloLoc(a.localidad))}</span>`:''}${!limpioTxt(a)?' <span class="tag aviso">Revisar texto</span>':''}</label></li>`).join('')}</ul>
-   <div class="hint">Con un solo anuncio la placa es individual; con varios, una lista con tilde por ítem (hasta cinco se leen bien). El texto de cada ítem se edita en “Texto de la placa”.</div></div></details>`}
+  const sel=selDe(p.id), rk=ranking(p.g||[]), esDep=/^d_/.test(p.id);
+  const elegidosL=sel&&sel.length?sel.map(i=>rk.find(a=>a.id===i)).filter(Boolean):(!p.manual&&p.eligeN?rk.slice(0,p.eligeN):[]);   // en el orden de la placa
+  const g=[...elegidosL,...rk.filter(a=>!elegidosL.includes(a))], on=a=>elegidosL.includes(a);
+  return `<details class="sel"><summary><b>Anuncios en la placa</b><span class="n">${p.eligeN||0} de ${g.length}${p.manual?' · selección propia':esDep?' · sin elegir, la placa muestra el total':' · por prioridad: eje social y luego inversión'} · tocá para elegir u ordenar</span></summary><div class="cuerpo"><div class="row"><span class="n" data-entran></span><span class="btns"><button class="btn sec" data-sel="sug">Orden sugerido</button><button class="btn sec" data-sel="nada">Ninguno</button></span></div>
+   <ul>${g.map((a,i)=>`<li><input type="checkbox" data-selid="${a.id}" id="sel_${p.id}_${a.id}" ${on(a)?'checked':''}><label for="sel_${p.id}_${a.id}">${esc(textoDe(a))}${esDep&&a.localidad?`<span class="loc">· ${esc(tituloLoc(a.localidad))}</span>`:''}${esSocial(a)?' <span class="tag cumplido">social</span>':''}${!limpioTxt(a)?' <span class="tag aviso">Revisar texto</span>':''}</label>${on(a)?`<button class="mv" data-up="${a.id}" ${i?'':'disabled'} title="Subir">↑</button><button class="mv" data-dn="${a.id}" ${i<elegidosL.length-1?'':'disabled'} title="Bajar">↓</button>`:''}</li>`).join('')}</ul>
+   <div class="hint">Con un solo anuncio la placa es individual; con varios, una lista con tilde por ítem. Entran los que caben con letra legible (44 px en 1080); los demás quedan en el copy de Instagram y en sus placas. El texto de cada ítem se edita en “Texto de la placa”.</div></div></details>`}
 function cardPieza(p,rotulo,sub,rearmar){
   const el=document.createElement('details');el.className='card '+p.estado+(sub?' sub':'');
   el.innerHTML=`<summary><div class="tt"><b>${esc(p.titulo)}</b><span>${esc(p.sub||'')}</span></div>${p.redactado?'<span class="tag cumplido">Redactado</span>':''}${p.manual?'<span class="tag cumplido">Selección propia</span>':''}<span class="tag ${p.estado}">${rotulo}</span></summary>
@@ -391,12 +403,17 @@ function cardPieza(p,rotulo,sub,rearmar){
   wire(el,p.id,p.placa);
   if(p.g&&rearmar){const guardar=ids=>{ED.seleccion[p.id]=ids;Object.assign(ED.piezas[p.id]??={},{items:null,placaTxt:null});guardarED();const n=rearmar();n.open=true;n.querySelector(':scope > .body > .sel').open=true;el.replaceWith(n)};
     el.querySelector(':scope > .body > .sel').addEventListener('change',ev=>{if(ev.target.dataset.selid)guardar([...el.querySelectorAll(':scope > .body > .sel input:checked')].map(i=>+i.dataset.selid))});
-    el.querySelector(':scope > .body > .sel').addEventListener('click',ev=>{const b=ev.target.closest('button[data-sel]');if(!b)return;guardar(b.dataset.sel==='sug'?ranking(p.g).slice(0,5).map(a=>a.id):[])})}
+    el.querySelector(':scope > .body > .sel').addEventListener('click',ev=>{const b=ev.target.closest('button[data-sel],button.mv');if(!b)return;ev.preventDefault();
+      if(b.dataset.sel){if(b.dataset.sel==='sug'){delete ED.seleccion[p.id];Object.assign(ED.piezas[p.id]??={},{items:null,placaTxt:null});guardarED();const n=rearmar();n.open=true;n.querySelector(':scope > .body > .sel').open=true;el.replaceWith(n)}else guardar([]);return}
+      const ids=[...el.querySelectorAll(':scope > .body > .sel input:checked')].map(i=>+i.dataset.selid), id=+(b.dataset.up||b.dataset.dn), i=ids.indexOf(id), j=b.dataset.up?i-1:i+1;
+      if(i<0||j<0||j>=ids.length)return;[ids[i],ids[j]]=[ids[j],ids[i]];guardar(ids)});
+    // cuántos entran en cada formato (la placa lo calcula al dibujar)
+    el._dibujada=()=>{const n=el.querySelector(':scope > .body > .sel [data-entran]');if(n)n.textContent=[...el.querySelectorAll(':scope > .body > .grid canvas')].filter(c=>c.dataset.entran).map(c=>`${c.dataset.fmt.replace('x',':')}: entran ${c.dataset.entran} de ${p.eligeN||0}`).join(' · ')}}
   return el;
 }
 function cardAnuncio(a){
   const p=piezaAnuncio(a), el=document.createElement('details');el.className='card sub '+a.estado;
-  const av=(a.avisos||[]).filter(x=>/monto|gobernador|verbo|largo|vacío/.test(x));
+  const av=limpioTxt(a)?[]:(a.avisos||[]).filter(x=>/monto|gobernador|verbo|largo|vacío/.test(x));
   el.innerHTML=`<summary><div class="tt"><b>${esc(textoDe(a))}</b><span>${esc(a.etiqueta)}${a.anioTxt?' · anunciado en '+esc(a.anioTxt):''}${a.ministerio?' · '+esc(a.ministerio):''}</span></div>
     ${p.redactado?'<span class="tag cumplido">Redactado</span>':''}${a.pit?'<span class="tag pit">PIT</span>':''}${!a.publicable?'<span class="tag nopub">No publicable</span>':''}${av.length?`<span class="tag aviso" title="${esc(av.join(' · '))}">Revisar texto</span>`:''}<span class="tag ${a.estado}">${esc(a.etiqueta)}</span></summary>
    <div class="body"><div class="grid"><div>${placaHTML(p.placa,p.id)}</div><div>${txHTML(p.ig,p.x,textoPlaca(p.placa),p.sms,null,p.gac)}</div></div>
@@ -436,7 +453,7 @@ function renderSide(){
   $('#qz').oninput=ev=>{S.qz=ev.target.value;clearTimeout(S._tz);S._tz=setTimeout(()=>{renderSide();const q=$('#qz');q.focus();q.setSelectionRange(q.value.length,q.value.length)},200)};
 }
 function ctx(){const c=CAMP[S.estado],n=alcance().length,d=S.dep?(DEP[S.dep]||{nombre_publicable:S.dep}).nombre_publicable:null;
-  return `<div class="ctx ${S.estado}"><b>${c.nombre}</b><span>${d?`Departamento ${esc(d)}`:'Toda la provincia'}${S.loc?' · '+esc(nombreLoc(alcance()))+'':''} · ${n} anuncios</span></div>`}
+  return `<div class="ctx ${S.estado}"><b>${c.nombre}</b><span>${d?`Departamento ${esc(d)}`:'Toda la provincia'}${S.loc&&alcance().length?' · '+esc(nombreLoc(alcance())):''} · ${n} anuncios</span></div>`}
 function renderPlacas(root){
   const as=alcance(); root.innerHTML=ctx()+`<div class="count">${as.length} anuncios · ${uniq(as.map(a=>a.locKey)).length} localidades · ${uniq(as.map(a=>a.depKey)).length} departamentos</div><div id="list"></div>`;
   const list=$('#list',root); if(!as.length){list.innerHTML='<div class="list"><h3>Sin anuncios</h3><div class="hint">No hay anuncios para esta selección.</div></div>';return}
@@ -512,6 +529,7 @@ function go(){renderHeader();renderSide();({placas:renderPlacas,calidad:renderCa
 window.addEventListener('resize',()=>document.documentElement.style.setProperty('--hh',$('header').offsetHeight+'px'));
 $('#main').addEventListener('click',ev=>{const b=ev.target.closest('[data-ficha]');if(b){S.ficha=+b.dataset.ficha;S.tab='ficha';go();window.scrollTo(0,0)}});
 go();
+window.GC={renderPlaca,piezaLocalidad,piezaAnuncio,porLoc,PUB};
 })();
 </script>
 </body>

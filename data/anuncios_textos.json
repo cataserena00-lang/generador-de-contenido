@@ -2387,13 +2387,16 @@
    "revisado": false
   },
   "1476": {
-   "placa": "Reconectadores para la cooperativa de Berrotarán",
+   "placa": "Reconectadores para la cooperativa",
    "titular": "La Provincia entregó reconectadores a la cooperativa de Berrotarán",
    "resumen": "Berrotarán está entre las localidades cuyas cooperativas recibieron reconectadores de la Provincia.",
-   "duda": "",
+   "duda": "La base dice “recibirán” (futuro) y el estado es obra finalizada; sin la gacetilla no se pudo confirmar la entrega ni el nombre de la cooperativa.",
    "modelo": "claude-code",
    "fecha": "2026-10-30",
-   "revisado": false
+   "revisado": false,
+   "detalle_fuente": "",
+   "url_consultada": "https://prensa.cba.gov.ar/informacion-general/llaryora-el-modelo-de-cordoba-es-con-superavit-y-la-gente-adentro/",
+   "nota_fuente": "Gacetilla no accesible desde la sesión (prensa.cba.gov.ar respondió 403); texto armado con la base."
   },
   "1477": {
    "placa": "Reconectadores para la cooperativa de Bulnes",
@@ -3395,58 +3398,76 @@
    "revisado": false
   },
   "325": {
-   "placa": "Gas natural para el parque industrial de Berrotarán",
+   "placa": "Gas para el parque industrial",
    "titular": "La Provincia terminó la obra de gas del parque industrial de Berrotarán",
-   "resumen": "Con aporte provincial, el parque industrial de Berrotarán cuenta con gas.",
+   "resumen": "Con aporte provincial, el parque industrial de Berrotarán ya cuenta con gas.",
    "duda": "",
    "modelo": "claude-code",
    "fecha": "2026-10-30",
-   "revisado": false
+   "revisado": false,
+   "detalle_fuente": "",
+   "url_consultada": "https://prensa.cba.gov.ar/gobernador/llaryora-entrego-viviendas-y-anuncio-obras-para-berrotaran-y-alpa-corral/",
+   "nota_fuente": "Gacetilla no accesible desde la sesión (prensa.cba.gov.ar respondió 403); texto armado con la base."
   },
   "326": {
-   "placa": "Polideportivo de Berrotarán",
+   "placa": "Polideportivo con ayuda provincial",
    "titular": "La Provincia entregó los fondos para el polideportivo de Berrotarán",
    "resumen": "La Provincia entregó una ayuda económica para el polideportivo de Berrotarán.",
    "duda": "",
    "modelo": "claude-code",
    "fecha": "2026-10-30",
-   "revisado": false
+   "revisado": false,
+   "detalle_fuente": "",
+   "url_consultada": "https://prensa.cba.gov.ar/gobernador/llaryora-entrego-viviendas-y-anuncio-obras-para-berrotaran-y-alpa-corral/",
+   "nota_fuente": "Gacetilla no accesible desde la sesión (prensa.cba.gov.ar respondió 403); texto armado con la base."
   },
   "327": {
-   "placa": "Cuartel de bomberos de Berrotarán",
+   "placa": "Refuerzo del cuartel de bomberos",
    "titular": "La Provincia aportó fondos para reforzar el cuartel de bomberos de Berrotarán",
-   "resumen": "El aporte provincial se destina a reforzar el cuartel de bomberos de Berrotarán.",
+   "resumen": "El aporte provincial se destinó a reforzar el cuartel de bomberos de Berrotarán.",
    "duda": "",
    "modelo": "claude-code",
    "fecha": "2026-10-30",
-   "revisado": false
+   "revisado": false,
+   "detalle_fuente": "",
+   "url_consultada": "https://prensa.cba.gov.ar/gobernador/llaryora-entrego-viviendas-y-anuncio-obras-para-berrotaran-y-alpa-corral/",
+   "nota_fuente": "Gacetilla no accesible desde la sesión (prensa.cba.gov.ar respondió 403); texto armado con la base."
   },
   "328": {
-   "placa": "Adoquinado de calles en Berrotarán",
+   "placa": "Adoquinado de calles",
    "titular": "La Provincia entregó los fondos para el adoquinado de calles en Berrotarán",
-   "resumen": "Los fondos, del Fondo Complementario de obras de infraestructura para Municipios, Comunas y Comunidades Regionales (FOCOM), se destinan al adoquinado de calles en Berrotarán.",
+   "resumen": "Los fondos, del Fondo Complementario de obras de infraestructura para Municipios, Comunas y Comunidades Regionales (FOCOM), se destinaron al adoquinado de calles en Berrotarán.",
    "duda": "",
    "modelo": "claude-code",
    "fecha": "2026-10-30",
-   "revisado": false
+   "revisado": false,
+   "detalle_fuente": "",
+   "url_consultada": "https://prensa.cba.gov.ar/gobernador/llaryora-entrego-viviendas-y-anuncio-obras-para-berrotaran-y-alpa-corral/",
+   "nota_fuente": "Gacetilla no accesible desde la sesión (prensa.cba.gov.ar respondió 403); texto armado con la base."
   },
   "329": {
-   "placa": "Cuerpo de Boy Scouts de Berrotarán",
+   "placa": "Cuerpo de Boy Scouts con aporte provincial",
    "titular": "La Provincia entregó un aporte al cuerpo de Boy Scouts de Berrotarán",
    "resumen": "La Provincia entregó un aporte al cuerpo de Boy Scouts de Berrotarán.",
    "duda": "",
    "modelo": "claude-code",
    "fecha": "2026-10-30",
-   "revisado": false
+   "revisado": false,
+   "detalle_fuente": "",
+   "url_consultada": "https://prensa.cba.gov.ar/gobernador/llaryora-entrego-viviendas-y-anuncio-obras-para-berrotaran-y-alpa-corral/",
+   "nota_fuente": "Gacetilla no accesible desde la sesión (prensa.cba.gov.ar respondió 403); texto armado con la base."
   },
   "330": {
-   "placa": "Obras de accesibilidad e inclusión en Berrotarán",
+   "placa": "Obras de accesibilidad e inclusión",
    "titular": "La Provincia entregó los fondos para obras de accesibilidad e inclusión en Berrotarán",
-   "resumen": "Los fondos se destinan a obras de infraestructura que mejoran la accesibilidad y la inclusión en Berrotarán.",
+   "resumen": "Los fondos se destinaron a obras de infraestructura que mejoran la accesibilidad y la inclusión en Berrotarán.",
    "duda": "",
    "modelo": "claude-code",
    "fecha": "2026-10-30",
-   "revisado": false
+   "revisado": false,
+   "detalle_fuente": "",
+   "url_consultada": "https://prensa.cba.gov.ar/gobernador/llaryora-entrego-viviendas-y-anuncio-obras-para-berrotaran-y-alpa-corral/",
+   "nota_fuente": "Gacetilla no accesible desde la sesión (prensa.cba.gov.ar respondió 403); texto armado con la base."
   },
   "331": {
    "placa": "Techado del Polideportivo Social de Alpa Corral",
