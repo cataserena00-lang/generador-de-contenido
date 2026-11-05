@@ -123,7 +123,8 @@ const CAMP={
    lineas:['Hacer para Crecer: compromisos que avanzan todos los días.','Con equilibrio fiscal, la inversión sigue llegando a cada localidad.','Córdoba avanza, localidad por localidad.','Cada compromiso en marcha es una obra que se acerca a los vecinos.'],
    intro:['Compromisos que ya están en marcha.','Lo que anunciamos avanza.','Obras y acciones en ejecución.']}
 };
-const COLORES={celeste:'#6caee5',rojo:'#bc1734',dorado:'#cfa55b'};
+const COLORES={celeste:'#6caee5',rojo:'#bc1734',dorado:'#cfa55b',azul:'#09467f'};   // azul: paleta.json (eje accesible)
+const COL_CAMP={cumplido:['celeste','rojo','dorado'],en_ejecucion:['celeste','dorado','azul']};
 const FMT={'1x1':[1080,1080,'Feed 1:1 · 1080×1080'],'4x5':[1080,1350,'Feed 4:5 · 1080×1350 (recomendado)'],'9x16':[1080,1920,'Stories/Reels 9:16 · 1080×1920']};
 
 /* ---------- SMS (mismas reglas que obras: un solo mensaje, link corto al final) ---------- */
@@ -137,7 +138,7 @@ const smsArmar=(estado,cuerpos,key,apsFijas)=>{ // por cada cuerpo (del más com
   return c.find(x=>smsLen(x)<=SMS_MAX)||c.at(-1)};
 
 /* ---------- datos derivados ---------- */
-A.forEach(a=>{a.depKey=a.departamento_norm||'SIN DEPARTAMENTO';a.locKey=a.localidad?norm(a.localidad):(a.alcance==='provincial'?'__prov':'__sin');a.color=a.localidad?['celeste','rojo','dorado'][hash(a.localidad)%3]:'celeste';a.anioTxt=a.fecha_anuncio?mesAnio(a.fecha_anuncio):null;});
+A.forEach(a=>{a.depKey=a.departamento_norm||'SIN DEPARTAMENTO';a.locKey=a.localidad?norm(a.localidad):(a.alcance==='provincial'?'__prov':'__sin');a.color=a.localidad?(COL_CAMP[a.estado]||COL_CAMP.cumplido)[hash(a.localidad)%3]:'celeste';a.anioTxt=a.fecha_anuncio?mesAnio(a.fecha_anuncio):null;});
 const PUB=A.filter(a=>a.publicable&&(a.estado==='cumplido'||a.estado==='en_ejecucion'));
 const EJES=uniq(A.map(a=>a.eje).filter(Boolean)).sort(), MINS=uniq(A.map(a=>a.ministerio).filter(Boolean)).sort(), ANIOS=uniq(A.map(a=>a.anio).filter(Boolean)).sort();
 const S={tab:'placas',estado:'cumplido',dep:null,loc:null,alcance:null,eje:null,min:null,anio:null,q:'',nopub:false,ficha:null};
@@ -212,7 +213,7 @@ function piezaDepartamento(dep,g){ // conteo por departamento: volumen y presenc
   const ig=limpio(`${c.emoji} ${c.palabra} EN ${up(d.nombre_publicable)}\n\n${cuerpo}${top.length>1?` Obras, aportes y programas para ${lista(top)} y cada una de las localidades del departamento.`:''}\n\n${pick(c.lineas,key)}\n\n${c.tags.join(' ')}`);
   const x=limpio([`${c.emoji} ${c.palabra} en ${d.nombre_publicable}: ${frase}${rango?', '+rango:''}. ${pick(c.lineas,key)} ${c.tags.join(' ')}`,`${c.emoji} ${c.palabra} en ${d.nombre_publicable}: ${frase}. ${c.tags.join(' ')}`].find(t=>t.length<=280));
   const sms=limpio(smsArmar(g[0].estado,[`${frase} en el departamento ${d.nombre_publicable}${rango?', '+rango:''}`,`${frase} en el departamento ${d.nombre_publicable}`],key,cum?['Cumplimos en tu departamento: ','Hacer para Crecer en tu departamento: ']:['En marcha en tu departamento: ','Hacer para Crecer en tu departamento: ']));
-  const placa={tipo:'dato',estado:g[0].estado,color:['celeste','rojo','dorado'][hash(dep)%3],palabra:c.palabra,pill:`en ${d.nombre_publicable}`,valor:String(N),etiqueta:cum?'compromisos cumplidos':'compromisos en marcha',sub:rango?`en todo el departamento, ${rango}`:'en todo el departamento',pie:d.pit==='si'?'PLAN DE IGUALDAD TERRITORIAL':'CÓRDOBA'};
+  const placa={tipo:'dato',estado:g[0].estado,color:(COL_CAMP[g[0].estado]||COL_CAMP.cumplido)[hash(dep)%3],palabra:c.palabra,pill:`en ${d.nombre_publicable}`,valor:String(N),etiqueta:cum?'compromisos cumplidos':'compromisos en marcha',sub:rango?`en todo el departamento, ${rango}`:'en todo el departamento',pie:d.pit==='si'?'PLAN DE IGUALDAD TERRITORIAL':'CÓRDOBA'};
   const out={id:key,titulo:`${c.nombre} en el departamento ${d.nombre_publicable}`,sub:`${N} compromisos${rango?' · '+rango:''}`,estado:g[0].estado,ig,x,sms,placa,g};
   aplicarEdicion(out,'piezas'); return out;
 }
@@ -240,7 +241,7 @@ const SIMB={
 const simbolo=(k,c,i)=>loadImg('data:image/svg+xml;charset=utf-8,'+encodeURIComponent(SIMB[k](c,i)));
 /* variantes de diseño: A = panel del color de la localidad (la del tablero); B = invertida; C = panel marino con celeste;
    D = como C con la banda también marino (alternativa por contraste). Colores nuevos, solo de assets/marca/paleta.json. */
-const PAL={marino:'#17233d',celeste:'#bedff7',marino2:'#172743',azul:'#09467f',amarillo:'#eaab3b',crema:'#e8d7b0',verdeClaro:'#c6dfce',verdeMedio:'#89ba96',verde:'#4da070'};   // paleta.json: ejes calle, accesible y plaza
+const PAL={marino:'#17233d',celeste:'#bedff7'};   // paleta.json, eje calle. Los verdes y el amarillo se probaron y se descartaron (no respetan el manual)
 let VARIANTE='A';
 const varColores=(k,col)=>({
  A:{panel:col,banda:'#fff',palabra:col,simbolo:col,pillBg:col,pillTx:'#fff',texto:'#fff',vineta:'#fff',fila:null},
@@ -250,12 +251,7 @@ const varColores=(k,col)=>({
  E:{panel:col,banda:'#fff',palabra:col,simbolo:col,pillBg:col,pillTx:'#fff',texto:'#fff',vineta:'#fff',vinetaIn:col,sello:true,fila:null},
  F:{panel:PAL.marino,banda:col,palabra:'#fff',simbolo:'#fff',pillBg:'#fff',pillTx:col,texto:'#fff',vineta:PAL.celeste,fila:null},
  G:{panel:'#fff',banda:col,palabra:'#fff',simbolo:'#fff',pillBg:'#fff',pillTx:col,texto:PAL.marino,vineta:col,fila:col},
- H:{panel:col,banda:'#fff',palabra:PAL.marino,simbolo:col,pillBg:PAL.marino,pillTx:'#fff',texto:'#fff',vineta:'#fff',fila:null},
- // pruebas con otros colores de la paleta (verdes del eje plaza, azul y amarillo del eje accesible)
- I:{panel:PAL.verde,banda:'#fff',palabra:PAL.verde,simbolo:PAL.verde,pillBg:PAL.marino2,pillTx:'#fff',texto:'#fff',vineta:PAL.verdeClaro,fila:null},
- J:{panel:PAL.verde,banda:PAL.verdeClaro,palabra:PAL.marino2,simbolo:PAL.marino2,pillBg:PAL.marino2,pillTx:'#fff',texto:'#fff',vineta:'#fff',vinetaIn:PAL.verde,sello:true,fila:null},
- K:{panel:PAL.azul,banda:PAL.amarillo,palabra:PAL.azul,simbolo:PAL.azul,pillBg:PAL.azul,pillTx:'#fff',texto:'#fff',vineta:PAL.amarillo,fila:null},
- L:{panel:PAL.verdeClaro,banda:PAL.verde,palabra:'#fff',simbolo:'#fff',pillBg:'#fff',pillTx:PAL.verde,texto:PAL.marino2,vineta:PAL.verde,fila:PAL.verde}}[k]);
+ H:{panel:col,banda:'#fff',palabra:PAL.marino,simbolo:col,pillBg:PAL.marino,pillTx:'#fff',texto:'#fff',vineta:'#fff',fila:null}}[k]);
 const MIN_ITEM=44/1080;   // tipografía mínima legible de los ítems: 44 px en 1080 de ancho; lo que no entra a ese tamaño no va en la placa
 // lista: entra la mayor cantidad de ítems (en su orden) que cabe con letra >= mínimo; con esos, la letra más grande que cabe
 function ajustarLista(g,items,bw,avail,W,rot){
@@ -270,13 +266,16 @@ async function renderPlaca(canvas,v,fmt,colorKey,variante){
   const story=fmt==='9x16', col=COLORES[colorKey||v.color], K=varColores(variante||VARIANTE,col), topSafe=story?H*.12:0, botSafe=story?H*.10:0;
   g.fillStyle=K.panel; g.fillRect(0,0,W,H);
   if(story&&K.fila){g.fillStyle=K.banda;g.fillRect(0,0,W,topSafe)}   // B en historias: el color pleno sigue por encima de la zona segura
-  // banda superior con el símbolo y la palabra de campaña (derecha) y la píldora
-  const bandH=W*.21, bandY=topSafe; g.fillStyle=K.banda; g.fillRect(0,bandY,W,bandH);
-  const mx=W*.06; let ps=W*.12; g.font=`900 ${ps}px Poppins`; while(g.measureText(v.palabra).width>W*.55&&ps>W*.07){ps*=.95;g.font=`900 ${ps}px Poppins`}
-  const pw=g.measureText(v.palabra).width, px=W-mx-pw, py=bandY+bandH*.58; g.fillStyle=K.palabra; g.textAlign='left'; g.textBaseline='alphabetic'; g.fillText(v.palabra,px,py);
-  const sz=ps*.86, sim=await simbolo(v.estado==='en_ejecucion'?'en_ejecucion':'cumplido',K.simbolo); g.drawImage(sim,px-sz-ps*.22,py-ps*.72-(sz-ps*.72)/2,sz,sz);
-  const pillH=W*.052; g.font=`700 ${pillH*.56}px Poppins`; const pt=v.pill, ptw=Math.min(g.measureText(pt).width+pillH*.9,W*.7), pxx=W-mx-ptw, pyy=py+bandH*.1;
-  g.fillStyle=K.pillBg; rrect(g,pxx,pyy,ptw,pillH,pillH/2); g.fill(); g.fillStyle=K.pillTx; g.textAlign='center'; g.fillText(pt,pxx+ptw/2,pyy+pillH*.69); g.textAlign='left';
+  // banda superior: la localidad grande ("En Berrotarán") y debajo la palabra de campaña en píldora con el símbolo; todo alineado a la derecha
+  const mx=W*.06, maxW=W-mx*2, locTxt=v.pill.charAt(0).toUpperCase()+v.pill.slice(1);
+  let ps=W*.105; g.font=`900 ${ps}px Poppins`; while(g.measureText(locTxt).width>maxW&&ps>W*.07){ps*=.95;g.font=`900 ${ps}px Poppins`}
+  const locL=g.measureText(locTxt).width>maxW?wrap(g,locTxt,maxW):[locTxt];
+  const pillH=W*.08, bandH=W*.07+locL.length*ps*1.02+W*.03+pillH+W*.06, bandY=topSafe; g.fillStyle=K.banda; g.fillRect(0,bandY,W,bandH);
+  let ly=bandY+W*.07+ps*.8; g.fillStyle=K.palabra; g.textAlign='right'; g.textBaseline='alphabetic'; locL.forEach(t=>{g.fillText(t,W-mx,ly);ly+=ps*1.02});
+  const pfs=pillH*.58; g.font=`900 ${pfs}px Poppins`; const sz=pillH*.66, ptw=g.measureText(v.palabra).width+sz+pillH*1.1, pxx=W-mx-ptw, pyy=ly-ps*1.02+ps*.3+W*.03;
+  g.fillStyle=K.pillBg; rrect(g,pxx,pyy,ptw,pillH,pillH/2); g.fill();
+  const sim=await simbolo(v.estado==='en_ejecucion'?'en_ejecucion':'cumplido',K.pillTx); g.drawImage(sim,pxx+pillH*.4,pyy+(pillH-sz)/2,sz,sz);
+  g.fillStyle=K.pillTx; g.textAlign='left'; g.fillText(v.palabra,pxx+pillH*.4+sz+pillH*.25,pyy+pillH*.7);
   // pie blanco con corte diagonal y lockup (no cambia entre variantes; en B la fila del pie va en color para que el corte se lea)
   const {img:lk,asp}=await svgImg('gobierno-color'); const fh=W*.115, fy=H-botSafe-fh, fx=W*.45, cut=fh*.9;
   if(K.fila){g.fillStyle=K.fila;g.fillRect(0,fy,W,H-fy)}
@@ -287,7 +286,7 @@ async function renderPlaca(canvas,v,fmt,colorKey,variante){
   const pieS=W*.03, pieY=K.fila?fy+fh/2+pieS*.36:fy-W*.055, bottom=(K.fila?fy:pieY-pieS)-W*.045;
   if(v.pie){let ss=pieS;g.font=`700 ${ss}px Poppins`;if(K.fila)while(g.measureText(up(v.pie)).width>fx-mx*1.6&&ss>W*.018){ss*=.95;g.font=`700 ${ss}px Poppins`}g.fillStyle=K.fila?'#fff':K.texto;g.globalAlpha=.85;g.fillText(up(v.pie),mx,pieY);g.globalAlpha=1}
   // cuerpo: centrado en el alto disponible, sin vacío abajo
-  const top=bandY+bandH+W*.055, bw=W-mx*2, avail=bottom-top;
+  const top=bandY+bandH+W*.045, bw=W-mx*2, avail=bottom-top;
   if(v.tipo==='lista'){
     const items=v.items||[], rot=v.estado==='en_ejecucion'?'Lo que estamos haciendo:':'Lo que ya es una realidad:';
     const r=ajustarLista(g,items,bw,avail,W,true), rs=W*.036;
