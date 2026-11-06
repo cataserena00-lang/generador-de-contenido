@@ -34,6 +34,14 @@ Archivos de este módulo: esquema_parte.md, muestra_parte.json, historico_resume
 ## Estilo visual del módulo
 Poppins; colores y pies por eje en marca_resumen.md. Placas con 3 diseños de foto (Círculo, Marco, Completa), "Sugerido" por calidad de foto y "Sin foto". Historias 9:16 con zona segura. Favicon con la bandera de Córdoba. Título del tablero: GENERADOR DE CONTENIDO. "Chequeo de calidad" va gris, a la derecha.
 
+### Galería de fotos genéricas por tipo de obra
+- Ruta: `assets/galeria/<clave_rubro>/`. Claves de carpeta (iguales a TIPOS de la plantilla): `mant`, `frio`, `rampas`, `bacheo`, `rehab`, `hormigon`, `pav`, `plaza`.
+- Sumar fotos: soltar los archivos (.jpg, .jpeg, .png o .webp) en la carpeta del rubro y volver a correr `python tools/build.py <fecha>`. No hace falta tocar código. El build las recomprime a 1200 px, JPEG calidad 75, las ordena por nombre de archivo e imprime el peso de la galería y el del tablero. Una carpeta nueva solo sirve si su nombre es una de las claves.
+- En la tarjeta, la fila "Foto:" muestra miniaturas ("Propia", "Parte 1", "Parte 2"…). Debajo va la tira "Fotos genéricas de <rubro>" con las de la galería, y la miniatura elegida lleva borde del color del eje. Si la obra no trae foto del parte ni propia, se elige sola una genérica que rota según el id de la obra, y debajo de la placa aparece "Foto genérica del tipo de obra. Podés elegir otra o subir la tuya". El diseño "Sin foto" sigue disponible. Las piezas por tipo (plazas, rampas y pavimentación) usan la galería de su rubro.
+- Etiqueta "Foto genérica" (gris con texto marino) cuando la obra solo tiene genérica. El filtro Con foto / Sin foto sigue contando la foto del parte. El PNG bajado con una genérica lleva el sufijo `_generica`.
+- Chequeo: "Obras sin foto del parte (salen con foto genérica)" para los rubros con galería y "Rubros sin galería: …" para saber qué carpetas faltan cargar.
+- Las fotos vienen del build (van dentro del tablero), no del navegador. El encuadre y el zoom de cada genérica se guardan por obra y por foto, como los de las otras fotos.
+
 ## Errores ya resueltos (no repetir)
 - Contar cada rampa como obra: la serie usa ítems. Falsos "faltan partes" por fines de semana. Mojibake: archivos UTF-8 sin BOM.
 - `vercel.json` con BOM rompe el build. PowerShell 5.1 rompe `$` y comillas en parches: usar Python o el editor.
@@ -46,6 +54,7 @@ Poppins; colores y pies por eje en marca_resumen.md. Placas con 3 diseños de fo
 - Periódicos de 15 días y mensual: faltan partes (11 y 22 días hábiles).
 - Filtro y contenidos por seccional (número del código: 7A, 7B y 7G = 7): la primera versión se eliminó; falta definir cómo será.
 - Códigos sin circuito registrado: dic_circuitos.csv cubre 14A, 5E, 7G y 9G; faltan 6A, 2R y 4.
+- Galería de fotos genéricas: cargar las fotos en `assets/galeria/<rubro>/`. Al 06/11 no hay ninguna carpeta: el Chequeo lista los 8 rubros como "sin galería". Si el tablero pasa de 10 MB, servir la galería como archivos sueltos en `deploy/galeria/`.
 
 ## Traspaso · pasada de UX del tablero (30/10)
 - Hecho: cabecera mínima (48 px); barra de contexto sticky con zona, período y fechas reales, y color por período; tres pestañas (Periódicos pasó al final de Resumen como «Otras lecturas»); fechas en el selector de período; KPIs plegados en «Datos del parte»; en Semana, tarjetas con «en N de 5 partes · último dd/mm», ordenadas por partes; botón Abrir/Cerrar todas.
@@ -53,3 +62,10 @@ Poppins; colores y pies por eje en marca_resumen.md. Placas con 3 diseños de fo
 - Antes: la plantilla subida era vieja (sin seccional ni SMS); se reconstruyó desde el index.html publicado. Las fotos y docs del 29/10 se sacaron del tablero publicado a entrada/_cache (no venían en el zip). Usar esta plantilla de ahora en adelante.
 - Estado: build listo y verificado (sin errores de consola, Chequeo todo ✔, buscador conserva el foco, 3,2 MB); publicado en main a pedido de Tomás para verlo en Vercel.
 - Pendiente y dudas: el repo figura público en GitHub (CLAUDE.md dice privado): pasarlo a privado. Las fotos se recomprimen dos veces (pérdida mínima); con el Drive original, volver a bajarlas con fetch_docs.py.
+
+## Traspaso · galería de fotos genéricas por tipo de obra (06/11)
+- Hecho: `galeria()` en build.py (assets/galeria/<rubro>/, 1200 px, JPEG 75, por nombre de archivo, peso de la galería y total en la salida). En la plantilla: fotos en orden propia, parte y galería; miniaturas rotuladas; tira "Fotos genéricas de <rubro>"; genérica automática que rota por id con su aviso; sufijo `_generica` en el PNG; tag "Foto genérica"; dos líneas nuevas en el Chequeo. Probado en el 29/10 con una galería temporal (3 de hormigón y 2 de plaza): hormigón con foto del parte (la del parte va primero), hormigón sin foto (genérica, aviso, cambio, encuadre y zoom), rampas sin galería (sin cambios) y encuadre que persiste al recargar. Sin errores de consola, Chequeo todo ✔.
+- Pendiente: no hay fotos en la galería. `assets/galeria/` no existe en novedades ni en ninguna otra rama del remoto: hay que subirlas y regenerar el build. Antes de empezar, novedades se adelantó a main (fast-forward), porque le faltaba la foto propia con encuadre.
+- Archivos: tools/build.py, tools/plantilla.html, deploy/index.html, index.html (raíz) y este archivo. Anuncios no cambia (no comparte plantilla ni build) y no se regeneró.
+- Estado: build listo (sin galería: 3,2 MB). Commit local en novedades, sin push ni publicación.
+- Dudas: con las fotos reales, revisar el peso (cada foto suma unos 50 a 150 KB). La rotación de la genérica es fija por obra y la genérica elegida a mano no se recuerda al recargar (solo el encuadre). Las piezas generales y periódicas de plazas, rampas y pavimentación también salen con genérica: confirmar si se quiere así.

@@ -5,6 +5,9 @@ Lee:  entrada/<fecha>/parte.json, docs/*.txt, fotos/*.jpg|png
       data/circuitos.json, data/fiscal.json, assets/marca/*.svg, assets/fuentes/*.ttf
 Fotos: se toman por la clave 'doc' de cada obra (<doc>_1.jpg, <doc>_2.jpg...).
        Una foto manual llamada <id-obra>.jpg (o <id-obra>_N.jpg) tiene prioridad.
+Galería: assets/galeria/<clave_rubro>/*.jpg|png (claves de TIPOS: mant, frio, rampas, bacheo, rehab, hormigon, pav, plaza).
+       Fotos genéricas por tipo de obra; se usan en la placa cuando la obra no trae foto del parte.
+       Para sumar fotos: soltarlas en la carpeta del rubro y volver a correr este build.
 """
 import base64, glob, json, os, sys
 
@@ -44,6 +47,39 @@ def liviana(p, lado=1500, calidad=80):
     pix = pg.get_pixmap(matrix=pymupdf.Matrix(z, z), alpha=False)
     return "data:image/jpeg;base64," + base64.b64encode(pix.tobytes("jpeg", jpg_quality=calidad)).decode()
 
+GAL_DIR = os.path.join(ROOT, "assets", "galeria")
+GAL_EXT = (".jpg", ".jpeg", ".png", ".webp")
+
+def galeria():
+    """{rubro: [{src: dataURL, nombre: archivo}, ...]} con las fotos genéricas de assets/galeria/<rubro>/, por nombre de archivo.
+    Se recomprimen a 1200 px de lado máximo, JPEG calidad 75 (misma lógica que liviana())."""
+    out = {}
+    if not os.path.isdir(GAL_DIR):
+        return out
+    for rubro in sorted(os.listdir(GAL_DIR)):
+        d = os.path.join(GAL_DIR, rubro)
+        if not os.path.isdir(d) or rubro.startswith((".", "_")):
+            continue
+        fs = []
+        for nombre in sorted(os.listdir(d), key=str.lower):
+            if not nombre.lower().endswith(GAL_EXT) or nombre.startswith((".", "_")):
+                continue
+            try:
+                fs.append(dict(src=liviana(os.path.join(d, nombre), lado=1200, calidad=75), nombre=nombre))
+            except Exception as e:
+                print(f"  galería: no se pudo leer {rubro}/{nombre} ({e})")
+        out[rubro] = fs
+    return out
+
+def rubros_texto():
+    """Cómo se nombra cada rubro en texto (para el rótulo de la galería), de para_proyecto/subir/dic_rubros.csv."""
+    import csv
+    p = os.path.join(ROOT, "para_proyecto", "subir", "dic_rubros.csv")
+    if not os.path.exists(p):
+        return {}
+    with open(p, encoding="utf-8-sig", newline="") as f:
+        return {r["clave"]: r["como_se_nombra_en_texto"] for r in csv.DictReader(f, delimiter=";")}
+
 fotos, docs = {}, {}
 for o in parte["obras"]:
     manual = fotos_de(o["id"])
@@ -81,7 +117,9 @@ for d in sorted(os.listdir(os.path.join(ROOT, "entrada"))):
         hist.append(dict(fecha=d, enEjecucion=len(act), finalizadas=None, puestos=j["puestos"], ids=[o["id"] for o in act],
                          obras=[{k: v for k, v in o.items() if k != "doc_orig"} for o in j["obras"] if o.get("estado", "ejecucion") == "ejecucion"]))
 
-data = dict(parte=parte, circuitos=circuitos, fiscal=fiscal, contenido=contenido, hist=hist, assets=dict(svg=svg, fotos=fotos, docs=docs))
+gal = galeria()
+gal_mb = sum(len(f["src"]) for fs in gal.values() for f in fs) / 1e6
+data = dict(parte=parte, circuitos=circuitos, fiscal=fiscal, contenido=contenido, hist=hist, assets=dict(svg=svg, fotos=fotos, docs=docs, galeria=gal, rubros_texto=rubros_texto()))
 html = rd(os.path.join(ROOT, "tools", "plantilla.html"))
 html = html.replace("/*__FONTS__*/", fuentes).replace("/*__DATA__*/null", json.dumps(data, ensure_ascii=False).replace("</", "<\\/"))
 dst = os.path.join(OUT, "tablero.html")
@@ -89,5 +127,9 @@ open(dst, "w", encoding="utf-8").write(html)
 pub = os.path.join(ROOT, "deploy")  # copia lista para publicar (ver deploy/LEEME.md)
 os.makedirs(pub, exist_ok=True)
 open(os.path.join(pub, "index.html"), "w", encoding="utf-8").write(html)
-print(f"{dst}  {os.path.getsize(dst)/1e6:.1f} MB  obras={len(parte['obras'])}  con foto={sum(1 for o in parte['obras'] if fotos.get(o.get('doc')))}")
+total_mb = os.path.getsize(dst) / 1e6
+print(f"{dst}  {total_mb:.1f} MB  obras={len(parte['obras'])}  con foto={sum(1 for o in parte['obras'] if fotos.get(o.get('doc')))}")
+print(f"galería: {gal_mb:.1f} MB · " + (", ".join(f"{k}={len(v)}" for k, v in gal.items()) or "sin carpetas en assets/galeria") + f" · tablero total {total_mb:.1f} MB")
+if total_mb > 10:
+    print(f"AVISO: el tablero pesa {total_mb:.1f} MB (> 10 MB). Alternativa: servir la galería como archivos sueltos en deploy/galeria/.")
 
