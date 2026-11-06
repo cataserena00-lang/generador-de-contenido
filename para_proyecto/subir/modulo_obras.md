@@ -54,7 +54,7 @@ Poppins; colores y pies por eje en marca_resumen.md. Placas con 3 diseños de fo
 - Periódicos de 15 días y mensual: faltan partes (11 y 22 días hábiles).
 - Filtro y contenidos por seccional (número del código: 7A, 7B y 7G = 7): la primera versión se eliminó; falta definir cómo será.
 - Códigos sin circuito registrado: dic_circuitos.csv cubre 14A, 5E, 7G y 9G; faltan 6A, 2R y 4.
-- Galería de fotos genéricas: cargar las fotos en `assets/galeria/<rubro>/`. Al 06/11 no hay ninguna carpeta: el Chequeo lista los 8 rubros como "sin galería". Si el tablero pasa de 10 MB, servir la galería como archivos sueltos en `deploy/galeria/`.
+- Galería de fotos genéricas: el tablero pesa 11,0 MB con la galería (pasa de 10 MB). Decidir: servir la galería como archivos sueltos en `deploy/galeria/` o achicar las fotos (a 742 px de lado el tablero pesaba 7,5 MB).
 
 ## Traspaso · pasada de UX del tablero (30/10)
 - Hecho: cabecera mínima (48 px); barra de contexto sticky con zona, período y fechas reales, y color por período; tres pestañas (Periódicos pasó al final de Resumen como «Otras lecturas»); fechas en el selector de período; KPIs plegados en «Datos del parte»; en Semana, tarjetas con «en N de 5 partes · último dd/mm», ordenadas por partes; botón Abrir/Cerrar todas.
@@ -65,7 +65,14 @@ Poppins; colores y pies por eje en marca_resumen.md. Placas con 3 diseños de fo
 
 ## Traspaso · galería de fotos genéricas por tipo de obra (06/11)
 - Hecho: `galeria()` en build.py (assets/galeria/<rubro>/, 1200 px, JPEG 75, por nombre de archivo, peso de la galería y total en la salida). En la plantilla: fotos en orden propia, parte y galería; miniaturas rotuladas; tira "Fotos genéricas de <rubro>"; genérica automática que rota por id con su aviso; sufijo `_generica` en el PNG; tag "Foto genérica"; dos líneas nuevas en el Chequeo. Probado en el 29/10 con una galería temporal (3 de hormigón y 2 de plaza): hormigón con foto del parte (la del parte va primero), hormigón sin foto (genérica, aviso, cambio, encuadre y zoom), rampas sin galería (sin cambios) y encuadre que persiste al recargar. Sin errores de consola, Chequeo todo ✔.
-- Pendiente: no hay fotos en la galería. `assets/galeria/` no existe en novedades ni en ninguna otra rama del remoto: hay que subirlas y regenerar el build. Antes de empezar, novedades se adelantó a main (fast-forward), porque le faltaba la foto propia con encuadre.
+- Pendiente: la galería se cargó (en main, en `galeria/` de la raíz) y se movió a `assets/galeria/` con git mv, sin tocar los originales. Ver la sección «Galería: fotos cargadas y build con genéricas (06/11)».
 - Archivos: tools/build.py, tools/plantilla.html, deploy/index.html, index.html (raíz) y este archivo. Anuncios no cambia (no comparte plantilla ni build) y no se regeneró.
-- Estado: build listo (sin galería: 3,2 MB). Commit local en novedades, sin push ni publicación.
+- Estado: subido a novedades (f40e7cd), sin publicar. Lo sigue la sección de abajo.
 - Dudas: con las fotos reales, revisar el peso (cada foto suma unos 50 a 150 KB). La rotación de la genérica es fija por obra y la genérica elegida a mano no se recuerda al recargar (solo el encuadre). Las piezas generales y periódicas de plazas, rampas y pavimentación también salen con genérica: confirmar si se quiere así.
+
+## Traspaso · galería: fotos cargadas y build con genéricas (06/11)
+- Hecho: merge de origin/main en novedades (sin conflictos) y `git mv galeria assets/galeria`, con los originales intactos. Fotos por rubro: mant 4, frio 4, rampas 4, bacheo 4, rehab 4, hormigon 4, pav 9 y plaza 4 (37 PNG de 990×660 px a 96 dpi, unos 58 MB en el repo). Recomprimidas, la galería pesa 7,8 MB y el tablero total 11,0 MB (más de 10 MB). Se corrigió que `liviana()` midiera en puntos: con 96 dpi bajaba las PNG a 742×495. Para la galería ahora mide en píxeles (`por_pixel=True`) y quedan en 990×660; las fotos del parte no cambian.
+- Verificado (29/10): en mant, frio, rampas, bacheo, hormigon, pav y plaza, una obra sin foto del parte sale con genérica y aviso, y la tira "Fotos genéricas de …" muestra todas las miniaturas. Rehab no tiene obras sin foto ese día: su tarjeta (con foto del parte) muestra la tira y el aviso aparece al elegir una genérica. Chequeo: "Rubros sin galería: ninguno", 45 obras "salen con foto genérica", 0 "solo texto", todo ✔. Sin errores de consola.
+- Pendiente: el peso. Alternativas: servir la galería como archivos sueltos en `deploy/galeria/` (el HTML guardaría solo las rutas; el tablero vuelve a unos 3,2 MB) o volver a 742 px de lado (7,5 MB).
+- Estado: build listo en novedades. Sin publicar; main no se tocó.
+- Dudas: las genéricas miden 660 px de lado corto (menos de 720), así que "Sugerido" siempre elige Círculo con ellas; los otros diseños se eligen a mano. Las piezas generales y periódicas de plazas, rampas y pavimentación también salen con genérica.

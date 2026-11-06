@@ -38,12 +38,18 @@ def fotos_de(key):
             return [liviana(p) for p in ps]
     return []
 
-def liviana(p, lado=1500, calidad=80):
-    """Reduce la foto (máx. 1500 px de lado, JPEG) para que el tablero siga pesando < 10 MB."""
+def liviana(p, lado=1500, calidad=80, por_pixel=False):
+    """Reduce la foto (máx. 1500 px de lado, JPEG) para que el tablero siga pesando < 10 MB.
+    por_pixel: mide en píxeles reales (una PNG de 96 dpi no se achica de más). Lo usa la galería; las fotos del parte siguen igual."""
     import warnings; warnings.filterwarnings("ignore")
     import pymupdf
     pg = pymupdf.open(p)[0]
-    z = min(1.0, lado / max(pg.rect.width, pg.rect.height))
+    k = 1.0
+    if por_pixel:
+        px = pymupdf.Pixmap(p)
+        k = px.width / pg.rect.width   # píxeles por punto
+        px = None
+    z = min(k, lado / max(pg.rect.width, pg.rect.height))
     pix = pg.get_pixmap(matrix=pymupdf.Matrix(z, z), alpha=False)
     return "data:image/jpeg;base64," + base64.b64encode(pix.tobytes("jpeg", jpg_quality=calidad)).decode()
 
@@ -65,7 +71,7 @@ def galeria():
             if not nombre.lower().endswith(GAL_EXT) or nombre.startswith((".", "_")):
                 continue
             try:
-                fs.append(dict(src=liviana(os.path.join(d, nombre), lado=1200, calidad=75), nombre=nombre))
+                fs.append(dict(src=liviana(os.path.join(d, nombre), lado=1200, calidad=75, por_pixel=True), nombre=nombre))
             except Exception as e:
                 print(f"  galería: no se pudo leer {rubro}/{nombre} ({e})")
         out[rubro] = fs
