@@ -115,7 +115,7 @@ footer img{height:46px;opacity:.95} footer p{margin:8px 0 0;font-size:11px;color
 .body{padding:4px 14px 16px;border-top:1px solid var(--line)}
 .grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:18px;margin-top:12px}
 @media(max-width:1200px){.grid{grid-template-columns:1fr}} @media(max-width:860px){.top .ttl{border-left:0;padding-left:0}}
-.fmts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.fmts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px} .fmts.con-p{grid-template-columns:repeat(4,1fr)}
 .fmt{text-align:center}
 .fmt canvas{width:100%;height:auto;border-radius:8px;border:1px solid var(--line);background:#eee;display:block}
 .fmt .lbl{font-size:11px;font-weight:700;margin:5px 0 4px;color:var(--gris)}
@@ -159,10 +159,8 @@ details.doc pre{white-space:pre-wrap;font:600 12px Poppins;background:#f7f7f8;bo
 .tam b{color:var(--ink);font-weight:800} .tam .lnk{border:0;background:none;padding:0;color:var(--link);font:700 12px Poppins;cursor:pointer}
 .tam .tamed{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-radius:10px;padding:5px 8px}
 .tam .tamed[hidden]{display:none}
-.tam select,.tam input{font:600 12px Poppins;border:1px solid var(--line);border-radius:6px;padding:3px 6px} .tam input{width:72px}
+.tam select,.tam input{font:600 12px Poppins;border:1px solid var(--line);border-radius:6px;padding:3px 6px} .tam select{width:auto;max-width:100%} .tam input{width:72px}
 .tam input.bad{border-color:var(--rojo);background:#fdecef;color:var(--rojo)} .tam .tammsg{flex-basis:100%;color:var(--rojo);font-weight:700;font-size:11.5px} .tam .tammsg:empty{display:none}
-.fmt.p.vacio{border:1px dashed var(--line);border-radius:8px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;align-self:start}
-.fmt .pvac{font-size:11.5px;color:var(--muted);font-weight:600}
 .fmt .encp{font-size:10.5px;color:var(--muted);font-weight:600;display:flex;align-items:center;justify-content:center;gap:4px;margin-top:4px} .fmt .encp input{width:80px;margin:0}
 </style>
 </head>
@@ -679,34 +677,49 @@ function mostrar(c){const f=c._full;if(!f||!f.width||!c.isConnected)return;const
     const mg=m.getContext('2d');mg.imageSmoothingEnabled=true;mg.imageSmoothingQuality='high';mg.drawImage(src,0,0,m.width,m.height);src=m}
   if(c.width!==tw)c.width=tw;if(c.height!==th)c.height=th;const g=c.getContext('2d');g.imageSmoothingEnabled=true;g.imageSmoothingQuality='high';g.clearRect(0,0,tw,th);g.drawImage(src,0,0,tw,th)}
 let _rs;window.addEventListener('resize',()=>{clearTimeout(_rs);_rs=setTimeout(()=>document.querySelectorAll('canvas').forEach(c=>{if(c._full)mostrar(c)}),150)});
-// tamaño personalizado: uno solo para todo el tablero (se guarda en este navegador; Obras y Anuncios comparten la clave)
-const TAM_KEY='gc_tam_personalizado', TAM_PRESETS=[['Cuadrado',1080,1080],['Retrato',1080,1350],['Historia',1080,1920],['Pinterest',1000,1500]];
-const TAM_MSG='Por ahora el tamaño personalizado va de cuadrado a 9:16 (alto entre 1 y 1,78 veces el ancho); los apaisados vienen después';
+// tamaño personalizado: uno por módulo, guardado en este navegador (gc_tam_obras). Si todavía no hay, se toma el de la clave
+// compartida de antes (gc_tam_personalizado), para no perder lo que el equipo ya había elegido.
+const TAM_KEY='gc_tam_obras', TAM_KEY_VIEJA='gc_tam_personalizado';
+// presets agrupados por red: [red, [[nombre, ancho, alto], …]]. El valor de cada opción es ancho×alto.
+// Los presets con un lado menor a 600 px (portadas y cabeceras) se exportan al doble, con la misma proporción.
+const TAM_REDES=[['Instagram',[['Feed',1080,1080],['Feed',1080,1350],['Historia',1080,1920]]],
+  ['Facebook',[['Publicación',1200,630],['Cuadrada',1080,1080],['Historia',1080,1920],['Portada',820,312]]],
+  ['X',[['Publicación',1600,900],['Publicación',1200,675],['Cabecera',1500,500]]],
+  ['LinkedIn',[['Publicación',1200,627],['Cuadrada',1080,1080],['Portada',1584,396]]],
+  ['WhatsApp',[['Estado',1080,1920],['Imagen',1080,1080]]],
+  ['TikTok',[['',1080,1920]]],
+  ['YouTube',[['Miniatura',1280,720],['Comunidad',1080,1080]]],
+  ['Pinterest',[['',1000,1500]]],
+  ['Pantalla y web',[['HD',1920,1080],['4K',3840,2160],['Vertical HD',1080,1920]]]];
+const TAM_PRESETS=TAM_REDES.flatMap(([red,ps])=>ps.map(([n,w0,h0])=>{const x=Math.min(w0,h0)<600?2:1;return {red,n:n?`${red} · ${n}`:red,corto:n||red,w0,h0,w:w0*x,h:h0*x,x}}));
+const TAM_MSG='Por ahora el tamaño personalizado va de cuadrado a 9:16 (alto entre 1 y 1,78 veces el ancho); los apaisados vienen en el próximo commit';
 // rango que el diseño actual soporta sin cambios: lados de 600 a 4000 px y alto entre 1 y 1,78 veces el ancho
 const tamValido=(w,h)=>Number.isInteger(w)&&Number.isInteger(h)&&w>=600&&w<=4000&&h>=600&&h<=4000&&h>=w&&h<=w*1.78;
-let TAM=null;try{const t=JSON.parse(localStorage.getItem(TAM_KEY)||'null');if(t&&tamValido(t.w,t.h))TAM={w:t.w,h:t.h}}catch(e){}
+const tamLeer=k=>{try{const t=JSON.parse(localStorage.getItem(k)||'null');return t&&tamValido(t.w,t.h)?{w:t.w,h:t.h,...(t.preset?{preset:String(t.preset)}:{})}:null}catch(e){return null}};
+let TAM=null;try{TAM=localStorage.getItem(TAM_KEY)!=null?tamLeer(TAM_KEY):tamLeer(TAM_KEY_VIEJA)}catch(e){}
 const fmtWH=k=>k==='p'?[TAM.w,TAM.h]:FMT[k];                       // 'p' = el recuadro Personalizado
 const fmtNombre=k=>k==='p'&&TAM?`${TAM.w}x${TAM.h}`:k;             // nombre del PNG: <id>_<ancho>x<alto>
+const tamPreset=()=>TAM&&TAM.preset&&TAM_PRESETS.some(p=>p.n===TAM.preset&&p.w===TAM.w&&p.h===TAM.h)?TAM.preset:'a medida';
 const tamTxt=()=>TAM?`${TAM.w}×${TAM.h}`:'sin definir';
-const tamHTML=()=>{const sel=TAM?TAM_PRESETS.findIndex(([,w,h])=>w===TAM.w&&h===TAM.h):0;
-  return `<span class="tam" data-tamctl>Tamaño personalizado: <b data-tamtxt>${tamTxt()}</b> · <button type="button" class="lnk" data-tamabrir>cambiar</button>
-  <span class="tamed" hidden><select data-tampreset>${TAM_PRESETS.map(([n,w,h],i)=>`<option value="${w}x${h}" ${i===sel?'selected':''}>${n} ${w}×${h}</option>`).join('')}<option value="" ${sel<0?'selected':''}>A medida</option></select>
-  <label>Ancho <input type="number" data-tamw min="600" max="4000" step="1" value="${TAM?TAM.w:TAM_PRESETS[0][1]}"></label> × <label>Alto <input type="number" data-tamh min="600" max="4000" step="1" value="${TAM?TAM.h:TAM_PRESETS[0][2]}"></label> px
-  <button type="button" class="btn" data-tamok>Aplicar</button><button type="button" class="btn sec" data-tamx>Cerrar</button><span class="tammsg" data-tammsg></span></span></span>`};
-const tamAbrir=()=>{const ed=document.querySelector('[data-tamctl] .tamed');if(!ed)return;ed.hidden=false;const i=ed.querySelector('[data-tamw]');i.focus();i.select()};
-function tamWire(root){ // se engancha una sola vez al contenedor de la fila del período (el control se redibuja adentro)
+const tamNota=(w,h)=>w/h>3.2||h/w>2.2?`fuera de rango (${w/h>=1?(w/h).toFixed(1).replace('.0','').replace('.',',')+':1':'1:'+(h/w).toFixed(1).replace('.0','').replace('.',',')})`:'próximo commit';   // por qué un preset está deshabilitado
+const tamHTML=()=>{const pi=TAM?TAM_PRESETS.findIndex(p=>p.n===tamPreset()&&p.w===TAM.w&&p.h===TAM.h):-1;
+  const opt=(p,i)=>{const ok=tamValido(p.w,p.h);return `<option value="${p.w}x${p.h}" data-preset="${p.n}" ${i===pi?'selected':''} ${ok?'':'disabled'}>${p.corto} ${p.w0}×${p.h0}${p.x>1?` (se exporta a ${p.w}×${p.h})`:''}${ok?'':' · '+tamNota(p.w,p.h)}</option>`};
+  return `<span class="tam" data-tamctl>Tamaño personalizado: <b data-tamtxt>${tamTxt()}</b>${TAM?` <span data-tampre>(${tamPreset()})</span>`:''} · <button type="button" class="lnk" data-tamabrir>${TAM?'cambiar':'elegir'}</button>
+  <span class="tamed" hidden><select data-tampreset>${TAM_REDES.map(([red])=>`<optgroup label="${red}">${TAM_PRESETS.map((p,i)=>p.red===red?opt(p,i):'').join('')}</optgroup>`).join('')}<option value="" ${pi<0?'selected':''}>A medida</option></select>
+  <label>Ancho <input type="number" data-tamw min="600" max="4000" step="1" value="${TAM?TAM.w:1080}"></label> × <label>Alto <input type="number" data-tamh min="600" max="4000" step="1" value="${TAM?TAM.h:1080}"></label> px
+  <button type="button" class="btn" data-tamok>Aplicar</button>${TAM?'<button type="button" class="btn sec" data-tamquitar>Quitar tamaño</button>':''}<button type="button" class="btn sec" data-tamx>Cerrar</button><span class="tammsg" data-tammsg></span></span></span>`};
+function tamWire(root){ // se engancha una sola vez al contenedor de la fila del período o de campaña (el control se redibuja adentro)
   const el=s=>root.querySelector(s), leer=()=>[+el('[data-tamw]').value,+el('[data-tamh]').value];
   const marcar=()=>{const [w,h]=leer(),ok=tamValido(w,h);el('[data-tamw]').classList.toggle('bad',!ok);el('[data-tamh]').classList.toggle('bad',!ok);el('[data-tammsg]').textContent=ok?'':TAM_MSG;return ok};
-  const aplicar=()=>{if(!marcar())return;const [w,h]=leer();TAM={w,h};try{localStorage.setItem(TAM_KEY,JSON.stringify(TAM))}catch(e){}
-    el('[data-tamtxt]').textContent=tamTxt();el('.tamed').hidden=true;window.dispatchEvent(new Event('gc-tam'))};
+  const guardar=()=>{try{TAM?localStorage.setItem(TAM_KEY,JSON.stringify(TAM)):localStorage.setItem(TAM_KEY,'null')}catch(e){}
+    const c=el('[data-tamctl]');if(c)c.outerHTML=tamHTML();window.dispatchEvent(new Event('gc-tam'))};
+  const aplicar=()=>{if(!marcar())return;const [w,h]=leer(),o=el('[data-tampreset]').selectedOptions[0],pre=o&&o.value===`${w}x${h}`?o.dataset.preset:null;TAM={w,h,...(pre?{preset:pre}:{})};guardar()};
   root.addEventListener('click',ev=>{const b=ev.target.closest('button');if(!b||!b.closest('[data-tamctl]'))return;
-    if(b.dataset.tamabrir!==undefined){const ed=el('.tamed');ed.hidden=!ed.hidden}else if(b.dataset.tamok!==undefined)aplicar();else if(b.dataset.tamx!==undefined)el('.tamed').hidden=true});
+    if(b.dataset.tamabrir!==undefined){const ed=el('.tamed');ed.hidden=!ed.hidden}else if(b.dataset.tamok!==undefined)aplicar();else if(b.dataset.tamquitar!==undefined){TAM=null;guardar()}else if(b.dataset.tamx!==undefined)el('.tamed').hidden=true});
   root.addEventListener('change',ev=>{if(ev.target.dataset.tampreset===undefined||!ev.target.value)return;const [w,h]=ev.target.value.split('x');el('[data-tamw]').value=w;el('[data-tamh]').value=h;aplicar()});
   root.addEventListener('input',ev=>{if(ev.target.dataset.tamw===undefined&&ev.target.dataset.tamh===undefined)return;el('[data-tampreset]').value='';marcar()});
   root.addEventListener('keydown',ev=>{if(ev.key==='Enter'&&ev.target.closest('[data-tamctl] .tamed'))aplicar()});
 }
-// recuadro Personalizado de cada tarjeta: con tamaño definido, la placa; si no, solo el control
-const pVacioHTML=()=>`<div class="fmt p vacio"><div class="lbl">Personalizado</div><div class="pvac">Sin tamaño definido</div><button type="button" class="btn sec" data-tamir>Elegir tamaño</button></div>`;
 async function copiar(txt,btn){try{await navigator.clipboard.writeText(txt)}catch{const t=document.createElement('textarea');t.value=txt;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove()}const o=btn.textContent;btn.textContent='¡Copiado!';btn.classList.add('ok');setTimeout(()=>{btn.textContent=o;btn.classList.remove('ok')},1200)}
 
 /* ---------- calidad de foto: el diseño "Sugerido" ---------- */
@@ -870,12 +883,12 @@ const tagFoto=(conFoto,rubro)=>conFoto?['foto','Con foto']:galDe(rubro).length?[
 // tilde "Pie con marcas" (encendido por defecto): apagado, la placa sale sin franja, logos, cinta ni wordmark del eje
 const pieHTML=v=>`<label class="pie"><input type="checkbox" data-pie ${conPie(v)?'checked':''}> Pie con marcas</label>`;
 // recuadro Personalizado: misma placa al tamaño elegido, con su propio zoom (el encuadre se guarda también por tamaño)
-const pBoxHTML=(v,st,nf,est)=>{if(!TAM)return pVacioHTML();const z=(st&&st.encP&&st.encP.z)||1;
+const pBoxHTML=(v,st,nf,est)=>{if(!TAM)return '';const z=(st&&st.encP&&st.encP.z)||1;
   return `<div class="fmt p"><div class="lbl">Personalizado · ${TAM.w}×${TAM.h}</div><canvas data-fmt="p" class="${nf&&est!=='sinfoto'?'movible':''}"></canvas><div class="btns" style="justify-content:center"><button class="btn" data-dl="p">Bajar PNG</button></div>${nf&&est!=='sinfoto'?`<div class="encp">zoom <input type="range" min="0.5" max="2.5" step="0.05" value="${z}" data-zoomp> <span data-zoomvp>${Math.round(z*100)}%</span></div>`:''}</div>`};
 const placaHTML=(id,v,st)=>{const propia=!!(FOTOS[id]&&FOTOS[id].data), nf=(v.fotos||[]).length, est=(st&&st.estilo)||'sugerido', fi=(st&&st.foto)||0;
  const items=(st&&st.items)||[], cur=items[fi], mini=(x,i,l)=>`<button class="mb ${i===fi?'on':''}" data-foto="${i}" title="${esc(x.nombre||l)}" aria-label="${esc(l)}"><img src="${x.src}" alt="">${l?esc(l):''}</button>`;
  const propias=items.map((x,i)=>[x,i]).filter(([x])=>x.origen!=='galeria'), gen=items.map((x,i)=>[x,i]).filter(([x])=>x.origen==='galeria');
- return `<div class="placa-ui" style="--eje:${EJE_COLOR[v.eje]||EJE_COLOR.calle}"><div class="fmts">${Object.entries(FMT).map(([k,f])=>`<div class="fmt"><div class="lbl">${f[2]}</div><canvas data-fmt="${k}" class="${nf&&est!=='sinfoto'?'movible':''}"></canvas><div class="btns" style="justify-content:center"><button class="btn" data-dl="${k}">Bajar PNG</button></div></div>`).join('')}${pBoxHTML(v,st,nf,est)}</div>
+ return `<div class="placa-ui" style="--eje:${EJE_COLOR[v.eje]||EJE_COLOR.calle}"><div class="fmts${TAM?' con-p':''}">${Object.entries(FMT).map(([k,f])=>`<div class="fmt"><div class="lbl">${f[2]}</div><canvas data-fmt="${k}" class="${nf&&est!=='sinfoto'?'movible':''}"></canvas><div class="btns" style="justify-content:center"><button class="btn" data-dl="${k}">Bajar PNG</button></div></div>`).join('')}${pBoxHTML(v,st,nf,est)}</div>
  ${cur&&cur.origen==='galeria'&&est!=='sinfoto'?'<div class="fotosel"><span class="genaviso">Foto genérica del tipo de obra. Podés elegir otra o subir la tuya</span></div>':''}
  ${conPie(v)?'':'<div class="fotosel"><span class="genaviso">Sin marcas: revisá que la foto tampoco tenga cartel institucional</span></div>'}
  <div class="btns"><button class="btn sec" data-dlall>Bajar las ${TAM?4:3} placas</button></div>
@@ -928,7 +941,6 @@ function wire(card,id,v){
     const suf=()=>`${generica()?'_generica':''}${conPie(v)?'':'_sinmarca'}`;   // se descarga el canvas completo, no la vista previa
     if(b.dataset.dl){const c=card.querySelector(`:scope > .body > .grid canvas[data-fmt="${b.dataset.dl}"]`);if(c)descargar(lienzo(c),`${id}_${fmtNombre(b.dataset.dl)}${suf()}`)}
     else if(b.dataset.dlall!==undefined){[...card.querySelectorAll(':scope > .body > .grid canvas')].forEach((c,i)=>setTimeout(()=>descargar(lienzo(c),`${id}_${fmtNombre(c.dataset.fmt)}${suf()}`),i*400))}
-    else if(b.dataset.tamir!==undefined)tamAbrir()
     else if(b.dataset.quitar!==undefined){if(FOTOS[id]){delete FOTOS[id].data;delete (FOTOS[id].enc||{}).propia}guardarFotos();armar();state.foto=fotoInicial(id,state.items,state.nit);refrescarUI();retag()}
     else if(b.dataset.foto!==undefined){state.foto=+b.dataset.foto;const x=state.items[state.foto];   // la genérica elegida a mano se recuerda por obra, como el encuadre
       if(x&&x.origen==='galeria')(FOTOS[id]??={}).gal=x.nombre;else if(FOTOS[id])delete FOTOS[id].gal;guardarFotos();refrescarUI()}
@@ -1036,7 +1048,7 @@ function renderCalidad(root){
    ${L('Obras sin foto (placa solo texto)',sf.map(nm),'Soltá la foto como <code>entrada/'+P.fecha+'/fotos/&lt;id-obra&gt;.jpg</code> o agregá el link de Drive en el parte.')}
    ${sg.length?L('Obras sin foto del parte (salen con foto genérica)',sg.map(nm),'Su rubro tiene galería. Para usar la foto real, soltala como <code>entrada/'+P.fecha+'/fotos/&lt;id-obra&gt;.jpg</code> o agregá el link de Drive en el parte.'):''}
    <div class="list"><h3>Pie con marcas</h3><div class="hint">El tilde “Pie con marcas” se guarda por pieza en este navegador.</div><ul><li>Piezas con pie apagado: ${Object.values(FOTOS).filter(f=>f&&f.sinPie).length}</li></ul></div>
-   <div class="list"><h3>Tamaño personalizado</h3><div class="hint">Se elige en la fila del período y vale para todo el tablero (se guarda en este navegador).</div><ul><li>Tamaño personalizado: ${tamTxt()}</li></ul></div>
+   <div class="list"><h3>Tamaño personalizado</h3><div class="hint">Se elige en la fila del período y vale para todo el tablero de Obras (se guarda en este navegador; Anuncios tiene el suyo).</div><ul><li>Tamaño personalizado: ${TAM?`${TAM.w}×${TAM.h} (${tamPreset()})`:'sin definir'}</li></ul></div>
    <div class="list"><h3>Galería de fotos genéricas</h3><div class="hint">Las fotos van en <code>assets/galeria/&lt;rubro&gt;/</code> y entran al volver a correr el build.</div><ul><li>Rubros sin galería: ${esc(lista(TIPO_ORDEN.filter(t=>!galDe(t).length).map(t=>TIPOS[t].label))||'ninguno')}</li></ul></div>
    ${L('Obras sin texto de Drive',sd.map(nm))}
    ${L('Obras sin magnitud (m², cuadras o metros)',sm.map(nm),'Con un dato de magnitud el texto y la placa ganan una cifra concreta.')}
