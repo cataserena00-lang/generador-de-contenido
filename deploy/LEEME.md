@@ -3,6 +3,8 @@
 Esta carpeta es el proyecto completo:
 - `index.html` el tablero (lo actualiza `python tools/build.py <fecha>`).
 - `galeria/` las fotos genéricas por tipo de obra (las escribe el mismo build, como archivos sueltos). Se publican junto con `index.html`.
+
+**La raíz del repo y `deploy/` tienen que ir siempre iguales.** Todavía no está confirmado cuál de las dos publica Vercel (Root Directory). Por eso la raíz lleva copias de `index.html`, `anuncios.html`, `middleware.js`, `vercel.json`, `robots.txt` y `galeria/`. El build copia `galeria/` a la raíz solo (y borra la copia anterior: la reconoce por `_copia_de_deploy_galeria.txt`). `index.html` y `anuncios.html` se siguen copiando a mano después de cada build.
 - `middleware.js` pide usuario y contraseña en el servidor (HTTP Basic). Si las variables no están cargadas, el sitio responde 503 y queda cerrado.
 - `vercel.json` evita que Google lo indexe y que se guarde en caché.
 

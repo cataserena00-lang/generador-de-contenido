@@ -1,0 +1,2 @@
+Copia generada por tools/build.py desde deploy/galeria/. No editar: se borra y se vuelve a escribir en cada build.
+Las fotos originales van en assets/galeria/<rubro>/.

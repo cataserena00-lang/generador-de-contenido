@@ -785,8 +785,25 @@ const fotosDe=(id,base,rubro)=>{const f=FOTOS[id];return [...(f&&f.data?[{src:f.
   ...(base||[]).map((src,i)=>({src,origen:'parte',k:'p'+i,n:i+1})),...galDe(rubro).map(g=>({src:g.src,origen:'galeria',k:'g:'+g.nombre,nombre:g.nombre}))]};
 // foto inicial: la propia o la del parte; si no hay ninguna, una genérica que rota por id de obra (para que no se repita en todas)
 // foto inicial: una genérica elegida a mano (guardada en el navegador) manda; si no, la propia o la del parte; si no hay ninguna, una genérica que rota por id
-const fotoInicial=(id,items)=>{const g=(FOTOS[id]||{}).gal,k=g?items.findIndex(x=>x.origen==='galeria'&&x.nombre===g):-1;
-  return k>=0?k:items.some(x=>x.origen!=='galeria')?0:items.length?hash(id||'')%items.length:0};
+// rotación de genéricas: las obras de un rubro sin foto del parte, en el orden en que salen en el tablero (toda la ciudad, hoy; después las que
+// solo están en la semana), toman la genérica 1, 2, 3… y vuelven a empezar. Es fija por obra: no cambia con filtros, zona ni período.
+let _rot=null;
+function rotacion(){ if(_rot)return _rot; _rot={};const n={},
+  ord=(a,b)=>(parseInt(a.circuito)-parseInt(b.circuito))||String(a.circuito).localeCompare(String(b.circuito))||(b.grupo?1:0)-(a.grupo?1:0)||TIPO_ORDEN.indexOf(a.tipo)-TIPO_ORDEN.indexOf(b.tipo);
+  const hoy=reales.concat(obras.filter(o=>o.grupo)).sort(ord), ids=new Set(hoy.map(o=>o.id));
+  const sem=obrasSemana().filter(o=>!ids.has(o.id)).sort((a,b)=>(b.dias||0)-(a.dias||0)||(b.grupo?1:0)-(a.grupo?1:0)||ordSecc(a.circuito,b.circuito)||TIPO_ORDEN.indexOf(a.tipo)-TIPO_ORDEN.indexOf(b.tipo));
+  hoy.concat(sem).forEach(o=>{if(!o.fotos.length&&!(o.id in _rot)){_rot[o.id]=n[o.tipo]||0;n[o.tipo]=(n[o.tipo]||0)+1}});
+  return _rot;}
+// genéricas nítidas de un rubro, medidas en el navegador con la misma función que el Sugerido (nitidez >= UMBRAL_NITIDEZ).
+// Las borrosas quedan fuera de la rotación automática si hay al menos una nítida; siguen en la tira para elegir a mano.
+// Si no se puede medir (tablero abierto como archivo local), cuentan como nítidas.
+const _nit={};
+const galNitidas=r=>_nit[r]??=Promise.all(galDe(r).map(g=>loadImg(g.src).then(im=>{const q=calCache.get(im.src)||calCache.set(im.src,medirFoto(im)).get(im.src);return q.nitidez==null||q.nitidez>=UMBRAL_NITIDEZ?g.nombre:null}).catch(()=>g.nombre))).then(a=>new Set(a.filter(Boolean)));
+// foto inicial: una genérica elegida a mano (guardada en el navegador) manda; si no, la propia o la del parte; si no hay ninguna, la genérica que le toca en la rotación
+const fotoInicial=(id,items,nitidas)=>{const g=(FOTOS[id]||{}).gal,k=g?items.findIndex(x=>x.origen==='galeria'&&x.nombre===g):-1;
+  if(k>=0)return k; if(items.some(x=>x.origen!=='galeria'))return 0; if(!items.length)return 0;
+  const gen=items.map((x,i)=>[x,i]).filter(([x])=>x.origen==='galeria'), nit=nitidas?gen.filter(([x])=>nitidas.has(x.nombre)):gen, pool=nit.length?nit:gen;
+  const r=rotacion()[id];return pool[(r!=null?r:hash(id||''))%pool.length][1]};   // las piezas por tipo (no son obras) rotan por id
 const rubroTxt=r=>RUBRO_TXT[r]||(TIPOS[r]?TIPOS[r].label.toLowerCase():r);
 const EJE_COLOR={calle:'#17233d',accesible:'#eaab3b',plaza:'#4da070'};
 // piezas por tipo (generales y periódicos): usan la galería de su rubro
@@ -834,11 +851,12 @@ function wire(card,id,v){
   const finArr=()=>{if(arr){arr=null;guardarFotos()}};grid.addEventListener('pointerup',finArr);grid.addEventListener('pointercancel',finArr);
   const mostrarSug=async()=>{if(!sug)return;const im=await loadImg(v.fotos[state.foto%v.fotos.length]);const q=calCache.get(im.src)||calCache.set(im.src,medirFoto(im)).get(im.src);const k=window.__estiloSugerido(v,im,esGen(v,state.foto));
     sug.textContent=`Sugerido: ${{circulo:'Círculo',marco:'Marco',completa:'Foto completa'}[k]} · foto de ${q.ancho}×${q.alto}px, ${q.vertical?'vertical':'horizontal'}, ${q.nitidez==null?'nitidez no medible (archivo local)':'nitidez '+Math.round(q.nitidez)}${esGen(v,state.foto)?' · genérica':''}`;};
-  card.addEventListener('toggle',()=>{if(card.open&&!state.done){state.done=true;refrescarUI()}});   // las miniaturas se arman al abrir la tarjeta
+  card.addEventListener('toggle',async()=>{if(card.open&&!state.done){state.done=true;   // las miniaturas se arman al abrir la tarjeta
+    if(galDe(v._rubro).length){state.nit=await galNitidas(v._rubro);state.foto=fotoInicial(id,state.items,state.nit)}refrescarUI()}});
   card.addEventListener('click',ev=>{const b=ev.target.closest('button');if(!b)return;
     if(b.dataset.dl){const c=card.querySelector(`canvas[data-fmt="${b.dataset.dl}"]`);descargar(c,`${id}_${b.dataset.dl}${generica()?'_generica':''}`)}
     else if(b.dataset.dlall){[...card.querySelectorAll('canvas')].forEach((c,i)=>setTimeout(()=>descargar(c,`${id}_${c.dataset.fmt}${generica()?'_generica':''}`),i*400))}
-    else if(b.dataset.quitar!==undefined){if(FOTOS[id]){delete FOTOS[id].data;delete (FOTOS[id].enc||{}).propia}guardarFotos();armar();state.foto=fotoInicial(id,state.items);refrescarUI();retag()}
+    else if(b.dataset.quitar!==undefined){if(FOTOS[id]){delete FOTOS[id].data;delete (FOTOS[id].enc||{}).propia}guardarFotos();armar();state.foto=fotoInicial(id,state.items,state.nit);refrescarUI();retag()}
     else if(b.dataset.foto!==undefined){state.foto=+b.dataset.foto;const x=state.items[state.foto];   // la genérica elegida a mano se recuerda por obra, como el encuadre
       if(x&&x.origen==='galeria')(FOTOS[id]??={}).gal=x.nombre;else if(FOTOS[id])delete FOTOS[id].gal;guardarFotos();refrescarUI()}
     else if(b.dataset.estilo){state.estilo=b.dataset.estilo;refrescarUI()}

@@ -60,6 +60,7 @@ GAL_DIR = os.path.join(ROOT, "assets", "galeria")
 GAL_EXT = (".jpg", ".jpeg", ".png", ".webp")
 
 GAL_OUT = "galeria"   # carpeta de la galería al lado del tablero: deploy/galeria/ y salida/<fecha>/galeria/
+MARCA_RAIZ = "_copia_de_deploy_galeria.txt"  # marca que identifica <raíz>/galeria/ como copia generada (solo esa se borra)
 
 def galeria():
     """La galería NO viaja dentro del tablero: cada foto de assets/galeria/<rubro>/ se recomprime a 990 px de lado máximo
@@ -98,6 +99,22 @@ def galeria():
             fs.append(dict(src=f"{GAL_OUT}/{rubro}/{arch}", nombre=nombre))
         out[rubro] = fs
     return out
+
+def galeria_a_raiz():
+    """Copia deploy/galeria/ a <raíz>/galeria/, como las copias de index.html y anuncios.html: la raíz y deploy/ van siempre iguales
+    (no sabemos todavía cuál publica Vercel). Borra la copia anterior solo si tiene la marca: así nunca se borran fotos subidas a mano."""
+    import shutil
+    src, dst = os.path.join(ROOT, "deploy", GAL_OUT), os.path.join(ROOT, GAL_OUT)
+    if os.path.isdir(dst):
+        if not os.path.exists(os.path.join(dst, MARCA_RAIZ)):
+            print(f"AVISO: {GAL_OUT}/ en la raíz no es una copia del build (falta {MARCA_RAIZ}); no se toca. Si son fotos originales, moverlas a assets/galeria/.")
+            return
+        shutil.rmtree(dst)
+    if os.path.isdir(src):
+        shutil.copytree(src, dst)
+        open(os.path.join(dst, MARCA_RAIZ), "w", encoding="utf-8").write(
+            "Copia generada por tools/build.py desde deploy/galeria/. No editar: se borra y se vuelve a escribir en cada build.\n"
+            "Las fotos originales van en assets/galeria/<rubro>/.\n")
 
 def peso_dir(d):
     return sum(os.path.getsize(os.path.join(r, f)) for r, _, fs in os.walk(d) for f in fs) / 1e6 if os.path.isdir(d) else 0.0
@@ -149,6 +166,7 @@ for d in sorted(os.listdir(os.path.join(ROOT, "entrada"))):
                          obras=[{k: v for k, v in o.items() if k != "doc_orig"} for o in j["obras"] if o.get("estado", "ejecucion") == "ejecucion"]))
 
 gal = galeria()
+galeria_a_raiz()
 gal_mb = peso_dir(os.path.join(ROOT, "deploy", GAL_OUT))
 data = dict(parte=parte, circuitos=circuitos, fiscal=fiscal, contenido=contenido, hist=hist, assets=dict(svg=svg, fotos=fotos, docs=docs, galeria=gal, rubros_texto=rubros_texto()))
 html = rd(os.path.join(ROOT, "tools", "plantilla.html"))
