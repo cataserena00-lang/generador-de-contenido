@@ -74,7 +74,7 @@ main{min-width:0}
 .body{padding:4px 14px 16px;border-top:1px solid var(--line)}
 .grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:18px;margin-top:12px}
 @media(max-width:1200px){.grid{grid-template-columns:1fr}} @media(max-width:900px){.wrap{grid-template-columns:1fr}aside{position:static;max-height:none}}
-.fmts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px} .fmt{text-align:center}
+.fmts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px} .fmts.con-p{grid-template-columns:repeat(4,1fr)} .fmt{text-align:center}
 .fmt canvas{width:100%;height:auto;border-radius:8px;border:1px solid var(--line);background:#eee;display:block}
 .fmt .lbl{font-size:11px;font-weight:700;margin:5px 0 4px;color:var(--gris)}
 .btn{border:0;border-radius:8px;padding:6px 12px;font:700 12px Poppins;cursor:pointer;background:var(--rojo);color:#fff} .btn:hover{filter:brightness(1.08)}
@@ -125,10 +125,9 @@ footer{border-top:1px solid var(--line);background:#fff;padding:22px 16px;text-a
 .tam b{color:var(--ink);font-weight:800} .tam .lnk{border:0;background:none;padding:0;color:var(--link);font:700 12px Poppins;cursor:pointer}
 .tam .tamed{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-radius:10px;padding:5px 8px}
 .tam .tamed[hidden]{display:none}
-.tam select,.tam input{font:600 12px Poppins;border:1px solid var(--line);border-radius:6px;padding:3px 6px} .tam input{width:72px}
+.tam select,.tam input{font:600 12px Poppins;border:1px solid var(--line);border-radius:6px;padding:3px 6px} .tam select{width:auto;max-width:100%} .tam input{width:72px}
 .tam input.bad{border-color:var(--rojo);background:#fdecef;color:var(--rojo)} .tam .tammsg{flex-basis:100%;color:var(--rojo);font-weight:700;font-size:11.5px} .tam .tammsg:empty{display:none}
-.fmt.p.vacio{border:1px dashed var(--line);border-radius:8px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;align-self:start}
-.fmt .pvac{font-size:11.5px;color:var(--muted);font-weight:600}
+.fmt .pvac{font-size:10.5px;color:var(--rojo);font-weight:700;margin:-2px 0 4px;line-height:1.3}
 .fmt .encp{font-size:10.5px;color:var(--muted);font-weight:600;display:flex;align-items:center;justify-content:center;gap:4px;margin-top:4px} .fmt .encp input{width:80px;margin:0}
 </style>
 </head>
@@ -302,57 +301,101 @@ function drawLayout(g,lay,x,y,maxW,acc,fondo){let cy=y;for(const {b,lines,lh,s} 
   if(b.chip){const tw=g.measureText(lines[0]).width,h=s*1.9,w=tw+s*1.6;g.strokeStyle=b.c;g.lineWidth=Math.max(2,s*.09);rrect(g,x,cy,w,h,h/2);g.stroke();g.fillText(lines[0],x+s*.8,cy+h*.68);cy+=h+(b.gap||0)*lay.k;continue}
   lines.forEach((ln,i)=>{if(b.check&&i===0){icono(g,x+s*.3,cy+s*.5,s*.3,b.c,fondo||acc||'#17233d',b.estado||'cumplido');g.fillStyle=b.c}if(b.bullet&&i===0){g.beginPath();g.arc(x+s*.22,cy+s*.62,s*.16,0,Math.PI*2);g.fill()}g.fillText(ln,x+(b.ind||0),cy+s*.92);cy+=lh});cy+=(b.gap||0)*lay.k}g.globalAlpha=1}
 function rrect(g,x,y,w,h,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath()}
+// forma de la placa según la proporción (la misma regla que en Obras): vertical (historia, H > 1,6 W), cuadrado (hasta W/H < 1,25), apaisado (hasta 2,2) y banner (hasta 3,2)
+const formaDe=(W,H)=>H>W*1.6?'vertical':W<H*1.25?'cuadrado':W<=H*2.2?'apaisado':'banner';
+// u = min(W,H): unidad base de letras, márgenes, pie y zona segura. En vertical y cuadrado (W <= H) es el ancho, así que esas placas no cambian.
 async function renderPlaca(canvas,v,fmt,colorKey,foto,dis,enc){
   await document.fonts.load('900 40px Poppins');await document.fonts.load('800 40px Poppins');await document.fonts.load('700 40px Poppins');await document.fonts.load('600 40px Poppins');
   const [W,H]=fmtWH(fmt), g=canvas.getContext('2d'); canvas.width=W; canvas.height=H;
+  const forma=formaDe(W,H), u=Math.min(W,H), ancho=forma==='apaisado';
   const story=H>W*1.6, key=colorKey||v.color, blanco=key==='blanco', col=COLORES[key], topSafe=story?H*.12:0, botSafe=story?H*.10:0;
   // en la variante blanca el fondo es blanco y todo el texto va en el color de la campaña (azul)
   const acc=blanco?COLORES.azul:col, tinta=blanco?acc:'#fff';
   g.fillStyle=blanco?'#fff':col; g.fillRect(0,0,W,H);
-  const fondo=blanco?'#fff':col, conFoto=!!foto&&dis&&dis!=='sin';
+  if(forma==='banner')return bannerAnuncio(canvas,g,W,H,u,v,key,foto,dis,enc);
+  const fondo=blanco?'#fff':col, conFoto=!!foto&&dis&&dis!=='sin', izq=ancho&&conFoto&&dis==='arriba', fw=W*.45;   // izq: apaisado con foto a la izquierda (de arriba abajo; la banda va solo a la derecha)
   // banda blanca superior (pedido del 5/11): la zona grande arriba ("En Berrotarán") y debajo la palabra de campaña en píldora con el ícono; alineado a la derecha
-  const mx=W*.06, maxW=W-mx*2, locTxt=v.pill.charAt(0).toUpperCase()+v.pill.slice(1);
-  let ps=W*.105; g.font=`900 ${ps}px Poppins`; while(g.measureText(locTxt).width>maxW&&ps>W*.07){ps*=.95;g.font=`900 ${ps}px Poppins`}
+  const mx=u*.06, maxW=izq?W-fw-mx*2:W-mx*2, locTxt=v.pill.charAt(0).toUpperCase()+v.pill.slice(1);
+  let ps=u*.105; g.font=`900 ${ps}px Poppins`; while(g.measureText(locTxt).width>maxW&&ps>u*.07){ps*=.95;g.font=`900 ${ps}px Poppins`}
   const locL=g.measureText(locTxt).width>maxW?wrap(g,locTxt,maxW):[locTxt];
   const pie=conPie(v);   // sin pie: solo se saca el pie blanco con el lockup; la píldora de estado (Cumplimos, En marcha) queda porque no es marca
-  const pillH=W*.08, bandH=W*.07+locL.length*ps*1.02+W*.03+pillH+W*.06, bandY=topSafe; if(!blanco){g.fillStyle='#fff';g.fillRect(0,bandY,W,bandH)}
-  let ly=bandY+W*.07+ps*.8; g.fillStyle=acc; g.textAlign='right'; g.textBaseline='alphabetic'; locL.forEach(t=>{g.fillText(t,W-mx,ly);ly+=ps*1.02});
-  const pfs=pillH*.58; g.font=`900 ${pfs}px Poppins`; const ir=pillH*.3, ptw=g.measureText(v.palabra).width+ir*2+pillH*1.1, pxx=W-mx-ptw, pyy=ly-ps*1.02+ps*.3+W*.03;
-  g.fillStyle=acc; rrect(g,pxx,pyy,ptw,pillH,pillH/2); g.fill(); icono(g,pxx+pillH*.4+ir,pyy+pillH/2,ir,'#fff',acc,v.estado);
-  g.fillStyle='#fff'; g.textAlign='left'; g.fillText(v.palabra,pxx+pillH*.4+ir*2+pillH*.22,pyy+pillH*.7);
-  // foto: "arriba" ocupa la parte alta del panel y se funde en el color; "completa" cubre todo el panel y el texto va abajo sobre un degradado
-  const fh=pie?W*.115:0, fy=H-botSafe-fh, fx=W*.45, cut=fh*.9, cuerpoY=bandY+bandH, cuerpoH=fy-cuerpoY;
+  const pillH=u*.08, bandH=u*.07+locL.length*ps*1.02+u*.03+pillH+u*.06, bandY=topSafe; if(!blanco){g.fillStyle='#fff';g.fillRect(izq?fw:0,bandY,W,bandH)}
+  let ly=bandY+u*.07+ps*.8; g.fillStyle=acc; g.textAlign='right'; g.textBaseline='alphabetic'; locL.forEach(t=>{g.fillText(t,W-mx,ly);ly+=ps*1.02});
+  pildora(g,v,acc,W-mx,ly-ps*1.02+ps*.3+u*.03,pillH);
+  // foto: "arriba" ocupa la parte alta del panel y se funde en el color; "completa" cubre todo el panel y el texto va abajo sobre un degradado.
+  // En apaisado, "arriba" pasa a ser foto a la izquierda (45 % del ancho, hasta el borde de abajo) con la lista a la derecha.
+  const fh=pie?u*.115:0, fy=H-botSafe-fh, fx=W*.45+(W-u)*.55, cut=fh*.9, cuerpoY=bandY+bandH, cuerpoH=fy-cuerpoY;
   let fotoFin=0;
-  if(conFoto){try{const im=await loadImg(foto); const ph=dis==='arriba'?cuerpoH*.47:cuerpoH+fh; fotoFin=cuerpoY+ph;
-    g.save(); g.beginPath(); g.rect(0,cuerpoY,W,ph); g.clip();
-    const e={fx:(enc&&enc.fx)??.5,fy:(enc&&enc.fy)??.35,z:(enc&&enc.z)||1}, k=Math.max(W/im.width,ph/im.height)*e.z, dw=im.width*k, dh=im.height*k; g.drawImage(im,-(dw-W)*e.fx,cuerpoY-(dh-ph)*e.fy,dw,dh); g.restore();   // con zoom menor a 1 la foto no cubre el recuadro y se ve el fondo alrededor
-    if(dis==='arriba'){const fade=g.createLinearGradient(0,fotoFin-W*.22,0,fotoFin);fade.addColorStop(0,alfa(fondo,'00'));fade.addColorStop(1,fondo);g.fillStyle=fade;g.fillRect(0,cuerpoY,W,fotoFin-cuerpoY)}
+  if(conFoto){try{const im=await loadImg(foto); const fy0=izq?0:cuerpoY, ph=izq?H:dis==='arriba'?cuerpoH*.47:cuerpoH+fh, pw=izq?fw:W; fotoFin=fy0+ph;
+    g.save(); g.beginPath(); g.rect(0,fy0,pw,ph); g.clip();
+    const e={fx:(enc&&enc.fx)??.5,fy:(enc&&enc.fy)??.35,z:(enc&&enc.z)||1}, k=Math.max(pw/im.width,ph/im.height)*e.z, dw=im.width*k, dh=im.height*k; g.drawImage(im,-(dw-pw)*e.fx,fy0-(dh-ph)*e.fy,dw,dh); g.restore();   // con zoom menor a 1 la foto no cubre el recuadro y se ve el fondo alrededor
+    if(izq){const fade=g.createLinearGradient(fw-u*.18,0,fw,0);fade.addColorStop(0,alfa(fondo,'00'));fade.addColorStop(1,fondo);g.fillStyle=fade;g.fillRect(fw-u*.18,0,u*.18,ph)}
+    else if(dis==='arriba'){const fade=g.createLinearGradient(0,fotoFin-u*.22,0,fotoFin);fade.addColorStop(0,alfa(fondo,'00'));fade.addColorStop(1,fondo);g.fillStyle=fade;g.fillRect(0,cuerpoY,W,fotoFin-cuerpoY)}
+    else if(ancho){const gl=g.createLinearGradient(0,0,W*.74,0);gl.addColorStop(0,alfa(fondo,'f2'));gl.addColorStop(.62,alfa(fondo,'e0'));gl.addColorStop(1,alfa(fondo,'00'));g.fillStyle=gl;g.fillRect(0,cuerpoY,W*.74,H-cuerpoY);
+      const gb=g.createLinearGradient(0,fy-u*.35,0,H);gb.addColorStop(0,alfa(fondo,'00'));gb.addColorStop(1,alfa(fondo,'d0'));g.fillStyle=gb;g.fillRect(0,fy-u*.35,W,H-fy+u*.35)}   // apaisado: degradado desde la izquierda y desde abajo, como en Obras
     else{g.fillStyle=alfa(fondo,'f2');g.fillRect(0,fy,W,H-fy)}   // con foto completa el degradado se dibuja después, según dónde arranca el texto
   }catch(e){fotoFin=0}}
   // pie blanco con corte diagonal y lockup Córdoba | Hacer para Crecer (en la variante blanca, una línea diagonal en el color)
   if(pie){const {img:lk,asp}=await svgImg('gobierno-color');
-  g.beginPath(); g.moveTo(fx,fy+fh); g.lineTo(fx+cut,fy); g.lineTo(W,fy); g.lineTo(W,H); g.lineTo(0,H); g.lineTo(0,fy+fh); g.closePath();
-  if(blanco){g.strokeStyle=acc;g.lineWidth=W*.004;g.stroke()}else{g.fillStyle='#fff';g.fill()}
-  const lw=W*.40, lh=lw/asp; g.drawImage(lk,W-mx-lw,fy+(fh-lh)/2,lw,lh);}
-  // cuerpo (con foto arriba arranca debajo de la foto; con foto completa el texto se apoya abajo)
-  const top=(conFoto&&dis==='arriba'?fotoFin-W*.02:bandY+bandH+W*.06), bottom=fy-W*.05, bw=W-mx*2, avail=bottom-top, abajo=conFoto&&dis!=='arriba';
-  let blocks=[];
-  if(v.tipo==='una'){blocks=[{t:v.etiqueta,w:600,s:W*.03,c:tinta,chip:true,gap:W*.045},{t:v.texto,w:900,s:W*.082,c:tinta,lh:1.05,gap:W*.03},{t:v.cuando,w:500,s:W*.04,c:tinta,lh:1.2,op:.95}];}
-  else if(v.tipo==='lista'){const n=(v.items||[]).length;blocks=[{t:n>1?(v.estado==='en_ejecucion'?'Lo que estamos haciendo:':'Lo que ya es una realidad:'):'',w:600,s:W*.036,c:tinta,gap:W*.035}];
-    (v.items||[]).forEach(t=>blocks.push({t,w:800,s:W*(n>4?.046:n>2?.05:.056),c:tinta,lh:1.12,check:true,estado:v.estado,ind:W*.08,gap:W*.02}));}
-  else {blocks=[{t:v.valor,w:900,s:W*.3,c:tinta,lh:1,gap:W*.005},{t:v.etiqueta,w:900,s:W*.06,c:tinta,up:true,gap:W*.03},{t:v.sub,w:600,s:W*.038,c:tinta,op:.9}];}
-  const pieBlock=v.pie?{t:v.pie,w:800,s:W*.03,c:tinta,up:true,op:.95}:null;
-  const availT=(abajo?Math.min(avail,cuerpoH*.6):avail)-(pieBlock?W*.07:0);
+  g.beginPath(); g.moveTo(fx,fy+fh); g.lineTo(fx+cut,fy); g.lineTo(W,fy); g.lineTo(W,H); g.lineTo(izq?fx:0,H); g.lineTo(izq?fx:0,fy+fh); g.closePath();
+  if(blanco){g.strokeStyle=acc;g.lineWidth=u*.004;g.stroke()}else{g.fillStyle='#fff';g.fill()}
+  const lw=u*.40, lh=lw/asp; g.drawImage(lk,W-mx-lw,fy+(fh-lh)/2,lw,lh);}
+  // cuerpo (con foto arriba arranca debajo de la foto; con foto completa el texto se apoya abajo; con foto a la izquierda, a la derecha de la foto)
+  const tx=izq?fw+mx:mx, top=(conFoto&&dis==='arriba'&&!izq?fotoFin-u*.02:bandY+bandH+u*.06), bottom=fy-u*.05, abajo=conFoto&&dis!=='arriba', bw=izq?W-fw-mx*2:abajo&&ancho?W*.56-mx:W-mx*2, avail=bottom-top;
+  let blocks=ancho?bloquesAnuncio(v,u,tinta,1.15):bloquesAnuncio(v,u,tinta);
+  const pieBlock=v.pie?{t:v.pie,w:800,s:u*.03,c:tinta,up:true,op:.95}:null;
+  const availT=(abajo&&!ancho?Math.min(avail,cuerpoH*.6):avail)-(pieBlock?u*.07:0);   // en apaisado el texto de Foto completa tiene todo el alto (va a la izquierda)
   let lay=layout(g,blocks,bw,availT), entran=(v.items||[]).length;
-  if(v.tipo==='lista'){ // entran los ítems que caben con letra >= MIN_ITEM (44 px en 1080); los que no, quedan en el copy de IG y en sus placas
-    while(entran>1&&blocks[entran].s*lay.k<W*MIN_ITEM){entran--;lay=layout(g,blocks.slice(0,entran+1),bw,availT)}
+  if(v.tipo==='lista'){ // entran los ítems que caben con letra >= MIN_ITEM (44 px en 1080; en apaisado, u*0,032); los que no, quedan en el copy de IG y en sus placas
+    const min=ancho?u*MIN_ITEM_ANCHO:u*MIN_ITEM;
+    while(entran>1&&blocks[entran].s*lay.k<min){entran--;lay=layout(g,blocks.slice(0,entran+1),bw,availT)}
     canvas.dataset.entran=entran}
-  const textoY=abajo?bottom-(pieBlock?W*.07:0)-lay.tot:top+(v.tipo==='dato'||v.tipo==='lista'?Math.max(0,(availT-lay.tot)/2-W*.02):0);
-  if(abajo){const g0=Math.max(cuerpoY,textoY-W*.3),fade=g.createLinearGradient(0,g0,0,Math.min(textoY+W*.02,fy));fade.addColorStop(0,alfa(fondo,'00'));fade.addColorStop(1,alfa(fondo,'f2'));g.fillStyle=fade;g.fillRect(0,g0,W,fy-g0);g.fillStyle=alfa(fondo,'f2');g.fillRect(0,Math.min(textoY+W*.02,fy),W,Math.max(0,fy-textoY-W*.02))}
-  drawLayout(g,lay,mx,textoY,bw,acc,blanco?'#fff':col);
-  if(pieBlock){g.font=`800 ${pieBlock.s}px Poppins`;g.fillStyle=tinta;g.globalAlpha=pieBlock.op;g.fillText(up(pieBlock.t),mx,bottom-W*.005);g.globalAlpha=1}
+  const textoY=abajo?bottom-(pieBlock?u*.07:0)-lay.tot:top+(v.tipo==='dato'||v.tipo==='lista'?Math.max(0,(availT-lay.tot)/2-u*.02):0);
+  if(abajo&&!ancho){const g0=Math.max(cuerpoY,textoY-u*.3),fade=g.createLinearGradient(0,g0,0,Math.min(textoY+u*.02,fy));fade.addColorStop(0,alfa(fondo,'00'));fade.addColorStop(1,alfa(fondo,'f2'));g.fillStyle=fade;g.fillRect(0,g0,W,fy-g0);g.fillStyle=alfa(fondo,'f2');g.fillRect(0,Math.min(textoY+u*.02,fy),W,Math.max(0,fy-textoY-u*.02))}
+  drawLayout(g,lay,tx,textoY,bw,acc,blanco?'#fff':col);
+  if(pieBlock){let ps2=pieBlock.s;g.font=`800 ${ps2}px Poppins`;if(ancho)while(g.measureText(up(pieBlock.t)).width>bw&&ps2>u*.018){ps2*=.94;g.font=`800 ${ps2}px Poppins`}   // en apaisado el renglón del departamento se achica para no salirse
+    g.fillStyle=tinta;g.globalAlpha=pieBlock.op;g.fillText(up(pieBlock.t),tx,bottom-u*.005);g.globalAlpha=1}
+}
+// píldora con la palabra de campaña y el ícono, alineada a la derecha en xr
+function pildora(g,v,acc,xr,pyy,pillH){
+  const pfs=pillH*.58; g.font=`900 ${pfs}px Poppins`; const ir=pillH*.3, ptw=g.measureText(v.palabra).width+ir*2+pillH*1.1, pxx=xr-ptw;
+  g.fillStyle=acc; rrect(g,pxx,pyy,ptw,pillH,pillH/2); g.fill(); icono(g,pxx+pillH*.4+ir,pyy+pillH/2,ir,'#fff',acc,v.estado);
+  g.fillStyle='#fff'; g.textAlign='left'; g.fillText(v.palabra,pxx+pillH*.4+ir*2+pillH*.22,pyy+pillH*.7); return ptw}
+// bloques de texto de la placa: individual (etiqueta en píldora de contorno, título, bajada), lista (encabezado y un ítem con tilde por anuncio) o dato (número grande)
+function bloquesAnuncio(v,u,tinta,z=1){
+  if(v.tipo==='una')return [{t:v.etiqueta,w:600,s:u*.03*z,c:tinta,chip:true,gap:u*.045*z},{t:v.texto,w:900,s:u*.082*z,c:tinta,lh:1.05,gap:u*.03*z},{t:v.cuando,w:500,s:u*.04*z,c:tinta,lh:1.2,op:.95}];
+  if(v.tipo==='lista'){const n=(v.items||[]).length,b=[{t:n>1?(v.estado==='en_ejecucion'?'Lo que estamos haciendo:':'Lo que ya es una realidad:'):'',w:600,s:u*.036*z,c:tinta,gap:u*.035*z}];
+    (v.items||[]).forEach(t=>b.push({t,w:800,s:u*(n>4?.046:n>2?.05:.056)*z,c:tinta,lh:1.12,check:true,estado:v.estado,ind:u*.08*z,gap:u*.02*z}));return b}
+  return [{t:v.valor,w:900,s:u*.3*z,c:tinta,lh:1,gap:u*.005*z},{t:v.etiqueta,w:900,s:u*.06*z,c:tinta,up:true,gap:u*.03*z},{t:v.sub,w:600,s:u*.038*z,c:tinta,op:.9}]}
+// banner (W/H de 2,2 a 3,2): una sola franja. A la izquierda, la zona y la píldora en un bloque blanco; en el medio, el texto; a la derecha, el lockup.
+// Con foto: solo Foto completa (Foto arriba pasa a Foto completa), con degradado desde la izquierda.
+async function bannerAnuncio(canvas,g,W,H,u,v,key,foto,dis,enc){
+  const blanco=key==='blanco', col=COLORES[key], acc=blanco?COLORES.azul:col, tinta=blanco?acc:'#fff', fondo=blanco?'#fff':col, pie=conPie(v), mx=u*.07;
+  const colW=Math.min(W*.3,u*1.05);
+  if(foto&&dis&&dis!=='sin'){try{const im=await loadImg(foto),x0=colW,pw=W-x0;g.save();g.beginPath();g.rect(x0,0,pw,H);g.clip();
+    const e={fx:(enc&&enc.fx)??.5,fy:(enc&&enc.fy)??.35,z:(enc&&enc.z)||1},k=Math.max(pw/im.width,H/im.height)*e.z,dw=im.width*k,dh=im.height*k;g.drawImage(im,x0-(dw-pw)*e.fx,-(dh-H)*e.fy,dw,dh);g.restore();
+    const gl=g.createLinearGradient(x0,0,x0+W*.6,0);gl.addColorStop(0,alfa(fondo,'f2'));gl.addColorStop(.55,alfa(fondo,'b0'));gl.addColorStop(1,alfa(fondo,'00'));g.fillStyle=gl;g.fillRect(x0,0,W*.6,H)}catch(e){}}
+  // bloque de la zona: blanco con el texto en el color (en la variante blanca, una línea vertical lo separa)
+  if(!blanco){g.fillStyle='#fff';g.fillRect(0,0,colW,H)}else{g.fillStyle=acc;g.fillRect(colW-u*.004,u*.12,u*.004,H-u*.24)}
+  const locTxt=v.pill.charAt(0).toUpperCase()+v.pill.slice(1),lw0=colW-mx*1.4,pillH=u*.12;
+  let ps=u*.14;g.font=`900 ${ps}px Poppins`;let locL=wrap(g,locTxt,lw0);while((locL.length>3||locL.some(l=>g.measureText(l).width>lw0))&&ps>u*.06){ps*=.94;g.font=`900 ${ps}px Poppins`;locL=wrap(g,locTxt,lw0)}
+  const bh=locL.length*ps*1.02+u*.05+pillH;let ly=(H-bh)/2+ps*.8;g.fillStyle=acc;g.textAlign='right';g.textBaseline='alphabetic';locL.forEach(t=>{g.fillText(t,colW-mx*.7,ly);ly+=ps*1.02});
+  pildora(g,v,acc,colW-mx*.7,ly-ps*1.02+ps*.3+u*.05,pillH);
+  // lockup a la derecha: pie blanco con el borde izquierdo en diagonal (en la variante blanca, la diagonal en el color)
+  let x1=W-mx;
+  if(pie){const {img:lk,asp}=await svgImg('gobierno-color'),lw=u*.5,lh=lw/asp,pw=lw+mx*2,cut=u*.12,px=W-pw;
+    g.beginPath();g.moveTo(px,H);g.lineTo(px+cut,0);g.lineTo(W,0);g.lineTo(W,H);g.closePath();
+    if(blanco){g.beginPath();g.moveTo(px,H);g.lineTo(px+cut,0);g.strokeStyle=acc;g.lineWidth=u*.006;g.stroke()}else{g.fillStyle='#fff';g.fill()}
+    g.drawImage(lk,W-mx-lw,(H-lh)/2,lw,lh);x1=px-mx*.6}
+  const tx=colW+mx,bw=x1-tx,pieBlock=v.pie?{t:v.pie,w:800,s:u*.045,c:tinta,up:true,op:.95}:null,top=u*.1,bot=H-u*.1-(pieBlock?u*.08:0),avail=bot-top;
+  const blocks=bloquesAnuncio(v,u,tinta,v.tipo==='lista'?1.25:1.6);
+  let lay=layout(g,blocks,bw,avail),entran=(v.items||[]).length;
+  if(v.tipo==='lista'){while(entran>1&&blocks[entran].s*lay.k<u*MIN_ITEM_ANCHO){entran--;lay=layout(g,blocks.slice(0,entran+1),bw,avail)}canvas.dataset.entran=entran}
+  drawLayout(g,lay,tx,top+Math.max(0,(avail-lay.tot)/2),bw,acc,blanco?'#fff':col);
+  if(pieBlock){let ps2=pieBlock.s;g.font=`800 ${ps2}px Poppins`;while(g.measureText(up(pieBlock.t)).width>bw&&ps2>u*.025){ps2*=.94;g.font=`800 ${ps2}px Poppins`}g.fillStyle=tinta;g.globalAlpha=pieBlock.op;g.textAlign='left';g.fillText(up(pieBlock.t),tx,H-u*.1);g.globalAlpha=1}
 }
 const MIN_ITEM=44/1080;   // tipografía mínima legible de los ítems de la lista
+const MIN_ITEM_ANCHO=.032;   // en apaisado y banner: u*0,032 (u = alto)
 function icono(g,x,y,r,fill,ink,estado){ // círculo con tilde (Cumplimos) o flecha (En marcha)
   g.fillStyle=fill;g.beginPath();g.arc(x,y,r,0,Math.PI*2);g.fill();g.strokeStyle=ink;g.lineCap='round';g.lineJoin='round';g.lineWidth=r*.26;g.beginPath();
   if(estado==='en_ejecucion'){g.moveTo(x-r*.42,y);g.lineTo(x+r*.42,y);g.moveTo(x+r*.05,y-r*.38);g.lineTo(x+r*.42,y);g.lineTo(x+r*.05,y+r*.38)}
@@ -370,34 +413,50 @@ function mostrar(c){const f=c._full;if(!f||!f.width||!c.isConnected)return;const
     const mg=m.getContext('2d');mg.imageSmoothingEnabled=true;mg.imageSmoothingQuality='high';mg.drawImage(src,0,0,m.width,m.height);src=m}
   if(c.width!==tw)c.width=tw;if(c.height!==th)c.height=th;const g=c.getContext('2d');g.imageSmoothingEnabled=true;g.imageSmoothingQuality='high';g.clearRect(0,0,tw,th);g.drawImage(src,0,0,tw,th)}
 let _rs;window.addEventListener('resize',()=>{clearTimeout(_rs);_rs=setTimeout(()=>document.querySelectorAll('canvas').forEach(c=>{if(c._full)mostrar(c)}),150)});
-// tamaño personalizado: uno solo para todo el tablero (se guarda en este navegador; Obras y Anuncios comparten la clave)
-const TAM_KEY='gc_tam_personalizado', TAM_PRESETS=[['Cuadrado',1080,1080],['Retrato',1080,1350],['Historia',1080,1920],['Pinterest',1000,1500]];
-const TAM_MSG='Por ahora el tamaño personalizado va de cuadrado a 9:16 (alto entre 1 y 1,78 veces el ancho); los apaisados vienen después';
-// rango que el diseño actual soporta sin cambios: lados de 600 a 4000 px y alto entre 1 y 1,78 veces el ancho
-const tamValido=(w,h)=>Number.isInteger(w)&&Number.isInteger(h)&&w>=600&&w<=4000&&h>=600&&h<=4000&&h>=w&&h<=w*1.78;
-let TAM=null;try{const t=JSON.parse(localStorage.getItem(TAM_KEY)||'null');if(t&&tamValido(t.w,t.h))TAM={w:t.w,h:t.h}}catch(e){}
+// tamaño personalizado: uno por módulo, guardado en este navegador (gc_tam_anuncios). Si todavía no hay, se toma el de la clave
+// compartida de antes (gc_tam_personalizado), para no perder lo que el equipo ya había elegido.
+const TAM_KEY='gc_tam_anuncios', TAM_KEY_VIEJA='gc_tam_personalizado';
+// presets agrupados por red: [red, [[nombre, ancho, alto], …]]. El valor de cada opción es ancho×alto.
+// Los presets con un lado menor a 600 px (portadas y cabeceras) se exportan al doble, con la misma proporción.
+const TAM_REDES=[['Instagram',[['Feed',1080,1080],['Feed',1080,1350],['Historia',1080,1920]]],
+  ['Facebook',[['Publicación',1200,630],['Cuadrada',1080,1080],['Historia',1080,1920],['Portada',820,312]]],
+  ['X',[['Publicación',1600,900],['Publicación',1200,675],['Cabecera',1500,500]]],
+  ['LinkedIn',[['Publicación',1200,627],['Cuadrada',1080,1080],['Portada',1584,396]]],
+  ['WhatsApp',[['Estado',1080,1920],['Imagen',1080,1080]]],
+  ['TikTok',[['',1080,1920]]],
+  ['YouTube',[['Miniatura',1280,720],['Comunidad',1080,1080]]],
+  ['Pinterest',[['',1000,1500]]],
+  ['Pantalla y web',[['HD',1920,1080],['4K',3840,2160],['Vertical HD',1080,1920]]]];
+const TAM_PRESETS=TAM_REDES.flatMap(([red,ps])=>ps.map(([n,w0,h0])=>{const x=Math.min(w0,h0)<600?2:1;return {red,n:n?`${red} · ${n}`:red,corto:n||red,w0,h0,w:w0*x,h:h0*x,x}}));
+const TAM_MSG='El tamaño personalizado va de 600 a 4000 px por lado y de 1:2,2 (alto hasta 2,2 veces el ancho) a 3,2:1 (ancho hasta 3,2 veces el alto)';
+// rango: lados de 600 a 4000 px y proporción de 1:2,2 (vertical) a 3,2:1 (banner). Las cuatro formas están en formaDe()
+const tamValido=(w,h)=>Number.isInteger(w)&&Number.isInteger(h)&&w>=600&&w<=4000&&h>=600&&h<=4000&&h<=w*2.2&&w<=h*3.2;
+const tamLeer=k=>{try{const t=JSON.parse(localStorage.getItem(k)||'null');return t&&tamValido(t.w,t.h)?{w:t.w,h:t.h,...(t.preset?{preset:String(t.preset)}:{})}:null}catch(e){return null}};
+let TAM=null;try{TAM=localStorage.getItem(TAM_KEY)!=null?tamLeer(TAM_KEY):tamLeer(TAM_KEY_VIEJA)}catch(e){}
 const fmtWH=k=>k==='p'?[TAM.w,TAM.h]:FMT[k];                       // 'p' = el recuadro Personalizado
 const fmtNombre=k=>k==='p'&&TAM?`${TAM.w}x${TAM.h}`:k;             // nombre del PNG: <id>_<ancho>x<alto>
+const tamPreset=()=>TAM&&TAM.preset&&TAM_PRESETS.some(p=>p.n===TAM.preset&&p.w===TAM.w&&p.h===TAM.h)?TAM.preset:'a medida';
 const tamTxt=()=>TAM?`${TAM.w}×${TAM.h}`:'sin definir';
-const tamHTML=()=>{const sel=TAM?TAM_PRESETS.findIndex(([,w,h])=>w===TAM.w&&h===TAM.h):0;
-  return `<span class="tam" data-tamctl>Tamaño personalizado: <b data-tamtxt>${tamTxt()}</b> · <button type="button" class="lnk" data-tamabrir>cambiar</button>
-  <span class="tamed" hidden><select data-tampreset>${TAM_PRESETS.map(([n,w,h],i)=>`<option value="${w}x${h}" ${i===sel?'selected':''}>${n} ${w}×${h}</option>`).join('')}<option value="" ${sel<0?'selected':''}>A medida</option></select>
-  <label>Ancho <input type="number" data-tamw min="600" max="4000" step="1" value="${TAM?TAM.w:TAM_PRESETS[0][1]}"></label> × <label>Alto <input type="number" data-tamh min="600" max="4000" step="1" value="${TAM?TAM.h:TAM_PRESETS[0][2]}"></label> px
-  <button type="button" class="btn" data-tamok>Aplicar</button><button type="button" class="btn sec" data-tamx>Cerrar</button><span class="tammsg" data-tammsg></span></span></span>`};
-const tamAbrir=()=>{const ed=document.querySelector('[data-tamctl] .tamed');if(!ed)return;ed.hidden=false;const i=ed.querySelector('[data-tamw]');i.focus();i.select()};
-function tamWire(root){ // se engancha una sola vez al contenedor de la fila del período (el control se redibuja adentro)
+const tamDesc=()=>TAM?`${TAM.w}×${TAM.h} (${tamPreset()}, ${formaDe(TAM.w,TAM.h)})`:'sin definir';   // para el Chequeo
+const tamNota=(w,h)=>w/h>3.2||h/w>2.2?`fuera de rango (${w/h>=1?(w/h).toFixed(1).replace('.0','').replace('.',',')+':1':'1:'+(h/w).toFixed(1).replace('.0','').replace('.',',')})`:'';   // por qué un preset está deshabilitado
+const tamHTML=()=>{const pi=TAM?TAM_PRESETS.findIndex(p=>p.n===tamPreset()&&p.w===TAM.w&&p.h===TAM.h):-1;
+  const opt=(p,i)=>{const ok=tamValido(p.w,p.h);return `<option value="${p.w}x${p.h}" data-preset="${p.n}" ${i===pi?'selected':''} ${ok?'':'disabled'}>${p.corto} ${p.w0}×${p.h0}${p.x>1?` (se exporta a ${p.w}×${p.h})`:''}${ok?'':' · '+tamNota(p.w,p.h)}</option>`};
+  return `<span class="tam" data-tamctl>Tamaño personalizado: <b data-tamtxt>${tamTxt()}</b>${TAM?` <span data-tampre>(${tamPreset()}, ${formaDe(TAM.w,TAM.h)})</span>`:''} · <button type="button" class="lnk" data-tamabrir>${TAM?'cambiar':'elegir'}</button>
+  <span class="tamed" hidden><select data-tampreset>${TAM_REDES.map(([red])=>`<optgroup label="${red}">${TAM_PRESETS.map((p,i)=>p.red===red?opt(p,i):'').join('')}</optgroup>`).join('')}<option value="" ${pi<0?'selected':''}>A medida</option></select>
+  <label>Ancho <input type="number" data-tamw min="600" max="4000" step="1" value="${TAM?TAM.w:1080}"></label> × <label>Alto <input type="number" data-tamh min="600" max="4000" step="1" value="${TAM?TAM.h:1080}"></label> px
+  <button type="button" class="btn" data-tamok>Aplicar</button>${TAM?'<button type="button" class="btn sec" data-tamquitar>Quitar tamaño</button>':''}<button type="button" class="btn sec" data-tamx>Cerrar</button><span class="tammsg" data-tammsg></span></span></span>`};
+function tamWire(root){ // se engancha una sola vez al contenedor de la fila del período o de campaña (el control se redibuja adentro)
   const el=s=>root.querySelector(s), leer=()=>[+el('[data-tamw]').value,+el('[data-tamh]').value];
   const marcar=()=>{const [w,h]=leer(),ok=tamValido(w,h);el('[data-tamw]').classList.toggle('bad',!ok);el('[data-tamh]').classList.toggle('bad',!ok);el('[data-tammsg]').textContent=ok?'':TAM_MSG;return ok};
-  const aplicar=()=>{if(!marcar())return;const [w,h]=leer();TAM={w,h};try{localStorage.setItem(TAM_KEY,JSON.stringify(TAM))}catch(e){}
-    el('[data-tamtxt]').textContent=tamTxt();el('.tamed').hidden=true;window.dispatchEvent(new Event('gc-tam'))};
+  const guardar=()=>{try{TAM?localStorage.setItem(TAM_KEY,JSON.stringify(TAM)):localStorage.setItem(TAM_KEY,'null')}catch(e){}
+    const c=el('[data-tamctl]');if(c)c.outerHTML=tamHTML();window.dispatchEvent(new Event('gc-tam'))};
+  const aplicar=()=>{if(!marcar())return;const [w,h]=leer(),o=el('[data-tampreset]').selectedOptions[0],pre=o&&o.value===`${w}x${h}`?o.dataset.preset:null;TAM={w,h,...(pre?{preset:pre}:{})};guardar()};
   root.addEventListener('click',ev=>{const b=ev.target.closest('button');if(!b||!b.closest('[data-tamctl]'))return;
-    if(b.dataset.tamabrir!==undefined){const ed=el('.tamed');ed.hidden=!ed.hidden}else if(b.dataset.tamok!==undefined)aplicar();else if(b.dataset.tamx!==undefined)el('.tamed').hidden=true});
+    if(b.dataset.tamabrir!==undefined){const ed=el('.tamed');ed.hidden=!ed.hidden}else if(b.dataset.tamok!==undefined)aplicar();else if(b.dataset.tamquitar!==undefined){TAM=null;guardar()}else if(b.dataset.tamx!==undefined)el('.tamed').hidden=true});
   root.addEventListener('change',ev=>{if(ev.target.dataset.tampreset===undefined||!ev.target.value)return;const [w,h]=ev.target.value.split('x');el('[data-tamw]').value=w;el('[data-tamh]').value=h;aplicar()});
   root.addEventListener('input',ev=>{if(ev.target.dataset.tamw===undefined&&ev.target.dataset.tamh===undefined)return;el('[data-tampreset]').value='';marcar()});
   root.addEventListener('keydown',ev=>{if(ev.key==='Enter'&&ev.target.closest('[data-tamctl] .tamed'))aplicar()});
 }
-// recuadro Personalizado de cada tarjeta: con tamaño definido, la placa; si no, solo el control
-const pVacioHTML=()=>`<div class="fmt p vacio"><div class="lbl">Personalizado</div><div class="pvac">Sin tamaño definido</div><button type="button" class="btn sec" data-tamir>Elegir tamaño</button></div>`;
 async function copiar(txt,btn){try{await navigator.clipboard.writeText(txt)}catch{const t=document.createElement('textarea');t.value=txt;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove()}const o=btn.textContent;btn.textContent='¡Copiado!';btn.classList.add('ok');setTimeout(()=>{btn.textContent=o;btn.classList.remove('ok')},1200)}
 
 /* ---------- tarjetas ---------- */
@@ -408,9 +467,10 @@ const fotoHTML=(id,v)=>{const f=FOTOS[id]||{}, dis=f.data?(f.dis||disSugerido(v)
    <span class="dis">${[['sin','Sin foto'],['arriba','Foto arriba'],['completa','Foto completa']].map(([k,l])=>`<button class="chip ${dis===k?'on':''}" data-dis="${k}" ${!f.data&&k!=='sin'?'disabled':''}>${l}${k===sug&&f.data?'<span class="sug">sugerido</span>':''}</button>`).join('')}</span><label class="pie"><input type="checkbox" data-pie ${SINPIE[id]?'':'checked'}> Pie con marcas</label><span class="aviso" data-foto-aviso></span>${f.data&&dis!=='sin'?`<span class="enc">Encuadre: arrastrá la foto en la placa · zoom <input type="range" min="0.5" max="2.5" step="0.05" value="${f.z||1}" data-zoom> <span data-zoomv>${Math.round((f.z||1)*100)}%</span></span>`:''}</div>`};
 // recuadro Personalizado: misma placa al tamaño elegido; con foto, su propio zoom (el encuadre se guarda también por tamaño, en FOTOS[id].tam)
 const encTam=id=>{const f=FOTOS[id]||{};return Object.assign({fx:f.fx,fy:f.fy,z:f.z},TAM?(f.tam||{})[`${TAM.w}x${TAM.h}`]:null)};
-const pBoxHTML=id=>{if(!TAM)return pVacioHTML();const f=FOTOS[id]||{},con=!!f.data&&(f.dis||'')!=='sin',z=encTam(id).z||1;
-  return `<div class="fmt p"><div class="lbl">Personalizado · ${TAM.w}×${TAM.h}</div><canvas data-fmt="p"></canvas><div class="btns" style="justify-content:center"><button class="btn" data-dl="p">Bajar PNG</button></div>${f.data?`<div class="encp">zoom <input type="range" min="0.5" max="2.5" step="0.05" value="${z}" data-zoomp> <span data-zoomvp>${Math.round(z*100)}%</span></div>`:''}</div>`};
-const placaHTML=(v,id)=>`<div class="fmts">${Object.entries(FMT).map(([k,f])=>`<div class="fmt"><div class="lbl">${f[2]}</div><canvas data-fmt="${k}"></canvas><div class="btns" style="justify-content:center"><button class="btn" data-dl="${k}">Bajar PNG</button></div></div>`).join('')}${pBoxHTML(id)}</div>
+const pBoxHTML=(id,v)=>{if(!TAM)return '';const f=FOTOS[id]||{},con=!!f.data&&(f.dis||'')!=='sin',z=encTam(id).z||1;
+  const fo=formaDe(TAM.w,TAM.h),dis=f.data?(f.dis||disSugerido(v||{})):'sin';
+  return `<div class="fmt p"><div class="lbl">Personalizado · ${TAM.w}×${TAM.h} · ${fo}</div>${fo==='banner'&&dis==='arriba'?'<div class="pvac">Foto arriba no entra en banner: sale con Foto completa</div>':''}${fo==='apaisado'&&dis==='arriba'?'<div class="pvac">En apaisado, Foto arriba va a la izquierda</div>':''}<canvas data-fmt="p"></canvas><div class="btns" style="justify-content:center"><button class="btn" data-dl="p">Bajar PNG</button></div>${f.data?`<div class="encp">zoom <input type="range" min="0.5" max="2.5" step="0.05" value="${z}" data-zoomp> <span data-zoomvp>${Math.round(z*100)}%</span></div>`:''}</div>`};
+const placaHTML=(v,id)=>`<div class="fmts${TAM?' con-p':''}">${Object.entries(FMT).map(([k,f])=>`<div class="fmt"><div class="lbl">${f[2]}</div><canvas data-fmt="${k}"></canvas><div class="btns" style="justify-content:center"><button class="btn" data-dl="${k}">Bajar PNG</button></div></div>`).join('')}${pBoxHTML(id,v)}</div>
  <div class="pieaviso" data-pieaviso ${id&&SINPIE[id]?'':'hidden'}>Sin marcas: revisá que la foto tampoco tenga cartel institucional</div>
  <div class="btns"><button class="btn sec" data-dlall>Bajar las ${TAM?4:3} placas</button><span style="margin-left:8px">Color:</span>${(PALETA[v.estado]||PALETA.cumplido).map(k=>`<span class="sw ${k===v.color?'on':''}" data-col="${k}" style="background:${COLORES[k]}${k==='blanco'?';box-shadow:0 0 0 1px #bbb':''}" title="${k}"></span>`).join('')}</div>${id?fotoHTML(id,v):''}`;
 const txHTML=(ig,x,pl,sms,rotPl,gac)=>`
@@ -434,7 +494,7 @@ function wire(card,id,v){
         const zv=card.querySelector(':scope > .body > .grid [data-zoomvp]');if(zv)zv.textContent=Math.round(ev.target.value*100)+'%';if(!st._raf){st._raf=requestAnimationFrame(()=>{st._raf=null;draw()})}return}
       if(ev.target.dataset.zoom===undefined)return;const f=FOTOS[id];if(!f)return;f.z=+ev.target.value;const zv=card.querySelector(':scope > .body > .grid [data-zoomv]');if(zv)zv.textContent=Math.round(f.z*100)+'%';if(!st._raf){st._raf=requestAnimationFrame(()=>{st._raf=null;draw()})}});
     card.querySelector(':scope > .body > .grid').addEventListener('change',ev=>{if(ev.target.dataset.zoom!==undefined||ev.target.dataset.zoomp!==undefined)guardarFotos()});}
-  const refrescarP=()=>{const pb=card.querySelector(':scope > .body > .grid .fmt.p');if(pb)pb.outerHTML=pBoxHTML(id)};
+  const refrescarP=()=>{const fm=card.querySelector(':scope > .body > .grid .fmts');if(!fm)return;const pb=fm.querySelector('.fmt.p');if(pb)pb.remove();fm.classList.toggle('con-p',!!TAM);if(TAM)fm.insertAdjacentHTML('beforeend',pBoxHTML(id,v))};   // el recuadro Personalizado existe solo con un tamaño definido
   const refrescarFoto=()=>{const box=card.querySelector(':scope > .body > .grid .foto');if(box)box.outerHTML=fotoHTML(id,v);refrescarP()};
   const alTam=()=>{if(!card.isConnected){window.removeEventListener('gc-tam',alTam);return}refrescarP();const b=card.querySelector(':scope > .body > .grid [data-dlall]');if(b)b.textContent=`Bajar las ${TAM?4:3} placas`;if(st.done)draw()};
   window.addEventListener('gc-tam',alTam);   // cambió el tamaño personalizado
@@ -452,7 +512,6 @@ function wire(card,id,v){
     const sufijo=conPie(v)?'':'_sinmarca';
     if(b.dataset.dl){const c=card.querySelector(`:scope > .body > .grid canvas[data-fmt="${b.dataset.dl}"]`);if(c)descargar(lienzo(c),`${id}_${fmtNombre(b.dataset.dl)}${sufijo}`)}   // se descarga el canvas completo, no la vista previa
     else if(b.dataset.dlall!==undefined){[...card.querySelectorAll(':scope > .body > .grid canvas')].forEach((c,i)=>setTimeout(()=>descargar(lienzo(c),`${id}_${fmtNombre(c.dataset.fmt)}${sufijo}`),i*400))}
-    else if(b.dataset.tamir!==undefined)tamAbrir()
     else if(b.dataset.col){st.col=b.dataset.col;card.querySelectorAll(':scope > .body > .grid .sw').forEach(s=>s.classList.toggle('on',s===b));draw()}
     else if(b.dataset.copy){copiar(card.querySelector(`:scope > .body > .grid textarea[data-t="${b.dataset.copy}"]`).value,b)}
     else if(b.dataset.tildes!==undefined){const t=card.querySelector(':scope > .body > .grid textarea[data-t="sms"]');t.value=sinTildes(t.value);t.dispatchEvent(new Event('input'))}});
@@ -564,7 +623,7 @@ function renderCalidad(root){
    ${Object.keys(TX).length?L('Redacción con IA: dudas sobre si publicar',A.filter(a=>(TX[a.id]||{}).duda).map(a=>nm(a)+' <small>('+esc(TX[a.id].duda)+')</small>'),`${Object.values(TX).filter(t=>!t.revisado).length} textos de IA todavía sin revisar. Marcar revisado=true en data/anuncios_textos.json cuando estén vistos.`):'<div class="list"><h3>Redacción con IA</h3><div class="hint">Todavía no se corrió tools/redactar_anuncios.py: los textos de placa son la limpieza automática del parser.</div></div>'}
    ${L('Avisos de la base',D.avisos.map(esc))}
    <div class="list"><h3>Pie con marcas</h3><div class="hint">El tilde “Pie con marcas” se guarda por pieza en este navegador.</div><ul><li>Piezas con pie apagado: ${Object.keys(SINPIE).length}</li></ul></div>
-   <div class="list"><h3>Tamaño personalizado</h3><div class="hint">Se elige en la fila de campaña y vale para todo el tablero (se guarda en este navegador; es el mismo que en Obras).</div><ul><li>Tamaño personalizado: ${tamTxt()}</li></ul></div>`;
+   <div class="list"><h3>Tamaño personalizado</h3><div class="hint">Se elige en la fila de campaña y vale para todo el tablero de Anuncios (se guarda en este navegador; Obras tiene el suyo).</div><ul><li>Tamaño personalizado: ${tamDesc()}</li></ul></div>`;
 }
 function renderFicha(root){
   const a=A.find(x=>x.id===S.ficha); if(!a){S.tab='placas';return renderPlacas(root)}
