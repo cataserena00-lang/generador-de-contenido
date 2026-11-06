@@ -2,6 +2,7 @@
 
 Esta carpeta es el proyecto completo:
 - `index.html` el tablero (lo actualiza `python tools/build.py <fecha>`).
+- `galeria/` las fotos genéricas por tipo de obra (las escribe el mismo build, como archivos sueltos). Se publican junto con `index.html`.
 - `middleware.js` pide usuario y contraseña en el servidor (HTTP Basic). Si las variables no están cargadas, el sitio responde 503 y queda cerrado.
 - `vercel.json` evita que Google lo indexe y que se guarde en caché.
 
