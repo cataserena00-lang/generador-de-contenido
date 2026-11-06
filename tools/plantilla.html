@@ -139,6 +139,7 @@ details.doc pre{white-space:pre-wrap;font:600 12px Poppins;background:#f7f7f8;bo
 .fotosel .mb img{width:56px;height:56px;object-fit:cover;border-radius:6px;display:block;background:#eee}
 .fotosel .mb:hover{border-color:var(--line)} .fotosel .mb.on{border-color:var(--eje,var(--marino));color:var(--ink)}
 .fotosel.gal{border-top:1px dashed var(--line);padding-top:6px} .fotosel.gal .gt{flex-basis:100%;font-size:11.5px;font-weight:700;color:var(--gris)}
+.fotosel label.pie{display:inline-flex;align-items:center;gap:5px;margin-left:8px;font-weight:700;cursor:pointer} .fotosel label.pie input{margin:0;accent-color:var(--marino)}
 .fotosel .genaviso{font-size:11.5px;font-weight:700;color:var(--marino);background:#eceef1;border-radius:6px;padding:3px 9px}
 .fmt canvas.movible{cursor:grab} .fmt canvas.movible:active{cursor:grabbing}
 .note{background:#fbf5e8;border:1px solid #ecd9a8;border-left:5px solid var(--dorado);border-radius:10px;padding:10px 14px;font-size:12.5px;margin-bottom:14px;font-weight:600}
@@ -537,7 +538,7 @@ function panelDatos(g,W,v,T,gm){
 /* Diseño A: foto en círculo con aro del eje */
 async function photoCirculo(g,W,H,v,e,y0,topSafe,im){
   const eje=v.eje,T=TEMA[eje],gm=geo(W,H,y0,eje),{story,sh,panelT}=gm;
-  g.fillStyle=T.bg;g.fillRect(0,0,W,y0);
+  g.fillStyle=T.bg;g.fillRect(0,0,W,conPie(v)?y0:H);
   if(eje==='accesible')await drawCrop(g,'fondo-accesible',[0,0,1415,483],0,0,W*.5,W*.5*483/1415);
   if(eje==='plaza')await drawCrop(g,'fondo-plaza',[150,220,560,520],W*.04,topSafe+W*.03,W*.1,W*.1*520/560);
   const cTop=story?H*.115:topSafe+W*.03, ring=W*.085;
@@ -555,29 +556,29 @@ async function photoCirculo(g,W,H,v,e,y0,topSafe,im){
     g.fillStyle='#4da070';g.beginPath();g.arc(cx,cy,r+ring*.35,0,7);g.fill();
   }
   g.save();g.beginPath();g.arc(cx,cy,r,0,7);g.clip();cover(g,im,cx-r,cy-r,2*r,2*r,v._enc);g.restore();
-  await bloqueEje(g,W,e,T,0,topSafe,true);
+  if(conPie(v))await bloqueEje(g,W,e,T,0,topSafe,true);
   panelDatos(g,W,v,T,gm);
   if(eje==='plaza')await drawCrop(g,'fondo-plaza',[28,2475,6917,297],0,y0-sh,W,sh);
 }
 /* Diseño B: foto a sangre arriba con corte diagonal y banda de color */
 async function photoMarco(g,W,H,v,e,y0,topSafe,im){
   const eje=v.eje,T=TEMA[eje],gm=geo(W,H,y0,eje),{sh,panelT}=gm;
-  g.fillStyle=T.bg;g.fillRect(0,0,W,y0);
+  g.fillStyle=T.bg;g.fillRect(0,0,W,conPie(v)?y0:H);
   const pb=panelT+W*.05,sl=W*.09,bd=W*.022;
   g.fillStyle=T.band;g.beginPath();g.moveTo(0,0);g.lineTo(W,0);g.lineTo(W,pb+bd);g.lineTo(0,pb+sl+bd);g.closePath();g.fill();
   g.save();g.beginPath();g.moveTo(0,0);g.lineTo(W,0);g.lineTo(W,pb);g.lineTo(0,pb+sl);g.closePath();g.clip();cover(g,im,0,0,W,pb+sl,v._enc);g.restore();
-  await bloqueEje(g,W,e,T,0,topSafe,false);
+  if(conPie(v))await bloqueEje(g,W,e,T,0,topSafe,false);
   panelDatos(g,W,v,T,gm);
   if(eje==='plaza')await drawCrop(g,'fondo-plaza',[28,2475,6917,297],0,y0-sh,W,sh);
 }
 /* Diseño C: foto completa con degradado y texto encima */
 async function photoCompleta(g,W,H,v,e,y0,topSafe,im){
-  const story=H>W*1.6, fullH=story?H:y0, ytxt=story?H*.885-W*.17-W*.015:y0;  // stories: la foto cubre todo el lienzo (sin azul liso abajo) y los logos van sobre el degradado
+  const story=H>W*1.6, fullH=story?H:y0, ytxt=story&&conPie(v)?H*.885-W*.17-W*.015:y0;   // sin pie, el degradado y el texto bajan hasta y0  // stories: la foto cubre todo el lienzo (sin azul liso abajo) y los logos van sobre el degradado
   cover(g,im,0,0,W,fullH,v._enc);
   const gr=g.createLinearGradient(0,fullH*.3,0,fullH);const col=e.dark;
   gr.addColorStop(0,col+'00');gr.addColorStop(.5,col+'b0');gr.addColorStop(1,col+'f5');g.fillStyle=gr;g.fillRect(0,fullH*.3,W,fullH*.7);
-  const wa=await aspect(e.wm), cw=W*.36, ch=cw/wa, pad=W*.025, cx=W*.05, cy=topSafe+W*.04;
-  g.fillStyle=e.chip;rrect(g,cx,cy,cw+pad*2,ch+pad*2,W*.02);g.fill();await drawSvg(g,e.wm,cx+pad,cy+pad,cw,ch);
+  if(conPie(v)){const wa=await aspect(e.wm), cw=W*.36, ch=cw/wa, pad=W*.025, cx=W*.05, cy=topSafe+W*.04;
+  g.fillStyle=e.chip;rrect(g,cx,cy,cw+pad*2,ch+pad*2,W*.02);g.fill();await drawSvg(g,e.wm,cx+pad,cy+pad,cw,ch);}
   const bm=W*.06, mw=W-bm*2;
   const bl=[{t:v.kicker,w:600,s:W*.032,c:e.acento,up:true,gap:W*.012}];
   if(v.valor)bl.push({t:`${v.valor} ${v.etiqueta}`,w:800,s:W*.085,c:'#fff',lh:1.05,gap:W*.02});else bl.push({t:v.main,w:800,s:W*.085,c:'#fff',lh:1.05,gap:W*.02});
@@ -599,20 +600,23 @@ async function brandPlate(g,W,H,v,e,y0,topSafe,eje){
     if(v.sub)b.push({t:v.sub,w:600,s:W*.042,c:col3,gap:W*.012});
     if(v.extra)b.push({t:v.extra,w:600,s:W*.032,c:col3,op:.75});return b;};
   if(eje==='calle'){
-    const wa=await aspect(e.wm),ww=W*.36,wh=ww/wa,arcW=W*.42,arcH=arcW*520/1445;
-    const bh=topSafe+W*.045+wh+arcH+W*.025;
+    const wm=conPie(v),wa=await aspect(e.wm),ww=W*.36,wh=ww/wa,arcW=W*.42,arcH=arcW*520/1445;
+    const bh=wm?topSafe+W*.045+wh+arcH+W*.025:topSafe+W*.03+arcH;   // sin marcas: la banda queda solo con el arco y el título sube
     g.fillStyle='#fff';g.fillRect(0,0,W,y0);g.fillStyle=e.dark;g.fillRect(0,0,W,bh);
     await drawCrop(g,'fondo-calle',[3713,0,1956,680],W*.58,bh,W*.42,W*.42*680/1956);
     await drawCrop(g,'fondo-calle',[0,1729,1445,520],0,bh-arcH,arcW,arcH);
-    await drawSvg(g,e.wm,bm,topSafe+W*.045,ww,wh);
+    if(wm)await drawSvg(g,e.wm,bm,topSafe+W*.045,ww,wh);
     const top=bh+W*.05, lay=layout(g,blocks('#17233d','#bd1635','#17233d'),mw,y0-top-W*.04);
     drawLayout(g,lay,bm,top+(y0-top-W*.04-lay.tot)/2,'left',mw);
   } else if(eje==='accesible'){
-    const wa=await aspect(e.wm),ww=W*.60,wh=ww/wa;
-    const yh=topSafe>0?2*topSafe+wh:Math.max(W*1408/2835,wh+W*.09);const sc=yh/1408,iw=2835*sc; // stories: bloque simétrico, el logotipo queda centrado y fuera de la zona segura
+    const wm=conPie(v),wa=await aspect(e.wm),ww=W*.60,wh=ww/wa;
     g.fillStyle='#fff';g.fillRect(0,0,W,y0);
-    g.save();g.beginPath();g.rect(0,0,W,yh);g.clip();await drawCrop(g,'fondo-accesible',[0,0,2835,1408],(W-Math.max(iw,W))/2,0,Math.max(iw,W),yh);g.restore();
-    await drawSvg(g,e.wm,(W-ww)/2,(yh-wh)/2,ww,wh);
+    let yh;
+    if(wm){yh=topSafe>0?2*topSafe+wh:Math.max(W*1408/2835,wh+W*.09);const sc=yh/1408,iw=2835*sc; // stories: bloque simétrico, el logotipo queda centrado y fuera de la zona segura
+      g.save();g.beginPath();g.rect(0,0,W,yh);g.clip();await drawCrop(g,'fondo-accesible',[0,0,2835,1408],(W-Math.max(iw,W))/2,0,Math.max(iw,W),yh);g.restore();
+      await drawSvg(g,e.wm,(W-ww)/2,(yh-wh)/2,ww,wh);}
+    else{yh=topSafe+W*.2;const fh=W*1408/2835;   // sin marcas: una banda baja con el borde rayado (sin deformar el fondo) y el número sube
+      g.save();g.beginPath();g.rect(0,0,W,yh);g.clip();await drawCrop(g,'fondo-accesible',[0,0,2835,1408],0,Math.min(0,yh-fh),W,fh);g.restore();}
     const top=yh+W*.03,hh=y0-top-W*.03;
     const b=[];
     if(v.valor)b.push({t:v.valor,w:800,s:W*.27,c:'#09467f',lh:1,gap:W*.012});else b.push({t:v.main,w:800,s:W*.085,c:'#09467f',up:true,gap:W*.02});
@@ -624,13 +628,14 @@ async function brandPlate(g,W,H,v,e,y0,topSafe,eje){
     if(v.valor){g.font=`600 ${W*.05}px Poppins`;const tw=Math.min(mw,g.measureText(v.etiqueta).width+W*.1);g.fillStyle='#bedff7';rrect(g,(W-tw)/2,y,tw,pillH,W*.012);g.fill();g.fillStyle='#09467f';g.textAlign='center';g.fillText(v.etiqueta,W/2,y+pillH*.68);y+=pillH+W*.025;}
     drawLayout(g,lay1,bm,y,'center',mw);
   } else {
-    const wa=await aspect(e.wm),ww=W*.50,wh=ww/wa,gh=topSafe+wh+W*.09,sh=W*297/6917;
+    const wm=conPie(v),wa=await aspect(e.wm),ww=W*.50,wh=ww/wa,gh=wm?topSafe+wh+W*.09:topSafe+W*.16,sh=W*297/6917;   // sin marcas: banda baja, el título sube
     g.fillStyle='#fff';g.fillRect(0,0,W,y0);
     await drawCrop(g,'fondo-plaza',[5900,28,1000,700],W*.60,gh+W*.005,W*.40,W*.40*700/1000);
     g.fillStyle='#c6dfce';g.fillRect(0,0,W,gh);
     await drawCrop(g,'fondo-plaza',[150,220,560,520],W*.87,topSafe+W*.03,W*.10,W*.10*520/560);
-    await drawCrop(g,'fondo-plaza',[1440,2120,580,350],W*.74,gh-W*.17,W*.19,W*.19*350/580);
-    await drawSvg(g,e.wm,bm,topSafe+W*.075,ww,wh);
+    if(wm){await drawCrop(g,'fondo-plaza',[1440,2120,580,350],W*.74,gh-W*.17,W*.19,W*.19*350/580);
+    await drawSvg(g,e.wm,bm,topSafe+W*.075,ww,wh);}
+    else await drawCrop(g,'fondo-plaza',[1440,2120,580,350],W*.70,topSafe+W*.035,W*.15,W*.15*350/580);   // el banco se achica para entrar en la banda baja
     await drawCrop(g,'fondo-plaza',[28,2475,6917,297],0,y0-sh,W,sh);
     const top=gh+W*.05,hh=y0-sh-top-W*.03;
     const lay=layout(g,blocks('#09467f','#4da070','#17233d'),mw,hh);drawLayout(g,lay,bm,top+(hh-lay.tot)/2,'left',mw);
@@ -639,12 +644,15 @@ async function brandPlate(g,W,H,v,e,y0,topSafe,eje){
 async function renderPlaca(canvas,v,fmt,fotoIdx=0,estilo='sugerido'){
   await document.fonts.load('800 40px Poppins');await document.fonts.load('600 40px Poppins');
   const [W,H]=FMT[fmt],g=canvas.getContext('2d');canvas.width=W;canvas.height=H;
-  const story=fmt==='9x16',e=EJES[v.eje],topSafe=story?H*.14:0,y1=story?H*.885:H,y0=y1-W*.17;
+  // sin pie (conPie(v) falso): no hay franja ni logos y el contenido baja hasta y1 (en historias se mantiene el margen inferior de la zona segura)
+  const story=fmt==='9x16',e=EJES[v.eje],topSafe=story?H*.14:0,y1=story?H*.885:H,y0=conPie(v)?y1-W*.17:y1;
   g.fillStyle='#fff';g.fillRect(0,0,W,H);
   let full=false;
   if(v.fotos&&v.fotos.length&&estilo!=='sinfoto')full=(await photoPlate(g,W,H,v,e,y0,topSafe,fotoIdx,estilo))==='full';else await brandPlate(g,W,H,v,e,y0,topSafe,v.eje);
-  await footer(g,W,H,e,story,v.eje,full);
+  if(conPie(v))await footer(g,W,H,e,story,v.eje,full);
 }
+/* pie con marcas (franja, logos institucionales, cinta de accesible y wordmark del eje): se apaga por pieza con el tilde "Pie con marcas" (v._pie=false) */
+const conPie=v=>v._pie!==false;
 function descargar(canvas,nombre){try{canvas.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=nombre+'.png';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)},'image/png')}catch(e){alert('No se puede bajar esta placa con el tablero abierto como archivo local: el navegador bloquea las fotos sueltas de la galería. Abrilo desde el sitio publicado o con un servidor local.')}}
 async function copiar(txt,btn){try{await navigator.clipboard.writeText(txt)}catch{const t=document.createElement('textarea');t.value=txt;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove()}const o=btn.textContent;btn.textContent='¡Copiado!';btn.classList.add('ok');setTimeout(()=>{btn.textContent=o;btn.classList.remove('ok')},1200)}
 
@@ -806,13 +814,16 @@ const EJE_COLOR={calle:'#17233d',accesible:'#eaab3b',plaza:'#4da070'};
 const rubroPieza=id=>/(^g_plazas$|_plazas$)/.test(id)?'plaza':/(^g_accesible$|_rampas$)/.test(id)?'rampas':/(^g_cuadras$|_pav$)/.test(id)?'pav':null;
 const tagFoto=(conFoto,rubro)=>conFoto?['foto','Con foto']:galDe(rubro).length?['generica','Foto genérica']:['sinfoto','Sin foto'];
 /* ---------- UI ---------- */const ESTILOS_UI=[['sugerido','Sugerido'],['circulo','Círculo'],['marco','Marco'],['completa','Foto completa'],['sinfoto','Sin foto']];
+// tilde "Pie con marcas" (encendido por defecto): apagado, la placa sale sin franja, logos, cinta ni wordmark del eje
+const pieHTML=v=>`<label class="pie"><input type="checkbox" data-pie ${conPie(v)?'checked':''}> Pie con marcas</label>`;
 const placaHTML=(id,v,st)=>{const propia=!!(FOTOS[id]&&FOTOS[id].data), nf=(v.fotos||[]).length, est=(st&&st.estilo)||'sugerido', fi=(st&&st.foto)||0;
  const items=(st&&st.items)||[], cur=items[fi], mini=(x,i,l)=>`<button class="mb ${i===fi?'on':''}" data-foto="${i}" title="${esc(x.nombre||l)}" aria-label="${esc(l)}"><img src="${x.src}" alt="">${l?esc(l):''}</button>`;
  const propias=items.map((x,i)=>[x,i]).filter(([x])=>x.origen!=='galeria'), gen=items.map((x,i)=>[x,i]).filter(([x])=>x.origen==='galeria');
  return `<div class="placa-ui" style="--eje:${EJE_COLOR[v.eje]||EJE_COLOR.calle}"><div class="fmts">${Object.entries(FMT).map(([k,f])=>`<div class="fmt"><div class="lbl">${f[2]}</div><canvas data-fmt="${k}" class="${nf&&est!=='sinfoto'?'movible':''}"></canvas><div class="btns" style="justify-content:center"><button class="btn" data-dl="${k}">Bajar PNG</button></div></div>`).join('')}</div>
  ${cur&&cur.origen==='galeria'&&est!=='sinfoto'?'<div class="fotosel"><span class="genaviso">Foto genérica del tipo de obra. Podés elegir otra o subir la tuya</span></div>':''}
+ ${conPie(v)?'':'<div class="fotosel"><span class="genaviso">Sin marcas: revisá que la foto tampoco tenga cartel institucional</span></div>'}
  <div class="btns"><button class="btn sec" data-dlall>Bajar las 3 placas</button></div>
- ${nf?`<div class="fotosel">Diseño: ${ESTILOS_UI.map(([k,l])=>`<button class="btn ${k===est?'':'sec'}" data-estilo="${k}">${l}</button>`).join('')}</div><div class="fotosel" data-sug></div>`:''}
+ <div class="fotosel">${nf?`Diseño: ${ESTILOS_UI.map(([k,l])=>`<button class="btn ${k===est?'':'sec'}" data-estilo="${k}">${l}</button>`).join('')}`:''}${pieHTML(v)}</div>${nf?'<div class="fotosel" data-sug></div>':''}
  ${propias.length?`<div class="fotosel">Foto: ${propias.map(([x,i])=>mini(x,i,x.origen==='propia'?'Propia':'Parte '+x.n)).join('')}</div>`:''}
  ${gen.length?`<div class="fotosel gal"><span class="gt">Fotos genéricas de ${esc(rubroTxt(v._rubro))}</span>${gen.map(([x,i],j)=>mini(x,i,'')).join('')}</div>`:''}
  <div class="fotosel">${propia?`<img class="mini" src="${FOTOS[id].data}" alt="">`:''}<label class="btn sec">${propia?'Cambiar foto propia':'Subir foto propia'}<input type="file" accept="image/*" data-subir></label>${propia?'<button class="btn sec" data-quitar>Quitar foto propia</button>':''}<span class="aviso" data-foto-aviso></span>
@@ -826,7 +837,7 @@ function txHTML(ig,x,pl,gac,titulos,sms){return `
 function wire(card,id,v){
   const state={foto:0,estilo:'sugerido',done:false,base:(v.fotos||[]).slice(),items:[]};
   const armar=()=>{state.items=fotosDe(id,state.base,v._rubro);v._items=state.items;v.fotos=state.items.map(x=>x.src)};
-  armar();state.foto=fotoInicial(id,state.items);
+  armar();state.foto=fotoInicial(id,state.items);v._pie=!(FOTOS[id]&&FOTOS[id].sinPie);   // el tilde se guarda por pieza en el navegador, como el encuadre
   const tagEl=card.querySelector(':scope > summary [data-ft]');
   const retag=()=>{if(!tagEl)return;const [c,t]=tagFoto(state.base.length>0||!!(FOTOS[id]&&FOTOS[id].data),v._rubro);tagEl.className='tag '+c;tagEl.textContent=t};
   const generica=()=>{const x=state.items[state.foto];return !!x&&x.origen==='galeria'&&state.estilo!=='sinfoto'};
@@ -839,7 +850,8 @@ function wire(card,id,v){
   const grid=card.querySelector(':scope > .body > .grid');
   grid.addEventListener('change',async ev=>{const inp=ev.target;
     if(inp.dataset.subir!==undefined&&inp.files&&inp.files[0]){try{const data=await reducirFoto(inp.files[0]);FOTOS[id]=Object.assign({},FOTOS[id]||{},{data});delete (FOTOS[id].enc||{}).propia;delete FOTOS[id].gal;const ok=guardarFotos();armar();state.foto=0;if(state.estilo==='sinfoto')state.estilo='sugerido';refrescarUI();retag();if(!ok)card.querySelector('[data-foto-aviso]').textContent='La foto se usa ahora pero no entró en la memoria del navegador (hay muchas guardadas): quitá otras.'}catch(e){card.querySelector('[data-foto-aviso]').textContent='No se pudo leer la imagen.'}}
-    else if(inp.dataset.zoom!==undefined)guardarFotos()});
+    else if(inp.dataset.zoom!==undefined)guardarFotos()
+    else if(inp.dataset.pie!==undefined){v._pie=inp.checked;if(inp.checked){if(FOTOS[id])delete FOTOS[id].sinPie}else (FOTOS[id]??={}).sinPie=true;guardarFotos();refrescarUI()}});
   grid.addEventListener('input',ev=>{if(ev.target.dataset.zoom===undefined)return;const zv=card.querySelector('[data-zoomv]');if(zv)zv.textContent=Math.round(ev.target.value*100)+'%';const f=FOTOS[id]??={};(f.enc??={})[fkey()]=Object.assign({},f.enc[fkey()]||{},{z:+ev.target.value});if(!state._raf){state._raf=requestAnimationFrame(()=>{state._raf=null;draw()})}});
   let arr=null;const fmts=()=>card.querySelector(':scope > .body > .grid .fmts');
   grid.addEventListener('pointerdown',ev=>{const c=ev.target.closest('canvas');if(!c||!c.classList.contains('movible')||c.closest('.fmts')!==fmts())return;const e=encDe()||{};const r=c.getBoundingClientRect();arr={x:ev.clientX,y:ev.clientY,fx:e.fx??.5,fy:e.fy??.5,w:r.width,h:r.height};c.setPointerCapture(ev.pointerId);ev.preventDefault()});
@@ -850,8 +862,8 @@ function wire(card,id,v){
   card.addEventListener('toggle',async()=>{if(card.open&&!state.done){state.done=true;   // las miniaturas se arman al abrir la tarjeta
     if(galDe(v._rubro).length){state.nit=await galNitidas(v._rubro);state.foto=fotoInicial(id,state.items,state.nit)}refrescarUI()}});
   card.addEventListener('click',ev=>{const b=ev.target.closest('button');if(!b)return;
-    if(b.dataset.dl){const c=card.querySelector(`canvas[data-fmt="${b.dataset.dl}"]`);descargar(c,`${id}_${b.dataset.dl}${generica()?'_generica':''}`)}
-    else if(b.dataset.dlall){[...card.querySelectorAll('canvas')].forEach((c,i)=>setTimeout(()=>descargar(c,`${id}_${c.dataset.fmt}${generica()?'_generica':''}`),i*400))}
+    if(b.dataset.dl){const c=card.querySelector(`canvas[data-fmt="${b.dataset.dl}"]`);descargar(c,`${id}_${b.dataset.dl}${generica()?'_generica':''}${conPie(v)?'':'_sinmarca'}`)}
+    else if(b.dataset.dlall){[...card.querySelectorAll('canvas')].forEach((c,i)=>setTimeout(()=>descargar(c,`${id}_${c.dataset.fmt}${generica()?'_generica':''}${conPie(v)?'':'_sinmarca'}`),i*400))}
     else if(b.dataset.quitar!==undefined){if(FOTOS[id]){delete FOTOS[id].data;delete (FOTOS[id].enc||{}).propia}guardarFotos();armar();state.foto=fotoInicial(id,state.items,state.nit);refrescarUI();retag()}
     else if(b.dataset.foto!==undefined){state.foto=+b.dataset.foto;const x=state.items[state.foto];   // la genérica elegida a mano se recuerda por obra, como el encuadre
       if(x&&x.origen==='galeria')(FOTOS[id]??={}).gal=x.nombre;else if(FOTOS[id])delete FOTOS[id].gal;guardarFotos();refrescarUI()}
@@ -958,6 +970,7 @@ function renderCalidad(root){
    ${L('Avisos y contradicciones (parte vs. docs)',P.avisos.map(esc))}
    ${L('Obras sin foto (placa solo texto)',sf.map(nm),'Soltá la foto como <code>entrada/'+P.fecha+'/fotos/&lt;id-obra&gt;.jpg</code> o agregá el link de Drive en el parte.')}
    ${sg.length?L('Obras sin foto del parte (salen con foto genérica)',sg.map(nm),'Su rubro tiene galería. Para usar la foto real, soltala como <code>entrada/'+P.fecha+'/fotos/&lt;id-obra&gt;.jpg</code> o agregá el link de Drive en el parte.'):''}
+   <div class="list"><h3>Pie con marcas</h3><div class="hint">El tilde “Pie con marcas” se guarda por pieza en este navegador.</div><ul><li>Piezas con pie apagado: ${Object.values(FOTOS).filter(f=>f&&f.sinPie).length}</li></ul></div>
    <div class="list"><h3>Galería de fotos genéricas</h3><div class="hint">Las fotos van en <code>assets/galeria/&lt;rubro&gt;/</code> y entran al volver a correr el build.</div><ul><li>Rubros sin galería: ${esc(lista(TIPO_ORDEN.filter(t=>!galDe(t).length).map(t=>TIPOS[t].label))||'ninguno')}</li></ul></div>
    ${L('Obras sin texto de Drive',sd.map(nm))}
    ${L('Obras sin magnitud (m², cuadras o metros)',sm.map(nm),'Con un dato de magnitud el texto y la placa ganan una cifra concreta.')}

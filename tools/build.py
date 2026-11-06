@@ -176,6 +176,7 @@ open(dst, "w", encoding="utf-8").write(html)
 pub = os.path.join(ROOT, "deploy")  # copia lista para publicar (ver deploy/LEEME.md)
 os.makedirs(pub, exist_ok=True)
 open(os.path.join(pub, "index.html"), "w", encoding="utf-8").write(html)
+open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8").write(html)   # la raíz y deploy/ van siempre iguales (ver deploy/LEEME.md)
 total_mb = os.path.getsize(dst) / 1e6
 print(f"{dst}  {total_mb:.1f} MB  obras={len(parte['obras'])}  con foto={sum(1 for o in parte['obras'] if fotos.get(o.get('doc')))}")
 print(f"galería (deploy/{GAL_OUT}/, archivos sueltos): {gal_mb:.1f} MB · " + (", ".join(f"{k}={len(v)}" for k, v in gal.items()) or "sin carpetas en assets/galeria") + f" · tablero total {total_mb:.1f} MB")
