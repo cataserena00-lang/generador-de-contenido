@@ -145,6 +145,9 @@ const guardarFotos=()=>{try{localStorage.setItem(FOTO_KEY,JSON.stringify(FOTOS))
 const PIE_KEY='gc_anuncios_sinpie'; let SINPIE={}; try{SINPIE=JSON.parse(localStorage.getItem(PIE_KEY)||'{}')}catch(e){}
 const guardarPie=()=>{try{localStorage.setItem(PIE_KEY,JSON.stringify(SINPIE))}catch(e){}};
 const conPie=v=>v._pie!==false;
+// color con transparencia: el alfa se agrega a un hex de seis dígitos (con '#fff' + '00' quedaba '#fff00', inválido, y la placa blanca con foto no se dibujaba)
+const hex6=c=>{const m=/^#([0-9a-f]{3})$/i.exec(c);return m?'#'+[...m[1]].map(x=>x+x).join(''):c};
+const alfa=(c,a)=>hex6(c)+a;
 const reducirFoto=file=>new Promise((res,rej)=>{const fr=new FileReader();fr.onerror=rej;fr.onload=()=>{const i=new Image();i.onerror=rej;i.onload=()=>{const M=1600,k=Math.min(1,M/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=Math.round(i.width*k);c.height=Math.round(i.height*k);c.getContext('2d').drawImage(i,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.85))};i.src=fr.result};fr.readAsDataURL(file)});
 const disSugerido=v=>v.tipo==='lista'?'arriba':'completa';
 // anuncios elegidos para la placa de una localidad o departamento: edición en el navegador > contenido.json → seleccion > sugeridos (los 5 mejores del ranking)
@@ -301,20 +304,20 @@ async function renderPlaca(canvas,v,fmt,colorKey,foto,dis,enc){
   const mx=W*.06, maxW=W-mx*2, locTxt=v.pill.charAt(0).toUpperCase()+v.pill.slice(1);
   let ps=W*.105; g.font=`900 ${ps}px Poppins`; while(g.measureText(locTxt).width>maxW&&ps>W*.07){ps*=.95;g.font=`900 ${ps}px Poppins`}
   const locL=g.measureText(locTxt).width>maxW?wrap(g,locTxt,maxW):[locTxt];
-  const pie=conPie(v);   // sin pie: no va la píldora de campaña (el equivalente del wordmark) ni el pie con el lockup; la zona sube y el cuerpo baja hasta el margen
-  const pillH=W*.08, bandH=pie?W*.07+locL.length*ps*1.02+W*.03+pillH+W*.06:W*.07+locL.length*ps*1.02+W*.03, bandY=topSafe; if(!blanco){g.fillStyle='#fff';g.fillRect(0,bandY,W,bandH)}
+  const pie=conPie(v);   // sin pie: solo se saca el pie blanco con el lockup; la píldora de estado (Cumplimos, En marcha) queda porque no es marca
+  const pillH=W*.08, bandH=W*.07+locL.length*ps*1.02+W*.03+pillH+W*.06, bandY=topSafe; if(!blanco){g.fillStyle='#fff';g.fillRect(0,bandY,W,bandH)}
   let ly=bandY+W*.07+ps*.8; g.fillStyle=acc; g.textAlign='right'; g.textBaseline='alphabetic'; locL.forEach(t=>{g.fillText(t,W-mx,ly);ly+=ps*1.02});
   const pfs=pillH*.58; g.font=`900 ${pfs}px Poppins`; const ir=pillH*.3, ptw=g.measureText(v.palabra).width+ir*2+pillH*1.1, pxx=W-mx-ptw, pyy=ly-ps*1.02+ps*.3+W*.03;
-  if(pie){g.fillStyle=acc; rrect(g,pxx,pyy,ptw,pillH,pillH/2); g.fill(); icono(g,pxx+pillH*.4+ir,pyy+pillH/2,ir,'#fff',acc,v.estado);
-  g.fillStyle='#fff'; g.textAlign='left'; g.fillText(v.palabra,pxx+pillH*.4+ir*2+pillH*.22,pyy+pillH*.7);}
+  g.fillStyle=acc; rrect(g,pxx,pyy,ptw,pillH,pillH/2); g.fill(); icono(g,pxx+pillH*.4+ir,pyy+pillH/2,ir,'#fff',acc,v.estado);
+  g.fillStyle='#fff'; g.textAlign='left'; g.fillText(v.palabra,pxx+pillH*.4+ir*2+pillH*.22,pyy+pillH*.7);
   // foto: "arriba" ocupa la parte alta del panel y se funde en el color; "completa" cubre todo el panel y el texto va abajo sobre un degradado
   const fh=pie?W*.115:0, fy=H-botSafe-fh, fx=W*.45, cut=fh*.9, cuerpoY=bandY+bandH, cuerpoH=fy-cuerpoY;
   let fotoFin=0;
   if(conFoto){try{const im=await loadImg(foto); const ph=dis==='arriba'?cuerpoH*.47:cuerpoH+fh; fotoFin=cuerpoY+ph;
     g.save(); g.beginPath(); g.rect(0,cuerpoY,W,ph); g.clip();
     const e={fx:(enc&&enc.fx)??.5,fy:(enc&&enc.fy)??.35,z:(enc&&enc.z)||1}, k=Math.max(W/im.width,ph/im.height)*e.z, dw=im.width*k, dh=im.height*k; g.drawImage(im,-(dw-W)*e.fx,cuerpoY-(dh-ph)*e.fy,dw,dh); g.restore();   // con zoom menor a 1 la foto no cubre el recuadro y se ve el fondo alrededor
-    if(dis==='arriba'){const fade=g.createLinearGradient(0,fotoFin-W*.22,0,fotoFin);fade.addColorStop(0,fondo+'00');fade.addColorStop(1,fondo);g.fillStyle=fade;g.fillRect(0,cuerpoY,W,fotoFin-cuerpoY)}
-    else{g.fillStyle=fondo+'f2';g.fillRect(0,fy,W,H-fy)}   // con foto completa el degradado se dibuja después, según dónde arranca el texto
+    if(dis==='arriba'){const fade=g.createLinearGradient(0,fotoFin-W*.22,0,fotoFin);fade.addColorStop(0,alfa(fondo,'00'));fade.addColorStop(1,fondo);g.fillStyle=fade;g.fillRect(0,cuerpoY,W,fotoFin-cuerpoY)}
+    else{g.fillStyle=alfa(fondo,'f2');g.fillRect(0,fy,W,H-fy)}   // con foto completa el degradado se dibuja después, según dónde arranca el texto
   }catch(e){fotoFin=0}}
   // pie blanco con corte diagonal y lockup Córdoba | Hacer para Crecer (en la variante blanca, una línea diagonal en el color)
   if(pie){const {img:lk,asp}=await svgImg('gobierno-color');
@@ -335,7 +338,7 @@ async function renderPlaca(canvas,v,fmt,colorKey,foto,dis,enc){
     while(entran>1&&blocks[entran].s*lay.k<W*MIN_ITEM){entran--;lay=layout(g,blocks.slice(0,entran+1),bw,availT)}
     canvas.dataset.entran=entran}
   const textoY=abajo?bottom-(pieBlock?W*.07:0)-lay.tot:top+(v.tipo==='dato'||v.tipo==='lista'?Math.max(0,(availT-lay.tot)/2-W*.02):0);
-  if(abajo){const g0=Math.max(cuerpoY,textoY-W*.3),fade=g.createLinearGradient(0,g0,0,Math.min(textoY+W*.02,fy));fade.addColorStop(0,fondo+'00');fade.addColorStop(1,fondo+'f2');g.fillStyle=fade;g.fillRect(0,g0,W,fy-g0);g.fillStyle=fondo+'f2';g.fillRect(0,Math.min(textoY+W*.02,fy),W,Math.max(0,fy-textoY-W*.02))}
+  if(abajo){const g0=Math.max(cuerpoY,textoY-W*.3),fade=g.createLinearGradient(0,g0,0,Math.min(textoY+W*.02,fy));fade.addColorStop(0,alfa(fondo,'00'));fade.addColorStop(1,alfa(fondo,'f2'));g.fillStyle=fade;g.fillRect(0,g0,W,fy-g0);g.fillStyle=alfa(fondo,'f2');g.fillRect(0,Math.min(textoY+W*.02,fy),W,Math.max(0,fy-textoY-W*.02))}
   drawLayout(g,lay,mx,textoY,bw,acc,blanco?'#fff':col);
   if(pieBlock){g.font=`800 ${pieBlock.s}px Poppins`;g.fillStyle=tinta;g.globalAlpha=pieBlock.op;g.fillText(up(pieBlock.t),mx,bottom-W*.005);g.globalAlpha=1}
 }
