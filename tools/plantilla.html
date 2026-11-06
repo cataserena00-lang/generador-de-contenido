@@ -107,7 +107,7 @@ footer img{height:46px;opacity:.95} footer p{margin:8px 0 0;font-size:11px;color
 .card .tt span{font-size:12px;color:var(--muted);font-weight:600}
 .tag{font-size:10.5px;font-weight:700;border-radius:6px;padding:2px 8px;white-space:nowrap}
 .tag.calle{background:var(--celeste-eje);color:var(--marino)} .tag.accesible{background:#fbe9c2;color:#6b4a05} .tag.plaza{background:var(--verde-claro);color:#1f5a38}
-.tag.foto{background:#e7f4ea;color:#1f6a35} .tag.sinfoto{background:#f1f1f1;color:#777} .tag.grupo{background:#f4e6c8;color:#7a5a1c}
+.tag.foto{background:#e7f4ea;color:#1f6a35} .tag.sinfoto{background:#f1f1f1;color:#777} .tag.generica{background:#eceef1;color:var(--marino)} .tag.grupo{background:#f4e6c8;color:#7a5a1c}
 .body{padding:4px 14px 16px;border-top:1px solid var(--line)}
 .grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:18px;margin-top:12px}
 @media(max-width:1200px){.grid{grid-template-columns:1fr}} @media(max-width:860px){.top .ttl{border-left:0;padding-left:0}}
@@ -134,6 +134,13 @@ details.doc pre{white-space:pre-wrap;font:600 12px Poppins;background:#f7f7f8;bo
 .fotosel label.btn{cursor:pointer} .fotosel input[type=file]{display:none}
 .fotosel .enc{flex-basis:100%;font-size:11px;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:6px} .fotosel .enc input{width:120px;margin:0}
 .fotosel .aviso{font-size:11px;color:var(--rojo);font-weight:700}
+/* miniaturas de foto: las del parte, la propia y, en una tira aparte, las genéricas de la galería del rubro (assets/galeria/<rubro>/) */
+.fotosel .mb{border:2px solid transparent;border-radius:9px;background:none;padding:2px;cursor:pointer;display:inline-flex;flex-direction:column;align-items:center;gap:1px;font:700 10.5px Poppins;color:var(--gris)}
+.fotosel .mb img{width:56px;height:56px;object-fit:cover;border-radius:6px;display:block;background:#eee}
+.fotosel .mb:hover{border-color:var(--line)} .fotosel .mb.on{border-color:var(--eje,var(--marino));color:var(--ink)}
+.fotosel.gal{border-top:1px dashed var(--line);padding-top:6px} .fotosel.gal .gt{flex-basis:100%;font-size:11.5px;font-weight:700;color:var(--gris)}
+.fotosel label.pie{display:inline-flex;align-items:center;gap:5px;margin-left:8px;font-weight:700;cursor:pointer} .fotosel label.pie input{margin:0;accent-color:var(--marino)}
+.fotosel .genaviso{font-size:11.5px;font-weight:700;color:var(--marino);background:#eceef1;border-radius:6px;padding:3px 9px}
 .fmt canvas.movible{cursor:grab} .fmt canvas.movible:active{cursor:grabbing}
 .note{background:#fbf5e8;border:1px solid #ecd9a8;border-left:5px solid var(--dorado);border-radius:10px;padding:10px 14px;font-size:12.5px;margin-bottom:14px;font-weight:600}
 .list{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:12px}
@@ -158,6 +165,7 @@ details.doc pre{white-space:pre-wrap;font:600 12px Poppins;background:#f7f7f8;bo
 (()=>{
 const CONT=DATA.contenido||{};
 const P=DATA.parte, CIRC=DATA.circuitos, A=DATA.assets, FISCAL=(DATA.fiscal&&DATA.fiscal.cifras)||[];
+const GAL=A.galeria||{}, RUBRO_TXT=A.rubros_texto||{};   // galería de fotos genéricas por rubro (viene del build, assets/galeria/<rubro>/)
 const $=(s,r=document)=>r.querySelector(s), esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const nf=n=>String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,'.');
 const up=s=>s.toLocaleUpperCase('es-AR');
@@ -530,7 +538,7 @@ function panelDatos(g,W,v,T,gm){
 /* Diseño A: foto en círculo con aro del eje */
 async function photoCirculo(g,W,H,v,e,y0,topSafe,im){
   const eje=v.eje,T=TEMA[eje],gm=geo(W,H,y0,eje),{story,sh,panelT}=gm;
-  g.fillStyle=T.bg;g.fillRect(0,0,W,y0);
+  g.fillStyle=T.bg;g.fillRect(0,0,W,conPie(v)?y0:H);
   if(eje==='accesible')await drawCrop(g,'fondo-accesible',[0,0,1415,483],0,0,W*.5,W*.5*483/1415);
   if(eje==='plaza')await drawCrop(g,'fondo-plaza',[150,220,560,520],W*.04,topSafe+W*.03,W*.1,W*.1*520/560);
   const cTop=story?H*.115:topSafe+W*.03, ring=W*.085;
@@ -548,29 +556,29 @@ async function photoCirculo(g,W,H,v,e,y0,topSafe,im){
     g.fillStyle='#4da070';g.beginPath();g.arc(cx,cy,r+ring*.35,0,7);g.fill();
   }
   g.save();g.beginPath();g.arc(cx,cy,r,0,7);g.clip();cover(g,im,cx-r,cy-r,2*r,2*r,v._enc);g.restore();
-  await bloqueEje(g,W,e,T,0,topSafe,true);
+  if(conPie(v))await bloqueEje(g,W,e,T,0,topSafe,true);
   panelDatos(g,W,v,T,gm);
   if(eje==='plaza')await drawCrop(g,'fondo-plaza',[28,2475,6917,297],0,y0-sh,W,sh);
 }
 /* Diseño B: foto a sangre arriba con corte diagonal y banda de color */
 async function photoMarco(g,W,H,v,e,y0,topSafe,im){
   const eje=v.eje,T=TEMA[eje],gm=geo(W,H,y0,eje),{sh,panelT}=gm;
-  g.fillStyle=T.bg;g.fillRect(0,0,W,y0);
+  g.fillStyle=T.bg;g.fillRect(0,0,W,conPie(v)?y0:H);
   const pb=panelT+W*.05,sl=W*.09,bd=W*.022;
   g.fillStyle=T.band;g.beginPath();g.moveTo(0,0);g.lineTo(W,0);g.lineTo(W,pb+bd);g.lineTo(0,pb+sl+bd);g.closePath();g.fill();
   g.save();g.beginPath();g.moveTo(0,0);g.lineTo(W,0);g.lineTo(W,pb);g.lineTo(0,pb+sl);g.closePath();g.clip();cover(g,im,0,0,W,pb+sl,v._enc);g.restore();
-  await bloqueEje(g,W,e,T,0,topSafe,false);
+  if(conPie(v))await bloqueEje(g,W,e,T,0,topSafe,false);
   panelDatos(g,W,v,T,gm);
   if(eje==='plaza')await drawCrop(g,'fondo-plaza',[28,2475,6917,297],0,y0-sh,W,sh);
 }
 /* Diseño C: foto completa con degradado y texto encima */
 async function photoCompleta(g,W,H,v,e,y0,topSafe,im){
-  const story=H>W*1.6, fullH=story?H:y0, ytxt=story?H*.885-W*.17-W*.015:y0;  // stories: la foto cubre todo el lienzo (sin azul liso abajo) y los logos van sobre el degradado
+  const story=H>W*1.6, fullH=story?H:y0, ytxt=story&&conPie(v)?H*.885-W*.17-W*.015:y0;   // sin pie, el degradado y el texto bajan hasta y0  // stories: la foto cubre todo el lienzo (sin azul liso abajo) y los logos van sobre el degradado
   cover(g,im,0,0,W,fullH,v._enc);
   const gr=g.createLinearGradient(0,fullH*.3,0,fullH);const col=e.dark;
   gr.addColorStop(0,col+'00');gr.addColorStop(.5,col+'b0');gr.addColorStop(1,col+'f5');g.fillStyle=gr;g.fillRect(0,fullH*.3,W,fullH*.7);
-  const wa=await aspect(e.wm), cw=W*.36, ch=cw/wa, pad=W*.025, cx=W*.05, cy=topSafe+W*.04;
-  g.fillStyle=e.chip;rrect(g,cx,cy,cw+pad*2,ch+pad*2,W*.02);g.fill();await drawSvg(g,e.wm,cx+pad,cy+pad,cw,ch);
+  if(conPie(v)){const wa=await aspect(e.wm), cw=W*.36, ch=cw/wa, pad=W*.025, cx=W*.05, cy=topSafe+W*.04;
+  g.fillStyle=e.chip;rrect(g,cx,cy,cw+pad*2,ch+pad*2,W*.02);g.fill();await drawSvg(g,e.wm,cx+pad,cy+pad,cw,ch);}
   const bm=W*.06, mw=W-bm*2;
   const bl=[{t:v.kicker,w:600,s:W*.032,c:e.acento,up:true,gap:W*.012}];
   if(v.valor)bl.push({t:`${v.valor} ${v.etiqueta}`,w:800,s:W*.085,c:'#fff',lh:1.05,gap:W*.02});else bl.push({t:v.main,w:800,s:W*.085,c:'#fff',lh:1.05,gap:W*.02});
@@ -581,7 +589,7 @@ async function photoCompleta(g,W,H,v,e,y0,topSafe,im){
 const ESTILOS={circulo:photoCirculo,marco:photoMarco,completa:photoCompleta};
 async function photoPlate(g,W,H,v,e,y0,topSafe,fotoIdx,estilo){
   const im=await loadImg(v.fotos[fotoIdx%v.fotos.length]);
-  const k=(estilo&&estilo!=='sugerido')?estilo:window.__estiloSugerido(v,im);
+  const k=(estilo&&estilo!=='sugerido')?estilo:window.__estiloSugerido(v,im,esGen(v,fotoIdx));
   return await ESTILOS[k](g,W,H,v,e,y0,topSafe,im);
 }
 async function brandPlate(g,W,H,v,e,y0,topSafe,eje){
@@ -592,20 +600,23 @@ async function brandPlate(g,W,H,v,e,y0,topSafe,eje){
     if(v.sub)b.push({t:v.sub,w:600,s:W*.042,c:col3,gap:W*.012});
     if(v.extra)b.push({t:v.extra,w:600,s:W*.032,c:col3,op:.75});return b;};
   if(eje==='calle'){
-    const wa=await aspect(e.wm),ww=W*.36,wh=ww/wa,arcW=W*.42,arcH=arcW*520/1445;
-    const bh=topSafe+W*.045+wh+arcH+W*.025;
+    const wm=conPie(v),wa=await aspect(e.wm),ww=W*.36,wh=ww/wa,arcW=W*.42,arcH=arcW*520/1445;
+    const bh=wm?topSafe+W*.045+wh+arcH+W*.025:topSafe+W*.03+arcH;   // sin marcas: la banda queda solo con el arco y el título sube
     g.fillStyle='#fff';g.fillRect(0,0,W,y0);g.fillStyle=e.dark;g.fillRect(0,0,W,bh);
     await drawCrop(g,'fondo-calle',[3713,0,1956,680],W*.58,bh,W*.42,W*.42*680/1956);
     await drawCrop(g,'fondo-calle',[0,1729,1445,520],0,bh-arcH,arcW,arcH);
-    await drawSvg(g,e.wm,bm,topSafe+W*.045,ww,wh);
+    if(wm)await drawSvg(g,e.wm,bm,topSafe+W*.045,ww,wh);
     const top=bh+W*.05, lay=layout(g,blocks('#17233d','#bd1635','#17233d'),mw,y0-top-W*.04);
     drawLayout(g,lay,bm,top+(y0-top-W*.04-lay.tot)/2,'left',mw);
   } else if(eje==='accesible'){
-    const wa=await aspect(e.wm),ww=W*.60,wh=ww/wa;
-    const yh=topSafe>0?2*topSafe+wh:Math.max(W*1408/2835,wh+W*.09);const sc=yh/1408,iw=2835*sc; // stories: bloque simétrico, el logotipo queda centrado y fuera de la zona segura
+    const wm=conPie(v),wa=await aspect(e.wm),ww=W*.60,wh=ww/wa;
     g.fillStyle='#fff';g.fillRect(0,0,W,y0);
-    g.save();g.beginPath();g.rect(0,0,W,yh);g.clip();await drawCrop(g,'fondo-accesible',[0,0,2835,1408],(W-Math.max(iw,W))/2,0,Math.max(iw,W),yh);g.restore();
-    await drawSvg(g,e.wm,(W-ww)/2,(yh-wh)/2,ww,wh);
+    let yh;
+    if(wm){yh=topSafe>0?2*topSafe+wh:Math.max(W*1408/2835,wh+W*.09);const sc=yh/1408,iw=2835*sc; // stories: bloque simétrico, el logotipo queda centrado y fuera de la zona segura
+      g.save();g.beginPath();g.rect(0,0,W,yh);g.clip();await drawCrop(g,'fondo-accesible',[0,0,2835,1408],(W-Math.max(iw,W))/2,0,Math.max(iw,W),yh);g.restore();
+      await drawSvg(g,e.wm,(W-ww)/2,(yh-wh)/2,ww,wh);}
+    else{yh=topSafe+W*.2;const fh=W*1408/2835;   // sin marcas: una banda baja con el borde rayado (sin deformar el fondo) y el número sube
+      g.save();g.beginPath();g.rect(0,0,W,yh);g.clip();await drawCrop(g,'fondo-accesible',[0,0,2835,1408],0,Math.min(0,yh-fh),W,fh);g.restore();}
     const top=yh+W*.03,hh=y0-top-W*.03;
     const b=[];
     if(v.valor)b.push({t:v.valor,w:800,s:W*.27,c:'#09467f',lh:1,gap:W*.012});else b.push({t:v.main,w:800,s:W*.085,c:'#09467f',up:true,gap:W*.02});
@@ -617,13 +628,14 @@ async function brandPlate(g,W,H,v,e,y0,topSafe,eje){
     if(v.valor){g.font=`600 ${W*.05}px Poppins`;const tw=Math.min(mw,g.measureText(v.etiqueta).width+W*.1);g.fillStyle='#bedff7';rrect(g,(W-tw)/2,y,tw,pillH,W*.012);g.fill();g.fillStyle='#09467f';g.textAlign='center';g.fillText(v.etiqueta,W/2,y+pillH*.68);y+=pillH+W*.025;}
     drawLayout(g,lay1,bm,y,'center',mw);
   } else {
-    const wa=await aspect(e.wm),ww=W*.50,wh=ww/wa,gh=topSafe+wh+W*.09,sh=W*297/6917;
+    const wm=conPie(v),wa=await aspect(e.wm),ww=W*.50,wh=ww/wa,gh=wm?topSafe+wh+W*.09:topSafe+W*.16,sh=W*297/6917;   // sin marcas: banda baja, el título sube
     g.fillStyle='#fff';g.fillRect(0,0,W,y0);
     await drawCrop(g,'fondo-plaza',[5900,28,1000,700],W*.60,gh+W*.005,W*.40,W*.40*700/1000);
     g.fillStyle='#c6dfce';g.fillRect(0,0,W,gh);
     await drawCrop(g,'fondo-plaza',[150,220,560,520],W*.87,topSafe+W*.03,W*.10,W*.10*520/560);
-    await drawCrop(g,'fondo-plaza',[1440,2120,580,350],W*.74,gh-W*.17,W*.19,W*.19*350/580);
-    await drawSvg(g,e.wm,bm,topSafe+W*.075,ww,wh);
+    if(wm){await drawCrop(g,'fondo-plaza',[1440,2120,580,350],W*.74,gh-W*.17,W*.19,W*.19*350/580);
+    await drawSvg(g,e.wm,bm,topSafe+W*.075,ww,wh);}
+    else await drawCrop(g,'fondo-plaza',[1440,2120,580,350],W*.70,topSafe+W*.035,W*.15,W*.15*350/580);   // el banco se achica para entrar en la banda baja
     await drawCrop(g,'fondo-plaza',[28,2475,6917,297],0,y0-sh,W,sh);
     const top=gh+W*.05,hh=y0-sh-top-W*.03;
     const lay=layout(g,blocks('#09467f','#4da070','#17233d'),mw,hh);drawLayout(g,lay,bm,top+(hh-lay.tot)/2,'left',mw);
@@ -632,31 +644,39 @@ async function brandPlate(g,W,H,v,e,y0,topSafe,eje){
 async function renderPlaca(canvas,v,fmt,fotoIdx=0,estilo='sugerido'){
   await document.fonts.load('800 40px Poppins');await document.fonts.load('600 40px Poppins');
   const [W,H]=FMT[fmt],g=canvas.getContext('2d');canvas.width=W;canvas.height=H;
-  const story=fmt==='9x16',e=EJES[v.eje],topSafe=story?H*.14:0,y1=story?H*.885:H,y0=y1-W*.17;
+  // sin pie (conPie(v) falso): no hay franja ni logos y el contenido baja hasta y1 (en historias se mantiene el margen inferior de la zona segura)
+  const story=fmt==='9x16',e=EJES[v.eje],topSafe=story?H*.14:0,y1=story?H*.885:H,y0=conPie(v)?y1-W*.17:y1;
   g.fillStyle='#fff';g.fillRect(0,0,W,H);
   let full=false;
   if(v.fotos&&v.fotos.length&&estilo!=='sinfoto')full=(await photoPlate(g,W,H,v,e,y0,topSafe,fotoIdx,estilo))==='full';else await brandPlate(g,W,H,v,e,y0,topSafe,v.eje);
-  await footer(g,W,H,e,story,v.eje,full);
+  if(conPie(v))await footer(g,W,H,e,story,v.eje,full);
 }
-function descargar(canvas,nombre){canvas.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=nombre+'.png';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)},'image/png')}
+/* pie con marcas (franja, logos institucionales, cinta de accesible y wordmark del eje): se apaga por pieza con el tilde "Pie con marcas" (v._pie=false) */
+const conPie=v=>v._pie!==false;
+function descargar(canvas,nombre){try{canvas.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=nombre+'.png';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)},'image/png')}catch(e){alert('No se puede bajar esta placa con el tablero abierto como archivo local: el navegador bloquea las fotos sueltas de la galería. Abrilo desde el sitio publicado o con un servidor local.')}}
 async function copiar(txt,btn){try{await navigator.clipboard.writeText(txt)}catch{const t=document.createElement('textarea');t.value=txt;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove()}const o=btn.textContent;btn.textContent='¡Copiado!';btn.classList.add('ok');setTimeout(()=>{btn.textContent=o;btn.classList.remove('ok')},1200)}
 
 /* ---------- calidad de foto: el diseño "Sugerido" ---------- */
 const calCache=new Map();
 function medirFoto(im){ // nitidez (varianza del laplaciano sobre una miniatura) y resolución
   const w=320,h=Math.max(1,Math.round(w*im.naturalHeight/im.naturalWidth)),c=document.createElement('canvas');c.width=w;c.height=h;
-  const g=c.getContext('2d');g.drawImage(im,0,0,w,h);const d=g.getImageData(0,0,w,h).data,L=new Float32Array(w*h);
+  const g=c.getContext('2d');g.drawImage(im,0,0,w,h);let d;
+  try{d=g.getImageData(0,0,w,h).data}catch(e){return {nitidez:null,ancho:im.naturalWidth,alto:im.naturalHeight,vertical:im.naturalHeight>im.naturalWidth*1.1}} // archivo local: el navegador no deja leer los píxeles de una foto suelta
+  const L=new Float32Array(w*h);
   for(let i=0;i<w*h;i++)L[i]=.299*d[i*4]+.587*d[i*4+1]+.114*d[i*4+2];
   let s=0,s2=0,n=0;for(let y=1;y<h-1;y++)for(let x=1;x<w-1;x++){const i=y*w+x,v=4*L[i]-L[i-1]-L[i+1]-L[i-w]-L[i+w];s+=v;s2+=v*v;n++}
   const m=s/n;return {nitidez:s2/n-m*m,ancho:im.naturalWidth,alto:im.naturalHeight,vertical:im.naturalHeight>im.naturalWidth*1.1};
 }
-window.__estiloSugerido=(v,im)=>{
+window.__estiloSugerido=(v,im,gen)=>{ // gen: la foto es genérica de la galería (se saltea el umbral de resolución)
   const q=calCache.get(im.src)||calCache.set(im.src,medirFoto(im)).get(im.src);
-  const baja=Math.min(q.ancho,q.alto)<720||q.nitidez<UMBRAL_NITIDEZ;
+  const borrosa=q.nitidez!=null&&q.nitidez<UMBRAL_NITIDEZ;
+  const baja=gen?borrosa:(Math.min(q.ancho,q.alto)<720||borrosa);
   if(baja)return 'circulo';                 // chica o pixelada: recortada en círculo disimula la falta de definición
   if(q.vertical)return 'completa';          // vertical y nítida: a pantalla completa
+  if(gen)return ['completa','marco'][hash(v.id||'')%2]; // genérica horizontal y nítida: Foto completa o Marco
   return ['completa','marco','circulo'][hash(v.id||'')%3]; // horizontal y nítida: variedad
 };
+const esGen=(v,i)=>{const x=(v._items||[])[v.fotos&&v.fotos.length?i%v.fotos.length:0];return !!x&&x.origen==='galeria'};
 
 /* ---------- históricos y contenidos periódicos ---------- */
 const HIST=(DATA.hist||[]).slice().sort((a,b)=>a.fecha<b.fecha?-1:1);
@@ -762,14 +782,50 @@ const smsDePlaca=gx=>{const v=gx.placa||{},low=t=>t?t[0].toLowerCase()+t.slice(1
 const FOTO_KEY='gc_obras_fotos'; let FOTOS={}; try{FOTOS=JSON.parse(localStorage.getItem(FOTO_KEY)||'{}')}catch(e){}
 const guardarFotos=()=>{try{localStorage.setItem(FOTO_KEY,JSON.stringify(FOTOS));return true}catch(e){return false}};
 const reducirFoto=file=>new Promise((res,rej)=>{const fr=new FileReader();fr.onerror=rej;fr.onload=()=>{const i=new Image();i.onerror=rej;i.onload=()=>{const M=1600,k=Math.min(1,M/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=Math.round(i.width*k);c.height=Math.round(i.height*k);c.getContext('2d').drawImage(i,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.85))};i.src=fr.result};fr.readAsDataURL(file)});
-// las fotos de la placa: la propia (si hay) primero, después las del parte
-const fotosDe=(id,base)=>{const f=FOTOS[id];return f&&f.data?[f.data,...(base||[])]:(base||[])};
+// las fotos de la placa, en este orden: la propia (si hay), las del parte y las genéricas de la galería del rubro (origen 'galeria')
+// k = clave del encuadre guardado: 'propia', 'p0', 'p1'… (parte) y 'g:<archivo>' (galería)
+const galDe=r=>(r&&GAL[r])||[];
+const fotosDe=(id,base,rubro)=>{const f=FOTOS[id];return [...(f&&f.data?[{src:f.data,origen:'propia',k:'propia'}]:[]),
+  ...(base||[]).map((src,i)=>({src,origen:'parte',k:'p'+i,n:i+1})),...galDe(rubro).map(g=>({src:g.src,origen:'galeria',k:'g:'+g.nombre,nombre:g.nombre}))]};
+// foto inicial: la propia o la del parte; si no hay ninguna, una genérica que rota por id de obra (para que no se repita en todas)
+// foto inicial: una genérica elegida a mano (guardada en el navegador) manda; si no, la propia o la del parte; si no hay ninguna, una genérica que rota por id
+// rotación de genéricas: las obras de un rubro sin foto del parte, en el orden en que salen en el tablero (toda la ciudad, hoy; después las que
+// solo están en la semana), toman la genérica 1, 2, 3… y vuelven a empezar. Es fija por obra: no cambia con filtros, zona ni período.
+let _rot=null;
+function rotacion(){ if(_rot)return _rot; _rot={};const n={},
+  ord=(a,b)=>(parseInt(a.circuito)-parseInt(b.circuito))||String(a.circuito).localeCompare(String(b.circuito))||(b.grupo?1:0)-(a.grupo?1:0)||TIPO_ORDEN.indexOf(a.tipo)-TIPO_ORDEN.indexOf(b.tipo);
+  const hoy=reales.concat(obras.filter(o=>o.grupo)).sort(ord), ids=new Set(hoy.map(o=>o.id));
+  const sem=obrasSemana().filter(o=>!ids.has(o.id)).sort((a,b)=>(b.dias||0)-(a.dias||0)||(b.grupo?1:0)-(a.grupo?1:0)||ordSecc(a.circuito,b.circuito)||TIPO_ORDEN.indexOf(a.tipo)-TIPO_ORDEN.indexOf(b.tipo));
+  hoy.concat(sem).forEach(o=>{if(!o.fotos.length&&!(o.id in _rot)){_rot[o.id]=n[o.tipo]||0;n[o.tipo]=(n[o.tipo]||0)+1}});
+  return _rot;}
+// genéricas nítidas de un rubro, medidas en el navegador con la misma función que el Sugerido (nitidez >= UMBRAL_NITIDEZ).
+// Las borrosas quedan fuera de la rotación automática si hay al menos una nítida; siguen en la tira para elegir a mano.
+// Si no se puede medir (tablero abierto como archivo local), cuentan como nítidas.
+const _nit={};
+const galNitidas=r=>_nit[r]??=Promise.all(galDe(r).map(g=>loadImg(g.src).then(im=>{const q=calCache.get(im.src)||calCache.set(im.src,medirFoto(im)).get(im.src);return q.nitidez==null||q.nitidez>=UMBRAL_NITIDEZ?g.nombre:null}).catch(()=>g.nombre))).then(a=>new Set(a.filter(Boolean)));
+// foto inicial: una genérica elegida a mano (guardada en el navegador) manda; si no, la propia o la del parte; si no hay ninguna, la genérica que le toca en la rotación
+const fotoInicial=(id,items,nitidas)=>{const g=(FOTOS[id]||{}).gal,k=g?items.findIndex(x=>x.origen==='galeria'&&x.nombre===g):-1;
+  if(k>=0)return k; if(items.some(x=>x.origen!=='galeria'))return 0; if(!items.length)return 0;
+  const gen=items.map((x,i)=>[x,i]).filter(([x])=>x.origen==='galeria'), nit=nitidas?gen.filter(([x])=>nitidas.has(x.nombre)):gen, pool=nit.length?nit:gen;
+  const r=rotacion()[id];return pool[(r!=null?r:hash(id||''))%pool.length][1]};   // las piezas por tipo (no son obras) rotan por id
+const rubroTxt=r=>RUBRO_TXT[r]||(TIPOS[r]?TIPOS[r].label.toLowerCase():r);
+const EJE_COLOR={calle:'#17233d',accesible:'#eaab3b',plaza:'#4da070'};
+// piezas por tipo (generales y periódicos): usan la galería de su rubro
+const rubroPieza=id=>/(^g_plazas$|_plazas$)/.test(id)?'plaza':/(^g_accesible$|_rampas$)/.test(id)?'rampas':/(^g_cuadras$|_pav$)/.test(id)?'pav':null;
+const tagFoto=(conFoto,rubro)=>conFoto?['foto','Con foto']:galDe(rubro).length?['generica','Foto genérica']:['sinfoto','Sin foto'];
 /* ---------- UI ---------- */const ESTILOS_UI=[['sugerido','Sugerido'],['circulo','Círculo'],['marco','Marco'],['completa','Foto completa'],['sinfoto','Sin foto']];
+// tilde "Pie con marcas" (encendido por defecto): apagado, la placa sale sin franja, logos, cinta ni wordmark del eje
+const pieHTML=v=>`<label class="pie"><input type="checkbox" data-pie ${conPie(v)?'checked':''}> Pie con marcas</label>`;
 const placaHTML=(id,v,st)=>{const propia=!!(FOTOS[id]&&FOTOS[id].data), nf=(v.fotos||[]).length, est=(st&&st.estilo)||'sugerido', fi=(st&&st.foto)||0;
- return `<div class="placa-ui"><div class="fmts">${Object.entries(FMT).map(([k,f])=>`<div class="fmt"><div class="lbl">${f[2]}</div><canvas data-fmt="${k}" class="${nf&&est!=='sinfoto'?'movible':''}"></canvas><div class="btns" style="justify-content:center"><button class="btn" data-dl="${k}">Bajar PNG</button></div></div>`).join('')}</div>
+ const items=(st&&st.items)||[], cur=items[fi], mini=(x,i,l)=>`<button class="mb ${i===fi?'on':''}" data-foto="${i}" title="${esc(x.nombre||l)}" aria-label="${esc(l)}"><img src="${x.src}" alt="">${l?esc(l):''}</button>`;
+ const propias=items.map((x,i)=>[x,i]).filter(([x])=>x.origen!=='galeria'), gen=items.map((x,i)=>[x,i]).filter(([x])=>x.origen==='galeria');
+ return `<div class="placa-ui" style="--eje:${EJE_COLOR[v.eje]||EJE_COLOR.calle}"><div class="fmts">${Object.entries(FMT).map(([k,f])=>`<div class="fmt"><div class="lbl">${f[2]}</div><canvas data-fmt="${k}" class="${nf&&est!=='sinfoto'?'movible':''}"></canvas><div class="btns" style="justify-content:center"><button class="btn" data-dl="${k}">Bajar PNG</button></div></div>`).join('')}</div>
+ ${cur&&cur.origen==='galeria'&&est!=='sinfoto'?'<div class="fotosel"><span class="genaviso">Foto genérica del tipo de obra. Podés elegir otra o subir la tuya</span></div>':''}
+ ${conPie(v)?'':'<div class="fotosel"><span class="genaviso">Sin marcas: revisá que la foto tampoco tenga cartel institucional</span></div>'}
  <div class="btns"><button class="btn sec" data-dlall>Bajar las 3 placas</button></div>
- ${nf?`<div class="fotosel">Diseño: ${ESTILOS_UI.map(([k,l])=>`<button class="btn ${k===est?'':'sec'}" data-estilo="${k}">${l}</button>`).join('')}</div><div class="fotosel" data-sug></div>`:''}
- ${nf>1?`<div class="fotosel">Foto: ${v.fotos.map((_,i)=>`<button class="btn ${i===fi?'':'sec'}" data-foto="${i}">${propia&&i===0?'Propia':propia?i:i+1}</button>`).join('')}</div>`:''}
+ <div class="fotosel">${nf?`Diseño: ${ESTILOS_UI.map(([k,l])=>`<button class="btn ${k===est?'':'sec'}" data-estilo="${k}">${l}</button>`).join('')}`:''}${pieHTML(v)}</div>${nf?'<div class="fotosel" data-sug></div>':''}
+ ${propias.length?`<div class="fotosel">Foto: ${propias.map(([x,i])=>mini(x,i,x.origen==='propia'?'Propia':'Parte '+x.n)).join('')}</div>`:''}
+ ${gen.length?`<div class="fotosel gal"><span class="gt">Fotos genéricas de ${esc(rubroTxt(v._rubro))}</span>${gen.map(([x,i],j)=>mini(x,i,'')).join('')}</div>`:''}
  <div class="fotosel">${propia?`<img class="mini" src="${FOTOS[id].data}" alt="">`:''}<label class="btn sec">${propia?'Cambiar foto propia':'Subir foto propia'}<input type="file" accept="image/*" data-subir></label>${propia?'<button class="btn sec" data-quitar>Quitar foto propia</button>':''}<span class="aviso" data-foto-aviso></span>
   ${nf&&est!=='sinfoto'?`<span class="enc">Encuadre: arrastrá la foto en la placa · zoom <input type="range" min="0.5" max="2.5" step="0.05" value="${(st&&st.enc&&st.enc.z)||1}" data-zoom> <span data-zoomv>${Math.round(((st&&st.enc&&st.enc.z)||1)*100)}%</span></span>`:''}</div></div>`};
 function txHTML(ig,x,pl,gac,titulos,sms){return `
@@ -779,31 +835,38 @@ function txHTML(ig,x,pl,gac,titulos,sms){return `
  ${sms!=null?`<div class="tx"><div class="row"><label>Texto para SMS <span class="n" data-nsms></span></label><span><button class="btn sec" data-tildes title="Algunos proveedores cuentan 70 caracteres si el texto lleva tildes">Sin tildes</button> <button class="btn" data-copy="sms">Copiar</button></span></div><textarea data-t="sms" rows="3">${esc(sms)}</textarea><div class="n" style="font-size:11px;color:var(--muted);font-weight:600;margin-top:3px">Un solo mensaje: hasta ${SMS_MAX} caracteres, contando el marcador ${LINK} como un link corto de ${LINK_LEN}. Pegar el link recortado en lugar de ${LINK}.</div></div>`:''}
  <div class="tx"><div class="row"><label>Texto de la placa <span class="n">(editable: cambia la placa)</span></label><button class="btn" data-copy="pl">Copiar</button></div><textarea data-t="pl" rows="4">${esc(pl)}</textarea></div>${gac?`<div class="tx"><div class="row"><label>Gacetilla de prensa</label><button class="btn" data-copy="gac">Copiar</button></div><textarea data-t="gac" rows="16">${esc(gac)}</textarea></div>`:'' }`;}
 function wire(card,id,v){
-  const state={foto:0,estilo:'sugerido',done:false,base:(v.fotos||[]).slice()};
-  v.fotos=fotosDe(id,state.base);
-  // encuadre de la foto que se está usando (propia o del parte), guardado en el navegador
-  const fkey=()=>(FOTOS[id]&&FOTOS[id].data&&state.foto===0)?'propia':'p'+(state.foto-(FOTOS[id]&&FOTOS[id].data?1:0));
+  const state={foto:0,estilo:'sugerido',done:false,base:(v.fotos||[]).slice(),items:[]};
+  const armar=()=>{state.items=fotosDe(id,state.base,v._rubro);v._items=state.items;v.fotos=state.items.map(x=>x.src)};
+  armar();state.foto=fotoInicial(id,state.items);v._pie=!(FOTOS[id]&&FOTOS[id].sinPie);   // el tilde se guarda por pieza en el navegador, como el encuadre
+  const tagEl=card.querySelector(':scope > summary [data-ft]');
+  const retag=()=>{if(!tagEl)return;const [c,t]=tagFoto(state.base.length>0||!!(FOTOS[id]&&FOTOS[id].data),v._rubro);tagEl.className='tag '+c;tagEl.textContent=t};
+  const generica=()=>{const x=state.items[state.foto];return !!x&&x.origen==='galeria'&&state.estilo!=='sinfoto'};
+  // encuadre de la foto que se está usando (propia, del parte o genérica), guardado en el navegador por obra y por foto
+  const fkey=()=>(state.items[state.foto]||{k:'p0'}).k;
   const encDe=()=>((FOTOS[id]||{}).enc||{})[fkey()]||null;
   const draw=()=>{v._enc=encDe();card.querySelectorAll(':scope > .body > .grid canvas').forEach(c=>{c.classList.toggle('movible',!!(v.fotos&&v.fotos.length)&&state.estilo!=='sinfoto');renderPlaca(c,v,c.dataset.fmt,state.foto,state.estilo)})};
   let sug=card.querySelector('[data-sug]');
   const refrescarUI=()=>{const box=card.querySelector(':scope > .body > .grid .placa-ui');if(!box)return;state.enc=encDe();box.outerHTML=placaHTML(id,v,state);sug=card.querySelector('[data-sug]');draw();mostrarSug()};
   const grid=card.querySelector(':scope > .body > .grid');
   grid.addEventListener('change',async ev=>{const inp=ev.target;
-    if(inp.dataset.subir!==undefined&&inp.files&&inp.files[0]){try{const data=await reducirFoto(inp.files[0]);FOTOS[id]=Object.assign({},FOTOS[id]||{},{data});delete (FOTOS[id].enc||{}).propia;const ok=guardarFotos();v.fotos=fotosDe(id,state.base);state.foto=0;if(state.estilo==='sinfoto')state.estilo='sugerido';refrescarUI();if(!ok)card.querySelector('[data-foto-aviso]').textContent='La foto se usa ahora pero no entró en la memoria del navegador (hay muchas guardadas): quitá otras.'}catch(e){card.querySelector('[data-foto-aviso]').textContent='No se pudo leer la imagen.'}}
-    else if(inp.dataset.zoom!==undefined)guardarFotos()});
+    if(inp.dataset.subir!==undefined&&inp.files&&inp.files[0]){try{const data=await reducirFoto(inp.files[0]);FOTOS[id]=Object.assign({},FOTOS[id]||{},{data});delete (FOTOS[id].enc||{}).propia;delete FOTOS[id].gal;const ok=guardarFotos();armar();state.foto=0;if(state.estilo==='sinfoto')state.estilo='sugerido';refrescarUI();retag();if(!ok)card.querySelector('[data-foto-aviso]').textContent='La foto se usa ahora pero no entró en la memoria del navegador (hay muchas guardadas): quitá otras.'}catch(e){card.querySelector('[data-foto-aviso]').textContent='No se pudo leer la imagen.'}}
+    else if(inp.dataset.zoom!==undefined)guardarFotos()
+    else if(inp.dataset.pie!==undefined){v._pie=inp.checked;if(inp.checked){if(FOTOS[id])delete FOTOS[id].sinPie}else (FOTOS[id]??={}).sinPie=true;guardarFotos();refrescarUI()}});
   grid.addEventListener('input',ev=>{if(ev.target.dataset.zoom===undefined)return;const zv=card.querySelector('[data-zoomv]');if(zv)zv.textContent=Math.round(ev.target.value*100)+'%';const f=FOTOS[id]??={};(f.enc??={})[fkey()]=Object.assign({},f.enc[fkey()]||{},{z:+ev.target.value});if(!state._raf){state._raf=requestAnimationFrame(()=>{state._raf=null;draw()})}});
   let arr=null;const fmts=()=>card.querySelector(':scope > .body > .grid .fmts');
   grid.addEventListener('pointerdown',ev=>{const c=ev.target.closest('canvas');if(!c||!c.classList.contains('movible')||c.closest('.fmts')!==fmts())return;const e=encDe()||{};const r=c.getBoundingClientRect();arr={x:ev.clientX,y:ev.clientY,fx:e.fx??.5,fy:e.fy??.5,w:r.width,h:r.height};c.setPointerCapture(ev.pointerId);ev.preventDefault()});
   grid.addEventListener('pointermove',ev=>{if(!arr)return;const f=FOTOS[id]??={};const o=(f.enc??={})[fkey()]=Object.assign({},f.enc[fkey()]||{});o.fx=Math.min(1,Math.max(0,arr.fx-(ev.clientX-arr.x)/arr.w*1.2));o.fy=Math.min(1,Math.max(0,arr.fy-(ev.clientY-arr.y)/arr.h*1.2));if(!state._raf){state._raf=requestAnimationFrame(()=>{state._raf=null;draw()})}});
   const finArr=()=>{if(arr){arr=null;guardarFotos()}};grid.addEventListener('pointerup',finArr);grid.addEventListener('pointercancel',finArr);
-  const mostrarSug=async()=>{if(!sug)return;const im=await loadImg(v.fotos[state.foto%v.fotos.length]);const q=calCache.get(im.src)||calCache.set(im.src,medirFoto(im)).get(im.src);const k=window.__estiloSugerido(v,im);
-    sug.textContent=`Sugerido: ${{circulo:'Círculo',marco:'Marco',completa:'Foto completa'}[k]} · foto de ${q.ancho}×${q.alto}px, ${q.vertical?'vertical':'horizontal'}, nitidez ${Math.round(q.nitidez)}`;};
-  card.addEventListener('toggle',()=>{if(card.open&&!state.done){state.done=true;draw();mostrarSug()}});
+  const mostrarSug=async()=>{if(!sug)return;const im=await loadImg(v.fotos[state.foto%v.fotos.length]);const q=calCache.get(im.src)||calCache.set(im.src,medirFoto(im)).get(im.src);const k=window.__estiloSugerido(v,im,esGen(v,state.foto));
+    sug.textContent=`Sugerido: ${{circulo:'Círculo',marco:'Marco',completa:'Foto completa'}[k]} · foto de ${q.ancho}×${q.alto}px, ${q.vertical?'vertical':'horizontal'}, ${q.nitidez==null?'nitidez no medible (archivo local)':'nitidez '+Math.round(q.nitidez)}${esGen(v,state.foto)?' · genérica':''}`;};
+  card.addEventListener('toggle',async()=>{if(card.open&&!state.done){state.done=true;   // las miniaturas se arman al abrir la tarjeta
+    if(galDe(v._rubro).length){state.nit=await galNitidas(v._rubro);state.foto=fotoInicial(id,state.items,state.nit)}refrescarUI()}});
   card.addEventListener('click',ev=>{const b=ev.target.closest('button');if(!b)return;
-    if(b.dataset.dl){const c=card.querySelector(`canvas[data-fmt="${b.dataset.dl}"]`);descargar(c,`${id}_${b.dataset.dl}`)}
-    else if(b.dataset.dlall){[...card.querySelectorAll('canvas')].forEach((c,i)=>setTimeout(()=>descargar(c,`${id}_${c.dataset.fmt}`),i*400))}
-    else if(b.dataset.quitar!==undefined){if(FOTOS[id]){delete FOTOS[id].data;delete (FOTOS[id].enc||{}).propia}guardarFotos();v.fotos=fotosDe(id,state.base);state.foto=0;refrescarUI()}
-    else if(b.dataset.foto!==undefined){state.foto=+b.dataset.foto;refrescarUI()}
+    if(b.dataset.dl){const c=card.querySelector(`canvas[data-fmt="${b.dataset.dl}"]`);descargar(c,`${id}_${b.dataset.dl}${generica()?'_generica':''}${conPie(v)?'':'_sinmarca'}`)}
+    else if(b.dataset.dlall){[...card.querySelectorAll('canvas')].forEach((c,i)=>setTimeout(()=>descargar(c,`${id}_${c.dataset.fmt}${generica()?'_generica':''}${conPie(v)?'':'_sinmarca'}`),i*400))}
+    else if(b.dataset.quitar!==undefined){if(FOTOS[id]){delete FOTOS[id].data;delete (FOTOS[id].enc||{}).propia}guardarFotos();armar();state.foto=fotoInicial(id,state.items,state.nit);refrescarUI();retag()}
+    else if(b.dataset.foto!==undefined){state.foto=+b.dataset.foto;const x=state.items[state.foto];   // la genérica elegida a mano se recuerda por obra, como el encuadre
+      if(x&&x.origen==='galeria')(FOTOS[id]??={}).gal=x.nombre;else if(FOTOS[id])delete FOTOS[id].gal;guardarFotos();refrescarUI()}
     else if(b.dataset.estilo){state.estilo=b.dataset.estilo;refrescarUI()}
     else if(b.dataset.copytxt!==undefined){copiar(b.dataset.copytxt,b)}
     else if(b.dataset.copy){copiar(card.querySelector(`textarea[data-t="${b.dataset.copy}"]`).value,b)}});
@@ -814,11 +877,12 @@ function wire(card,id,v){
   const pl=card.querySelector('textarea[data-t="pl"]');let tm;pl.addEventListener('input',()=>{leerPlaca(v,pl.value);clearTimeout(tm);tm=setTimeout(draw,350)});  // el texto editado se refleja en la placa
 }
 function obraCard(o,ult){ // ult: fecha del último parte en que apareció (vista semanal)
-  const v=placaDe(o),e=EJES[o.eje];
+  const v=placaDe(o),e=EJES[o.eje];v._rubro=o.tipo;
+  const [tc,tt]=tagFoto(o.fotos.length>0||!!(FOTOS[o.id]&&FOTOS[o.id].data),o.tipo);   // el filtro Con foto / Sin foto sigue contando solo la foto del parte
   const el=document.createElement('details');el.className='card e-'+o.eje;
   const tit=o.tipo==='plaza'?o.via:(o.via||o.sector)+(o.entre?` · entre ${o.entre}`:'');
   el.innerHTML=`<summary><div class="tt"><b>${esc(tit)}</b><span>${esc(TIPOS[o.tipo].label)}${bar(o)?' · Barrio '+esc(bar(o)):''}${o.tipo==='rampas'&&!o.grupo?` · ${o.rampas} ${o.rampas===1?'rampa':'rampas'}`:''}${o.grupo?` · grupo de ${esq(o)} esquinas, ${o.rampas} rampas`:''}</span></div>
-   ${o.grupo?'<span class="tag grupo">Grupo</span>':''}${o.dias!=null&&S.per==='semana'?`<span class="tag dias">en ${o.dias} de ${o.k} partes${ult?' · último '+ddmm(ult):''}</span><span class="tag circ">${esc(o.circuito)}</span>`:''}<span class="tag ${o.fotos.length?'foto':'sinfoto'}">${o.fotos.length?'Con foto':'Sin foto'}</span><span class="tag ${o.eje}">${esc(e.nombre.split(' – ')[0])}</span></summary>
+   ${o.grupo?'<span class="tag grupo">Grupo</span>':''}${o.dias!=null&&S.per==='semana'?`<span class="tag dias">en ${o.dias} de ${o.k} partes${ult?' · último '+ddmm(ult):''}</span><span class="tag circ">${esc(o.circuito)}</span>`:''}<span class="tag ${tc}" data-ft>${tt}</span><span class="tag ${o.eje}">${esc(e.nombre.split(' – ')[0])}</span></summary>
    <div class="body"><div class="grid"><div>${placaHTML(o.id,v)}</div><div>${txHTML(textoIG(o),textoX(o),textoPlaca(v),null,null,textoSMS(o))}</div></div>
    <div class="meta">Parte: circuito ${esc(o.circuito)}${o.circNombre?' · '+esc(o.circNombre):''} · ${o.driveUrl?`<a href="${esc(o.driveUrl)}" target="_blank" rel="noopener">Doc/archivo en Drive</a>`:'sin link de Drive'}</div>
    ${o.docTxt?`<details class="doc"><summary>Texto original del doc</summary><pre>${esc(o.docTxt)}</pre></details>`:''}</div>`;
@@ -848,7 +912,7 @@ function renderObras(root){
     else if(ev.target.id==='abrir'){const abrir=!cards().every(c=>c.open);cards().forEach(c=>{c.open=abrir});rotular()}};
 }
 function tarjetaContenido(gx,rotulo){
-  const el=document.createElement('details');el.className='card e-'+gx.eje;
+  const el=document.createElement('details');el.className='card e-'+gx.eje;gx.placa._rubro=rubroPieza(gx.id);
   el.innerHTML=`<summary><div class="tt"><b>${esc(gx.titulo)}</b><span>${esc(gx.placa.valor||'')} ${esc(gx.placa.etiqueta||'')}</span></div><span class="tag ${gx.eje}">${rotulo}</span></summary>
    <div class="body"><div class="grid"><div>${placaHTML(gx.id,gx.placa)}</div><div>${txHTML(gx.ig,gx.x,textoPlaca(gx.placa),gx.gac,gx.titulos,gx.sms!=null?gx.sms:smsDePlaca(gx))}</div></div></div>`;
   wire(el,gx.id,gx.placa);return el;
@@ -898,13 +962,16 @@ function renderCalidad(root){
     [`SMS de un solo mensaje (hasta ${SMS_MAX} caracteres, con link corto de ${LINK_LEN})`,SMS.filter(([,t])=>smsLen(t)>SMS_MAX).map(([n])=>n)],
     ['SMS: dice qué se hace antes del link y termina con el link',SMS.filter(([,t])=>!/\S.*\. Más info: \[link\]$/.test(t)).map(([n])=>n)],
 ['No menciona montos ni signos de pesos',test(/\$|presupuesto|monto/i)],['No usa barras “/” (salvo en links)',T.filter(([,t])=>/\//.test(t.replace(/https?:\/\/\S+/g,''))).map(([n])=>n)],['No menciona asistencia social en textos de obras',test(/asistencia social/i)],['Las piezas generales y periódicas no repiten la misma frase larga',(()=>{const c={};T.filter(([n])=>/^(g_|p_)/.test(n)&&!/· X$/.test(n)&&!/· placa$/.test(n)).forEach(([n,t])=>new Set(t.split(/(?<=[.!?])\s+/).filter(s=>s.length>70)).forEach(s=>{(c[s]=c[s]||[]).push(n.split(' ')[0])}));return Object.entries(c).filter(([,v])=>v.length>2).map(([s,v])=>s.slice(0,40)+'… ('+v.length+' piezas)')})()],['Los textos de X no superan 280 caracteres',T.filter(([n,t])=>/· X$/.test(n)&&t.length>280).map(([n])=>n)],['Los textos de X no terminan cortados (…)',T.filter(([n,t])=>/· X$/.test(n)&&/…/.test(t)).map(([n])=>n)],['Las obras con barrio lo nombran con la palabra “Barrio”',reales.filter(o=>bar(o)&&!new RegExp('Barrio '+bar(o).replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).test(textoIG(o))&&o.tipo!=='rampas').map(o=>o.id)]];
-  const sf=reales.filter(o=>!o.fotos.length), sd=reales.filter(o=>!o.docTxt), sm=reales.filter(o=>!['rampas','plaza'].includes(o.tipo)&&!o.m.m2&&!o.m.ml&&!o.m.cuadras), sb=reales.filter(o=>!bar(o));
+  const sf=reales.filter(o=>!o.fotos.length&&!galDe(o.tipo).length), sg=reales.filter(o=>!o.fotos.length&&galDe(o.tipo).length), sd=reales.filter(o=>!o.docTxt), sm=reales.filter(o=>!['rampas','plaza'].includes(o.tipo)&&!o.m.m2&&!o.m.ml&&!o.m.cuadras), sb=reales.filter(o=>!bar(o));
   const nm=o=>esc((o.via||o.sector)+(o.entre?` (${o.entre})`:''));
   const L=(t,a,hint)=>`<div class="list"><h3>${t} <small>(${a.length})</small></h3>${hint?`<div class="hint">${hint}</div>`:''}<ul>${a.map(x=>`<li>${x}</li>`).join('')||'<li>Nada pendiente</li>'}</ul></div>`;
   root.innerHTML=`<div class="note gris">Chequeo automático de los textos publicables y datos que faltan. No se rellena ningún dato: lo que falta queda fuera del texto.</div>
    <div class="list gris"><h3>Reglas de redacción</h3><ul>${reglas.map(([n,bad])=>`<li>${bad.length?'✖':'✔'} ${n}${bad.length?` — <b>${bad.length}</b> casos: ${esc(bad.slice(0,4).join(', '))}${bad.length>4?'…':''}`:''}</li>`).join('')}</ul><div class="hint">${T.length} textos revisados.</div></div>
    ${L('Avisos y contradicciones (parte vs. docs)',P.avisos.map(esc))}
    ${L('Obras sin foto (placa solo texto)',sf.map(nm),'Soltá la foto como <code>entrada/'+P.fecha+'/fotos/&lt;id-obra&gt;.jpg</code> o agregá el link de Drive en el parte.')}
+   ${sg.length?L('Obras sin foto del parte (salen con foto genérica)',sg.map(nm),'Su rubro tiene galería. Para usar la foto real, soltala como <code>entrada/'+P.fecha+'/fotos/&lt;id-obra&gt;.jpg</code> o agregá el link de Drive en el parte.'):''}
+   <div class="list"><h3>Pie con marcas</h3><div class="hint">El tilde “Pie con marcas” se guarda por pieza en este navegador.</div><ul><li>Piezas con pie apagado: ${Object.values(FOTOS).filter(f=>f&&f.sinPie).length}</li></ul></div>
+   <div class="list"><h3>Galería de fotos genéricas</h3><div class="hint">Las fotos van en <code>assets/galeria/&lt;rubro&gt;/</code> y entran al volver a correr el build.</div><ul><li>Rubros sin galería: ${esc(lista(TIPO_ORDEN.filter(t=>!galDe(t).length).map(t=>TIPOS[t].label))||'ninguno')}</li></ul></div>
    ${L('Obras sin texto de Drive',sd.map(nm))}
    ${L('Obras sin magnitud (m², cuadras o metros)',sm.map(nm),'Con un dato de magnitud el texto y la placa ganan una cifra concreta.')}
    ${L('Obras sin barrio informado',sb.map(nm),'Se nombran por calle o esquina; si el parte trae el barrio, se usa siempre.')}`;
