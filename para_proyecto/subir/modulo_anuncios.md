@@ -59,8 +59,7 @@ Los dos tableros se enlazan desde la cabecera: "Obras" (`index.html`) y "Anuncio
 - Catalina: reemplazar `assets/galeria/rampas/2.png` por una foto nítida (hoy queda fuera de la rotación automática por borrosa).
 - Fotos de placas: hoy viven solo en el navegador de quien las subió. Si hace falta compartirlas, definir con el equipo una carpeta `entrada/anuncios/<fecha>/fotos/<id de pieza>.jpg` que el build incorpore.
 - Pasar el repo de GitHub a privado (quedó público por decisión del equipo el 30/10).
-- Redactar los 1.835 cumplidos y en ejecución del resto de los departamentos. Hoy esos llevan la placa automática y explican los ✖ del Chequeo (94 con montos, 469 SMS genéricos, 4 de la meta 1659 en marcha que dice "cumplido"); ninguno es de Capital, Río Cuarto ni San Justo.
-- Revisar las 86 metas con "duda" de los tres departamentos redactados (estado contra etiqueta, posibles duplicados, fondos sin destino) y marcar `revisado: true` lo aprobado.
+- Resolver las 320 metas con "duda" (lista en `dudas_anuncios_2026-11-11.csv`: duplicados, estado contra etiqueta, destinos imprecisos, metas provinciales generales) y marcar `revisado: true` lo aprobado.
 - Confirmar en Vercel que el despliegue quedó Ready y que `/anuncios.html` pide usuario y clave (desde esta sesión no se llega a vercel.app ni a la cuenta del proyecto).
 
 ## Traspaso · primera versión del módulo (30/10)
@@ -124,3 +123,16 @@ Los dos tableros se enlazan desde la cabecera: "Obras" (`index.html`) y "Anuncio
 - Verificado: build de 30/10 sin cambios de datos (solo paleta y pie); sintaxis JS ok. Sin pruebas en navegador, a pedido del equipo.
 - Estado: a main a pedido del equipo (subida web, porque los tableros superan lo que se puede empujar desde la sesión).
 - Dudas: siguiente tarea, redacción de los 1.835 restantes con el estilo nuevo (primera persona del plural, verbo adelante); la API no anduvo la última vez.
+
+## Traspaso · redacción con estilo nuevo: muestra y Marcos Juárez (11/11)
+- Hecho: estilo aprobado por el equipo para la placa (primera persona del plural, verbo adelante; aportes con "Acompañamos" o "Financiamos" y el destino; en trámite y convenio con "Gestionamos" o "Firmamos el convenio"), titular con sujeto explícito. Redactados 177 textos (`modelo: "claude-chat"`): muestra de 30 de varios departamentos y los 147 de Marcos Juárez; 20 con duda.
+- Archivos: data/anuncios_textos.json, deploy/anuncios.html, anuncios.html, este archivo.
+- Estado: build listo, a main con la subida web.
+- Quedan 1.658 por redactar. Orden: Río Segundo, Unión, Cruz del Eje y siguientes por cantidad; los 263 provinciales al final. Los 409 anteriores siguen con sustantivo adelante.
+
+## Traspaso · redacción completa de anuncios (11/11)
+- Hecho: los 2.244 cumplidos y en ejecución tienen texto. 1.835 nuevos con el estilo aprobado (`modelo: "claude-chat"`), 78 de ellos por plantilla en grupos repetidos (reconectadores, Fondo Ambiental, Plan de Gasificación, CDI, aportes por localidad visitada). Las 409 placas anteriores pasaron a verbo adelante; la versión vieja quedó en `placa_anterior`. Titulares y resúmenes anteriores sin cambios.
+- Validado por script: ninguna placa, titular ni resumen con montos, "millones", "/", "circuito", "seccional", "Llaryora" ni "gobernador"; placa de hasta 90 caracteres.
+- Archivos: data/anuncios_textos.json, deploy/anuncios.html, anuncios.html, este archivo.
+- Estado: build listo, sin probar en navegador (pedido del equipo); va a main con la subida web.
+- Dudas: 320 metas con duda en el csv, a resolver juntas.
