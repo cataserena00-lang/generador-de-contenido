@@ -2927,7 +2927,7 @@
   "2272": {
    "placa": "Licitamos repavimentación y cordón cuneta en Barrio Banda Norte",
    "titular": "La Provincia licita obras de repavimentación y cordón cuneta en barrio Banda Norte de Río Cuarto",
-   "resumen": "El acuerdo, suscripto en un encuentro con instituciones y comerciantes del barrio Banda Norte, contempla repavimentación, reparación de calles, nuevos frentes de cordón cuneta e infraestructura urbana. El municipio aporta hasta el 30 por ciento del monto de las obras.",
+   "resumen": "El acuerdo, firmado con instituciones y comerciantes de Barrio Banda Norte, contempla repavimentación, reparación de calles, nuevos frentes de cordón cuneta e infraestructura urbana, con aporte del municipio.",
    "duda": "",
    "modelo": "claude-code",
    "fecha": "2026-10-30",
@@ -3077,7 +3077,7 @@
   "2608": {
    "placa": "Licitamos repavimentación y cordón cuneta en Barrio Banda Norte",
    "titular": "La Provincia licita obras de repavimentación y cordón cuneta en barrio Banda Norte de Río Cuarto",
-   "resumen": "El acuerdo, suscripto en un encuentro con instituciones y comerciantes del barrio Banda Norte, contempla repavimentación, reparación de calles, nuevos frentes de cordón cuneta e infraestructura urbana. El municipio aporta hasta el 30 por ciento del monto de las obras.",
+   "resumen": "El acuerdo, firmado con instituciones y comerciantes de Barrio Banda Norte, contempla repavimentación, reparación de calles, nuevos frentes de cordón cuneta e infraestructura urbana, con aporte del municipio.",
    "duda": "Repite el acuerdo de la meta 2272 (REF2): confirmar si es otra etapa antes de publicar.",
    "modelo": "claude-code",
    "fecha": "2026-10-30",
@@ -3087,7 +3087,7 @@
   "2609": {
    "placa": "Licitamos repavimentación y cordón cuneta en Barrio Banda Norte",
    "titular": "La Provincia licita obras de repavimentación y cordón cuneta en barrio Banda Norte de Río Cuarto",
-   "resumen": "El acuerdo, suscripto en un encuentro con instituciones y comerciantes del barrio Banda Norte, contempla repavimentación, reparación de calles, nuevos frentes de cordón cuneta e infraestructura urbana. El municipio aporta hasta el 30 por ciento del monto de las obras.",
+   "resumen": "El acuerdo, firmado con instituciones y comerciantes de Barrio Banda Norte, contempla repavimentación, reparación de calles, nuevos frentes de cordón cuneta e infraestructura urbana, con aporte del municipio.",
    "duda": "Repite el acuerdo de la meta 2272 (REF3): confirmar si es otra etapa antes de publicar.",
    "modelo": "claude-code",
    "fecha": "2026-10-30",
@@ -4260,7 +4260,7 @@
    "placa": "Avanzamos con la terminación de unas 5.000 viviendas",
    "titular": "Córdoba avanza con la terminación de unas 5.000 viviendas en 2026",
    "resumen": "La Provincia avanza con la terminación de unas 5.000 viviendas durante 2026.",
-   "duda": "Meta anual con estado Pendiente y cifra aproximada: confirmar antes de publicar.",
+   "duda": "Meta anual con cifra aproximada (ahora En trámite): confirmar antes de publicar.",
    "modelo": "claude-chat",
    "fecha": "2026-11-11",
    "revisado": false
@@ -7353,9 +7353,9 @@
    "revisado": false
   },
   "2202": {
-   "placa": "Gestionamos obras de pavimento y agua potable",
-   "titular": "La Provincia gestiona fondos para pavimento y agua potable en Calchín Oeste",
-   "resumen": "Junto con el Ministerio de Cooperativas y Mutuales y la cooperativa local, los fondos están en trámite.",
+   "placa": "Financiamos obras de pavimento y agua potable",
+   "titular": "La Provincia entregó fondos para pavimento y agua potable en Calchín Oeste",
+   "resumen": "Junto con el Ministerio de Cooperativas y Mutuales y la cooperativa local, Calchín Oeste recibió fondos para pavimento y agua potable.",
    "duda": "",
    "modelo": "claude-chat",
    "fecha": "2026-11-11",
@@ -7515,10 +7515,10 @@
    "revisado": false
   },
   "2221": {
-   "placa": "Hormigonamos calles con la Cooperativa",
-   "titular": "La Provincia financió el hormigonado de calles de Impira con Obras por Cooperativas",
-   "resumen": "Con el programa Obras por Cooperativas, Impira ejecuta el hormigonado de calles.",
-   "duda": "",
+   "placa": "Gestionamos el hormigonado de calles con la Cooperativa",
+   "titular": "La Provincia gestiona el hormigonado de calles de Impira con Obras por Cooperativas",
+   "resumen": "El aporte del programa Obras por Cooperativas está en trámite.",
+   "duda": "La base pasó de Fondos entregados a En trámite.",
    "modelo": "claude-chat",
    "fecha": "2026-11-11",
    "revisado": false
@@ -10216,7 +10216,7 @@
   },
   "2193": {
    "placa": "Renovamos los baños del IPET 49",
-   "titular": "La Provincia entrega fondos para los baños del IPET 49 de Villa María",
+   "titular": "La Provincia entregó fondos para los baños del IPET 49 de Villa María",
    "resumen": "Los fondos refuncionalizan los baños de la Escuela del Trabajo.",
    "duda": "",
    "modelo": "claude-chat",
@@ -10225,7 +10225,7 @@
   },
   "2194": {
    "placa": "Pintamos el IPET 49",
-   "titular": "La Provincia entrega fondos para pintar el IPET 49 de Villa María",
+   "titular": "La Provincia entregó fondos para pintar el IPET 49 de Villa María",
    "resumen": "Los fondos financian trabajos de pintura en la Escuela del Trabajo.",
    "duda": "",
    "modelo": "claude-chat",
@@ -18524,7 +18524,7 @@
   "120": {
    "placa": "Ampliamos el Boleto Educativo y el Boleto Obrero Social",
    "titular": "Córdoba relanzó y amplió el BEC y el BOS",
-   "resumen": "Se triplicó el presupuesto de ambos programas.",
+   "resumen": "Ambos programas triplicaron sus recursos.",
    "duda": "",
    "modelo": "claude-chat",
    "fecha": "2026-11-11",
@@ -18576,8 +18576,8 @@
    "revisado": false
   },
   "152": {
-   "placa": "Aumentamos el presupuesto del PAICOR",
-   "titular": "Córdoba aumentó el presupuesto para las trabajadoras del PAICOR",
+   "placa": "Reforzamos el PAICOR y a sus trabajadoras",
+   "titular": "Córdoba reforzó el PAICOR con un aumento para sus trabajadoras",
    "resumen": "El aumento llegó hasta el 132 por ciento.",
    "duda": "",
    "modelo": "claude-chat",
@@ -18910,8 +18910,8 @@
   },
   "343": {
    "placa": "Entregamos juegos Montessori a las Salas Cuna",
-   "titular": "Córdoba entrega juegos Montessori a las Salas Cuna",
-   "resumen": "Las Salas Cuna reciben juegos Montessori.",
+   "titular": "Córdoba entregó juegos Montessori a las Salas Cuna",
+   "resumen": "Las Salas Cuna recibieron juegos Montessori.",
    "duda": "",
    "modelo": "claude-chat",
    "fecha": "2026-11-11",
@@ -18946,8 +18946,8 @@
   },
   "347": {
    "placa": "Entregamos material didáctico",
-   "titular": "Córdoba entrega material didáctico",
-   "resumen": "Las escuelas reciben material didáctico.",
+   "titular": "Córdoba entregó material didáctico",
+   "resumen": "Las escuelas recibieron material didáctico.",
    "duda": "No dice a quién.",
    "modelo": "claude-chat",
    "fecha": "2026-11-11",
@@ -19081,8 +19081,8 @@
   },
   "496": {
    "placa": "Duplicamos los créditos para emprendedores",
-   "titular": "Córdoba duplicó los montos de dos líneas de crédito",
-   "resumen": "Las líneas para emprendedores duplican sus montos.",
+   "titular": "Córdoba duplicó dos líneas de crédito para emprendedores",
+   "resumen": "Las líneas para emprendedores duplican lo que prestan.",
    "duda": "",
    "modelo": "claude-chat",
    "fecha": "2026-11-11",
@@ -19107,9 +19107,9 @@
    "revisado": false
   },
   "516": {
-   "placa": "Subimos el monto de los créditos hipotecarios",
+   "placa": "Ampliamos los créditos hipotecarios",
    "titular": "El Banco de Córdoba subió el tope de sus créditos hipotecarios",
-   "resumen": "El monto máximo de los préstamos aumentó.",
+   "resumen": "El tope de los préstamos aumentó.",
    "duda": "",
    "modelo": "claude-chat",
    "fecha": "2026-11-11",
@@ -19190,7 +19190,7 @@
   "569": {
    "placa": "Financiamos maquinaria para los consorcios camineros",
    "titular": "Córdoba prevé fondos para maquinaria de consorcios camineros",
-   "resumen": "Cada consorcio tiene una partida en el presupuesto.",
+   "resumen": "Cada consorcio tiene una partida prevista para renovar maquinaria.",
    "duda": "",
    "modelo": "claude-chat",
    "fecha": "2026-11-11",
@@ -19728,8 +19728,8 @@
    "revisado": false
   },
   "1344": {
-   "placa": "Duplicamos el presupuesto de innovación tecnológica",
-   "titular": "Córdoba duplicó el presupuesto de los proyectos de innovación",
+   "placa": "Duplicamos los recursos para innovación tecnológica",
+   "titular": "Córdoba duplicó los recursos para proyectos de innovación",
    "resumen": "Los proyectos de tecnología tienen más fondos.",
    "duda": "",
    "modelo": "claude-chat",
@@ -19883,7 +19883,7 @@
   "1424": {
    "placa": "Ampliamos el cupo de las leyes de promoción industrial",
    "titular": "Córdoba amplió el cupo de las leyes de promoción industrial",
-   "resumen": "El cupo presupuestario crece.",
+   "resumen": "El cupo de beneficios crece.",
    "duda": "",
    "modelo": "claude-chat",
    "fecha": "2026-11-11",
@@ -19991,7 +19991,7 @@
   "1635": {
    "placa": "Impulsamos más rebajas impositivas",
    "titular": "Córdoba prevé más rebajas impositivas para 2027",
-   "resumen": "El presupuesto 2027 contempla nuevas rebajas.",
+   "resumen": "Las cuentas de 2027 contemplan nuevas rebajas.",
    "duda": "Anuncio a futuro.",
    "modelo": "claude-chat",
    "fecha": "2026-11-11",
@@ -20108,7 +20108,7 @@
   "1648": {
    "placa": "Integramos el Fondo de Inclusión para personas con discapacidad",
    "titular": "Córdoba integró el Fondo de Inclusión para la discapacidad",
-   "resumen": "El fondo tiene presupuesto asignado.",
+   "resumen": "El fondo tiene recursos asignados.",
    "duda": "Posible duplicado con la meta 1749.",
    "modelo": "claude-chat",
    "fecha": "2026-11-11",
@@ -20217,7 +20217,7 @@
    "placa": "Sumamos el Programa Oficio 2026",
    "titular": "Córdoba suma el Programa Oficio 2026",
    "resumen": "La capacitación da salida laboral en seis meses.",
-   "duda": "Etiqueta Pendiente.",
+   "duda": "",
    "modelo": "claude-chat",
    "fecha": "2026-11-11",
    "revisado": false
@@ -20610,8 +20610,8 @@
    "revisado": false
   },
   "2575": {
-   "placa": "Reconocemos al nivel secundario por sus resultados",
-   "titular": "Córdoba reconoce al nivel secundario por sus resultados",
+   "placa": "Reconocimos al nivel secundario por sus resultados",
+   "titular": "Córdoba reconoció al nivel secundario por sus resultados",
    "resumen": "El reconocimiento sigue a los de inicial y primario.",
    "duda": "",
    "modelo": "claude-chat",
@@ -20622,6 +20622,447 @@
    "placa": "Abrimos financiamiento para emprendedores",
    "titular": "Córdoba abrió una convocatoria de financiamiento para emprendedores",
    "resumen": "La convocatoria financia a emprendedores cordobeses.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "1748": {
+   "placa": "Financiamos el 100 % del Boleto Educativo",
+   "titular": "Córdoba aporta el 100 % del costo del Boleto Educativo",
+   "resumen": "La Provincia cubre todo el costo del BEC.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "1806": {
+   "placa": "Trabajamos por una buena paritaria docente",
+   "titular": "Córdoba trabaja por una buena paritaria docente",
+   "resumen": "La Provincia hace el esfuerzo para acordar el salario docente.",
+   "duda": "Frase de ocasión: no conviene publicarla sola.",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "1808": {
+   "placa": "Sostenemos el Boleto Educativo y el PAICOR",
+   "titular": "Córdoba sostiene el Boleto Educativo y el PAICOR",
+   "resumen": "Ambos programas siguen como pilares del sistema educativo.",
+   "duda": "Posible superposición con las metas 68 y 151.",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "1846": {
+   "placa": "Construimos un kartódromo junto al Auto Moto Club Ricardo Risatti",
+   "titular": "Córdoba firmó un acta para un kartódromo en Laboulaye",
+   "resumen": "El convenio prevé la pavimentación integral de la pista y la calle de boxes.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "1893": {
+   "placa": "Renovamos la plaza con juegos integradores",
+   "titular": "La Provincia entregó fondos para la plaza de Tosno",
+   "resumen": "La plaza suma juegos integradores para niños con discapacidad.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2001": {
+   "placa": "Acompañamos a las instituciones de Las Varillas",
+   "titular": "La Provincia entregó aportes a instituciones de Las Varillas",
+   "resumen": "Las instituciones locales recibieron aportes.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2075": {
+   "placa": "Lanzamos créditos para el agro y la metalmecánica",
+   "titular": "Córdoba lanzó créditos para el sector agroindustrial y metalmecánico",
+   "resumen": "Las líneas incluyen financiamiento y descuento de cheques.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2093": {
+   "placa": "Pusimos en valor la plazoleta Los Patos",
+   "titular": "La Provincia entregó fondos para la plazoleta Los Patos de Santa Eufemia",
+   "resumen": "Los fondos ponen en valor la plazoleta.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2144": {
+   "placa": "Financiamos obras de electricidad",
+   "titular": "La Provincia entregó fondos para la luz en Las Acequias",
+   "resumen": "Los fondos avanzan con las obras eléctricas.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2241": {
+   "placa": "Sumamos juegos integradores en la plaza",
+   "titular": "La Provincia entregó fondos para la plaza de Silvio Pellico",
+   "resumen": "La plaza suma juegos para que todos los niños disfruten por igual.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2288": {
+   "placa": "Reparamos la cisterna de agua potable",
+   "titular": "La Provincia entregó fondos para la cisterna de Villa Río Icho Cruz",
+   "resumen": "Los fondos reparan y ponen en valor la cisterna.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2293": {
+   "placa": "Iluminamos la avenida principal",
+   "titular": "La Provincia entregó fondos para iluminar la avenida de Mayu Sumaj",
+   "resumen": "Los fondos mejoran la iluminación de la avenida principal.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2296": {
+   "placa": "Iluminamos la ruta en el pueblo",
+   "titular": "La Provincia entregó fondos para iluminar la ruta en San Antonio de Arredondo",
+   "resumen": "Los fondos iluminan el tramo de la ruta que atraviesa el pueblo.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2297": {
+   "placa": "Sumamos un horno para el centro de jubilados",
+   "titular": "La Provincia entregó un aporte al centro de jubilados de San Antonio de Arredondo",
+   "resumen": "El aporte compra un horno.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2307": {
+   "placa": "Lanzamos una nueva edición del Cash Rebate",
+   "titular": "Córdoba lanzó una nueva edición del Cash Rebate audiovisual",
+   "resumen": "El programa incentiva las producciones audiovisuales.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2317": {
+   "placa": "Acompañamos a cooperadoras, jubilados, la parroquia y la agrupación gaucha",
+   "titular": "La Provincia entregó aportes a instituciones de Villa del Totoral",
+   "resumen": "Cada institución recibió un aporte.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2323": {
+   "placa": "Acompañamos a las instituciones de Sarmiento",
+   "titular": "La Provincia entregó aportes a instituciones de Sarmiento",
+   "resumen": "Cada institución recibió un aporte.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2327": {
+   "placa": "Acompañamos a las instituciones locales",
+   "titular": "La Provincia entregó aportes a instituciones de La Pampa",
+   "resumen": "Las instituciones recibieron aportes.",
+   "duda": "El texto dice La Paz y la base, La Pampa.",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2330": {
+   "placa": "Acompañamos a las instituciones de Cañada de Luque",
+   "titular": "La Provincia entregó aportes a instituciones de Cañada de Luque",
+   "resumen": "Las instituciones recibieron aportes.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2334": {
+   "placa": "Acompañamos a las instituciones de Los Mistoles",
+   "titular": "La Provincia entregó aportes a instituciones de Los Mistoles",
+   "resumen": "Las instituciones recibieron aportes.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2358": {
+   "placa": "Financiamos una obra de agua",
+   "titular": "La Provincia entregó fondos para agua en Las Peñas Sud",
+   "resumen": "Los fondos financian una obra de agua.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2381": {
+   "placa": "Acompañamos a las instituciones de San José de la Dormida",
+   "titular": "La Provincia entregó aportes a instituciones de San José de la Dormida",
+   "resumen": "Cada institución recibió un aporte.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2388": {
+   "placa": "Acompañamos a las instituciones de Villa Tulumba",
+   "titular": "La Provincia entregó aportes a instituciones de Villa Tulumba",
+   "resumen": "Cada institución recibió un aporte.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2395": {
+   "placa": "Acompañamos al club con aros y pelotas de básquet",
+   "titular": "La Provincia entregó un aporte al club de Chuña",
+   "resumen": "El aporte repara los aros, compra pelotas y suma mejoras.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2401": {
+   "placa": "Acompañamos a las instituciones de Cruz del Eje",
+   "titular": "La Provincia entregó aportes a instituciones de Cruz del Eje",
+   "resumen": "Las instituciones recibieron ayudas económicas.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2456": {
+   "placa": "Acompañamos a las instituciones de Saldán",
+   "titular": "La Provincia entregó aportes a instituciones de Saldán",
+   "resumen": "Las instituciones recibieron asistencia económica.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2481": {
+   "placa": "Acompañamos a las instituciones de Santa María de Punilla",
+   "titular": "La Provincia entregó aportes a instituciones de Santa María de Punilla",
+   "resumen": "Cada institución recibió un aporte.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2492": {
+   "placa": "Reforzamos los espacios culturales comunitarios",
+   "titular": "Córdoba reforzó el apoyo a los espacios culturales de los barrios",
+   "resumen": "El refuerzo se suma a los aportes ya previstos.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2493": {
+   "placa": "Enviamos la ley de alivio del endeudamiento familiar",
+   "titular": "Córdoba envió la ley de alivio del endeudamiento familiar",
+   "resumen": "Bancos y emisoras adheridas ofrecerán consolidación y refinanciación.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2504": {
+   "placa": "Acordamos nuevas líneas de financiamiento con el CFI",
+   "titular": "Córdoba y el CFI acordaron seis líneas de financiamiento",
+   "resumen": "Las líneas impulsan inversiones y financiamiento verde.",
+   "duda": "Posible superposición con la meta 1144.",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2525": {
+   "placa": "Acompañamos a las instituciones de Hernando",
+   "titular": "La Provincia entregó aportes a instituciones de Hernando",
+   "resumen": "Todas las instituciones acceden a un aporte.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2529": {
+   "placa": "Refaccionamos el Club Fray Gutiérrez",
+   "titular": "La Provincia entregó un aporte al Club Fray Gutiérrez de Dalmacio Vélez",
+   "resumen": "El aporte acompaña la refacción del club.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2531": {
+   "placa": "Acompañamos a cooperadoras e instituciones",
+   "titular": "La Provincia entregó aportes a instituciones de Dalmacio Vélez",
+   "resumen": "Cooperadoras e instituciones recibieron aportes.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2538": {
+   "placa": "Acompañamos a las instituciones de Los Pozos",
+   "titular": "La Provincia entregó aportes a instituciones de Los Pozos",
+   "resumen": "Las organizaciones recibieron apoyo provincial.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2549": {
+   "placa": "Renovamos la plaza con juegos adaptados",
+   "titular": "La Provincia entregó fondos para la plaza de Villa Gutiérrez",
+   "resumen": "La plaza suma juegos adaptados para niños con discapacidad.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2551": {
+   "placa": "Acompañamos a las instituciones de Villa Gutiérrez",
+   "titular": "La Provincia entregó aportes a instituciones de Villa Gutiérrez",
+   "resumen": "Las instituciones recibieron apoyo económico.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2555": {
+   "placa": "Acompañamos a clubes, cooperadoras, parroquia y jubilados",
+   "titular": "La Provincia entregó aportes a instituciones de Las Isletillas",
+   "resumen": "Las instituciones recibieron un subsidio.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2560": {
+   "placa": "Acompañamos a las instituciones de Punta del Agua",
+   "titular": "La Provincia entregó aportes a instituciones de Punta del Agua",
+   "resumen": "Las instituciones acceden a asistencia económica.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2566": {
+   "placa": "Acompañamos a las instituciones de Pampayasta Sud",
+   "titular": "La Provincia entregó aportes a instituciones de Pampayasta Sud",
+   "resumen": "Las organizaciones acceden a subsidios.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2572": {
+   "placa": "Acompañamos a las instituciones de Pampayasta Norte",
+   "titular": "La Provincia entregó aportes a instituciones de Pampayasta Norte",
+   "resumen": "Las instituciones acceden a subsidios.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2582": {
+   "placa": "Acompañamos a las instituciones de San Lorenzo",
+   "titular": "La Provincia entregó aportes a instituciones de San Lorenzo",
+   "resumen": "Cada institución recibió un aporte.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2587": {
+   "placa": "Acompañamos a las instituciones de Arroyo Los Patos",
+   "titular": "La Provincia entregó aportes a instituciones de Arroyo Los Patos",
+   "resumen": "Cada institución recibió un aporte.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2596": {
+   "placa": "Acompañamos a las instituciones de Simbolar",
+   "titular": "La Provincia entregó aportes a instituciones de Simbolar",
+   "resumen": "Las instituciones acceden a subsidios.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2607": {
+   "placa": "Recuperamos el Hotel El Cóndor y construimos el Centro de Acogida",
+   "titular": "La Provincia recupera el Hotel El Cóndor en Villa Cura Brochero",
+   "resumen": "Las obras conforman dos postas para los peregrinos.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2625": {
+   "placa": "Acompañamos a las instituciones de Ballesteros Sud",
+   "titular": "La Provincia entregó aportes a instituciones de Ballesteros Sud",
+   "resumen": "Las instituciones recibieron aportes.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2637": {
+   "placa": "Acompañamos a clubes, jubilados y cooperadoras",
+   "titular": "La Provincia entregó aportes a instituciones de Morrison",
+   "resumen": "Clubes, centros de jubilados y cooperadoras recibieron aportes.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2657": {
+   "placa": "Acompañamos a las instituciones de Tosquita",
+   "titular": "La Provincia entregó aportes a instituciones de Tosquita",
+   "resumen": "Las instituciones acceden a subsidios.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2699": {
+   "placa": "Refaccionamos el salón de usos múltiples",
+   "titular": "La Provincia entregó fondos para el SUM de Diego de Rojas",
+   "resumen": "Los fondos refaccionan el SUM.",
+   "duda": "",
+   "modelo": "claude-chat",
+   "fecha": "2026-11-11",
+   "revisado": false
+  },
+  "2716": {
+   "placa": "Continuamos el cordón cuneta",
+   "titular": "La Provincia entregó fondos para cordón cuneta en Kilómetro 658",
+   "resumen": "Los fondos continúan los trabajos.",
    "duda": "",
    "modelo": "claude-chat",
    "fecha": "2026-11-11",

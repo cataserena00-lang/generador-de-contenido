@@ -59,7 +59,7 @@ Los dos tableros se enlazan desde la cabecera: "Obras" (`index.html`) y "Anuncio
 - Catalina: reemplazar `assets/galeria/rampas/2.png` por una foto nítida (hoy queda fuera de la rotación automática por borrosa).
 - Fotos de placas: hoy viven solo en el navegador de quien las subió. Si hace falta compartirlas, definir con el equipo una carpeta `entrada/anuncios/<fecha>/fotos/<id de pieza>.jpg` que el build incorpore.
 - Pasar el repo de GitHub a privado (quedó público por decisión del equipo el 30/10).
-- Resolver las 320 metas con "duda" (lista en `dudas_anuncios_2026-11-11.csv`: duplicados, estado contra etiqueta, destinos imprecisos, metas provinciales generales) y marcar `revisado: true` lo aprobado.
+- Resolver las 322 metas con "duda" (lista en `dudas_anuncios_2026-11-11.csv`: duplicados, estado contra etiqueta, destinos imprecisos, metas provinciales generales) y marcar `revisado: true` lo aprobado.
 - Confirmar en Vercel que el despliegue quedó Ready y que `/anuncios.html` pide usuario y clave (desde esta sesión no se llega a vercel.app ni a la cuenta del proyecto).
 
 ## Traspaso · primera versión del módulo (30/10)
@@ -142,4 +142,12 @@ Los dos tableros se enlazan desde la cabecera: "Obras" (`index.html`) y "Anuncio
 - `parse_anuncios.py` ahora guarda el estado y el estado desagregado tal como vienen en la base (`estado_base_txt`, `estado_desagregado_txt`). Hasta volver a parsear la base, la tabla muestra la etiqueta normalizada (por ejemplo "Fondos entregados" en lugar de "PAGADO").
 - Archivos: tools/plantilla_anuncios.html, tools/parse_anuncios.py, deploy/anuncios.html, anuncios.html, este archivo.
 - Verificado en navegador sin pantalla: sin errores de consola; Berrotarán muestra 5 de 7 y "Ver también" los 7.
+- Estado: build listo, va a main con la subida web.
+
+## Traspaso · base nueva del 11/11
+- Hecho: base bajada del Google Sheets "Seguimiento de anuncios ML" y procesada como `entrada/anuncios/2026-11-11/` (2.643 anuncios; 4 metas nuevas, ninguna eliminada, sin cambios de texto). Redactadas las 49 que pasaron a publicables; ajustadas 8 que cambiaron de estado (por ejemplo En trámite → Fondos entregados). `contenido.json` copiado desde 2026-10-30 (selecciones de Berrotarán, Río Cuarto y Córdoba siguen válidas). La tabla de textuales ya muestra estado y estado desagregado tal como en la base.
+- Chequeo: sacadas las palabras "presupuesto" y "monto" de 15 textos; la lista "Textos de placa para revisar a mano" ahora excluye las metas redactadas (quedó en 0). Única regla en ✖: la meta 1659 (Córdoba Hogar) figura en ejecución con desagregado "Cumplido" en la base.
+- La base xlsx no se sube (sigue en `.gitignore`).
+- Archivos: entrada/anuncios/2026-11-11/ (anuncios.json, contenido.json), data/anuncios_textos.json, tools/plantilla_anuncios.html, deploy/anuncios.html, anuncios.html, este archivo.
+- Verificado en navegador sin pantalla: sin errores de consola, Chequeo cargado, Berrotarán con sus 5 anuncios y textuales.
 - Estado: build listo, va a main con la subida web.
