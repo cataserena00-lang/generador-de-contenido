@@ -2,7 +2,7 @@
 
 Uso:  python tools/build_anuncios.py 2026-10-30
 Lee:  entrada/anuncios/<fecha>/anuncios.json, entrada/anuncios/<fecha>/contenido.json (opcional: textos editados a mano),
-      data/dic_departamentos.csv, assets/marca/gobierno-color.svg, assets/marca/cinta-tricolor.svg, assets/fuentes/*.ttf
+      data/dic_departamentos.csv, assets/marca/gobierno-color.svg, assets/marca/gobierno-gestion.svg, assets/marca/cinta-tricolor.svg, assets/fuentes/*.ttf
 """
 import base64, csv, json, os, re, sys
 
@@ -34,7 +34,7 @@ _cp = os.path.join(IN, "contenido.json")
 contenido = json.load(open(_cp, encoding="utf-8")) if os.path.exists(_cp) else {}
 with open(os.path.join(ROOT, "data", "dic_departamentos.csv"), encoding="utf-8-sig") as f:
     deptos = list(csv.DictReader(f, delimiter=";"))
-svg = {k: rd(os.path.join(ROOT, "assets", "marca", k + ".svg")) for k in ("gobierno-color", "cinta-tricolor")}
+svg = {k: rd(os.path.join(ROOT, "assets", "marca", k + ".svg")) for k in ("gobierno-color", "gobierno-gestion", "cinta-tricolor")}
 
 fuentes = ""
 for w, name in ((900, "Black"), (800, "ExtraBold"), (700, "Bold"), (600, "SemiBold")):

@@ -185,11 +185,11 @@ const CAMP={
    lineas:['Hacer para Crecer: compromisos que avanzan todos los días.','Con equilibrio fiscal, la inversión sigue llegando a cada localidad.','Córdoba avanza, localidad por localidad.','Cada compromiso en marcha es una obra que se acerca a los vecinos.'],
    intro:['Compromisos que ya están en marcha.','Lo que anunciamos avanza.','Obras y acciones en ejecución.']}
 };
-/* paleta de las placas (carteles de gestión): Cumplimos en celeste, marino, azul, dorado o blanco; En marcha en celeste, dorado o azul.
-   El verde se sacó el 5/11 porque no respeta el manual de marca. */
-const COLORES={celeste:'#5faee3',marino:'#17233d',azul:'#09467f',dorado:'#cfa55b',blanco:'#ffffff'};
-const PALETA={cumplido:['celeste','marino','azul','dorado','blanco'],en_ejecucion:['celeste','dorado','azul']};
-const colorPor=estado=>estado==='en_ejecucion'?'dorado':'celeste';
+/* paleta de las placas (carteles de gestión): Cumplimos y En marcha en marino, azul o blanco (por defecto: Cumplimos marino, En marcha azul).
+   El verde se sacó el 5/11 porque no respeta el manual de marca; el celeste y el dorado, el 11/11 a pedido del equipo. */
+const COLORES={marino:'#17233d',azul:'#09467f',blanco:'#ffffff'};
+const PALETA={cumplido:['marino','azul','blanco'],en_ejecucion:['marino','azul','blanco']};
+const colorPor=estado=>estado==='en_ejecucion'?'azul':'marino';
 const FMT={'1x1':[1080,1080,'Feed 1:1 · 1080×1080'],'4x5':[1080,1350,'Feed 4:5 · 1080×1350 (recomendado)'],'9x16':[1080,1920,'Stories/Reels 9:16 · 1080×1920']};
 
 /* ---------- SMS (mismas reglas que obras: un solo mensaje, link corto al final) ---------- */
@@ -290,7 +290,7 @@ function piezaDepartamento(dep,g){ // conteo por departamento: volumen y presenc
 }
 
 /* ---------- placas (canvas): sistema del manual de marca de gestión (carteles): banda blanca con la palabra de campaña y la píldora,
-   panel de color pleno con el texto en blanco, pie blanco con corte diagonal y el lockup Córdoba | Hacer para Crecer. ---------- */
+   panel de color pleno con el texto en blanco, pie blanco con corte diagonal y el lockup Córdoba | Hacer para Crecer | Gestión Martín Llaryora. ---------- */
 const imgCache=new Map(), loadImg=src=>{if(imgCache.has(src))return imgCache.get(src);const p=new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=src});imgCache.set(src,p);return p};
 const svgImg=name=>{const t=SVG[name];const vb=t.match(/viewBox="([\d.\- ]+)"/)[1].split(' ').map(Number);return loadImg('data:image/svg+xml;charset=utf-8,'+encodeURIComponent(t)).then(img=>({img,asp:vb[2]/vb[3]}))};
 function wrap(g,text,maxW){const out=[];for(const par of String(text).split('\n')){let line='';for(const w of par.split(' ')){const t=line?line+' '+w:w;if(g.measureText(t).width>maxW&&line){out.push(line);line=w}else line=t}out.push(line)}return out}
@@ -324,7 +324,7 @@ async function renderPlaca(canvas,v,fmt,colorKey,foto,dis,enc){
   pildora(g,v,acc,W-mx,ly-ps*1.02+ps*.3+u*.03,pillH);
   // foto: "arriba" ocupa la parte alta del panel y se funde en el color; "completa" cubre todo el panel y el texto va abajo sobre un degradado.
   // En apaisado, "arriba" pasa a ser foto a la izquierda (45 % del ancho, hasta el borde de abajo) con la lista a la derecha.
-  const fh=pie?u*.115:0, fy=H-botSafe-fh, fx=W*.45+(W-u)*.55, cut=fh*.9, cuerpoY=bandY+bandH, cuerpoH=fy-cuerpoY;
+  const fh=pie?u*.115:0, fy=H-botSafe-fh, cut=fh*.9, LKW=u*.50, fx=W-mx-LKW-cut*.5-u*.04, cuerpoY=bandY+bandH, cuerpoH=fy-cuerpoY;
   let fotoFin=0;
   if(conFoto){try{const im=await loadImg(foto); const fy0=izq?0:cuerpoY, ph=izq?H:dis==='arriba'?cuerpoH*.47:cuerpoH+fh, pw=izq?fw:W; fotoFin=fy0+ph;
     g.save(); g.beginPath(); g.rect(0,fy0,pw,ph); g.clip();
@@ -335,11 +335,11 @@ async function renderPlaca(canvas,v,fmt,colorKey,foto,dis,enc){
       const gb=g.createLinearGradient(0,fy-u*.35,0,H);gb.addColorStop(0,alfa(fondo,'00'));gb.addColorStop(1,alfa(fondo,'d0'));g.fillStyle=gb;g.fillRect(0,fy-u*.35,W,H-fy+u*.35)}   // apaisado: degradado desde la izquierda y desde abajo, como en Obras
     else{g.fillStyle=alfa(fondo,'f2');g.fillRect(0,fy,W,H-fy)}   // con foto completa el degradado se dibuja después, según dónde arranca el texto
   }catch(e){fotoFin=0}}
-  // pie blanco con corte diagonal y lockup Córdoba | Hacer para Crecer (en la variante blanca, una línea diagonal en el color)
-  if(pie){const {img:lk,asp}=await svgImg('gobierno-color');
+  // pie blanco con corte diagonal y lockup Córdoba | Hacer para Crecer | Gestión Martín Llaryora (en la variante blanca, una línea diagonal en el color)
+  if(pie){const {img:lk,asp}=await svgImg('gobierno-gestion');
   g.beginPath(); g.moveTo(fx,fy+fh); g.lineTo(fx+cut,fy); g.lineTo(W,fy); g.lineTo(W,H); g.lineTo(izq?fx:0,H); g.lineTo(izq?fx:0,fy+fh); g.closePath();
   if(blanco){g.strokeStyle=acc;g.lineWidth=u*.004;g.stroke()}else{g.fillStyle='#fff';g.fill()}
-  const lw=u*.40, lh=lw/asp; g.drawImage(lk,W-mx-lw,fy+(fh-lh)/2,lw,lh);}
+  const lw=LKW, lh=lw/asp; g.drawImage(lk,W-mx-lw,fy+(fh-lh)/2,lw,lh);}
   // cuerpo (con foto arriba arranca debajo de la foto; con foto completa el texto se apoya abajo; con foto a la izquierda, a la derecha de la foto)
   const tx=izq?fw+mx:mx, top=(conFoto&&dis==='arriba'&&!izq?fotoFin-u*.02:bandY+bandH+u*.06), bottom=fy-u*.05, abajo=conFoto&&dis!=='arriba', bw=izq?W-fw-mx*2:abajo&&ancho?W*.56-mx:W-mx*2, avail=bottom-top;
   let blocks=ancho?bloquesAnuncio(v,u,tinta,1.15):bloquesAnuncio(v,u,tinta);
@@ -383,7 +383,7 @@ async function bannerAnuncio(canvas,g,W,H,u,v,key,foto,dis,enc){
   pildora(g,v,acc,colW-mx*.7,ly-ps*1.02+ps*.3+u*.05,pillH);
   // lockup a la derecha: pie blanco con el borde izquierdo en diagonal (en la variante blanca, la diagonal en el color)
   let x1=W-mx;
-  if(pie){const {img:lk,asp}=await svgImg('gobierno-color'),lw=u*.5,lh=lw/asp,pw=lw+mx*2,cut=u*.12,px=W-pw;
+  if(pie){const {img:lk,asp}=await svgImg('gobierno-gestion'),lw=u*.6,lh=lw/asp,pw=lw+mx*2,cut=u*.12,px=W-pw;
     g.beginPath();g.moveTo(px,H);g.lineTo(px+cut,0);g.lineTo(W,0);g.lineTo(W,H);g.closePath();
     if(blanco){g.beginPath();g.moveTo(px,H);g.lineTo(px+cut,0);g.strokeStyle=acc;g.lineWidth=u*.006;g.stroke()}else{g.fillStyle='#fff';g.fill()}
     g.drawImage(lk,W-mx-lw,(H-lh)/2,lw,lh);x1=px-mx*.6}
