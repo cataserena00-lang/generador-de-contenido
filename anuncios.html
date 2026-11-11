@@ -112,6 +112,13 @@ main{min-width:0}
 .sel li .loc{color:var(--muted);font-weight:600;font-size:11.5px;margin-left:4px}
 .sel li label{flex:1;min-width:0} .sel .mv{border:1px solid var(--line);background:#fff;border-radius:6px;width:24px;height:22px;cursor:pointer;font:700 12px Poppins;color:var(--ink);flex:none} .sel .mv:disabled{opacity:.3;cursor:default}
 .sel .hint{font-size:11px;color:var(--muted);font-weight:600;margin-top:6px}
+/* textuales de la base: los anuncios de la placa tal como están en la base (ministerio, anuncio, detalle, estados y fuentes) */
+.txb .tw{overflow-x:auto;max-height:420px;overflow-y:auto;border:1px solid var(--line);border-radius:8px;background:#fff}
+.txb table{border-collapse:collapse;width:100%;min-width:860px;font-size:12px;line-height:1.4}
+.txb th{position:sticky;top:0;background:#f0f0f2;text-align:left;font-weight:800;font-size:11px;color:var(--ink);padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+.txb td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top;font-weight:500;color:var(--ink)}
+.txb td.an{min-width:260px} .txb td.de{min-width:200px;color:#555} .txb td.nw{white-space:nowrap} .txb td a{color:var(--link);font-weight:700}
+.txb tr[data-en="0"]{display:none} .txb.todos tr[data-en="0"]{display:table-row} .txb.todos tr[data-en="1"] td:first-child{box-shadow:inset 3px 0 0 var(--marino)}
 .tx{margin-bottom:12px} .tx .row{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;gap:8px}
 .tx label{font-weight:800;font-size:12px;color:var(--gris)} .tx .n{font-size:11px;color:var(--muted);font-weight:600} .tx .n.bad{color:var(--rojo);font-weight:800}
 textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font:600 12.5px/1.5 Poppins;resize:vertical;min-height:70px;color:var(--ink)}
@@ -534,11 +541,33 @@ function selHTML(p){ // casillas: qué anuncios entran en la placa (uno solo →
   return `<details class="sel"><summary><b>Anuncios en la placa</b><span class="n">${p.eligeN||0} de ${g.length}${p.manual?' · selección propia':esDep?' · sin elegir, la placa muestra el total':' · por prioridad: eje social y luego inversión'} · tocá para elegir u ordenar</span></summary><div class="cuerpo"><div class="row"><span class="n" data-entran></span><span class="btns"><button class="btn sec" data-sel="sug">Orden sugerido</button><button class="btn sec" data-sel="nada">Ninguno</button></span></div>
    <ul>${g.map((a,i)=>`<li><input type="checkbox" data-selid="${a.id}" id="sel_${p.id}_${a.id}" ${on(a)?'checked':''}><label for="sel_${p.id}_${a.id}">${esc(textoDe(a))}${esDep&&a.localidad?`<span class="loc">· ${esc(tituloLoc(a.localidad))}</span>`:''}${esSocial(a)?' <span class="tag cumplido">social</span>':''}${!limpioTxt(a)?' <span class="tag aviso">Revisar texto</span>':''}</label>${on(a)?`<button class="mv" data-up="${a.id}" ${i?'':'disabled'} title="Subir">↑</button><button class="mv" data-dn="${a.id}" ${i<elegidosL.length-1?'':'disabled'} title="Bajar">↓</button>`:''}</li>`).join('')}</ul>
    <div class="hint">Con un solo anuncio la placa es individual; con varios, una lista con tilde por ítem. Entran los que caben con letra legible (44 px en 1080); los demás quedan en el copy de Instagram y en sus placas. El texto de cada ítem se edita en “Texto de la placa”.</div></div></details>`}
+// textuales de la base: una fila por anuncio de la placa (los tildados; sin elegir, los que muestra la placa; en el departamento sin elegir, todos)
+const ESTADO_TXT={cumplido:'Cumplido',en_ejecucion:'En ejecución',pendiente:'Pendiente'};
+const enlace=(u,t)=>u?(/^https?:\/\//i.test(u)?`<a href="${esc(u)}" target="_blank" rel="noopener">${t}</a>`:esc(u)):'';
+function txbHTML(p){
+  const esDep=/^d_/.test(p.id), sel=selDe(p.id), rk=ranking(p.g||[]);
+  let en=sel&&sel.length?sel.map(i=>rk.find(a=>a.id===i)).filter(Boolean):(!p.manual&&p.eligeN?rk.slice(0,p.eligeN):[]);
+  if(!en.length)en=rk;   // departamento sin elegir: la placa muestra el total
+  const g=[...en,...rk.filter(a=>!en.includes(a))], resto=g.length-en.length;
+  const fila=a=>`<tr data-en="${en.includes(a)?1:0}" data-id="${a.id}"><td class="nw">${a.id}</td>${esDep?`<td class="nw">${esc(a.localidad?tituloLoc(a.localidad):'Toda la provincia')}</td>`:''}<td>${esc(a.ministerio||'')}</td><td class="an">${esc(a.texto_original||'')}</td><td class="de">${esc(a.detalle||'')}</td><td class="nw">${esc(a.estado_base_txt||ESTADO_TXT[a.estado]||a.estado||'')}</td><td>${esc(a.estado_desagregado_txt||a.etiqueta||'')}</td><td class="nw">${[enlace(a.fuente_anuncio,'Anuncio'),enlace(a.fuente_seguimiento,'Seguimiento')].filter(Boolean).join(' · ')||'<span style="color:var(--muted)">sin fuente</span>'}</td></tr>`;
+  return `<details class="sel txb"><summary><b>Textuales de la base</b><span class="n">${en.length} ${en.length===1?'anuncio':'anuncios'} de la placa · ministerio, anuncio, detalle, estados y fuente</span></summary><div class="cuerpo"><div class="row">${resto?`<button class="btn sec" data-txb="todos">Ver también los otros ${resto}</button>`:''}<button class="btn sec" data-txb="copiar">Copiar tabla</button></div>
+   <div class="tw"><table><thead><tr><th>Meta</th>${esDep?'<th>Localidad</th>':''}<th>Ministerio</th><th>Anuncio</th><th>Detalle</th><th>Estado</th><th>Estado desagregado</th><th>Fuente</th></tr></thead><tbody>${g.map(fila).join('')}</tbody></table></div>
+   <div class="hint">Así figuran en la base. Con “Ver también” aparecen los demás anuncios de ${esDep?'este departamento':'esta localidad'} (los de la placa quedan marcados con una línea a la izquierda).</div></div></details>`}
+function wireTxb(el,p){const box=el.querySelector(':scope > .body > .txb');if(!box)return;
+  box.addEventListener('click',ev=>{const b=ev.target.closest('button[data-txb]');if(!b)return;ev.preventDefault();
+    if(b.dataset.txb==='todos'){const on=box.classList.toggle('todos');const n=box.querySelectorAll('tr[data-en="0"]').length;b.textContent=on?'Solo los de la placa':`Ver también los otros ${n}`;return}
+    const filas=[...box.querySelectorAll('tbody tr')].filter(r=>box.classList.contains('todos')||r.dataset.en==='1');
+    const cab=[...box.querySelectorAll('thead th')].map(t=>t.textContent);
+    const ids=new Set(filas.map(r=>+r.dataset.id)), out=[cab.join('\t')];
+    (p.g||[]).filter(a=>ids.has(a.id)).sort((x,y)=>filas.findIndex(r=>+r.dataset.id===x.id)-filas.findIndex(r=>+r.dataset.id===y.id)).forEach(a=>{
+      const c=[a.id,...(/^d_/.test(p.id)?[a.localidad?tituloLoc(a.localidad):'Toda la provincia']:[]),a.ministerio||'',a.texto_original||'',a.detalle||'',a.estado_base_txt||ESTADO_TXT[a.estado]||a.estado||'',a.estado_desagregado_txt||a.etiqueta||'',[a.fuente_anuncio,a.fuente_seguimiento].filter(Boolean).join(' ')];
+      out.push(c.map(v=>String(v).replace(/[\t\r\n]+/g,' ')).join('\t'))});
+    copiar(out.join('\n'),b)})}
 function cardPieza(p,rotulo,sub,rearmar){
   const el=document.createElement('details');el.className='card '+p.estado+(sub?' sub':'');
   el.innerHTML=`<summary><div class="tt"><b>${esc(p.titulo)}</b><span>${esc(p.sub||'')}</span></div>${p.redactado?'<span class="tag cumplido">Redactado</span>':''}${p.manual?'<span class="tag cumplido">Selección propia</span>':''}<span class="tag ${p.estado}">${rotulo}</span></summary>
-   <div class="body">${p.g?selHTML(p):''}<div class="grid"><div>${placaHTML(p.placa,p.id)}</div><div>${txHTML(p.ig,p.x,textoPlaca(p.placa),p.sms,p.placa.tipo==='lista'?'una línea por anuncio; editable':null)}</div></div><div data-subs></div></div>`;
-  wire(el,p.id,p.placa);
+   <div class="body">${p.g?selHTML(p)+txbHTML(p):''}<div class="grid"><div>${placaHTML(p.placa,p.id)}</div><div>${txHTML(p.ig,p.x,textoPlaca(p.placa),p.sms,p.placa.tipo==='lista'?'una línea por anuncio; editable':null)}</div></div><div data-subs></div></div>`;
+  wire(el,p.id,p.placa);wireTxb(el,p);
   if(p.g&&rearmar){const guardar=ids=>{ED.seleccion[p.id]=ids;Object.assign(ED.piezas[p.id]??={},{items:null,placaTxt:null});guardarED();const n=rearmar();n.open=true;n.querySelector(':scope > .body > .sel').open=true;el.replaceWith(n)};
     el.querySelector(':scope > .body > .sel').addEventListener('change',ev=>{if(ev.target.dataset.selid)guardar([...el.querySelectorAll(':scope > .body > .sel input:checked')].map(i=>+i.dataset.selid))});
     el.querySelector(':scope > .body > .sel').addEventListener('click',ev=>{const b=ev.target.closest('button[data-sel],button.mv');if(!b)return;ev.preventDefault();

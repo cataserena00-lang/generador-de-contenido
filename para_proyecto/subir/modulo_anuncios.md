@@ -136,3 +136,10 @@ Los dos tableros se enlazan desde la cabecera: "Obras" (`index.html`) y "Anuncio
 - Archivos: data/anuncios_textos.json, deploy/anuncios.html, anuncios.html, este archivo.
 - Estado: build listo, sin probar en navegador (pedido del equipo); va a main con la subida web.
 - Dudas: 320 metas con duda en el csv, a resolver juntas.
+
+## Traspaso · textuales de la base en cada placa (11/11)
+- Hecho: en cada tarjeta de localidad y de departamento, debajo de "Anuncios en la placa", el desplegable "Textuales de la base" con una fila por anuncio de la placa: meta, (localidad en departamentos), ministerio, anuncio textual, detalle, estado, estado desagregado y fuente (enlaces a anuncio y seguimiento). "Ver también los otros N" suma el resto de la localidad o departamento (los de la placa quedan marcados) y "Copiar tabla" la copia separada por tabulaciones para pegar en una planilla. El porcentaje de avance quedó afuera por decisión del equipo.
+- `parse_anuncios.py` ahora guarda el estado y el estado desagregado tal como vienen en la base (`estado_base_txt`, `estado_desagregado_txt`). Hasta volver a parsear la base, la tabla muestra la etiqueta normalizada (por ejemplo "Fondos entregados" en lugar de "PAGADO").
+- Archivos: tools/plantilla_anuncios.html, tools/parse_anuncios.py, deploy/anuncios.html, anuncios.html, este archivo.
+- Verificado en navegador sin pantalla: sin errores de consola; Berrotarán muestra 5 de 7 y "Ver también" los 7.
+- Estado: build listo, va a main con la subida web.

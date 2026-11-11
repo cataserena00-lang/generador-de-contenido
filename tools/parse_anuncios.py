@@ -139,6 +139,8 @@ for _, r in df.iterrows():
         eje=str(r["Eje"]).strip() if pd.notna(r["Eje"]) else None, ministerio=str(r["Ministerio"]).strip() if pd.notna(r["Ministerio"]) else None,
         tipo_discurso=str(r["Tipo de discurso"]).strip() if pd.notna(r["Tipo de discurso"]) else None,
         estado=e["estado"], estado_detalle=e["estado_detalle"], etiqueta=e["etiqueta_placa"], publicable=(e["publicable"] == "si"),
+        estado_base_txt=str(r["Estado"]).strip() if pd.notna(r["Estado"]) else None,   # textual de la base, para la tabla "Textuales de la base"
+        estado_desagregado_txt=str(r["Estado (desagregado)"]).strip() if pd.notna(r["Estado (desagregado)"]) else None,
         texto_original=anuncio, texto_placa=placa, detalle=str(r["Detalle del anuncio"]).strip() if pd.notna(r["Detalle del anuncio"]) else None,
         tiene_inversion=bool(pd.notna(inv) and str(inv).strip() not in ("-", "")),
         _inv=pd.to_numeric(str(inv).replace("$", "").replace(".", "").replace(",", ".").strip(), errors="coerce") if pd.notna(inv) else None,
