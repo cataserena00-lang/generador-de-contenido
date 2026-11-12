@@ -192,8 +192,9 @@ const EJES={
    marco:'“Nos vemos en la Plaza, Córdoba Mejora” renueva plazas y espacios verdes de la ciudad: lugares de encuentro, deporte, juego y recreación que suman valor ambiental y social a los barrios, con espacios seguros donde los chicos pueden jugar y estar, como alternativa a los entornos de riesgo.'}
 };
 const TIPOS={mant:{label:'Mantenimiento de calles',corto:'Mant. de calles',eje:'calle'},frio:{label:'Bacheo en frío',corto:'Bacheo en frío',eje:'calle'},rampas:{label:'Rampas',corto:'Rampas',eje:'accesible'},bacheo:{label:'Bacheo con asfalto',corto:'Bacheo asfalto',eje:'calle'},
- rehab:{label:'Rehabilitación con asfalto',corto:'Rehab. asfalto',eje:'calle'},hormigon:{label:'Rehabilitación y bacheo con hormigón',corto:'Hormigón',eje:'calle'},pav:{label:'Pavimentación',corto:'Pavimentación',eje:'calle'},plaza:{label:'Plazas',corto:'Plazas',eje:'plaza'}};
-const TIPO_ORDEN=['mant','frio','rampas','bacheo','rehab','hormigon','pav','plaza'];
+ rehab:{label:'Rehabilitación con asfalto',corto:'Rehab. asfalto',eje:'calle'},hormigon:{label:'Rehabilitación y bacheo con hormigón',corto:'Hormigón',eje:'calle'},pav:{label:'Pavimentación',corto:'Pavimentación',eje:'calle'},plaza:{label:'Plazas',corto:'Plazas',eje:'plaza'},alumbrado:{label:'Alumbrado público y luminarias LED',corto:'Alumbrado LED',eje:'calle',enDesarrollo:'Estas obras tienen sus propios logos: el contenido está en desarrollo.'}};
+const TIPO_ORDEN=['mant','frio','rampas','bacheo','rehab','hormigon','pav','plaza','alumbrado'];
+const enDesarrollo=o=>(TIPOS[(o&&o.tipo)||o]||{}).enDesarrollo||null;   // rubros que se cuentan pero todavía no generan contenido
 const CIERRES_VIEJOS=['Con las cuentas en orden, Córdoba sostiene la obra pública en cada barrio.','El orden de las cuentas públicas permite que la obra siga llegando a los barrios.','Hacer para Crecer: cuentas en orden y obra a la vista en toda la ciudad.'];
 const UMBRAL_NITIDEZ=800; // por debajo de este valor la foto se considera borrosa/pixelada
 const CIERRES=['Con equilibrio fiscal, Córdoba sostiene la inversión en infraestructura para todos los cordobeses.','El equilibrio fiscal permite mantener la obra pública en toda la ciudad.','Cuentas en orden: la inversión en infraestructura llega a todos los cordobeses.','Equilibrio fiscal que se convierte en obra para cada cordobés.','Con las cuentas en orden, la obra pública sigue llegando a todos los barrios.','Hacer para Crecer: equilibrio fiscal para sostener la infraestructura de todos.','Sin ajuste ciego y con equilibrio fiscal: más infraestructura para todos.','El orden fiscal sostiene la obra pública de todos los cordobeses.'];
@@ -227,6 +228,7 @@ function placaDe(o){
   const m=o.m,B=BAR(o); let valor=null,etiqueta=null,main=null,sub='',extra='';
   if(o.tipo==='rampas'){valor=nf(o.rampas);etiqueta=o.rampas===1?'Rampa en ejecución':'Rampas en ejecución';sub=o.via;}
   else if(o.tipo==='pav'){valor=nf(m.cuadras);etiqueta='Cuadras a pavimentar';sub=B;}
+  else if(o.tipo==='alumbrado'){main=TIPOS[o.tipo].label;sub=B;}   // va antes que m2 y ml: el alumbrado no se mide en calzada
   else if(m.m2){valor=nf(m.m2);etiqueta='m² de '+({bacheo:'bacheo con asfalto',frio:'bacheo en frío',hormigon:'rehabilitación y bacheo con hormigón',rehab:'rehabilitación con asfalto'}[o.tipo]||'calzada intervenida');sub=o.via||B;extra=o.via?(B||''):'';}
   else if(m.ml){valor=nf(m.ml);etiqueta=o.tipo==='mant'?'metros lineales de calles de tierra':'metros lineales de calzada rehabilitada';sub=o.tipo==='mant'?B:(o.via||B);extra=o.tipo==='mant'?'':(B||'');}
   else if(o.tipo==='plaza'){main=o.via;sub='Renovación integral de espacios públicos';extra=B||'';}
@@ -929,7 +931,7 @@ function resumenZona(z=S){ // pieza automática para una zona y un período: hab
   const bs=uniq(R2.flatMap(o=>o.barrioList||[]));
   const lb=n=>bs.length>n?bs.slice(0,n).map(b=>'Barrio '+b).join(', ')+` y ${bs.length-n===1?'otro barrio':'otros '+(bs.length-n)+' barrios'}`:lista(bs.map(b=>'Barrio '+b));
   const donde=bs.length?`en ${lb(4)}`:(z.secc==='1'?'en la zona céntrica':'en el sector'), dondeCorto=bs.length?`en ${lb(2)}`:(z.secc==='1'?'en la zona céntrica':'en el sector');
-  const por=TIPO_ORDEN.map(t=>[t,R2.filter(o=>o.tipo===t)]).filter(([,a])=>a.length);
+  const por=TIPO_ORDEN.map(t=>[t,R2.filter(o=>o.tipo===t)]).filter(([t,a])=>a.length&&!enDesarrollo(t));
   const nb=a=>uniq(a.flatMap(o=>o.barrioList||[])).length;
   const frase=(t,a)=>{const n=a.length;switch(t){
     case 'mant':return (nb(a)||n)===1?'mantenimiento de calles de tierra':`mantenimiento de calles en ${nb(a)||n} barrios`;
@@ -939,7 +941,9 @@ function resumenZona(z=S){ // pieza automática para una zona y un período: hab
     case 'rehab':return `${n} ${n===1?'frente':'frentes'} de rehabilitación con asfalto`;
     case 'hormigon':return `${n} ${n===1?'frente':'frentes'} de rehabilitación con hormigón`;
     case 'pav':return `pavimentación de ${sum(a,o=>o.m.cuadras)} cuadras`;
-    case 'plaza':return `renovación de ${n} ${n===1?'plaza':'plazas'}`;}};
+    case 'plaza':return `renovación de ${n} ${n===1?'plaza':'plazas'}`;
+    case 'alumbrado':return (nb(a)||n)===1?'modernización del alumbrado público':`modernización del alumbrado público en ${nb(a)||n} barrios`;
+    default:return `${n} ${n===1?'obra':'obras'} de ${((TIPOS[t]||{}).label||t).toLowerCase()}`;}};   // un rubro nuevo nunca deja la frase vacía
   const frases=por.map(([t,a])=>frase(t,a)), fr=lista(frases), frCorto=frases.length>2?frases.slice(0,2).join(', ')+', entre otras obras':lista(frases);
   const ejes=uniq(R2.map(o=>o.eje)), eje=ejes.length===1?ejes[0]:'calle', e=EJES[eje], U=R2.length;
   const {dias,w}=diasSemana(); const porDia=sem&&dias.length?Math.round(dias.map(d=>(d.obras||[]).filter(o=>!o.grupo&&enZona(o,z)).length).reduce((a,b)=>a+b,0)/dias.length):null;
@@ -955,7 +959,7 @@ function resumenZona(z=S){ // pieza automática para una zona y un período: hab
   const sms=limpio(smsArmar(smsAlc,[`${smsCuando}${obrasTxt} en marcha ${donde}: ${frCorto}`,`${smsCuando}${obrasTxt} en marcha ${dondeCorto}`,`${smsCuando}${obrasTxt} en marcha ${bs.length?'en '+lb(1):donde}`,`${obrasTxt} en marcha cerca tuyo`],id));
   const placa={eje,fotos:[],kicker:sem?'Lectura semanal':'Obras en ejecución',valor:String(U),etiqueta:sem?(U===1?'Obra en la última semana':'Obras en la última semana'):(U===1?'Obra en ejecución':'Obras en ejecución'),sub:bs.length?lb(3):(z.secc==='1'?'Zona céntrica':'En el sector'),extra:frCorto[0].toUpperCase()+frCorto.slice(1)};
   const gac=limpio(gacetilla({titulo:titulos[0],bajada:frases.map(f=>f[0].toUpperCase()+f.slice(1)+'.').concat(['Hacer para Crecer: obra pública en cada barrio.']),lead:`${dato}.`,
-    secciones:[['Obra por obra',R2.map(o=>hecho(o)+'.')],['Los programas',ejes.map(x=>EJES[x].marco)]],cierre:MODELO}));
+    secciones:[['Obra por obra',R2.filter(o=>!enDesarrollo(o)).map(o=>hecho(o)+'.')],['Los programas',ejes.map(x=>EJES[x].marco)]],cierre:MODELO}));
   const out={id,titulo:`Resumen ${sem?'de la semana':'del día'} · ${zonaRotulo(z)}`,eje,titulos,ig,x,sms,placa,gac,incompleto:sem&&!w.completo?w:null,U,bs,grupos:G2.length};
   const c=(CONT.zonas||{})[id]; if(c){if(c.titulos)out.titulos=c.titulos.map(limpio);if(c.ig)out.ig=limpio(c.ig);if(c.x)out.x=limpio(c.x);if(c.sms)out.sms=limpio(c.sms);if(c.gac)out.gac=limpio(c.gac);if(c.placa)Object.assign(out.placa,c.placa);out.redactado=true;}
   return out;
@@ -1078,11 +1082,12 @@ function obraCard(o,ult){ // ult: fecha del último parte en que apareció (vist
   const el=document.createElement('details');el.className='card e-'+o.eje;
   const tit=o.tipo==='plaza'?o.via:(o.via||o.sector)+(o.entre?` · entre ${o.entre}`:'');
   el.innerHTML=`<summary><div class="tt"><b>${esc(tit)}</b><span>${esc(TIPOS[o.tipo].label)}${bar(o)?' · Barrio '+esc(bar(o)):''}${o.tipo==='rampas'&&!o.grupo?` · ${o.rampas} ${o.rampas===1?'rampa':'rampas'}`:''}${o.grupo?` · grupo de ${esq(o)} esquinas, ${o.rampas} rampas`:''}</span></div>
-   ${o.grupo?'<span class="tag grupo">Grupo</span>':''}${o.dias!=null&&S.per==='semana'?`<span class="tag dias">en ${o.dias} de ${o.k} partes${ult?' · último '+ddmm(ult):''}</span><span class="tag circ">${esc(o.circuito)}</span>`:''}<span class="tag ${tc}" data-ft>${tt}</span><span class="tag ${o.eje}">${esc(e.nombre.split(' – ')[0])}</span></summary>
-   <div class="body"><div class="grid"><div>${placaHTML(o.id,v)}</div><div>${txHTML(textoIG(o),textoX(o),textoPlaca(v),null,null,textoSMS(o))}</div></div>
+   ${enDesarrollo(o)?'<span class="tag aviso">En desarrollo</span>':''}${o.grupo?'<span class="tag grupo">Grupo</span>':''}${o.dias!=null&&S.per==='semana'?`<span class="tag dias">en ${o.dias} de ${o.k} partes${ult?' · último '+ddmm(ult):''}</span><span class="tag circ">${esc(o.circuito)}</span>`:''}<span class="tag ${tc}" data-ft>${tt}</span><span class="tag ${o.eje}">${esc(e.nombre.split(' – ')[0])}</span></summary>
+   <div class="body">${enDesarrollo(o)?`<div class="note gris" style="margin:12px 0">En desarrollo · ${esc(enDesarrollo(o))} Por ahora esta obra se cuenta en el parte pero no genera copys ni placas.</div>`:`<div class="grid"><div>${placaHTML(o.id,v)}</div><div>${txHTML(textoIG(o),textoX(o),textoPlaca(v),null,null,textoSMS(o))}</div></div>`}
    <div class="meta">Parte: circuito ${esc(o.circuito)}${o.circNombre?' · '+esc(o.circNombre):''} · ${o.driveUrl?`<a href="${esc(o.driveUrl)}" target="_blank" rel="noopener">Doc/archivo en Drive</a>`:'sin link de Drive'}</div>
    ${o.docTxt?`<details class="doc"><summary>Texto original del doc</summary><pre>${esc(o.docTxt)}</pre></details>`:''}</div>`;
-  wire(el,o.id,v);return el;
+  if(!enDesarrollo(o))wire(el,o.id,v);
+  return el;
 }
 function renderObras(root){
   const {reales:RZ,grupos:GZ}=alcance(), sem=S.per==='semana', {w,dias}=diasSemana();
@@ -1148,8 +1153,8 @@ function renderPeriodicos(root,excluir=[]){ // "Otras lecturas" al pie del Resum
 }
 function renderCalidad(root){
   // textos publicables que se revisan
-  const T=[];reales.concat(obras.filter(o=>o.grupo)).forEach(o=>{const v=placaDe(o);T.push([o.id+' · Instagram',textoIG(o)],[o.id+' · X',textoX(o)],[o.id+' · placa',textoPlaca(v)],[o.id+' · SMS',textoSMS(o)])});
-  obrasSemana().filter(o=>!P.obras.some(p=>p.id===o.id)).forEach(o=>T.push([o.id+' (semana) · SMS',textoSMS(o)],[o.id+' (semana) · X',textoX(o)]));
+  const T=[];reales.concat(obras.filter(o=>o.grupo)).filter(o=>!enDesarrollo(o)).forEach(o=>{const v=placaDe(o);T.push([o.id+' · Instagram',textoIG(o)],[o.id+' · X',textoX(o)],[o.id+' · placa',textoPlaca(v)],[o.id+' · SMS',textoSMS(o)])});
+  obrasSemana().filter(o=>!P.obras.some(p=>p.id===o.id)&&!enDesarrollo(o)).forEach(o=>T.push([o.id+' (semana) · SMS',textoSMS(o)],[o.id+' (semana) · X',textoX(o)]));
   const zonas=[];['hoy','semana'].forEach(per=>SECCS.forEach(sc=>{const r=resumenZona({secc:sc,circ:null,per});if(r)zonas.push(r)}));
   generales().concat(periodicos().filter(p=>!p.estado)).concat(zonas).forEach(g=>{T.push([g.id+' · Instagram',g.ig],[g.id+' · X',g.x],[g.id+' · gacetilla',g.gac],[g.id+' · placa',textoPlaca(g.placa)],[g.id+' · SMS',g.sms!=null?g.sms:smsDePlaca(g)]);g.titulos.forEach((t,i)=>T.push([g.id+' · título '+(i+1),t]))});
   const test=(re)=>T.filter(([,t])=>re.test(t)).map(([n])=>n);
@@ -1168,6 +1173,7 @@ function renderCalidad(root){
    ${sg.length?L('Obras sin foto del parte (salen con foto genérica)',sg.map(nm),'Su rubro tiene galería. Para usar la foto real, soltala como <code>entrada/'+P.fecha+'/fotos/&lt;id-obra&gt;.jpg</code> o agregá el link de Drive en el parte.'):''}
    <div class="list"><h3>Pie con marcas</h3><div class="hint">El tilde “Pie con marcas” se guarda por pieza en este navegador.</div><ul><li>Piezas con pie apagado: ${Object.values(FOTOS).filter(f=>f&&f.sinPie).length}</li></ul></div>
    <div class="list"><h3>Tamaño personalizado</h3><div class="hint">Se elige en la fila del período y vale para todo el tablero de Obras (se guarda en este navegador; Anuncios tiene el suyo).</div><ul><li>Tamaño personalizado: ${tamDesc()}</li></ul></div>
+   ${(()=>{const ed=reales.filter(o=>enDesarrollo(o));return ed.length?L('Obras sin contenido (en desarrollo)',ed.map(nm),'Se cuentan en el parte pero no generan copys ni placas: '+esc(enDesarrollo(ed[0]))):''})()}
    <div class="list"><h3>Galería de fotos genéricas</h3><div class="hint">Las fotos van en <code>assets/galeria/&lt;rubro&gt;/</code> y entran al volver a correr el build.</div><ul><li>Rubros sin galería: ${esc(lista(TIPO_ORDEN.filter(t=>!galDe(t).length).map(t=>TIPOS[t].label))||'ninguno')}</li></ul></div>
    ${L('Obras sin texto de Drive',sd.map(nm))}
    ${L('Obras sin magnitud (m², cuadras o metros)',sm.map(nm),'Con un dato de magnitud el texto y la placa ganan una cifra concreta.')}

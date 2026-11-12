@@ -24,7 +24,7 @@ def norm(s): return re.sub(r"\s+", " ", quitar_tildes(s).lower()).strip()
 def slug(s): return re.sub(r"[^a-z0-9]+", "-", norm(s)).strip("-")[:50]
 CHICAS = {"de", "del", "la", "las", "los", "y", "e", "el", "en", "con", "a", "al"}
 CORR = {"Industial": "Industrial", "Rio": "Río", "Olayon": "Olayón", "Andres": "Andrés", "Jardin": "Jardín", "Cordoba": "Córdoba", "Hector": "Héctor", "Menendez": "Menéndez",
-        "Jose": "José", "Guemes": "Güemes", "Ombu": "Ombú", "Aeronautico": "Aeronáutico", "Platanos": "Plátanos", "America": "América", "Maria": "María",
+        "Jose": "José", "Guemes": "Güemes", "Ombu": "Ombú", "Seccion": "Sección", "Aeronautico": "Aeronáutico", "Platanos": "Plátanos", "America": "América", "Maria": "María",
         "Adrian": "Adrián", "Gaston": "Gastón", "Nicolas": "Nicolás", "Malbran": "Malbrán", "Hipolito": "Hipólito", "Escolastico": "Escolástico",
         "Magan": "Magán", "Velez": "Vélez", "Geronimo": "Gerónimo", "Fermin": "Fermín", "Martinez": "Martínez", "Arguello": "Argüello", "Paraiso": "Paraíso",
         "Tristan": "Tristán", "Raul": "Raúl", "Cesar": "César", "Cañada": "Cañada", "Dean": "Deán", "Rincon": "Rincón", "Simon": "Simón", "Galvez": "Gálvez"}
@@ -49,25 +49,27 @@ RUBROS = {"MANTENIMIENTO DE CALLES": "mant", "BACHEO EN FRIO": "frio", "RAMPAS":
 def rubro_de(l):
     n = norm(l).upper()
     if n.startswith("PLAZAS"): return "plaza"
+    if "ALUMBRADO" in n or "LUMINARIAS" in n: return "alumbrado"   # PROGRAMA "Mejoramiento del Sistema de Alumbrado Público…"
     return RUBROS.get(n)
 
 OBRAS = []
 items, rubro, estado = [], None, "ejecucion"
 for raw in txt.splitlines():
-    l = raw.strip().lstrip("•●").strip()
+    l = re.sub(r"[\u200b-\u200f\u2060-\u2064\ufeff]", "", raw).strip().lstrip("•●").strip()
     if not l or re.match(r"LISTA DE DIFUSI", l, re.I) or re.match(r"(Puestos de trabajos?|OBRAS EN EJECUCI)", l, re.I): continue
     r = rubro_de(l)
     if r: rubro, estado = r, "ejecucion"; continue
     n = norm(l).upper()
-    if n in ("EN EJECUCION",): estado = "ejecucion"; continue
+    if n in ("EN EJECUCION",) or re.match(r"BARRIOS? EN EJECUCION", n): estado = "ejecucion"; continue
     if n in ("TERMINADAS", "FINALIZADAS"): estado = "terminada"; continue
     if rubro is None: continue
     solo_link = re.fullmatch(r"https?://\S+", l)
     num = re.match(r"^(\d+)[\.\)]\s*(.*)$", l)
     es_rampa = rubro == "rampas" and re.search(r"·\s*\d+\s*rampa", l)
+    es_alumbrado = rubro == "alumbrado" and not solo_link        # el programa lista sus barrios sin numerar
     if solo_link:
         if items: items[-1]["links"].append(l)
-    elif num or es_rampa:
+    elif num or es_rampa or es_alumbrado:
         items.append(dict(rubro=rubro, estado=estado, texto=(num.group(2) if num and not es_rampa else l), links=[]))
         if es_rampa and num and re.match(r"^\d+[\.\)]", l): items[-1]["texto"] = num.group(2)
     elif items and rubro != "rampas" and items[-1]["rubro"] == rubro:
@@ -92,6 +94,9 @@ def leer(it):
     m = re.search(r"[-–]\s*0?(\d{1,2}[A-Za-z]?)\s*$", t)
     if m: code = m.group(1).upper(); t = t[:m.start()]
     elif re.search(r"[-–]\s*$", t): code = "heredar"; t = re.sub(r"[-–]\s*$", "", t)
+    if not code:
+        m = re.search(r"[-–]\s*0?(\d{1,2}[A-Za-z]?)\s*(?=[-–]\s*b(?:arrio)?\s*:)", t, re.I)
+        if m: code = m.group(1).upper(); t = t[:m.start()] + " " + t[m.end():]
     d = dict(tipo=it["rubro"], estado=it["estado"], links=it["links"], nota=nota, codigo=code, rampas=None, barrio=None, via=None, entre=None, sector=None, orden=len(OBRAS))
     if it["rubro"] == "rampas":
         c = re.search(r"(\d+)\s*rampa", t); d["rampas"] = int(c.group(1))
@@ -106,14 +111,20 @@ def leer(it):
         pass
     if d["tipo"] == "plaza":
         nombre = re.sub(r"^\s*(?:\d+´\s*/?\s*(?:\d+)?\s*)", "", calle)
+        nombre = nombre.split(":")[0]                                   # EPEC: "Nombre: coordenadas o dirección"
         nombre = re.sub(r"^\s*plaza\s*/?\s*", "", nombre.replace("/", " "), flags=re.I)
-        d["via"] = "Plaza " + tc(limpiar(nombre))
+        nombre = tc(limpiar(nombre))
+        d["via"] = nombre if re.match(r"plazoleta\b", nombre, re.I) else "Plaza " + nombre
     elif d["tipo"] in ("bacheo", "rehab", "hormigon"):
         calle = re.sub(r"\s+", " ", calle)
         m = re.search(r"\s(?:e/\s*|entre\s+|e\s+)", calle)
         via, entre = (calle[:m.start()], calle[m.end():]) if m else (calle, None)
         entre = re.sub(r"N°\s*", "", entre) if entre else entre
         d["via"], d["entre"] = tc(limpiar(via)), (tc(limpiar(entre)) if entre else None)
+    elif d["tipo"] == "alumbrado":
+        s = barrio or calle
+        d["sector"] = tc(limpiar(re.sub(r"^\s*en distintos sectores del\s+", "", s, flags=re.I)))
+        barrio = d["sector"]
     else:  # mant, frio, pav: la línea completa es el nombre (y el barrio)
         s = re.sub(r"^\s*B[°º]?\s+", "", calle.strip())
         d["sector"] = tc(limpiar(s))

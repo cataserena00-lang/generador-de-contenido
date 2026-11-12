@@ -83,6 +83,7 @@ RUBROS = [
     ("hormigon", "Rehabilitación y bacheo con hormigón", "calle", "Puede tener nota de etapa (3.ª etapa)", "rehabilitación y bacheo con hormigón"),
     ("pav", "Pavimentación", "calle", "Cuadras y plazo salen de las memorias (data/memorias.json), barrio de la memoria si el parte no lo trae", "pavimentación"),
     ("plaza", "Plazas", "plaza", "Se deduplica por nombre dentro del día; alias en la plantilla (ALIAS) y en parse_lista.py (PLAZA_ALIAS)", "plazas en renovación"),
+    ("alumbrado", "Alumbrado público y luminarias LED", "calle", "Programa que ejecuta EPEC; el parte no numera las líneas y el dato es el barrio", "alumbrado público y luminarias LED"),
 ]
 CAMPOS = [
     ("fecha", "texto AAAA-MM-DD", "Día del parte", "2026-10-29"),
