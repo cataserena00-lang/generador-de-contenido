@@ -43,7 +43,7 @@ Nunca inventar datos: montos, cifras, metros, plazos, empleo, nombres, citas. Si
 - Fotos del tablero: se recomprimen a 1500 px; el bundle debe quedar bajo 10 MB.
 
 ## Publicación
-Repo privado de GitHub `cataserena00-lang/generador-de-contenido` y proyecto de Vercel con el mismo nombre. Se sube `deploy/index.html` por la web de GitHub y Vercel despliega solo (confirmar el commit al terminar la barra de carga). Acceso con Basic Auth: variables TABLERO_USUARIO y TABLERO_CLAVE en Vercel. Verificar despliegue Ready y que el sitio responde 401 sin credenciales.
+Repo privado de GitHub `cataserena00-lang/generador-de-contenido` y proyecto de Vercel con el mismo nombre. Se sube `deploy/index.html` por la web de GitHub y Vercel despliega solo (confirmar el commit al terminar la barra de carga). Acceso con Basic Auth: una credencial por persona en la variable TABLERO_ACCESOS de Vercel (una línea `usuario:clave` por persona; alta, baja y cambio de clave se hacen ahí y con Redeploy). TABLERO_USUARIO y TABLERO_CLAVE son la credencial compartida vieja y siguen valiendo mientras estén cargadas. Detalle en `deploy/LEEME.md`. Verificar despliegue Ready y que el sitio responde 401 sin credenciales.
 Nunca escribir claves, tokens ni usuarios en archivos, chats ni documentos. Archivos con secretos (por ejemplo `PARA_TOMAS_configurar_Vercel.md`) no se suben ni se citan.
 
 ## Trabajo en equipo

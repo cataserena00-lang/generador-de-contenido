@@ -45,7 +45,7 @@ Antes de sumar otras áreas o municipios, definir con el equipo: qué organismos
 | Otros temas | A definir | — |
 
 ## Publicación
-Repo privado `cataserena00-lang/generador-de-contenido` en GitHub y proyecto de Vercel con el mismo nombre. Se sube `deploy/index.html` por la web de GitHub y Vercel despliega solo. Acceso por Basic Auth (middleware; variables TABLERO_USUARIO y TABLERO_CLAVE en Vercel). Verificar: despliegue Ready y el sitio responde 401 sin credenciales. Nunca publicar sin un "sí" explícito del equipo. Nunca escribir claves, tokens ni usuarios en archivos, chats ni documentos del Proyecto.
+Repo privado `cataserena00-lang/generador-de-contenido` en GitHub y proyecto de Vercel con el mismo nombre. Se sube `deploy/index.html` por la web de GitHub y Vercel despliega solo. Acceso por Basic Auth (middleware; una credencial por persona en la variable TABLERO_ACCESOS de Vercel, más TABLERO_USUARIO y TABLERO_CLAVE, la compartida vieja). Verificar: despliegue Ready y el sitio responde 401 sin credenciales. Nunca publicar sin un "sí" explícito del equipo. Nunca escribir claves, tokens ni usuarios en archivos, chats ni documentos del Proyecto.
 
 ## Trabajo en equipo
 - Un solo responsable del deploy: quien tiene las cuentas de GitHub y Vercel. La otra persona deja el build listo y avisa; no publica.
