@@ -1,5 +1,5 @@
 {
- "_nota": "Textos y selecciones aprobados por el equipo (placas de referencia del 2026-11-02). Se fusiona con lo que exporte el tablero.",
+ "_nota": "Textos y selecciones aprobados por el equipo (placas de referencia del 2026-11-02). Se fusiona con lo que exporte el tablero. 12/11: metas FOCOM (Ministerio de Gobierno) pasadas a \"Entregamos fondos para…\" (326, 328 y los ítems de Berrotarán); la pago parcial 1621 con etiqueta \"Fondos entregados\".",
  "seleccion": {
   "l_cumplido_berrotaran": [
    1476,
@@ -49,9 +49,9 @@
    "items": [
     "Entregamos reconectadores a la cooperativa",
     "Llevamos gas natural al parque industrial",
-    "Construimos el polideportivo",
+    "Entregamos fondos para el polideportivo",
     "Construimos el cuartel de bomberos",
-    "Adoquinamos calles"
+    "Entregamos fondos para el adoquinado de calles"
    ]
   },
   "d_cumplido_RIO CUARTO": {
@@ -71,13 +71,13 @@
    "bajada": ""
   },
   "326": {
-   "placa": "Construimos el polideportivo"
+   "placa": "Entregamos fondos para el polideportivo"
   },
   "327": {
    "placa": "Construimos el cuartel de bomberos"
   },
   "328": {
-   "placa": "Adoquinamos calles"
+   "placa": "Entregamos fondos para el adoquinado de calles"
   },
   "1476": {
    "placa": "Entregamos reconectadores a la cooperativa"
@@ -90,6 +90,9 @@
   "129": {
    "placa": "Refaccionamos las 10 residencias de la SeNAF",
    "bajada": "Allí viven chicas y chicos sin cuidados parentales bajo la responsabilidad del Estado."
+  },
+  "1621": {
+   "etiquetaPlaca": "Fondos entregados"
   }
  }
 }

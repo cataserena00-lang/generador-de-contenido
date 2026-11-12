@@ -221,6 +221,12 @@ const ciudad=a=>a.departamento_norm==='CAPITAL'?'Córdoba Capital':null;
 const enLoc=L=>norm(L)==='cordoba capital'?'en la ciudad de Córdoba':`en ${L}`;   // píldora de la placa: la capital se nombra como ciudad
 function tituloLoc(s){if(norm(s)==='cordoba')return 'Córdoba Capital';const t=String(s).split(' ').map(w=>['de','del','la','las','los','el','y','e'].includes(w.toLowerCase())?w.toLowerCase():w.charAt(0).toUpperCase()+w.slice(1)).join(' ');return (CONT.localidades||{})[norm(s)]||t.charAt(0).toUpperCase()+t.slice(1)}   // la maestra viene en mayúsculas sin tildes: se puede corregir la grafía en contenido.json → localidades
 const textoDe=a=>limpio((edAnuncio(a.id).placa||a.texto_placa||'').replace(/\s*:\s*$/,''));
+/* FOCOM (Ministerio de Gobierno, regla del 12/11): la Provincia entrega fondos y la obra queda a cargo del gobierno local, que no se controla después.
+   Esas metas solo afirman la entrega de fondos (o el convenio firmado): sin "la obra ya está finalizada", sin "ya es una realidad", sin etiqueta de avance. Marca: focom=true en data/anuncios_textos.json o en contenido.json. */
+const esFocom=a=>!!edAnuncio(a.id).focom;
+const OBRA_RE=/\b(construimos|construy[oó]|terminamos|termin[oó]|finalizamos|finaliz[oó]|pavimentamos|adoquinamos|inauguramos|inaugur[oó]|ejecutamos|realizamos|hicimos)\b|ya (?:es|son) una realidad|ya está finalizad|cumplió con (?:entregamos|firmamos)/i;
+const sinObra=arr=>{const r=arr.filter(x=>!/hicimos|realidad|\bobras?\b/i.test(x));return r.length?r:arr};   // frases de campaña que no dan a entender la obra hecha
+const terceraFocom=t=>t.replace(/^Entregamos /,'entregó ').replace(/^Firmamos /,'firmó ');
 const limpioTxt=a=>!!edAnuncio(a.id).placa||!(a.avisos||[]).some(x=>/monto|gobernador|verbo|largo|vacío/.test(x));
 // prioridad del listado de la placa: primero el eje social (viviendas, salud, educación, desarrollo social), después el resto;
 // dentro de cada grupo, de mayor a menor inversión (orden_inv = puesto que calcula el build; el monto nunca llega al tablero); después textos limpios y fecha
@@ -238,40 +244,42 @@ function piezaLocalidad(g){ // placa de listado + copys para una localidad (o to
   if(top.length===1){ // un solo anuncio elegido: placa individual con la píldora de la localidad y los copys de ese anuncio
     const pa=piezaAnuncio(top[0]); const out={id:'l_'+key,titulo:`${c.nombre} en ${L}`,sub:`1 de ${N} ${N===1?'compromiso':'compromisos'} en la placa${dep?' · '+dep:''}`,estado:a0.estado,ig:pa.ig,x:pa.x,sms:pa.sms,placa:Object.assign({},pa.placa,{pill:prov?'en toda la provincia':enLoc(L)}),g,manual,eligeN:1};
     aplicarEdicion(out,'piezas'); return out;}
-  const titulo=`${c.palabra} ${up(enL)}`, intro=pick(c.intro,key+'i'), linea=pick(c.lineas,key+'l');
+  const hayF=top.some(esFocom), titulo=`${c.palabra} ${up(enL)}`, intro=pick(hayF?sinObra(c.intro):c.intro,key+'i'), linea=pick(hayF?sinObra(c.lineas):c.lineas,key+'l');
   const compromisos=N===1?'un compromiso':`${N} compromisos`;
   const cuerpo=a0.estado==='cumplido'
     ?`${intro} ${prov?'En toda la provincia':'En '+L}${depTxt}, el Gobierno de la Provincia ya cumplió ${compromisos}${N>top.length?'. Entre ellos':''}:`
     :`${intro} ${prov?'En toda la provincia':'En '+L}${depTxt}, el Gobierno de la Provincia tiene ${compromisos} en marcha${N>top.length?'. Entre ellos':''}:`;
-  const vi=top.map(a=>`• ${textoDe(a)}${a.estado==='en_ejecucion'&&a.etiqueta?` (${low(a.etiqueta)})`:''}`).join('\n');
+  const vi=top.map(a=>`• ${textoDe(a)}${a.estado==='en_ejecucion'&&a.etiqueta&&!esFocom(a)?` (${low(a.etiqueta)})`:''}`).join('\n');
   const ig=limpio(`${c.emoji} ${titulo}\n\n${cuerpo}\n${vi}\n\n${linea}\n\n${c.tags.join(' ')}`);
   const cuerpoX=cuerpo.replace(/\. Entre ellos:$|:$/,'.');
   const xs=[`${c.emoji} ${titulo}\n${cuerpoX}\n${linea}\n${c.tags.join(' ')}`,`${c.emoji} ${titulo}\n${cuerpoX}\n${c.tags.join(' ')}`,`${c.emoji} ${titulo}: ${compromisos} ${a0.estado==='cumplido'?'cumplidos':'en marcha'}. ${c.tags.join(' ')}`];
   const x=limpio(xs.find(t=>t.length<=280)||xs.at(-1));
-  const sms=limpio(smsArmar(a0.estado,[N>1?`${items[0]} y ${N-1} ${N-1===1?'compromiso más':'compromisos más'}`:items[0],`${compromisos} ${a0.estado==='cumplido'?'cumplidos':'en marcha'}`],key));
-  const placa={tipo:'lista',estado:a0.estado,color:a0.color,palabra:c.palabra,pill:prov?'en toda la provincia':enLoc(L),items,pie:prov?'CÓRDOBA':(a0.departamento_norm==='CAPITAL'?'':(dep?`DEPARTAMENTO ${up(dep)}`:''))};
+  const sms=limpio(smsArmar(a0.estado,[N>1?`${items[0]} y ${N-1} ${N-1===1?'compromiso más':'compromisos más'}`:items[0],`${compromisos} ${a0.estado==='cumplido'?'cumplidos':'en marcha'}`],key,hayF?sinObra(SMS_AP[a0.estado]||[]):undefined));
+  const placa={tipo:'lista',estado:a0.estado,color:a0.color,palabra:c.palabra,hayFocom:hayF,pill:prov?'en toda la provincia':enLoc(L),items,pie:prov?'CÓRDOBA':(a0.departamento_norm==='CAPITAL'?'':(dep?`DEPARTAMENTO ${up(dep)}`:''))};
   const out={id:'l_'+key,titulo:`${c.nombre} en ${L}`,sub:`${compromisos} ${a0.estado==='cumplido'?'cumplidos':'en marcha'} · ${top.length} en la placa${dep?' · '+dep:''}`,estado:a0.estado,ig,x,sms,placa,g,manual,eligeN:top.length};
   aplicarEdicion(out,'piezas'); return out;
 }
 function piezaAnuncio(a){ // placa individual
   const c=CAMP[a.estado], L=a.localidad?tituloLoc(a.localidad):'toda la provincia', t=textoDe(a), key='a_'+a.id;
   const cuando=a.anioTxt?`Lo anunciamos en ${a.anioTxt}.`:'';
-  const hecho=a.estado==='cumplido'?`${t}. ${a.etiqueta==='Fondos entregados'?'Los fondos ya fueron entregados.':a.etiqueta==='Obra finalizada'?'La obra ya está finalizada.':'Ya está cumplido.'}`:`${t}: ${low(a.etiqueta)}.`;
-  const linea=pick(c.lineas,key);
+  const F=esFocom(a);
+  const hecho=F?`${t}.`:a.estado==='cumplido'?`${t}. ${a.etiqueta==='Fondos entregados'?'Los fondos ya fueron entregados.':a.etiqueta==='Obra finalizada'?'La obra ya está finalizada.':'Ya está cumplido.'}`:`${t}: ${low(a.etiqueta)}.`;
+  const linea=pick(F?sinObra(c.lineas):c.lineas,key);
   const ig=limpio(`${c.emoji} ${c.palabra} EN ${up(L)}\n\n${cuando?cuando+' ':''}${hecho}\n\n${linea}\n\n${c.tags.join(' ')}`);
   const xs=[`${c.emoji} ${c.palabra} en ${L}: ${hecho} ${linea} ${c.tags.join(' ')}`,`${c.emoji} ${c.palabra} en ${L}: ${hecho} ${c.tags.join(' ')}`,`${c.emoji} ${c.palabra} en ${L}: ${t}. ${c.tags[1]}`];
   xs.push(`${c.emoji} ${c.palabra} en ${L}: ${a.etiqueta}. ${c.tags[1]}`);
   const x=limpio(xs.find(s=>s.length<=280)||xs.at(-1));
-  const sms=limpio(smsArmar(a.estado,[`${t}${a.estado==='en_ejecucion'?` (${low(a.etiqueta)})`:''}`,t,`${a.etiqueta} en ${L}`],key));   // si el texto no entra en un SMS, queda la etiqueta y la localidad (nunca se corta)
+  const sms=limpio(smsArmar(a.estado,[`${t}${a.estado==='en_ejecucion'&&!F?` (${low(a.etiqueta)})`:''}`,t,`${a.etiqueta} en ${L}`],key,F?sinObra(SMS_AP[a.estado]||[]):undefined));   // si el texto no entra en un SMS, queda la etiqueta y la localidad (nunca se corta)
   const e=edAnuncio(a.id), resumen=e.resumen||a.detalle||'';
   const bajada='bajada' in e?e.bajada:(a.anioTxt?`Anunciado en ${a.anioTxt}`:'');   // tercera línea de la placa: editable; se puede escribir en contenido.json → anuncios → {meta: {bajada}}
   const placa={tipo:'una',estado:a.estado,color:a.color,palabra:c.palabra,pill:a.localidad?enLoc(L):'en toda la provincia',etiqueta:e.etiquetaPlaca||a.etiqueta,texto:t,cuando:bajada,pie:a.departamento_norm==='CAPITAL'?'':(a.departamento?`DEPARTAMENTO ${up(a.departamento)}`:'CÓRDOBA')};
   const gac=limpio([`${t}${a.localidad?' en '+L:''}`,
-    [`• ${a.estado==='cumplido'?'Compromiso cumplido':'Compromiso en marcha'}: ${low(a.etiqueta)}.`,a.anioTxt?`• Anunciado en ${a.anioTxt}.`:null,`• ${linea}`].filter(Boolean).join('\n'),
-    a.estado==='cumplido'?`El Gobierno de la Provincia de Córdoba cumplió con ${low(t)}${a.localidad?`, en ${L}`:''}${a.departamento&&a.localidad&&norm(a.departamento)!==norm(L)?` (departamento ${a.departamento})`:''}.${a.anioTxt?` El compromiso había sido anunciado en ${a.anioTxt}.`:''}`
+    [F?null:`• ${a.estado==='cumplido'?'Compromiso cumplido':'Compromiso en marcha'}: ${low(a.etiqueta)}.`,a.anioTxt?`• Anunciado en ${a.anioTxt}.`:null,`• ${linea}`].filter(Boolean).join('\n'),
+    F?`El Gobierno de la Provincia de Córdoba ${terceraFocom(t)}${a.localidad?`, en ${L}`:''}${a.departamento&&a.localidad&&norm(a.departamento)!==norm(L)?` (departamento ${a.departamento})`:''}.${a.anioTxt?` El compromiso había sido anunciado en ${a.anioTxt}.`:''}`
+    :a.estado==='cumplido'?`El Gobierno de la Provincia de Córdoba cumplió con ${low(t)}${a.localidad?`, en ${L}`:''}${a.departamento&&a.localidad&&norm(a.departamento)!==norm(L)?` (departamento ${a.departamento})`:''}.${a.anioTxt?` El compromiso había sido anunciado en ${a.anioTxt}.`:''}`
       :`El Gobierno de la Provincia de Córdoba avanza con ${low(t)}${a.localidad?`, en ${L}`:''}: ${low(a.etiqueta)}.${a.anioTxt?` El compromiso fue anunciado en ${a.anioTxt}.`:''}`,
-    resumen?`Detalle\n\n${resumen}`:null,
-    `Hacer para Crecer\n\n${pick(c.lineas,key+'g')} ${a.estado==='cumplido'?'Cada compromiso cumplido es parte de un modelo que prioriza el equilibrio fiscal para sostener la inversión en toda la provincia.':'Cada compromiso en marcha es parte de un modelo que prioriza el equilibrio fiscal para sostener la inversión en toda la provincia.'}`,
+    resumen&&!F?`Detalle\n\n${resumen}`:null,
+    `Hacer para Crecer\n\n${pick(F?sinObra(c.lineas):c.lineas,key+'g')} ${a.estado==='cumplido'?'Cada compromiso cumplido es parte de un modelo que prioriza el equilibrio fiscal para sostener la inversión en toda la provincia.':'Cada compromiso en marcha es parte de un modelo que prioriza el equilibrio fiscal para sostener la inversión en toda la provincia.'}`,
     a.fuente_anuncio?`Fuente del anuncio: ${a.fuente_anuncio}`:null,'Material de descarga: [pegar enlace]'].filter(Boolean).join('\n\n'));
   const out={id:key,ig,x,sms,gac,placa,a,redactado:!!(e.placa||e.ig)};
   aplicarEdicion(out,'anuncios'); if(e.placa){out.placa.texto=limpio(e.placa)} return out;
@@ -290,7 +298,7 @@ function piezaDepartamento(dep,g){ // conteo por departamento: volumen y presenc
   const sel=selDe(key), selTop=sel&&sel.length?sel.map(i=>g.find(a=>a.id===i)).filter(Boolean):[];
   let placa;
   if(selTop.length===1){const pa=piezaAnuncio(selTop[0]);placa=Object.assign({},pa.placa,{pill,pie:d.pit==='si'?pie:''})}
-  else if(selTop.length)placa={tipo:'lista',estado:g[0].estado,color:colorPor(g[0].estado),palabra:c.palabra,pill,items:selTop.map(a=>textoDe(a)),pie:d.pit==='si'?pie:''};
+  else if(selTop.length)placa={tipo:'lista',estado:g[0].estado,color:colorPor(g[0].estado),palabra:c.palabra,hayFocom:selTop.some(esFocom),pill,items:selTop.map(a=>textoDe(a)),pie:d.pit==='si'?pie:''};
   else placa={tipo:'dato',estado:g[0].estado,color:colorPor(g[0].estado),palabra:c.palabra,pill,valor:String(N),etiqueta:cum?'compromisos cumplidos':'compromisos en marcha',sub:rango?`en todo el departamento, ${rango}`:'en todo el departamento',pie};
   const out={id:key,titulo:`${c.nombre} en el departamento ${d.nombre_publicable}`,sub:`${N} compromisos${rango?' · '+rango:''}${selTop.length?` · ${selTop.length} en la placa`:' · placa con el total'}`,estado:g[0].estado,ig,x,sms,placa,g,manual:!!selTop.length,eligeN:selTop.length};
   aplicarEdicion(out,'piezas'); return out;
@@ -371,7 +379,7 @@ function pildora(g,v,acc,xr,pyy,pillH){
 // bloques de texto de la placa: individual (etiqueta en píldora de contorno, título, bajada), lista (encabezado y un ítem con tilde por anuncio) o dato (número grande)
 function bloquesAnuncio(v,u,tinta,z=1){
   if(v.tipo==='una')return [{t:v.etiqueta,w:600,s:u*.03*z,c:tinta,chip:true,gap:u*.045*z},{t:v.texto,w:900,s:u*.082*z,c:tinta,lh:1.05,gap:u*.03*z},{t:v.cuando,w:500,s:u*.04*z,c:tinta,lh:1.2,op:.95}];
-  if(v.tipo==='lista'){const n=(v.items||[]).length,b=[{t:n>1?(v.estado==='en_ejecucion'?'Lo que estamos haciendo:':'Lo que ya es una realidad:'):'',w:600,s:u*.036*z,c:tinta,gap:u*.035*z}];
+  if(v.tipo==='lista'){const n=(v.items||[]).length,b=[{t:n>1?(v.estado==='en_ejecucion'?'Lo que estamos haciendo:':v.hayFocom?'Lo que ya cumplimos:':'Lo que ya es una realidad:'):'',w:600,s:u*.036*z,c:tinta,gap:u*.035*z}];
     (v.items||[]).forEach(t=>b.push({t,w:800,s:u*(n>4?.046:n>2?.05:.056)*z,c:tinta,lh:1.12,check:true,estado:v.estado,ind:u*.08*z,gap:u*.02*z}));return b}
   return [{t:v.valor,w:900,s:u*.3*z,c:tinta,lh:1,gap:u*.005*z},{t:v.etiqueta,w:900,s:u*.06*z,c:tinta,up:true,gap:u*.03*z},{t:v.sub,w:600,s:u*.038*z,c:tinta,op:.9}]}
 // banner (W/H de 2,2 a 3,2): una sola franja. A la izquierda, la zona y la píldora en un bloque blanco; en el medio, el texto; a la derecha, el lockup.
@@ -638,6 +646,7 @@ function renderCalidad(root){
   const reglas=[['No menciona “seccional” ni circuitos electorales',test(/seccional|subcircuito|circuito electoral/i)],['No menciona montos ni signos de pesos',test(/\$|millones de pesos|\bmillones\b|presupuesto|monto/i)],['No usa barras “/” (salvo en links)',T.filter(([,t])=>/\//.test(t.replace(/https?:\/\/\S+/g,''))).map(([n])=>n)],
     [`SMS de un solo mensaje (hasta ${SMS_MAX} caracteres con link corto)`,SMS.filter(([,t])=>smsLen(t)>SMS_MAX).map(([n])=>n)],['SMS: qué se hizo antes del link y el link al final',SMS.filter(([,t])=>!/\S.*\. Más info: \[link\]$/.test(t)).map(([n])=>n)],
     ['Textos de X dentro de 280 caracteres',T.filter(([n,t])=>/ · X$/.test(n)&&t.length>280).map(([n])=>n)],['Los textos en marcha no dicen “cumplido”',T.filter(([n,t])=>/^(l|d)_en_ejecucion|^a_/.test(n)&&/\bcumplid[oa]s?\b|\bcumplimos\b/i.test(t)&&(n.startsWith('a_')?PUB.some(a=>'a_'+a.id===n.split(' ')[0]&&a.estado==='en_ejecucion'):true)).map(([n])=>n)],
+    ['FOCOM (Gobierno): solo la entrega de fondos, nunca la obra',T.filter(([n,t])=>{const m=/^a_(\d+) /.exec(n);return m&&esFocom({id:+m[1]})&&OBRA_RE.test(t)}).map(([n])=>n)],
     ['SMS genéricos (el texto no entra en un mensaje: dicen solo el tipo de cumplimiento)',SMS.filter(([n,t])=>/^a_/.test(n)&&/^(?:[^:]+: )?(?:Fondos entregados|Obra finalizada|Cumplido|En ejecución|Obra en ejecución|En licitación|Convenio firmado|En proyecto|Obra adjudicada|Fondos en entrega) en /.test(t)).map(([n])=>n)]];
   const rev=PUB.filter(a=>!limpioTxt(a)),   // solo las que siguen con la placa automática (las redactadas ya no se revisan acá)
     sinLoc=A.filter(a=>a.alcance==='local'&&!a.localidad), fuera=A.filter(a=>(a.avisos||[]).some(x=>/fuera de la maestra/.test(x))), sinDic=A.filter(a=>(a.avisos||[]).some(x=>/sin diccionario/.test(x))), noPub=A.filter(a=>!a.publicable&&a.estado!=='pendiente');
