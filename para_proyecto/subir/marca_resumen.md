@@ -69,4 +69,4 @@ Poppins: ExtraBold/Black para títulos y cifras, SemiBold/Bold para etiquetas. L
 | plaza | 6973×3515 | #09467f | 0.2113 | 14.695 |
 
 ## Qué hay en el repo (no subir)
-`assets/marca/`: _favicon-32, _favicon-prueba, _info, _montaje-accesible, _montaje-calle, _montaje-plaza, cinta-pie-accesible, favicon-cordoba, fondo-accesible, fondo-calle, fondo-plaza, gobierno-color, logos-accesible, logos-calle, logos-plaza, paleta, wordmark-accesible, wordmark-calle, wordmark-plaza.
+`assets/marca/`: _favicon-32, _favicon-prueba, _info, _montaje-accesible, _montaje-calle, _montaje-plaza, cinta-pie-accesible, cinta-tricolor, favicon-cordoba, fondo-accesible, fondo-calle, fondo-plaza, gobierno-color, gobierno-gestion, logos-accesible, logos-calle, logos-plaza, paleta, wordmark-accesible, wordmark-calle, wordmark-plaza.

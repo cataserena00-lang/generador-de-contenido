@@ -22,22 +22,74 @@ Código fuente concatenado. Los secretos están ocultos como `***OCULTO***`.
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:Poppins,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5}
-header{background:#fff;padding:14px 24px 0;position:sticky;top:0;z-index:20;box-shadow:0 2px 14px #00000012}
-header::after{content:"";display:block;height:5px;margin:12px -24px 0;background:linear-gradient(90deg,var(--celeste) 0 33.34%,var(--rojo) 33.34% 66.67%,var(--dorado) 66.67%)}
+/* cabecera: marca, título grande con la última actualización y el selector de módulo; debajo, la franja tricolor y la barra de vista */
+header{background:#fff;padding:12px 20px 0;position:sticky;top:0;z-index:20;box-shadow:0 2px 14px #00000012}
 .top{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-.top img{height:44px;display:block}
-.top .ttl{border-left:1px solid var(--line);padding-left:18px}
-h1{margin:0;font-weight:900;font-size:21px;line-height:1.1;color:var(--gris);letter-spacing:.2px}
-.sub{color:var(--muted);font-size:12px;margin-top:3px;font-weight:600}
-.kpis{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-.kpi{background:#fff;border:1px solid var(--line);border-top:4px solid var(--celeste);border-radius:10px;padding:5px 14px 6px;min-width:96px}
-.kpi:nth-child(3n+2){border-top-color:var(--rojo)} .kpi:nth-child(3n){border-top-color:var(--dorado)}
-.kpi b{display:block;font-size:21px;font-weight:900;line-height:1.15;color:var(--ink)}
-.kpi span{font-size:11px;color:var(--muted);font-weight:600}
-nav.tabs{display:flex;gap:6px;margin:12px 0 12px}
-nav.tabs button{background:#fff;color:var(--gris);border:1px solid var(--line);border-radius:999px;padding:6px 18px;font:700 13px Poppins;cursor:pointer}
-nav.tabs button.on{background:var(--rojo);color:#fff;border-color:var(--rojo)}
-main{max-width:1180px;margin:0 auto;padding:18px 16px 40px}
+.top img{height:38px;display:block}
+.top .ttl{border-left:1px solid var(--line);padding-left:18px;min-width:0}
+h1{margin:0;font-weight:900;font-size:24px;line-height:1.1;color:var(--marino);letter-spacing:.2px}
+.sub{color:var(--muted);font-size:12.5px;font-weight:600;margin-top:3px} .sub b{color:var(--ink);font-weight:700}
+/* navegación entre módulos (tipo de contenido): a la derecha, el módulo actual resaltado */
+nav.mods{margin-left:auto;display:inline-flex;gap:3px;background:#f3f3f4;border-radius:999px;padding:3px}
+nav.mods a{padding:7px 18px;border-radius:999px;font:700 13.5px Poppins;color:var(--gris);text-decoration:none}
+nav.mods a:hover{color:var(--ink)} nav.mods a.on{background:var(--marino);color:#fff}
+.cinta{height:4px;margin:12px -20px 0;background:linear-gradient(90deg,var(--celeste) 0 33.34%,var(--rojo) 33.34% 66.67%,var(--dorado) 66.67%)}
+/* barra de vista: cruza toda la hoja. Primero se elige qué ver (Obra por obra, Resumen); Chequeo queda como enlace discreto a la derecha */
+.vista{display:flex;align-items:flex-end;gap:6px;flex-wrap:wrap;padding-top:8px;margin:0 -20px;padding-left:20px;padding-right:20px;background:#fff}
+.vista .tab{border:0;background:transparent;padding:9px 18px 11px;border-radius:10px 10px 0 0;font:700 15px Poppins;color:var(--gris);position:relative;cursor:pointer;line-height:1.2;text-align:left}
+.vista .tab small{display:block;font-size:11px;font-weight:600;opacity:.8;margin-top:1px}
+.vista .tab.on{color:var(--marino);background:var(--bg)}
+.vista .tab.on::after{content:"";position:absolute;left:18px;right:18px;top:0;height:3px;border-radius:0 0 3px 3px;background:var(--rojo)}
+.vista .tab:focus-visible{outline:2px solid var(--celeste);outline-offset:-2px}
+.vista .chequeo{margin-left:auto;align-self:center;border:0;background:transparent;font:600 12.5px Poppins;color:var(--muted);display:inline-flex;align-items:center;gap:7px;padding:6px 10px;border-radius:8px;margin-bottom:6px;cursor:pointer}
+.vista .chequeo .dot{width:9px;height:9px;border-radius:50%;background:#2e8b57;box-shadow:0 0 0 3px #2e8b5722}
+.vista .chequeo.avisos .dot{background:var(--amarillo);box-shadow:0 0 0 3px #eaab3b33}
+.vista .chequeo:hover,.vista .chequeo.on{background:#f3f3f4;color:var(--ink)}
+/* período: pertenece a la vista elegida (fila completa, arriba de la columna lateral y del contenido) */
+.perbar{grid-column:1 / -1;display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:-2px 0 2px}
+.perbar .lbl{font-size:10.5px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--gris);margin-right:4px}
+.pchip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 14px;font:700 12.5px Poppins;color:var(--ink);cursor:pointer;display:inline-flex;align-items:baseline;gap:6px}
+.pchip small{font-weight:600;color:var(--muted);font-size:11px}
+.pchip:hover{border-color:#c9ccd3}
+.pchip.on{background:var(--marino);border-color:var(--marino);color:#fff} .pchip.on small{color:#ffffffb3}
+.pchip.semana.on{background:var(--dorado);border-color:var(--dorado);color:var(--marino)} .pchip.semana.on small{color:#17233dcc}
+.pchip:disabled{opacity:.5;cursor:not-allowed}
+/* rótulo de contexto: dónde estoy (zona, período con sus fechas y alcance). El período se marca con el color de siempre: marino el día, dorado la semana */
+.ctx{display:flex;align-items:baseline;justify-content:space-between;gap:8px 16px;flex-wrap:wrap;margin:2px 0 12px}
+.ctx .l1{font-size:19px;font-weight:900;line-height:1.2;color:var(--marino)}
+.ctx .l1 .sep{opacity:.4;font-weight:700;margin:0 6px}
+.ctx .l1 .pt{font-weight:700;font-size:15px;color:var(--gris)}
+.ctx.semana .l1 .pt{color:#9a7a3a}
+.ctx .l2{font-size:12px;font-weight:600;color:var(--muted)}
+.tag.dias{background:#f6ecd8;color:#6b4a05} .tag.circ{background:#f1f1f1;color:#6f747d}
+/* cuerpo: columna lateral fija con los filtros y el área de trabajo a la derecha */
+.wrap{display:grid;grid-template-columns:250px minmax(0,1fr);gap:18px;max-width:1900px;margin:0 auto;padding:14px 16px 40px}
+aside{position:sticky;top:calc(var(--hh,52px) + 12px);align-self:start;max-height:calc(100vh - var(--hh,52px) - 24px);overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 12px 6px;scrollbar-width:thin}
+aside h4{margin:0 0 5px;font-size:10.5px;text-transform:uppercase;letter-spacing:.7px;color:var(--gris);font-weight:800}
+aside .sec{margin-bottom:11px;padding-bottom:9px;border-bottom:1px solid var(--line)} aside .sec:last-child{border-bottom:0}
+aside .chips{gap:4px;margin-bottom:0}
+aside .chip{padding:3px 9px;font-size:11.5px}
+aside .zl{display:grid;grid-template-columns:1fr 1fr;gap:2px 4px} aside .zl .todo,aside .zl .subs{grid-column:1 / -1}
+aside .zl button{display:flex;align-items:center;justify-content:space-between;width:100%;border:0;background:transparent;border-radius:7px;padding:3px 8px;font:700 12px Poppins;color:var(--ink);cursor:pointer;text-align:left}
+aside .zl button:hover{background:#f3f3f4} aside .zl button.on{background:var(--rojo);color:#fff}
+aside .zl button small{font-weight:700;opacity:.55}
+aside .zl .subs{display:flex;flex-wrap:wrap;gap:3px;padding:3px 0 5px 10px}
+aside .zl .subs .chip{padding:1px 8px;font-size:10.5px;background:#f3f3f4;color:#6f747d;border-color:#e6e6e8}
+aside .zl .subs .chip.on{background:#8a8f98;color:#fff;border-color:#8a8f98}
+aside details.datos summary{cursor:pointer;font-size:10.5px;text-transform:uppercase;letter-spacing:.7px;color:var(--gris);font-weight:800;list-style:revert}
+aside .kpis{display:grid;grid-template-columns:1fr 1fr;gap:6px 8px;margin:8px 0 2px}
+aside .kpi{display:flex;flex-direction:column;border-left:3px solid var(--celeste);padding-left:7px;line-height:1.15}
+aside .kpi:nth-child(3n+2){border-left-color:var(--rojo)} aside .kpi:nth-child(3n){border-left-color:var(--dorado)}
+aside .kpi b{font-size:15px;font-weight:900;color:var(--ink)} aside .kpi span{font-size:10.5px;color:var(--muted);font-weight:600}
+aside .search{max-width:none;font-size:12.5px;padding:6px 9px}
+aside .res{font-size:11.5px;color:var(--muted);font-weight:600;margin-top:6px;line-height:1.35}
+aside .clr{font-size:11.5px;color:var(--link);font-weight:700;cursor:pointer;background:none;border:0;padding:0;margin-top:6px}
+main{min-width:0}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}aside{position:static;max-height:none}}
+@media(max-width:700px){.card>summary{flex-wrap:wrap;gap:6px}.card>summary .tt{flex:1 1 100%}}
+.listbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:2px 0 10px}
+.listbar .count{margin:0}
+h2.otras{margin:22px 0 10px;font-size:15px;font-weight:900;color:var(--gris);text-transform:uppercase;letter-spacing:.6px;border-top:1px solid var(--line);padding-top:14px}
 footer{border-top:1px solid var(--line);background:#fff;padding:22px 16px;text-align:center}
 footer img{height:46px;opacity:.95} footer p{margin:8px 0 0;font-size:11px;color:var(--muted);font-weight:600}
 .filters{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:14px}
@@ -50,7 +102,7 @@ footer img{height:46px;opacity:.95} footer p{margin:8px 0 0;font-size:11px;color
 .search{width:100%;max-width:320px;border:1px solid var(--line);border-radius:8px;padding:7px 10px;font:600 13px Poppins}
 .search:focus,textarea:focus{outline:2px solid var(--celeste);outline-offset:0}
 .count{font-size:12px;color:var(--muted);margin:2px 0 10px;font-weight:600} .count a{color:var(--link)}
-.circ-head{margin:20px 0 8px;font-weight:900;font-size:16px;display:flex;gap:8px;align-items:baseline;color:var(--rojo)}
+.circ-head{margin:14px 0 6px;font-weight:900;font-size:16px;display:flex;gap:8px;align-items:baseline;color:var(--rojo)}
 .circ-head small{font-weight:600;color:var(--gris);font-size:12px}
 .card{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--marino);border-radius:12px;margin-bottom:10px;overflow:hidden}
 .card.e-accesible{border-left-color:var(--amarillo)} .card.e-plaza{border-left-color:var(--verde)}
@@ -62,11 +114,11 @@ footer img{height:46px;opacity:.95} footer p{margin:8px 0 0;font-size:11px;color
 .card .tt span{font-size:12px;color:var(--muted);font-weight:600}
 .tag{font-size:10.5px;font-weight:700;border-radius:6px;padding:2px 8px;white-space:nowrap}
 .tag.calle{background:var(--celeste-eje);color:var(--marino)} .tag.accesible{background:#fbe9c2;color:#6b4a05} .tag.plaza{background:var(--verde-claro);color:#1f5a38}
-.tag.foto{background:#e7f4ea;color:#1f6a35} .tag.sinfoto{background:#f1f1f1;color:#777} .tag.grupo{background:#f4e6c8;color:#7a5a1c}
+.tag.foto{background:#e7f4ea;color:#1f6a35} .tag.sinfoto{background:#f1f1f1;color:#777} .tag.generica{background:#eceef1;color:var(--marino)} .tag.grupo{background:#f4e6c8;color:#7a5a1c}
 .body{padding:4px 14px 16px;border-top:1px solid var(--line)}
 .grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:18px;margin-top:12px}
-@media(max-width:860px){.grid{grid-template-columns:1fr}.top .ttl{border-left:0;padding-left:0}}
-.fmts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:1200px){.grid{grid-template-columns:1fr}} @media(max-width:860px){.top .ttl{border-left:0;padding-left:0}}
+.fmts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px} .fmts.con-p{grid-template-columns:repeat(4,1fr)}
 .fmt{text-align:center}
 .fmt canvas{width:100%;height:auto;border-radius:8px;border:1px solid var(--line);background:#eee;display:block}
 .fmt .lbl{font-size:11px;font-weight:700;margin:5px 0 4px;color:var(--gris)}
@@ -83,32 +135,53 @@ textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:8px 1
 .meta a,details.doc summary{color:var(--link)}
 details.doc{margin-top:8px;font-size:12px} details.doc summary{cursor:pointer;font-weight:700}
 details.doc pre{white-space:pre-wrap;font:600 12px Poppins;background:#f7f7f8;border-radius:8px;padding:8px 10px}
-.fotosel{display:flex;gap:6px;margin-top:8px;align-items:center;font-size:12px;font-weight:600}
+.fotosel{display:flex;gap:6px;margin-top:8px;align-items:center;font-size:12px;font-weight:600;flex-wrap:wrap}
+/* foto propia: se sube desde la tarjeta (queda en este navegador) y se encuadra arrastrando la placa */
+.fotosel .mini{width:40px;height:40px;object-fit:cover;border-radius:6px;border:1px solid var(--line);background:#eee}
+.fotosel label.btn{cursor:pointer} .fotosel input[type=file]{display:none}
+.fotosel .enc{flex-basis:100%;font-size:11px;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:6px} .fotosel .enc input{width:120px;margin:0}
+.fotosel .aviso{font-size:11px;color:var(--rojo);font-weight:700}
+/* miniaturas de foto: las del parte, la propia y, en una tira aparte, las genéricas de la galería del rubro (assets/galeria/<rubro>/) */
+.fotosel .mb{border:2px solid transparent;border-radius:9px;background:none;padding:2px;cursor:pointer;display:inline-flex;flex-direction:column;align-items:center;gap:1px;font:700 10.5px Poppins;color:var(--gris)}
+.fotosel .mb img{width:56px;height:56px;object-fit:cover;border-radius:6px;display:block;background:#eee}
+.fotosel .mb:hover{border-color:var(--line)} .fotosel .mb.on{border-color:var(--eje,var(--marino));color:var(--ink)}
+.fotosel.gal{border-top:1px dashed var(--line);padding-top:6px} .fotosel.gal .gt{flex-basis:100%;font-size:11.5px;font-weight:700;color:var(--gris)}
+.fotosel label.pie{display:inline-flex;align-items:center;gap:5px;margin-left:8px;font-weight:700;cursor:pointer} .fotosel label.pie input{margin:0;accent-color:var(--marino)}
+.fotosel .genaviso{font-size:11.5px;font-weight:700;color:var(--marino);background:#eceef1;border-radius:6px;padding:3px 9px}
+.fmt canvas.movible{cursor:grab} .fmt canvas.movible:active{cursor:grabbing}
 .note{background:#fbf5e8;border:1px solid #ecd9a8;border-left:5px solid var(--dorado);border-radius:10px;padding:10px 14px;font-size:12.5px;margin-bottom:14px;font-weight:600}
 .list{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:12px}
 .list h3{margin:0 0 6px;font-size:14px;font-weight:800;color:var(--rojo)} .list ul{margin:0;padding-left:18px} .list li{margin:2px 0;font-size:12.5px;font-weight:600}
 .gen-grid{display:grid;gap:12px}
 .titulo{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:6px 10px;border:1px solid var(--line);border-radius:8px;margin-bottom:6px;font-weight:700;font-size:12.5px;background:#fafafa}
-nav.tabs button.cal{margin-left:auto;background:#f0f0f1;color:#8a8f98;border-color:#e4e4e7}
-nav.tabs button.cal.on{background:#8a8f98;color:#fff;border-color:#8a8f98}
 .gris{background:#f3f3f4!important;border-color:#e0e0e2!important;border-left-color:#b8bcc4!important;color:#6f747d}
 .gris h3{color:#6f747d!important}
 .list .hint,.list h3 small{font-size:12px;color:var(--muted);font-weight:600}.list .hint{margin-bottom:6px}
+/* tamaño personalizado: control en la fila del período y cuarto recuadro de cada placa */
+.tam{margin-left:auto;font-size:12px;font-weight:600;color:var(--muted);display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}
+.tam b{color:var(--ink);font-weight:800} .tam .lnk{border:0;background:none;padding:0;color:var(--link);font:700 12px Poppins;cursor:pointer}
+.tam .tamed{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-radius:10px;padding:5px 8px}
+.tam .tamed[hidden]{display:none}
+.tam select,.tam input{font:600 12px Poppins;border:1px solid var(--line);border-radius:6px;padding:3px 6px} .tam select{width:auto;max-width:100%} .tam input{width:72px}
+.tam input.bad{border-color:var(--rojo);background:#fdecef;color:var(--rojo)} .tam .tammsg{flex-basis:100%;color:var(--rojo);font-weight:700;font-size:11.5px} .tam .tammsg:empty{display:none}
+.fmt .pvac{font-size:10.5px;color:var(--rojo);font-weight:700;margin:-2px 0 4px;line-height:1.3}
+.fmt .encp{font-size:10.5px;color:var(--muted);font-weight:600;display:flex;align-items:center;justify-content:center;gap:4px;margin-top:4px} .fmt .encp input{width:80px;margin:0}
 </style>
 </head>
 <body>
 <header>
-  <div class="top"><img id="lockup" alt="Córdoba · Gobierno de la Provincia · Hacer para crecer"><div class="ttl"><h1>GENERADOR DE CONTENIDO</h1><div class="sub" id="sub"></div></div></div>
-  <div class="kpis" id="kpis"></div>
-  <nav class="tabs" id="tabs"></nav>
+  <div class="top"><img id="lockup" alt="Córdoba · Gobierno de la Provincia · Hacer para crecer"><div class="ttl"><h1>GENERADOR DE CONTENIDO</h1><div class="sub" id="sub"></div></div><nav class="mods" aria-label="Tipo de contenido"><a href="index.html" class="on" aria-current="page">Obras</a><a href="anuncios.html">Anuncios</a></nav></div>
+  <div class="cinta"></div>
+  <div class="vista" id="vista" role="tablist"></div>
 </header>
-<main id="main"></main>
+<div class="wrap"><div class="perbar" id="per"></div><aside id="side"></aside><main><div class="ctx" id="ctx"></div><div id="main"></div></main></div>
 <footer><img id="lockup2" alt="Córdoba · Gobierno de la Provincia · Hacer para crecer"><p>Comunicación · Municipalidad de Córdoba · uso interno</p></footer>
 <script>const DATA=/*__DATA__*/null;</script>
 <script>
 (()=>{
 const CONT=DATA.contenido||{};
 const P=DATA.parte, CIRC=DATA.circuitos, A=DATA.assets, FISCAL=(DATA.fiscal&&DATA.fiscal.cifras)||[];
+const GAL=A.galeria||{}, RUBRO_TXT=A.rubros_texto||{};   // galería de fotos genéricas por rubro (viene del build, assets/galeria/<rubro>/)
 const $=(s,r=document)=>r.querySelector(s), esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const nf=n=>String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,'.');
 const up=s=>s.toLocaleUpperCase('es-AR');
@@ -139,13 +212,17 @@ const hash=s=>[...s].reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7);
 /* ---------- datos derivados ---------- */
 const sinBarras=s=>s==null?s:String(s).replace(/\s*\/\s*/g,' y ');
 const ALIAS={'Gral. Arenales':'General Arenales','Gral. Paz':'General Paz','Gral Paz':'General Paz','Talleres (E)':'Talleres Este','Ombu':'Ombú'};
-const obras=P.obras.map(o=>{
+/* seccional = el número del código de circuito (7A, 7B y 7G son la seccional 7). Dato interno: sirve para agrupar y filtrar, nunca se publica. */
+const secc=c=>{const m=String(c||'').match(/^\d+/);return m?m[0]:'?'};
+const ordSecc=(a,b)=>(parseInt(a)||99)-(parseInt(b)||99)||String(a).localeCompare(String(b));
+const enriquecer=o=>{
   const t=TIPOS[o.tipo], c=CIRC[o.circuito]||null, m=o.metricas||{};
   const fotos=(A.fotos[o.doc]||[]), doc=(A.docs[o.doc]||null), ali=s=>s&&(ALIAS[s]||s);
   const rawB=o.barrio||((o.tipo==='mant'||o.tipo==='pav')?o.sector:null);   // los barrios que el parte une con barra se nombran por separado
   const barrioList=rawB?rawB.split('/').map(s=>ali(s.trim())):null;
-  return {...o,barrioList,via:sinBarras(o.via),entre:sinBarras(o.entre),sector:ali(sinBarras(o.sector)),barrio:ali(sinBarras(o.barrio)),eje:t.eje,circNombre:c,m,fotos,docTxt:doc,driveUrl:m.driveUrl};
-});
+  return {...o,barrioList,via:sinBarras(o.via),entre:sinBarras(o.entre),sector:ali(sinBarras(o.sector)),barrio:ali(sinBarras(o.barrio)),eje:t.eje,circNombre:c,m,fotos,docTxt:doc,driveUrl:m.driveUrl,secc:secc(o.circuito)};
+};
+const obras=P.obras.map(enriquecer);
 const reales=obras.filter(o=>!o.grupo);
 const dnde=o=>o.via?`${o.via}${o.entre?`, entre ${o.entre}`:''}`:o.sector;
 const bar=o=>o.barrioList?o.barrioList.join(' y Barrio '):null;      // 'Barrio ' + bar(o) => 'Barrio A y Barrio B'
@@ -226,6 +303,37 @@ function textoX(o){
   const cx=cierre?[`${t}\n${h}\n${cierre}\n${ht}`]:[],cy=cierre?[`${t}\n${hs}\n${cierre}\n${ht}`]:[];
   const c=[...cx,`${t}\n${h}\n${ht}`,...cy,`${t}\n${hs}\n${ht}`,`${hs}\n${ht}`,`${t}\n${ht}`];
   return c.find(x=>x.length<=280)||hs;
+}
+/* ---------- SMS: un solo mensaje (160 caracteres), con un link corto al final ----------
+   Estructura: apertura según alcance + qué se hace y dónde + "Más info: [link]". El marcador [link] se cuenta como un link corto de LINK_LEN caracteres.
+   Apertura: "tu barrio" si la obra tiene barrio; "tu sector" si no lo tiene (rampas) o si es el resumen de una zona; "tu ciudad" para la ciudad entera o una localidad. */
+const SMS_MAX=160, LINK_LEN=22, LINK='[link]';
+const smsLen=t=>String(t).replace(/\[link\]/g,'x'.repeat(LINK_LEN)).length;
+const sinTildes=t=>String(t).replace(/[áéíóúÁÉÍÓÚ]/g,c=>({á:'a',é:'e',í:'i',ó:'o',ú:'u',Á:'A',É:'E',Í:'I',Ó:'O',Ú:'U'}[c]));
+const SMS_AP={barrio:['Obras en tu barrio: ','Hacer para Crecer en tu barrio: ','Tu barrio avanza: '],sector:['Obras en tu sector: ','Hacer para Crecer en tu sector: ','Tu sector avanza: '],ciudad:['Obras en tu ciudad: ','Hacer para Crecer en tu ciudad: ','Tu ciudad avanza: ']};
+const smsArmar=(alcance,cuerpos,key,apsFijas)=>{ // del cuerpo más completo al más corto, y de la apertura elegida a las más cortas: nunca se corta una frase
+  const aps=apsFijas||SMS_AP[alcance]||SMS_AP.ciudad, ap0=aps[hash(key+'s')%aps.length], aps2=[ap0,...aps.filter(a=>a!==ap0)].sort((a,b)=>a===ap0?-1:b===ap0?1:a.length-b.length);
+  const c=[];for(const b of cuerpos.filter(Boolean))for(const a of aps2)c.push(`${a}${b}. Más info: ${LINK}`);
+  for(const b of cuerpos.filter(Boolean))c.push(`${b}. Más info: ${LINK}`);
+  return c.find(x=>smsLen(x)<=SMS_MAX)||c.at(-1);
+};
+function textoSMS(o){
+  const m=o.m,B=BAR(o),en=B?` en ${B}`:'',r=o.rampas,rr=r===1?'rampa':'rampas';
+  // cuerpos sin verbo (la apertura ya dice que es una obra), del más completo al más corto; "sinB" va sin barrio, para la variante que abre con el nombre del barrio
+  let largo,corto,sinB;
+  switch(o.tipo){
+    case 'rampas': largo=o.grupo?`${r} rampas de accesibilidad en ${esq(o)} esquinas de ${o.circuito==='1'?'la zona céntrica':'la Av. J. M. de Pueyrredón'}`:`${r} ${rr} de accesibilidad en ${lugarRampas(o)}`;corto=o.grupo?`${r} rampas en ${o.circuito==='1'?'la zona céntrica':'la Av. Pueyrredón'}`:`${r} ${rr} en ${o.via}`;break;
+    case 'plaza': largo=`renovación integral de la ${o.via}${en}`;corto=`renovación de la ${o.via}${en}`;sinB=`renovación integral de la ${o.via}`;break;
+    case 'mant': largo=`mantenimiento de calles de tierra${m.ml?` (${nf(m.ml)} metros lineales)`:''}${en}`;corto=`mantenimiento de calles${en}`;sinB=`mantenimiento de calles de tierra${m.ml?` (${nf(m.ml)} metros lineales)`:''}`;break;
+    case 'frio': largo=`bacheo en frío${m.nocturno?' en horario nocturno':''}${en}`;corto=`bacheo en frío${en}`;sinB=`bacheo en frío${m.nocturno?' en horario nocturno':''}`;break;
+    case 'bacheo': largo=`bacheo con asfalto sobre ${o.via}${m.m2?` (${nf(m.m2)} m²)`:''}${en}`;corto=`bacheo con asfalto en ${o.via}${en}`;sinB=`bacheo con asfalto sobre ${o.via}${m.m2?` (${nf(m.m2)} m²)`:''}`;break;
+    case 'rehab': largo=`rehabilitación con asfalto sobre ${o.via}${m.ml?` (${nf(m.ml)} metros)`:''}${en}`;corto=`rehabilitación de ${o.via}${en}`;sinB=`rehabilitación con asfalto sobre ${o.via}${m.ml?` (${nf(m.ml)} metros)`:''}`;break;
+    case 'hormigon': largo=`rehabilitación con hormigón sobre ${o.via}${m.m2?` (${nf(m.m2)} m²)`:''}${en}`;corto=`rehabilitación con hormigón en ${o.via}${en}`;sinB=`rehabilitación con hormigón sobre ${o.via}${m.m2?` (${nf(m.m2)} m²)`:''}`;break;
+    case 'pav': largo=`pavimentación de ${m.cuadras} cuadras${en}`;corto=largo;sinB=`pavimentación de ${m.cuadras} cuadras`;break;
+  }
+  if(o.tipo!=='rampas'&&B&&hash((o.id||'')+'sb')%4===3)return smsArmar('barrio',[sinB,sinB&&sinB.replace(/ \(.*?\)/,'')],o.id||'',[`${B}: `]);   // una de cada cuatro abre con el nombre del barrio
+  const alcance=o.tipo==='rampas'?'sector':(B?'barrio':'sector');
+  return smsArmar(alcance,[largo,corto,corto&&corto.replace(/ en Barrio .*$/,'')],o.id||'');
 }
 /* texto de placa editable: líneas = [título] [dato] [lugar] [barrio] */
 function textoPlaca(v){
@@ -379,7 +487,7 @@ function generales(){
     cierre:'Hacer para Crecer: infraestructura, trabajo y cuentas en orden para los cordobeses.'});
   FISCAL.forEach((f,i)=>add('g_fiscal_'+i,'Cifra oficial: '+(f.titulo||i+1),'calle',[f.titulo||''],f.texto,f.texto.slice(0,280),{kicker:'Dato oficial',valor:f.valor||'',etiqueta:f.etiqueta||'',sub:f.fuente||''},{titulo:f.titulo||'',lead:f.texto,cierre:MODELO}));
   G.forEach(x=>{const c=(CONT.generales||{})[x.id];if(!c)return;
-    if(c.titulos)x.titulos=c.titulos.map(limpio);if(c.ig)x.ig=limpio(c.ig);if(c.x)x.x=limpio(c.x);if(c.gac)x.gac=limpio(c.gac);if(c.placa)Object.assign(x.placa,c.placa);x.redactado=true;});
+    if(c.titulos)x.titulos=c.titulos.map(limpio);if(c.ig)x.ig=limpio(c.ig);if(c.x)x.x=limpio(c.x);if(c.gac)x.gac=limpio(c.gac);if(c.sms)x.sms=limpio(c.sms);if(c.placa)Object.assign(x.placa,c.placa);x.redactado=true;});
   return G;
 }
 
@@ -391,11 +499,11 @@ async function drawSvg(g,name,dx,dy,dw,dh){const {img}=await svg(name);g.drawIma
 async function drawCrop(g,name,c,dx,dy,dw,dh){const {img,vb}=await svg(name);const k=img.naturalWidth/vb.w;g.drawImage(img,(c[0]-vb.x)*k,(c[1]-vb.y)*k,c[2]*k,c[3]*k,dx,dy,dw,dh);}
 async function aspect(name){const {vb}=await svg(name);return vb.w/vb.h;}
 function wrap(g,text,maxW){const out=[];for(const par of String(text).split('\n')){let line='';for(const w of par.split(' ')){const t=line?line+' '+w:w;if(g.measureText(t).width>maxW&&line){out.push(line);line=w}else line=t}out.push(line)}return out}
-function layout(g,blocks,maxW,availH){
-  blocks=blocks.filter(b=>b.t!=null&&b.t!=='');let k=1;
-  for(let it=0;it<14;it++){
-    let tot=0;const L=blocks.map(b=>{g.font=`${b.w} ${b.s*k}px Poppins`;const lines=wrap(g,b.up?up(b.t):b.t,maxW);const lh=b.s*k*(b.lh||1.12);tot+=lines.length*lh+(b.gap||0)*k;return {b,lines,lh,s:b.s*k}});
-    if(tot-(blocks.at(-1).gap||0)*k<=availH||it===13)return {L,tot,k};k*=.93;
+function layout(g,blocks,maxW,availH,fitW=false){   // fitW: además, ninguna palabra puede pasar del ancho (placas anchas)
+  blocks=blocks.filter(b=>b.t!=null&&b.t!=='');let k=1;if(!blocks.length)return {L:[],tot:0,k};   // sin texto (por ejemplo, sin subtítulo)
+  for(let it=0;it<(fitW?24:14);it++){
+    let tot=0,ancho=true;const L=blocks.map(b=>{g.font=`${b.w} ${b.s*k}px Poppins`;const lines=wrap(g,b.up?up(b.t):b.t,maxW);if(fitW&&lines.some(l=>g.measureText(l).width>maxW))ancho=false;const lh=b.s*k*(b.lh||1.12);tot+=lines.length*lh+(b.gap||0)*k;return {b,lines,lh,s:b.s*k}});
+    if((tot-(blocks.at(-1).gap||0)*k<=availH&&ancho)||it===(fitW?23:13))return {L,tot,k};k*=.93;
   }
 }
 function drawLayout(g,lay,x,y,align,maxW){
@@ -405,16 +513,19 @@ function drawLayout(g,lay,x,y,align,maxW){
     cy+=(b.gap||0)*lay.k;}
   g.globalAlpha=1;
 }
-function cover(g,img,x,y,w,h){const r=Math.max(w/img.naturalWidth,h/img.naturalHeight),sw=w/r,sh=h/r;g.drawImage(img,(img.naturalWidth-sw)/2,(img.naturalHeight-sh)/2,sw,sh,x,y,w,h)}
+function cover(g,img,x,y,w,h,enc){ // recorte "cover"; enc = encuadre elegido a mano: fx, fy (0 a 1, qué parte de la foto se ve) y z (zoom)
+  const e={fx:(enc&&enc.fx)??.5,fy:(enc&&enc.fy)??.5,z:(enc&&enc.z)||1},r=Math.max(w/img.naturalWidth,h/img.naturalHeight)*e.z,dw=img.naturalWidth*r,dh=img.naturalHeight*r;
+  g.save();g.beginPath();g.rect(x,y,w,h);g.clip();g.drawImage(img,x-(dw-w)*e.fx,y-(dh-h)*e.fy,dw,dh);g.restore()}   // con zoom menor a 1 la foto no cubre el recuadro y se ve el fondo alrededor
 function rrect(g,x,y,w,h,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath()}
 
 async function footer(g,W,H,e,story,eje,solo){
-  const fh=W*.17, y1=story?H*.885:H, y0=y1-fh;  // stories: logos más abajo (queda ~11% libre abajo, cerca del mínimo que recomienda Meta)
+  const u=Math.min(W,H), land=W>H, fh=u*.17, y1=story?H*.885:H, y0=y1-fh;   // u: unidad base (en vertical y cuadrado es el ancho, así que nada cambia)  // stories: logos más abajo (queda ~11% libre abajo, cerca del mínimo que recomienda Meta)
   if(!solo){g.fillStyle=e.pie;g.fillRect(0,y0,W,H-y0);}
   const asp=await aspect(e.logos);
   let lx,lw;
-  if(eje==='accesible'&&!solo){const ca=await aspect('cinta-pie-accesible');const cw=fh*ca;await drawSvg(g,'cinta-pie-accesible',0,y0,cw,fh);lx=cw+W*.03;lw=W-lx-W*.05;}
-  else{lw=W*(eje==='plaza'?.90:.84);lx=(W-lw)/2;}
+  if(eje==='accesible'&&!solo){const ca=await aspect('cinta-pie-accesible');const cw=fh*ca;await drawSvg(g,'cinta-pie-accesible',0,y0,cw,fh);lx=cw+u*.03;lw=W-lx-u*.05;
+    if(land){const l2=Math.min(lw,u*.92-cw);lx+=(lw-l2)/2;lw=l2}}   // apaisado: los logos miden lo mismo que en el cuadrado y van centrados en la franja
+  else{lw=u*(eje==='plaza'?.90:.84);lx=(W-lw)/2;}
   const lh=lw/asp, ly=y0+(fh-lh)/2;
   await drawSvg(g,e.logos,lx,ly,lw,lh);
   return y0;
@@ -422,155 +533,341 @@ async function footer(g,W,H,e,story,eje,solo){
 const TEMA={calle:{bg:'#17233d',panel:'#bedff7',ink:'#17233d',acc:'#bc1734',blk:'#bc1734',band:'#bc1734'},
   accesible:{bg:'#eaab3b',panel:'#bedff7',ink:'#09467f',acc:'#09467f',blk:'#e8d7b0',band:'#ffffff'},
   plaza:{bg:'#c6dfce',panel:'#ffffff',ink:'#09467f',acc:'#2f7a52',blk:'#ffffff',band:'#4da070'}};
-function geo(W,H,y0,eje){const story=H>W*1.6,sh=eje==='plaza'?W*297/6917:0;
-  const panelH=Math.round(y0*(story?.2:.25)),panelB=y0-sh-W*(eje==='plaza'?.02:story?.05:.035);return {story,sh,panelH,panelB,panelT:panelB-panelH}}
-async function bloqueEje(g,W,e,T,x0,y,alignRight){ // bloque con el logotipo del eje, pegado al borde como en los carteles
-  const wa=await aspect(e.wm),ww=W*.30,wh=ww/wa,pad=W*.035,bw=ww+pad*2,bh=wh+pad*2,x=alignRight?W-bw:0;
-  g.fillStyle=T.blk;g.fillRect(x,y,bw,bh);await drawSvg(g,e.wm,x+pad,y+pad,ww,wh);}
-function panelDatos(g,W,v,T,gm){
-  const {panelT,panelH}=gm,px=W*.05,pw=W*.9,ip=W*.035;
-  g.save();g.shadowColor='#0003';g.shadowBlur=W*.02;g.shadowOffsetY=W*.006;g.fillStyle=T.panel;rrect(g,px,panelT,pw,panelH,W*.022);g.fill();g.restore();
-  if(v.valor){
-    let s=Math.min(panelH*.62,W*.2);g.font=`800 ${s}px Poppins`;while(g.measureText(v.valor).width>W*.30&&s>10){s*=.94;g.font=`800 ${s}px Poppins`}
+function geo(W,H,y0,eje){const u=Math.min(W,H),story=H>W*1.6,sh=eje==='plaza'?W*297/6917:0;
+  const panelH=Math.round(y0*(story?.2:.25)),panelB=y0-sh-u*(eje==='plaza'?.02:story?.05:.035);return {story,sh,panelH,panelB,panelT:panelB-panelH}}
+async function bloqueEje(g,W,e,T,x0,y,alignRight,u=W){ // bloque con el logotipo del eje, pegado al borde como en los carteles
+  const wa=await aspect(e.wm),ww=u*.30,wh=ww/wa,pad=u*.035,bw=ww+pad*2,bh=wh+pad*2,x=alignRight?W-bw:0;
+  g.fillStyle=T.blk;g.fillRect(x,y,bw,bh);await drawSvg(g,e.wm,x+pad,y+pad,ww,wh);return y+bh}
+function panelDatos(g,W,v,T,gm,u=W,rect=null){ // rect = [x, ancho] del panel (apaisado); sin rect, el panel a lo ancho de siempre
+  const {panelT,panelH}=gm,px=rect?rect[0]:W*.05,pw=rect?rect[1]:W*.9,ip=u*.035,z=rect?1.3:1;   // z: en apaisado el panel es más grande y la letra también
+  g.save();g.shadowColor='#0003';g.shadowBlur=u*.02;g.shadowOffsetY=u*.006;g.fillStyle=T.panel;rrect(g,px,panelT,pw,panelH,u*.022);g.fill();g.restore();
+  if(rect&&(v.valor?pw<u*.95:true)){   // panel angosto de apaisado: el número arriba y las etiquetas debajo, todo dentro del panel
+    const lay=layout(g,[{t:v.valor||'',w:800,s:u*.16,c:T.ink,lh:1,gap:u*.015},{t:v.valor?v.etiqueta:v.main,w:800,s:u*z*(v.valor?.043:.06),c:v.valor?T.acc:T.ink,up:true,lh:1.08,gap:u*.012},{t:v.sub||'',w:600,s:u*z*.036,c:'#17233d',lh:1.15,gap:u*.008},{t:v.extra||'',w:600,s:u*z*.026,c:'#17233d',op:.7}],pw-ip*2,panelH-ip*1.5,true);
+    drawLayout(g,lay,px+ip,panelT+(panelH-lay.tot)/2,'left',pw-ip*2);
+  } else if(v.valor){
+    let s=Math.min(panelH*.62,u*.2);g.font=`800 ${s}px Poppins`;while(g.measureText(v.valor).width>(rect?pw/3:W*.30)&&s>10){s*=.94;g.font=`800 ${s}px Poppins`}
     const vw=g.measureText(v.valor).width;g.fillStyle=T.ink;g.textAlign='left';g.textBaseline='alphabetic';g.fillText(v.valor,px+ip,panelT+panelH/2+s*.36);
-    const rx=px+ip+vw+W*.03,rw=px+pw-ip-rx;
-    const lay=layout(g,[{t:v.etiqueta,w:800,s:W*.043,c:T.acc,up:true,lh:1.08,gap:W*.01},{t:v.sub||'',w:600,s:W*.034,c:'#17233d',lh:1.15,gap:W*.008},{t:v.extra||'',w:600,s:W*.026,c:'#17233d',op:.7}],rw,panelH-ip);
+    const rx=px+ip+vw+u*.03,rw=px+pw-ip-rx;
+    const lay=layout(g,[{t:v.etiqueta,w:800,s:u*z*.043,c:T.acc,up:true,lh:1.08,gap:u*.01},{t:v.sub||'',w:600,s:u*z*.034,c:'#17233d',lh:1.15,gap:u*.008},{t:v.extra||'',w:600,s:u*z*.026,c:'#17233d',op:.7}],rw,panelH-ip);
     drawLayout(g,lay,rx,panelT+(panelH-lay.tot)/2,'left',rw);
   } else {
-    const lay=layout(g,[{t:v.main,w:800,s:W*.06,c:T.ink,up:true,lh:1.08,gap:W*.012},{t:v.sub||'',w:600,s:W*.036,c:'#17233d',lh:1.15,gap:W*.008},{t:v.extra||'',w:600,s:W*.026,c:'#17233d',op:.7}],pw-ip*2,panelH-ip);
+    const lay=layout(g,[{t:v.main,w:800,s:u*z*.06,c:T.ink,up:true,lh:1.08,gap:u*.012},{t:v.sub||'',w:600,s:u*z*.036,c:'#17233d',lh:1.15,gap:u*.008},{t:v.extra||'',w:600,s:u*z*.026,c:'#17233d',op:.7}],pw-ip*2,panelH-ip);
     drawLayout(g,lay,px+ip,panelT+(panelH-lay.tot)/2,'left',pw-ip*2);
   }
 }
-/* Diseño A: foto en círculo con aro del eje */
-async function photoCirculo(g,W,H,v,e,y0,topSafe,im){
-  const eje=v.eje,T=TEMA[eje],gm=geo(W,H,y0,eje),{story,sh,panelT}=gm;
-  g.fillStyle=T.bg;g.fillRect(0,0,W,y0);
-  if(eje==='accesible')await drawCrop(g,'fondo-accesible',[0,0,1415,483],0,0,W*.5,W*.5*483/1415);
-  if(eje==='plaza')await drawCrop(g,'fondo-plaza',[150,220,560,520],W*.04,topSafe+W*.03,W*.1,W*.1*520/560);
-  const cTop=story?H*.115:topSafe+W*.03, ring=W*.085;
-  let r=(panelT+W*.07-cTop)/2-ring; r=Math.min(r,W*.385);r=Math.max(r,W*.2);
-  const cx=W/2, cy=cTop+ring+r;
+/* aro del eje alrededor de la foto en círculo (el mismo en todas las formas) */
+function aroCirculo(g,eje,cx,cy,r,ring,u){
   if(eje==='calle'){
     g.fillStyle='#bc1734';g.beginPath();g.arc(cx,cy,r+ring,0,7);g.fill();
     g.strokeStyle='#bedff7';g.lineWidth=ring*.62;g.beginPath();g.arc(cx,cy,r+ring*.5,0,7);g.stroke();
-    g.strokeStyle='#17233d';g.lineWidth=W*.0065;g.setLineDash([W*.03,W*.024]);g.beginPath();g.arc(cx,cy,r+ring*.5,0,7);g.stroke();g.setLineDash([]);
+    g.strokeStyle='#17233d';g.lineWidth=u*.0065;g.setLineDash([u*.03,u*.024]);g.beginPath();g.arc(cx,cy,r+ring*.5,0,7);g.stroke();g.setLineDash([]);
   } else if(eje==='accesible'){
     g.fillStyle='#fff';g.beginPath();g.arc(cx,cy,r+ring*.55,0,7);g.fill();
-    g.strokeStyle='#17233d';g.lineWidth=W*.012;g.beginPath();g.arc(cx,cy,r+ring*.55,0,7);g.stroke();
+    g.strokeStyle='#17233d';g.lineWidth=u*.012;g.beginPath();g.arc(cx,cy,r+ring*.55,0,7);g.stroke();
   } else {
     g.fillStyle='#89ba96';g.beginPath();g.arc(cx,cy,r+ring*.8,0,7);g.fill();
     g.fillStyle='#4da070';g.beginPath();g.arc(cx,cy,r+ring*.35,0,7);g.fill();
   }
-  g.save();g.beginPath();g.arc(cx,cy,r,0,7);g.clip();cover(g,im,cx-r,cy-r,2*r,2*r);g.restore();
-  await bloqueEje(g,W,e,T,0,topSafe,true);
-  panelDatos(g,W,v,T,gm);
+}
+/* Diseño A: foto en círculo con aro del eje */
+async function photoCirculo(g,W,H,v,e,y0,topSafe,im){
+  const eje=v.eje,T=TEMA[eje],gm=geo(W,H,y0,eje),{story,sh,panelT}=gm,u=Math.min(W,H);
+  g.fillStyle=T.bg;g.fillRect(0,0,W,conPie(v)?y0:H);
+  if(eje==='accesible')await drawCrop(g,'fondo-accesible',[0,0,1415,483],0,0,u*.5,u*.5*483/1415);
+  if(eje==='plaza')await drawCrop(g,'fondo-plaza',[150,220,560,520],u*.04,topSafe+u*.03,u*.1,u*.1*520/560);
+  const cTop=story?H*.115:topSafe+u*.03, ring=u*.085;
+  const r0=(panelT+u*.07-cTop)/2-ring; let r=r0; r=Math.min(r,u*.385);r=Math.max(r,u*.2);
+  const cx=W/2, cy=cTop+ring+r+(H>W*16/9&&r0>r?r0-r:0);   // historias más altas que 9:16: el círculo baja al centro del espacio que sobra
+  aroCirculo(g,eje,cx,cy,r,ring,u);
+  g.save();g.beginPath();g.arc(cx,cy,r,0,7);g.clip();cover(g,im,cx-r,cy-r,2*r,2*r,v._enc);g.restore();
+  if(conPie(v))await bloqueEje(g,W,e,T,0,topSafe,true,u);
+  panelDatos(g,W,v,T,gm,u);
   if(eje==='plaza')await drawCrop(g,'fondo-plaza',[28,2475,6917,297],0,y0-sh,W,sh);
 }
 /* Diseño B: foto a sangre arriba con corte diagonal y banda de color */
 async function photoMarco(g,W,H,v,e,y0,topSafe,im){
-  const eje=v.eje,T=TEMA[eje],gm=geo(W,H,y0,eje),{sh,panelT}=gm;
-  g.fillStyle=T.bg;g.fillRect(0,0,W,y0);
-  const pb=panelT+W*.05,sl=W*.09,bd=W*.022;
+  const eje=v.eje,T=TEMA[eje],gm=geo(W,H,y0,eje),{sh,panelT}=gm,u=Math.min(W,H);
+  g.fillStyle=T.bg;g.fillRect(0,0,W,conPie(v)?y0:H);
+  const pb=panelT+u*.05,sl=u*.09,bd=u*.022;
   g.fillStyle=T.band;g.beginPath();g.moveTo(0,0);g.lineTo(W,0);g.lineTo(W,pb+bd);g.lineTo(0,pb+sl+bd);g.closePath();g.fill();
-  g.save();g.beginPath();g.moveTo(0,0);g.lineTo(W,0);g.lineTo(W,pb);g.lineTo(0,pb+sl);g.closePath();g.clip();cover(g,im,0,0,W,pb+sl);g.restore();
-  await bloqueEje(g,W,e,T,0,topSafe,false);
-  panelDatos(g,W,v,T,gm);
+  g.save();g.beginPath();g.moveTo(0,0);g.lineTo(W,0);g.lineTo(W,pb);g.lineTo(0,pb+sl);g.closePath();g.clip();cover(g,im,0,0,W,pb+sl,v._enc);g.restore();
+  if(conPie(v))await bloqueEje(g,W,e,T,0,topSafe,false,u);
+  panelDatos(g,W,v,T,gm,u);
   if(eje==='plaza')await drawCrop(g,'fondo-plaza',[28,2475,6917,297],0,y0-sh,W,sh);
 }
+/* wordmark del eje en una ficha redondeada (Foto completa) y bloques de texto en blanco sobre la foto */
+async function chipEje(g,e,cx,cy,u){const wa=await aspect(e.wm), cw=u*.36, ch=cw/wa, pad=u*.025;
+  g.fillStyle=e.chip;rrect(g,cx,cy,cw+pad*2,ch+pad*2,u*.02);g.fill();await drawSvg(g,e.wm,cx+pad,cy+pad,cw,ch);return cy+ch+pad*2}
+function bloquesCompleta(v,e,u){
+  const bl=[{t:v.kicker,w:600,s:u*.032,c:e.acento,up:true,gap:u*.012}];
+  if(v.valor)bl.push({t:`${v.valor} ${v.etiqueta}`,w:800,s:u*.085,c:'#fff',lh:1.05,gap:u*.02});else bl.push({t:v.main,w:800,s:u*.085,c:'#fff',lh:1.05,gap:u*.02});
+  if(v.sub)bl.push({t:v.sub,w:600,s:u*.04,c:'#fff',gap:u*.012});if(v.extra)bl.push({t:v.extra,w:600,s:u*.03,c:'#fff',op:.8});return bl}
 /* Diseño C: foto completa con degradado y texto encima */
 async function photoCompleta(g,W,H,v,e,y0,topSafe,im){
-  const story=H>W*1.6, fullH=story?H:y0, ytxt=story?H*.885-W*.17-W*.015:y0;  // stories: la foto cubre todo el lienzo (sin azul liso abajo) y los logos van sobre el degradado
-  cover(g,im,0,0,W,fullH);
+  const story=H>W*1.6, u=Math.min(W,H), fullH=story?H:y0, ytxt=story&&conPie(v)?H*.885-u*.17-u*.015:y0;   // sin pie, el degradado y el texto bajan hasta y0  // stories: la foto cubre todo el lienzo (sin azul liso abajo) y los logos van sobre el degradado
+  cover(g,im,0,0,W,fullH,v._enc);
   const gr=g.createLinearGradient(0,fullH*.3,0,fullH);const col=e.dark;
   gr.addColorStop(0,col+'00');gr.addColorStop(.5,col+'b0');gr.addColorStop(1,col+'f5');g.fillStyle=gr;g.fillRect(0,fullH*.3,W,fullH*.7);
-  const wa=await aspect(e.wm), cw=W*.36, ch=cw/wa, pad=W*.025, cx=W*.05, cy=topSafe+W*.04;
-  g.fillStyle=e.chip;rrect(g,cx,cy,cw+pad*2,ch+pad*2,W*.02);g.fill();await drawSvg(g,e.wm,cx+pad,cy+pad,cw,ch);
-  const bm=W*.06, mw=W-bm*2;
-  const bl=[{t:v.kicker,w:600,s:W*.032,c:e.acento,up:true,gap:W*.012}];
-  if(v.valor)bl.push({t:`${v.valor} ${v.etiqueta}`,w:800,s:W*.085,c:'#fff',lh:1.05,gap:W*.02});else bl.push({t:v.main,w:800,s:W*.085,c:'#fff',lh:1.05,gap:W*.02});
-  if(v.sub)bl.push({t:v.sub,w:600,s:W*.04,c:'#fff',gap:W*.012});if(v.extra)bl.push({t:v.extra,w:600,s:W*.03,c:'#fff',op:.8});
-  const lay=layout(g,bl,mw,ytxt*.55);drawLayout(g,lay,bm,ytxt-W*.04-lay.tot+(bl.at(-1).gap||0),'left',mw);
+  if(conPie(v))await chipEje(g,e,u*.05,topSafe+u*.04,u);
+  const bm=u*.06, mw=W-bm*2, bl=bloquesCompleta(v,e,u);
+  const lay=layout(g,bl,mw,ytxt*.55);drawLayout(g,lay,bm,ytxt-u*.04-lay.tot+(bl.at(-1).gap||0),'left',mw);
   return story?'full':undefined;
 }
 const ESTILOS={circulo:photoCirculo,marco:photoMarco,completa:photoCompleta};
 async function photoPlate(g,W,H,v,e,y0,topSafe,fotoIdx,estilo){
   const im=await loadImg(v.fotos[fotoIdx%v.fotos.length]);
-  const k=(estilo&&estilo!=='sugerido')?estilo:window.__estiloSugerido(v,im);
+  const k=(estilo&&estilo!=='sugerido')?estilo:window.__estiloSugerido(v,im,esGen(v,fotoIdx),formaDe(W,H));
   return await ESTILOS[k](g,W,H,v,e,y0,topSafe,im);
 }
-async function brandPlate(g,W,H,v,e,y0,topSafe,eje){
-  const bm=W*.07,mw=W-bm*2;
-  const blocks=(col1,col2,col3)=>{const b=[];
-    if(v.valor){b.push({t:v.valor,w:800,s:W*.26,c:col1,lh:1,gap:W*.01});b.push({t:v.etiqueta,w:800,s:W*.052,c:col2,up:true,gap:W*.025});}
-    else b.push({t:v.main,w:800,s:W*.085,c:col1,up:true,lh:1.08,gap:W*.025});
-    if(v.sub)b.push({t:v.sub,w:600,s:W*.042,c:col3,gap:W*.012});
-    if(v.extra)b.push({t:v.extra,w:600,s:W*.032,c:col3,op:.75});return b;};
-  if(eje==='calle'){
-    const wa=await aspect(e.wm),ww=W*.36,wh=ww/wa,arcW=W*.42,arcH=arcW*520/1445;
-    const bh=topSafe+W*.045+wh+arcH+W*.025;
-    g.fillStyle='#fff';g.fillRect(0,0,W,y0);g.fillStyle=e.dark;g.fillRect(0,0,W,bh);
-    await drawCrop(g,'fondo-calle',[3713,0,1956,680],W*.58,bh,W*.42,W*.42*680/1956);
-    await drawCrop(g,'fondo-calle',[0,1729,1445,520],0,bh-arcH,arcW,arcH);
-    await drawSvg(g,e.wm,bm,topSafe+W*.045,ww,wh);
-    const top=bh+W*.05, lay=layout(g,blocks('#17233d','#bd1635','#17233d'),mw,y0-top-W*.04);
-    drawLayout(g,lay,bm,top+(y0-top-W*.04-lay.tot)/2,'left',mw);
-  } else if(eje==='accesible'){
-    const wa=await aspect(e.wm),ww=W*.60,wh=ww/wa;
-    const yh=topSafe>0?2*topSafe+wh:Math.max(W*1408/2835,wh+W*.09);const sc=yh/1408,iw=2835*sc; // stories: bloque simétrico, el logotipo queda centrado y fuera de la zona segura
-    g.fillStyle='#fff';g.fillRect(0,0,W,y0);
-    g.save();g.beginPath();g.rect(0,0,W,yh);g.clip();await drawCrop(g,'fondo-accesible',[0,0,2835,1408],(W-Math.max(iw,W))/2,0,Math.max(iw,W),yh);g.restore();
-    await drawSvg(g,e.wm,(W-ww)/2,(yh-wh)/2,ww,wh);
-    const top=yh+W*.03,hh=y0-top-W*.03;
+const bloquesMarca=(v,u,col1,col2,col3)=>{const b=[];   // texto de la placa sin foto: número grande o título, etiqueta, subtítulo y dato extra
+    if(v.valor){b.push({t:v.valor,w:800,s:u*.26,c:col1,lh:1,gap:u*.01});b.push({t:v.etiqueta,w:800,s:u*.052,c:col2,up:true,gap:u*.025});}
+    else b.push({t:v.main,w:800,s:u*.085,c:col1,up:true,lh:1.08,gap:u*.025});
+    if(v.sub)b.push({t:v.sub,w:600,s:u*.042,c:col3,gap:u*.012});
+    if(v.extra)b.push({t:v.extra,w:600,s:u*.032,c:col3,op:.75});return b;};
+async function textoAccesible(g,v,u,x,top,mw,hh,align,W){   // centrado: la píldora va al centro del lienzo (W), como siempre
     const b=[];
-    if(v.valor)b.push({t:v.valor,w:800,s:W*.27,c:'#09467f',lh:1,gap:W*.012});else b.push({t:v.main,w:800,s:W*.085,c:'#09467f',up:true,gap:W*.02});
-    const lay0=layout(g,b,mw,hh*.62);
-    const pillH=v.valor?W*.1:0;const rest=[];if(v.sub)rest.push({t:v.sub,w:600,s:W*.04,c:'#17233d',gap:W*.01});if(v.extra)rest.push({t:v.extra,w:600,s:W*.03,c:'#17233d',op:.75});
-    const lay1=layout(g,rest,mw,hh-lay0.tot-pillH-W*.03);
-    const tot=lay0.tot+(v.valor?pillH+W*.025:0)+lay1.tot;let y=top+Math.max(0,(hh-tot)/2);
-    drawLayout(g,lay0,bm,y,'center',mw);y+=lay0.tot;
-    if(v.valor){g.font=`600 ${W*.05}px Poppins`;const tw=Math.min(mw,g.measureText(v.etiqueta).width+W*.1);g.fillStyle='#bedff7';rrect(g,(W-tw)/2,y,tw,pillH,W*.012);g.fill();g.fillStyle='#09467f';g.textAlign='center';g.fillText(v.etiqueta,W/2,y+pillH*.68);y+=pillH+W*.025;}
-    drawLayout(g,lay1,bm,y,'center',mw);
-  } else {
-    const wa=await aspect(e.wm),ww=W*.50,wh=ww/wa,gh=topSafe+wh+W*.09,sh=W*297/6917;
+    if(v.valor)b.push({t:v.valor,w:800,s:u*.27,c:'#09467f',lh:1,gap:u*.012});else b.push({t:v.main,w:800,s:u*.085,c:'#09467f',up:true,gap:u*.02});
+    const lay0=layout(g,b,mw,hh*.62,align==='left');
+    const pillH=v.valor?u*.1:0;const rest=[];if(v.sub)rest.push({t:v.sub,w:600,s:u*.04,c:'#17233d',gap:u*.01});if(v.extra)rest.push({t:v.extra,w:600,s:u*.03,c:'#17233d',op:.75});
+    const lay1=layout(g,rest,mw,hh-lay0.tot-pillH-u*.03,align==='left');
+    const tot=lay0.tot+(v.valor?pillH+u*.025:0)+lay1.tot;let y=top+Math.max(0,(hh-tot)/2);
+    drawLayout(g,lay0,x,y,align,mw);y+=lay0.tot;
+    if(v.valor){g.font=`600 ${u*.05}px Poppins`;const tw=Math.min(mw,g.measureText(v.etiqueta).width+u*.1),px=align==='center'?(W-tw)/2:x;g.fillStyle='#bedff7';rrect(g,px,y,tw,pillH,u*.012);g.fill();g.fillStyle='#09467f';g.textAlign='center';g.fillText(v.etiqueta,align==='center'?W/2:px+tw/2,y+pillH*.68);y+=pillH+u*.025;}
+    drawLayout(g,lay1,x,y,align,mw);}
+async function brandPlate(g,W,H,v,e,y0,topSafe,eje){
+  const u=Math.min(W,H),bm=u*.07,mw=W-bm*2;
+  const blocks=(col1,col2,col3)=>bloquesMarca(v,u,col1,col2,col3);
+  if(eje==='calle'){
+    const wm=conPie(v),wa=await aspect(e.wm),ww=u*.36,wh=ww/wa,arcW=u*.42,arcH=arcW*520/1445;
+    const bh=wm?topSafe+u*.045+wh+arcH+u*.025:topSafe+u*.03+arcH;   // sin marcas: la banda queda solo con el arco y el título sube
+    g.fillStyle='#fff';g.fillRect(0,0,W,y0);g.fillStyle=e.dark;g.fillRect(0,0,W,bh);
+    await drawCrop(g,'fondo-calle',[3713,0,1956,680],W*.58+(W-u)*.42,bh,u*.42,u*.42*680/1956);
+    await drawCrop(g,'fondo-calle',[0,1729,1445,520],0,bh-arcH,arcW,arcH);
+    if(wm)await drawSvg(g,e.wm,bm,topSafe+u*.045,ww,wh);
+    const top=bh+u*.05, lay=layout(g,blocks('#17233d','#bd1635','#17233d'),mw,y0-top-u*.04);
+    drawLayout(g,lay,bm,top+(y0-top-u*.04-lay.tot)/2,'left',mw);
+  } else if(eje==='accesible'){
+    const wm=conPie(v),wa=await aspect(e.wm),ww=u*.60,wh=ww/wa;
     g.fillStyle='#fff';g.fillRect(0,0,W,y0);
-    await drawCrop(g,'fondo-plaza',[5900,28,1000,700],W*.60,gh+W*.005,W*.40,W*.40*700/1000);
+    let yh;
+    if(wm){yh=topSafe>0?2*topSafe+wh:Math.max(u*1408/2835,wh+u*.09);const sc=yh/1408,iw=2835*sc; // stories: bloque simétrico, el logotipo queda centrado y fuera de la zona segura
+      g.save();g.beginPath();g.rect(0,0,W,yh);g.clip();await drawCrop(g,'fondo-accesible',[0,0,2835,1408],(W-Math.max(iw,W))/2,0,Math.max(iw,W),yh);g.restore();
+      await drawSvg(g,e.wm,(W-ww)/2,(yh-wh)/2,ww,wh);}
+    else{yh=topSafe+u*.2;const fh=W*1408/2835;   // sin marcas: una banda baja con el borde rayado (sin deformar el fondo) y el número sube
+      g.save();g.beginPath();g.rect(0,0,W,yh);g.clip();await drawCrop(g,'fondo-accesible',[0,0,2835,1408],0,Math.min(0,yh-fh),W,fh);g.restore();}
+    const top=yh+u*.03,hh=y0-top-u*.03;
+    await textoAccesible(g,v,u,bm,top,mw,hh,'center',W);
+  } else {
+    const wm=conPie(v),wa=await aspect(e.wm),ww=u*.50,wh=ww/wa,gh=wm?topSafe+wh+u*.09:topSafe+u*.16,sh=W*297/6917;   // sin marcas: banda baja, el título sube
+    g.fillStyle='#fff';g.fillRect(0,0,W,y0);
+    await drawCrop(g,'fondo-plaza',[5900,28,1000,700],W*.60+(W-u)*.40,gh+u*.005,u*.40,u*.40*700/1000);
     g.fillStyle='#c6dfce';g.fillRect(0,0,W,gh);
-    await drawCrop(g,'fondo-plaza',[150,220,560,520],W*.87,topSafe+W*.03,W*.10,W*.10*520/560);
-    await drawCrop(g,'fondo-plaza',[1440,2120,580,350],W*.74,gh-W*.17,W*.19,W*.19*350/580);
-    await drawSvg(g,e.wm,bm,topSafe+W*.075,ww,wh);
+    await drawCrop(g,'fondo-plaza',[150,220,560,520],W*.87+(W-u)*.13,topSafe+u*.03,u*.10,u*.10*520/560);
+    if(wm){await drawCrop(g,'fondo-plaza',[1440,2120,580,350],W*.74+(W-u)*.26,gh-u*.17,u*.19,u*.19*350/580);
+    await drawSvg(g,e.wm,bm,topSafe+u*.075,ww,wh);}
+    else await drawCrop(g,'fondo-plaza',[1440,2120,580,350],W*.70+(W-u)*.30,topSafe+u*.035,u*.15,u*.15*350/580);   // el banco se achica para entrar en la banda baja
     await drawCrop(g,'fondo-plaza',[28,2475,6917,297],0,y0-sh,W,sh);
-    const top=gh+W*.05,hh=y0-sh-top-W*.03;
+    const top=gh+u*.05,hh=y0-sh-top-u*.03;
     const lay=layout(g,blocks('#09467f','#4da070','#17233d'),mw,hh);drawLayout(g,lay,bm,top+(hh-lay.tot)/2,'left',mw);
   }
 }
+/* ---------- placas anchas: apaisado (W/H de 1,25 a 2,2) y banner (W/H de 2,2 a 3,2). Todo se mide en u = min(W,H), que acá es el alto ---------- */
+// forma de la placa según la proporción: vertical (historia, H > 1,6 W, como siempre), cuadrado (de ahí a W/H < 1,25), apaisado y banner
+const formaDe=(W,H)=>H>W*1.6?'vertical':W<H*1.25?'cuadrado':W<=H*2.2?'apaisado':'banner';
+const pastoPlaza=(W,u)=>Math.min(W*297/6917,u*.08);   // franja de pasto de plaza: a lo ancho, sin pasar del 8 % del alto
+// fondo blanco con la columna del eje a la izquierda y su gráfica, como en los carteles apaisados de cada programa.
+// Devuelve el alto que ocupa la gráfica de arriba a la derecha (el texto queda debajo) y el alto del pasto de plaza.
+async function columnaEje(g,W,A,v,e,colW,wm,u,banner){
+  const eje=v.eje;let libre=0,sh=0;g.fillStyle='#fff';g.fillRect(0,0,W,A);
+  if(eje==='calle'){
+    g.fillStyle=e.dark;g.fillRect(0,0,colW,A);
+    const aw=colW*.88,ah=Math.min(aw*520/1445,A*.32);await drawCrop(g,'fondo-calle',[0,1729,1445,520],0,A-ah,ah*1445/520,ah);
+    const tw=Math.min(A*(banner?.62:.55),W*.3),th=tw*680/1956;await drawCrop(g,'fondo-calle',[3713,0,1956,680],W-tw,0,tw,th);libre=th;
+    if(wm){const wa=await aspect(e.wm);let ww=colW*.7,wh=ww/wa;if(wh>(A-ah)*.6){wh=(A-ah)*.6;ww=wh*wa}await drawSvg(g,e.wm,(colW-ww)/2,(A-ah-wh)/2,ww,wh)}
+  } else if(eje==='accesible'){
+    g.fillStyle='#eaab3b';g.fillRect(0,0,colW,A);
+    const t1=colW,t1h=Math.min(t1*485/1414,A*.3);await drawCrop(g,'fondo-accesible',[0,0,1414,485],0,0,t1h*1414/485,t1h);
+    const t2=colW*.8,t2h=Math.min(t2*372/1126,A*.25),t2w=t2h*1126/372;await drawCrop(g,'fondo-accesible',[1709,1034,1126,372],colW-t2w,A-t2h,t2w,t2h);
+    if(wm){const wa=await aspect(e.wm);let ww=colW*.78,wh=ww/wa;if(wh>A*.4){wh=A*.4;ww=wh*wa}await drawSvg(g,e.wm,(colW-ww)/2,(A-wh)/2,ww,wh)}
+  } else {
+    sh=pastoPlaza(W,u);g.fillStyle='#c6dfce';g.fillRect(0,0,colW,A);
+    await drawCrop(g,'fondo-plaza',[150,220,560,520],colW*.08,A*.07,u*.1,u*.1*520/560);
+    const fw=Math.min(A*.32,W*.2);await drawCrop(g,'fondo-plaza',[5900,28,1000,700],W-fw*1.08,0,fw,fw*.7);libre=fw*.7;
+    const bw=Math.min(colW*.3,u*.19);await drawCrop(g,'fondo-plaza',[1440,2120,580,350],colW-bw*1.25,A-sh-bw*350/580,bw,bw*350/580);
+    await drawCrop(g,'fondo-plaza',[28,2475,6917,297],0,A-sh,W,sh);
+    if(wm){const wa=await aspect(e.wm);let ww=colW*.74,wh=ww/wa;if(wh>A*.4){wh=A*.4;ww=wh*wa}await drawSvg(g,e.wm,(colW-ww)/2,(A-sh-wh)/2-A*.04,ww,wh)}
+  }
+  return {libre,sh};
+}
+const TINTAS={calle:['#17233d','#bd1635','#17233d'],plaza:['#09467f','#4da070','#17233d'],accesible:['#09467f','#09467f','#17233d']};
+// texto sin foto en un recuadro (x, y, ancho, alto): centrado en vertical y alineado a la izquierda
+async function textoMarca(g,v,u,x,y,w,h,W){
+  if(v.eje==='accesible')return textoAccesible(g,v,u,x,y,w,h,'left',W);
+  const lay=layout(g,bloquesMarca(v,u,...TINTAS[v.eje]),w,h,true);drawLayout(g,lay,x,y+Math.max(0,(h-lay.tot)/2),'left',w);}
+// apaisado sin foto: columna del eje con el wordmark, texto en el blanco y pie a lo ancho
+async function anchaMarca(g,W,H,v,e,u,A){
+  const pie=conPie(v),colW=pie?Math.min(A*.62,W*.34):Math.min(A*.3,W*.16);   // sin marcas, la columna queda como una franja de color
+  const {libre,sh}=await columnaEje(g,W,A,v,e,colW,pie,u,false);
+  const x0=colW+u*.08,x1=W-u*.08,top=Math.max(u*.06,libre*.9),bot=A-sh-u*.06;
+  await textoMarca(g,v,u,x0,top,x1-x0,bot-top,W);}
+// apaisado con círculo: foto en círculo en el tercio izquierdo, panel de datos en los dos tercios derechos
+async function anchaCirculo(g,W,H,v,e,u,A,im){
+  const eje=v.eje,T=TEMA[eje],pie=conPie(v),sh=eje==='plaza'?pastoPlaza(W,u):0;
+  g.fillStyle=T.bg;g.fillRect(0,0,W,A);
+  if(eje==='accesible')await drawCrop(g,'fondo-accesible',[0,0,1415,483],0,0,u*.5,u*.5*483/1415);
+  if(eje==='plaza')await drawCrop(g,'fondo-plaza',[150,220,560,520],u*.04,u*.03,u*.1,u*.1*520/560);
+  const ring=u*.06,r=Math.min(u*.36,(A-sh)/2-ring-u*.04,W*.19),cx=Math.max(W/6,r+ring+u*.07),cy=(A-sh)/2;   // diámetro u*0,72 (menos si con el pie no entra)
+  aroCirculo(g,eje,cx,cy,r,ring,u);
+  g.save();g.beginPath();g.arc(cx,cy,r,0,7);g.clip();cover(g,im,cx-r,cy-r,2*r,2*r,v._enc);g.restore();
+  const xL=Math.max(W/3,cx+r+ring+u*.07),xR=W-u*.05,bEnd=pie?await bloqueEje(g,W,e,T,0,0,true,u):0;
+  const top=bEnd+u*.05,bot=A-sh-u*.06,ph=Math.min(bot-top,u*.55);
+  panelDatos(g,W,v,T,{panelT:top+(bot-top-ph)/2,panelH:ph},u,[xL,xR-xL]);
+  if(eje==='plaza')await drawCrop(g,'fondo-plaza',[28,2475,6917,297],0,A-sh,W,sh);}
+// apaisado con marco: foto a sangre en el 45 % izquierdo, corte diagonal vertical con la banda del eje y panel a la derecha
+async function anchaMarco(g,W,H,v,e,u,A,im){
+  const eje=v.eje,T=TEMA[eje],pie=conPie(v),sh=eje==='plaza'?pastoPlaza(W,u):0,xb=W*.45,sl=u*.09,bd=u*.022,xt=xb+sl;
+  g.fillStyle=T.bg;g.fillRect(0,0,W,A);
+  g.fillStyle=T.band;g.beginPath();g.moveTo(0,0);g.lineTo(xt+bd,0);g.lineTo(xb+bd,A);g.lineTo(0,A);g.closePath();g.fill();
+  g.save();g.beginPath();g.moveTo(0,0);g.lineTo(xt,0);g.lineTo(xb,A);g.lineTo(0,A);g.closePath();g.clip();cover(g,im,0,0,xt,A,v._enc);g.restore();
+  if(pie)await bloqueEje(g,W,e,T,0,0,false,u);
+  const xL=xt+bd+u*.06,xR=W-u*.05,top=u*.08,bot=A-sh-u*.08,ph=Math.min(bot-top,u*.55);
+  panelDatos(g,W,v,T,{panelT:top+(bot-top-ph)/2,panelH:ph},u,[xL,xR-xL]);
+  if(eje==='plaza')await drawCrop(g,'fondo-plaza',[28,2475,6917,297],0,A-sh,W,sh);}
+// apaisado con foto completa: foto a sangre, degradado del eje desde abajo y desde la izquierda, texto abajo a la izquierda
+async function anchaCompleta(g,W,H,v,e,u,A,im){
+  cover(g,im,0,0,W,A,v._enc);const col=e.dark;
+  const gb=g.createLinearGradient(0,A*.3,0,A);gb.addColorStop(0,col+'00');gb.addColorStop(.5,col+'90');gb.addColorStop(1,col+'f0');g.fillStyle=gb;g.fillRect(0,A*.3,W,A*.7);
+  const gl=g.createLinearGradient(0,0,W*.68,0);gl.addColorStop(0,col+'e0');gl.addColorStop(.55,col+'80');gl.addColorStop(1,col+'00');g.fillStyle=gl;g.fillRect(0,0,W*.68,A);
+  const top=conPie(v)?await chipEje(g,e,u*.05,u*.04,u)+u*.04:u*.06;
+  const bm=u*.06,mw=Math.min(W*.56,W-bm*2),bl=bloquesCompleta(v,e,u),lay=layout(g,bl,mw,Math.min(A*.62,A-u*.05-top),true);
+  drawLayout(g,lay,bm,A-u*.05-lay.tot+(bl.at(-1).gap||0),'left',mw);}
+const ANCHOS={circulo:anchaCirculo,marco:anchaMarco,completa:anchaCompleta};
+// banner: tira de logos de alto u*0,22 pegada al borde derecho (abajo), en el color del pie del eje
+async function tiraLogos(g,W,H,e,u){const asp=await aspect(e.logos),th=u*.22,lh=th*.42,lw=lh*asp,tw=lw+u*.12;
+  g.fillStyle=e.pie;g.fillRect(W-tw,H-th,tw,th);await drawSvg(g,e.logos,W-tw+u*.06,H-th+(th-lh)/2,lw,lh);return {tw,th}}
+// banner sin foto: columna del eje, título en una o dos líneas, subtítulo a la derecha y la tira de logos
+async function bannerMarca(g,W,H,v,e,u){
+  const pie=conPie(v),colW=pie?u*.62:u*.3,{libre,sh}=await columnaEje(g,W,H,v,e,colW,pie,u,true);
+  const lt=pie?await tiraLogos(g,W,H,e,u):null;
+  const x0=colW+u*.07,x1=W-u*.07,top=Math.max(u*.08,libre*.95),bot=H-sh-(lt?lt.th+u*.05:u*.08),hh=bot-top;
+  const tw=(x1-x0)*.58,sx=x0+tw+u*.05,sw=x1-sx,[c1,c2,c3]=TINTAS[v.eje];
+  if(v.eje==='accesible')await textoAccesible(g,Object.assign({},v,{sub:'',extra:''}),u*1.25,x0,top,tw,hh,'left',W);
+  else{const b=v.valor?[{t:v.valor,w:800,s:u*.3,c:c1,lh:1,gap:u*.02},{t:v.etiqueta,w:800,s:u*.075,c:c2,up:true}]:[{t:v.main,w:800,s:u*.14,c:c1,up:true,lh:1.08}];
+    const lay=layout(g,b,tw,Math.min(hh,v.valor?u*.6:u*.14*1.08*2.05),true);drawLayout(g,lay,x0,top+Math.max(0,(hh-lay.tot)/2),'left',tw)}   // el título no pasa de dos líneas
+  const sb=[{t:v.sub||'',w:600,s:u*.08,c:c3,lh:1.15,gap:u*.02},{t:v.extra||'',w:600,s:u*.06,c:c3,op:.75}];
+  if(v.sub||v.extra){const lay=layout(g,sb,sw,hh,true);g.fillStyle=c2;g.fillRect(sx-u*.03,top+Math.max(0,(hh-lay.tot)/2),u*.008,lay.tot);drawLayout(g,lay,sx,top+Math.max(0,(hh-lay.tot)/2),'left',sw)}}
+// banner con foto completa: foto a sangre con degradado desde la izquierda, título a la izquierda y logos a la derecha
+async function bannerCompleta(g,W,H,v,e,u,im){
+  cover(g,im,0,0,W,H,v._enc);const col=e.dark;
+  const gl=g.createLinearGradient(0,0,W*.62,0);gl.addColorStop(0,col+'f0');gl.addColorStop(.6,col+'a0');gl.addColorStop(1,col+'00');g.fillStyle=gl;g.fillRect(0,0,W*.62,H);
+  const pie=conPie(v),top=pie?await chipEje(g,e,u*.06,u*.07,u)+u*.05:u*.08;
+  if(pie)await tiraLogos(g,W,H,e,u);
+  const mw=W*.46,bl=[{t:v.valor?`${v.valor} ${v.etiqueta}`:v.main,w:800,s:u*.12,c:'#fff',lh:1.05,gap:u*.02}];if(v.sub)bl.push({t:v.sub,w:600,s:u*.055,c:'#fff'});
+  const hh=H-u*.08-top,lay=layout(g,bl,mw,hh,true);drawLayout(g,lay,u*.06,top+Math.max(0,(hh-lay.tot)/2),'left',mw);}
+async function placaAncha(g,W,H,v,e,fotoIdx,estilo,forma){
+  const u=Math.min(W,H),pie=conPie(v),A=pie&&forma==='apaisado'?H-u*.17:H;   // A: alto útil sobre el pie (el banner no lleva franja)
+  let k='sinfoto',im=null;
+  if(v.fotos&&v.fotos.length&&estilo!=='sinfoto'){im=await loadImg(v.fotos[fotoIdx%v.fotos.length]);const gen=esGen(v,fotoIdx);
+    k=(estilo&&estilo!=='sugerido')?estilo:window.__estiloSugerido(v,im,gen,forma);
+    if(forma==='banner'&&k!=='completa'&&k!=='sinfoto')k=window.__estiloSugerido(v,im,gen,'banner');}   // Círculo y Marco no entran en banner
+  if(forma==='banner')return k==='completa'?bannerCompleta(g,W,H,v,e,u,im):bannerMarca(g,W,H,v,e,u);
+  if(k==='sinfoto')await anchaMarca(g,W,H,v,e,u,A);else await ANCHOS[k](g,W,H,v,e,u,A,im);
+  if(pie)await footer(g,W,H,e,false,v.eje,false);
+}
 async function renderPlaca(canvas,v,fmt,fotoIdx=0,estilo='sugerido'){
   await document.fonts.load('800 40px Poppins');await document.fonts.load('600 40px Poppins');
-  const [W,H]=FMT[fmt],g=canvas.getContext('2d');canvas.width=W;canvas.height=H;
-  const story=fmt==='9x16',e=EJES[v.eje],topSafe=story?H*.14:0,y1=story?H*.885:H,y0=y1-W*.17;
+  const [W,H]=fmtWH(fmt),g=canvas.getContext('2d');canvas.width=W;canvas.height=H;
+  // sin pie (conPie(v) falso): no hay franja ni logos y el contenido baja hasta y1 (en historias se mantiene el margen inferior de la zona segura)
+  const forma=formaDe(W,H),u=Math.min(W,H),story=forma==='vertical',e=EJES[v.eje],topSafe=story?H*.14:0,y1=story?H*.885:H,y0=conPie(v)?y1-u*.17:y1;
   g.fillStyle='#fff';g.fillRect(0,0,W,H);
+  if(forma==='apaisado'||forma==='banner')return placaAncha(g,W,H,v,e,fotoIdx,estilo,forma);
   let full=false;
   if(v.fotos&&v.fotos.length&&estilo!=='sinfoto')full=(await photoPlate(g,W,H,v,e,y0,topSafe,fotoIdx,estilo))==='full';else await brandPlate(g,W,H,v,e,y0,topSafe,v.eje);
-  await footer(g,W,H,e,story,v.eje,full);
+  if(conPie(v))await footer(g,W,H,e,story,v.eje,full);
 }
-function descargar(canvas,nombre){canvas.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=nombre+'.png';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)},'image/png')}
+/* pie con marcas (franja, logos institucionales, cinta de accesible y wordmark del eje): se apaga por pieza con el tilde "Pie con marcas" (v._pie=false) */
+const conPie=v=>v._pie!==false;
+function descargar(canvas,nombre){try{canvas.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=nombre+'.png';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)},'image/png')}catch(e){alert('No se puede bajar esta placa con el tablero abierto como archivo local: el navegador bloquea las fotos sueltas de la galería. Abrilo desde el sitio publicado o con un servidor local.')}}
+/* ---------- vista previa nítida y tamaño personalizado (mismo código en Obras y Anuncios) ----------
+   Cada formato tiene dos canvas: el completo (lienzo(c), fuera de pantalla, a 1080 px o al tamaño elegido), que es el que se descarga,
+   y el visible (c), al tamaño en que se muestra × devicePixelRatio, al que se copia el completo con suavizado de alta calidad.
+   Si la reducción pasa de 2x se hace por mitades, para que la foto no se vea dentada. Al redimensionar la ventana se vuelve a copiar. */
+const lienzo=c=>c._full??=document.createElement('canvas');
+function mostrar(c){const f=c._full;if(!f||!f.width||!c.isConnected)return;const cw=c.clientWidth;if(!cw)return;
+  const dpr=window.devicePixelRatio||1,tw=Math.max(1,Math.round(cw*dpr)),th=Math.max(1,Math.round(tw*f.height/f.width));
+  let src=f;while(src.width/tw>2){const m=document.createElement('canvas');m.width=Math.max(tw,Math.round(src.width/2));m.height=Math.max(th,Math.round(src.height/2));
+    const mg=m.getContext('2d');mg.imageSmoothingEnabled=true;mg.imageSmoothingQuality='high';mg.drawImage(src,0,0,m.width,m.height);src=m}
+  if(c.width!==tw)c.width=tw;if(c.height!==th)c.height=th;const g=c.getContext('2d');g.imageSmoothingEnabled=true;g.imageSmoothingQuality='high';g.clearRect(0,0,tw,th);g.drawImage(src,0,0,tw,th)}
+let _rs;window.addEventListener('resize',()=>{clearTimeout(_rs);_rs=setTimeout(()=>document.querySelectorAll('canvas').forEach(c=>{if(c._full)mostrar(c)}),150)});
+// tamaño personalizado: uno por módulo, guardado en este navegador (gc_tam_obras). Si todavía no hay, se toma el de la clave
+// compartida de antes (gc_tam_personalizado), para no perder lo que el equipo ya había elegido.
+const TAM_KEY='gc_tam_obras', TAM_KEY_VIEJA='gc_tam_personalizado';
+// presets agrupados por red: [red, [[nombre, ancho, alto], …]]. El valor de cada opción es ancho×alto.
+// Los presets con un lado menor a 600 px (portadas y cabeceras) se exportan al doble, con la misma proporción.
+const TAM_REDES=[['Instagram',[['Feed',1080,1080],['Feed',1080,1350],['Historia',1080,1920]]],
+  ['Facebook',[['Publicación',1200,630],['Cuadrada',1080,1080],['Historia',1080,1920],['Portada',820,312]]],
+  ['X',[['Publicación',1600,900],['Publicación',1200,675],['Cabecera',1500,500]]],
+  ['LinkedIn',[['Publicación',1200,627],['Cuadrada',1080,1080],['Portada',1584,396]]],
+  ['WhatsApp',[['Estado',1080,1920],['Imagen',1080,1080]]],
+  ['TikTok',[['',1080,1920]]],
+  ['YouTube',[['Miniatura',1280,720],['Comunidad',1080,1080]]],
+  ['Pinterest',[['',1000,1500]]],
+  ['Pantalla y web',[['HD',1920,1080],['4K',3840,2160],['Vertical HD',1080,1920]]]];
+const TAM_PRESETS=TAM_REDES.flatMap(([red,ps])=>ps.map(([n,w0,h0])=>{const x=Math.min(w0,h0)<600?2:1;return {red,n:n?`${red} · ${n}`:red,corto:n||red,w0,h0,w:w0*x,h:h0*x,x}}));
+const TAM_MSG='El tamaño personalizado va de 600 a 4000 px por lado y de 1:2,2 (alto hasta 2,2 veces el ancho) a 3,2:1 (ancho hasta 3,2 veces el alto)';
+// rango: lados de 600 a 4000 px y proporción de 1:2,2 (vertical) a 3,2:1 (banner). Las cuatro formas están en formaDe()
+const tamValido=(w,h)=>Number.isInteger(w)&&Number.isInteger(h)&&w>=600&&w<=4000&&h>=600&&h<=4000&&h<=w*2.2&&w<=h*3.2;
+const tamLeer=k=>{try{const t=JSON.parse(localStorage.getItem(k)||'null');return t&&tamValido(t.w,t.h)?{w:t.w,h:t.h,...(t.preset?{preset:String(t.preset)}:{})}:null}catch(e){return null}};
+let TAM=null;try{TAM=localStorage.getItem(TAM_KEY)!=null?tamLeer(TAM_KEY):tamLeer(TAM_KEY_VIEJA)}catch(e){}
+const fmtWH=k=>k==='p'?[TAM.w,TAM.h]:FMT[k];                       // 'p' = el recuadro Personalizado
+const fmtNombre=k=>k==='p'&&TAM?`${TAM.w}x${TAM.h}`:k;             // nombre del PNG: <id>_<ancho>x<alto>
+const tamPreset=()=>TAM&&TAM.preset&&TAM_PRESETS.some(p=>p.n===TAM.preset&&p.w===TAM.w&&p.h===TAM.h)?TAM.preset:'a medida';
+const tamTxt=()=>TAM?`${TAM.w}×${TAM.h}`:'sin definir';
+const tamDesc=()=>TAM?`${TAM.w}×${TAM.h} (${tamPreset()}, ${formaDe(TAM.w,TAM.h)})`:'sin definir';   // para el Chequeo y el control
+const tamNota=(w,h)=>w/h>3.2||h/w>2.2?`fuera de rango (${w/h>=1?(w/h).toFixed(1).replace('.0','').replace('.',',')+':1':'1:'+(h/w).toFixed(1).replace('.0','').replace('.',',')})`:'';   // por qué un preset está deshabilitado
+const tamHTML=()=>{const pi=TAM?TAM_PRESETS.findIndex(p=>p.n===tamPreset()&&p.w===TAM.w&&p.h===TAM.h):-1;
+  const opt=(p,i)=>{const ok=tamValido(p.w,p.h);return `<option value="${p.w}x${p.h}" data-preset="${p.n}" ${i===pi?'selected':''} ${ok?'':'disabled'}>${p.corto} ${p.w0}×${p.h0}${p.x>1?` (se exporta a ${p.w}×${p.h})`:''}${ok?'':' · '+tamNota(p.w,p.h)}</option>`};
+  return `<span class="tam" data-tamctl>Tamaño personalizado: <b data-tamtxt>${tamTxt()}</b>${TAM?` <span data-tampre>(${tamPreset()}, ${formaDe(TAM.w,TAM.h)})</span>`:''} · <button type="button" class="lnk" data-tamabrir>${TAM?'cambiar':'elegir'}</button>
+  <span class="tamed" hidden><select data-tampreset>${TAM_REDES.map(([red])=>`<optgroup label="${red}">${TAM_PRESETS.map((p,i)=>p.red===red?opt(p,i):'').join('')}</optgroup>`).join('')}<option value="" ${pi<0?'selected':''}>A medida</option></select>
+  <label>Ancho <input type="number" data-tamw min="600" max="4000" step="1" value="${TAM?TAM.w:1080}"></label> × <label>Alto <input type="number" data-tamh min="600" max="4000" step="1" value="${TAM?TAM.h:1080}"></label> px
+  <button type="button" class="btn" data-tamok>Aplicar</button>${TAM?'<button type="button" class="btn sec" data-tamquitar>Quitar tamaño</button>':''}<button type="button" class="btn sec" data-tamx>Cerrar</button><span class="tammsg" data-tammsg></span></span></span>`};
+function tamWire(root){ // se engancha una sola vez al contenedor de la fila del período o de campaña (el control se redibuja adentro)
+  const el=s=>root.querySelector(s), leer=()=>[+el('[data-tamw]').value,+el('[data-tamh]').value];
+  const marcar=()=>{const [w,h]=leer(),ok=tamValido(w,h);el('[data-tamw]').classList.toggle('bad',!ok);el('[data-tamh]').classList.toggle('bad',!ok);el('[data-tammsg]').textContent=ok?'':TAM_MSG;return ok};
+  const guardar=()=>{try{TAM?localStorage.setItem(TAM_KEY,JSON.stringify(TAM)):localStorage.setItem(TAM_KEY,'null')}catch(e){}
+    const c=el('[data-tamctl]');if(c)c.outerHTML=tamHTML();window.dispatchEvent(new Event('gc-tam'))};
+  const aplicar=()=>{if(!marcar())return;const [w,h]=leer(),o=el('[data-tampreset]').selectedOptions[0],pre=o&&o.value===`${w}x${h}`?o.dataset.preset:null;TAM={w,h,...(pre?{preset:pre}:{})};guardar()};
+  root.addEventListener('click',ev=>{const b=ev.target.closest('button');if(!b||!b.closest('[data-tamctl]'))return;
+    if(b.dataset.tamabrir!==undefined){const ed=el('.tamed');ed.hidden=!ed.hidden}else if(b.dataset.tamok!==undefined)aplicar();else if(b.dataset.tamquitar!==undefined){TAM=null;guardar()}else if(b.dataset.tamx!==undefined)el('.tamed').hidden=true});
+  root.addEventListener('change',ev=>{if(ev.target.dataset.tampreset===undefined||!ev.target.value)return;const [w,h]=ev.target.value.split('x');el('[data-tamw]').value=w;el('[data-tamh]').value=h;aplicar()});
+  root.addEventListener('input',ev=>{if(ev.target.dataset.tamw===undefined&&ev.target.dataset.tamh===undefined)return;el('[data-tampreset]').value='';marcar()});
+  root.addEventListener('keydown',ev=>{if(ev.key==='Enter'&&ev.target.closest('[data-tamctl] .tamed'))aplicar()});
+}
 async function copiar(txt,btn){try{await navigator.clipboard.writeText(txt)}catch{const t=document.createElement('textarea');t.value=txt;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove()}const o=btn.textContent;btn.textContent='¡Copiado!';btn.classList.add('ok');setTimeout(()=>{btn.textContent=o;btn.classList.remove('ok')},1200)}
 
 /* ---------- calidad de foto: el diseño "Sugerido" ---------- */
 const calCache=new Map();
 function medirFoto(im){ // nitidez (varianza del laplaciano sobre una miniatura) y resolución
   const w=320,h=Math.max(1,Math.round(w*im.naturalHeight/im.naturalWidth)),c=document.createElement('canvas');c.width=w;c.height=h;
-  const g=c.getContext('2d');g.drawImage(im,0,0,w,h);const d=g.getImageData(0,0,w,h).data,L=new Float32Array(w*h);
+  const g=c.getContext('2d');g.drawImage(im,0,0,w,h);let d;
+  try{d=g.getImageData(0,0,w,h).data}catch(e){return {nitidez:null,ancho:im.naturalWidth,alto:im.naturalHeight,vertical:im.naturalHeight>im.naturalWidth*1.1}} // archivo local: el navegador no deja leer los píxeles de una foto suelta
+  const L=new Float32Array(w*h);
   for(let i=0;i<w*h;i++)L[i]=.299*d[i*4]+.587*d[i*4+1]+.114*d[i*4+2];
   let s=0,s2=0,n=0;for(let y=1;y<h-1;y++)for(let x=1;x<w-1;x++){const i=y*w+x,v=4*L[i]-L[i-1]-L[i+1]-L[i-w]-L[i+w];s+=v;s2+=v*v;n++}
   const m=s/n;return {nitidez:s2/n-m*m,ancho:im.naturalWidth,alto:im.naturalHeight,vertical:im.naturalHeight>im.naturalWidth*1.1};
 }
-window.__estiloSugerido=(v,im)=>{
+window.__estiloSugerido=(v,im,gen,forma)=>{ // gen: la foto es genérica de la galería (se saltea el umbral de resolución); forma: la del lienzo (formaDe)
   const q=calCache.get(im.src)||calCache.set(im.src,medirFoto(im)).get(im.src);
-  const baja=Math.min(q.ancho,q.alto)<720||q.nitidez<UMBRAL_NITIDEZ;
+  const borrosa=q.nitidez!=null&&q.nitidez<UMBRAL_NITIDEZ;
+  const baja=gen?borrosa:(Math.min(q.ancho,q.alto)<720||borrosa);
+  if(forma==='banner')return !baja&&!q.vertical?'completa':'sinfoto';   // banner: solo Foto completa (horizontal y nítida) o Sin foto
+  if(forma==='apaisado'){if(baja||q.vertical)return 'circulo';return ['completa','marco'][hash(v.id||'')%2]}
   if(baja)return 'circulo';                 // chica o pixelada: recortada en círculo disimula la falta de definición
   if(q.vertical)return 'completa';          // vertical y nítida: a pantalla completa
+  if(gen)return ['completa','marco'][hash(v.id||'')%2]; // genérica horizontal y nítida: Foto completa o Marco
   return ['completa','marco','circulo'][hash(v.id||'')%3]; // horizontal y nítida: variedad
 };
+const esGen=(v,i)=>{const x=(v._items||[])[v.fotos&&v.fotos.length?i%v.fotos.length:0];return !!x&&x.origen==='galeria'};
 
 /* ---------- históricos y contenidos periódicos ---------- */
 const HIST=(DATA.hist||[]).slice().sort((a,b)=>a.fecha<b.fecha?-1:1);
@@ -602,13 +899,14 @@ function periodicos(){
       ig:limpio(`📊 ${up(cap(per))}: ${U} OBRAS EN LA CIUDAD\n\n${dato}.\n\n${MODELO}\n\n#CórdobaMejora #HacerParaCrecer`),
       x:limpio(`📊 En ${per}, en promedio, hubo ${w.promEjec} obras en ejecución por día en Córdoba y las obras generaron ${nf(w.promPuestos)} puestos de trabajo directos por día. Hacer para Crecer. #CórdobaMejora #HacerParaCrecer`),
       placa:{eje:'calle',fotos:[],extra:'',kicker:nombre,valor:String(U),etiqueta:`Obras en ${per}`,sub:`${w.promEjec} en ejecución por día, en promedio`},
+      sms:smsArmar('ciudad',[`en ${per} se ejecutaron ${U} obras en Córdoba, con ${nf(w.promPuestos)} puestos de trabajo por día`,`en ${per} se ejecutaron ${U} obras en Córdoba`,`${U} obras en ${per}`],'p_'+N),
       gac:limpio(gacetilla({titulo:titulos[0],bajada:[`En promedio, hubo ${w.promEjec} obras en ejecución por día.`,`Las obras generaron ${nf(w.promPuestos)} puestos de trabajo directos por día, en promedio.`,'Hacer para Crecer: obra pública sostenida en toda la ciudad.'],
         lead:`${cap(dato)}.`,secciones:[['Los programas',[EJES.calle.marco,EJES.accesible.marco,EJES.plaza.marco]]],cierre:MODELO}))});
   });
   Object.entries(CONT.periodicos||{}).forEach(([id,c])=>{
     const ex=out.find(p=>p.id===id);
     const pz=ex&&!ex.estado?ex:null;
-    const nuevo={id,titulo:c.titulo||(ex&&ex.titulo)||id,eje:c.eje||'calle',titulos:(c.titulos||[]).map(limpio),ig:limpio(c.ig||''),x:limpio(c.x||''),gac:limpio(c.gac||''),placa:{eje:c.eje||'calle',fotos:[],extra:'',...(c.placa||{})},redactado:true,w:ex&&ex.w};
+    const nuevo={id,titulo:c.titulo||(ex&&ex.titulo)||id,eje:c.eje||'calle',titulos:(c.titulos||[]).map(limpio),ig:limpio(c.ig||''),x:limpio(c.x||''),gac:limpio(c.gac||''),sms:c.sms?limpio(c.sms):(ex&&ex.sms)||null,placa:{eje:c.eje||'calle',fotos:[],extra:'',...(c.placa||{})},redactado:true,w:ex&&ex.w};
     if(ex)out[out.indexOf(ex)]=nuevo;else out.push(nuevo);
   });
   const ord=id=>{const m=id.match(/^p_(\d+)(?:_(\w+))?$/);return m?[VENT.findIndex(v=>v[0]==+m[1]),['','plazas','rampas','pav','calle'].indexOf(m[2]||'')]:[99,0]};
@@ -616,108 +914,341 @@ function periodicos(){
   return out;
 }
 
-/* ---------- UI ---------- */
-const S={tab:'obras',circ:null,tipo:null,foto:null,q:''};const ESTILOS_UI=[['sugerido','Sugerido'],['circulo','Círculo'],['marco','Marco'],['completa','Foto completa'],['sinfoto','Sin foto']];
-const placaHTML=(id,v)=>`<div class="fmts">${Object.entries(FMT).map(([k,f])=>`<div class="fmt"><div class="lbl">${f[2]}</div><canvas data-fmt="${k}"></canvas><div class="btns" style="justify-content:center"><button class="btn" data-dl="${k}">Bajar PNG</button></div></div>`).join('')}</div>
- <div class="btns"><button class="btn sec" data-dlall>Bajar las 3 placas</button></div>
- ${v.fotos&&v.fotos.length?`<div class="fotosel">Diseño: ${ESTILOS_UI.map(([k,l],i)=>`<button class="btn ${i?'sec':''}" data-estilo="${k}">${l}</button>`).join('')}</div><div class="fotosel" data-sug></div>`:''}
- ${v.fotos&&v.fotos.length>1?`<div class="fotosel">Foto: ${v.fotos.map((_,i)=>`<button class="btn sec" data-foto="${i}">${i+1}</button>`).join('')}</div>`:''}`;
-function txHTML(ig,x,pl,gac,titulos){return `
+/* ---------- alcance: zona (seccional, subcircuito) y período (hoy, semana) ----------
+   La zona y el período se eligen arriba y valen para todo el tablero. Seccional y circuito son datos internos: agrupan, filtran y rotulan la interfaz, pero no entran en ningún texto. */
+const S={tab:'obras',secc:null,circ:null,per:'hoy',tipo:null,foto:null,q:''};
+function diasSemana(){const fin=new Date(P.fecha+'T00:00:00'),ini=new Date(fin);ini.setDate(ini.getDate()-6);return {dias:HIST.filter(d=>{const t=new Date(d.fecha+'T00:00:00');return t>=ini&&t<=fin}),w:ventana(7)}}
+let _sem=null;
+function obrasSemana(){ // obras distintas de los últimos 7 días: cada una con los datos de su último parte y en cuántos partes apareció
+  if(_sem)return _sem;const {dias}=diasSemana(),by={},n={};
+  dias.forEach(d=>(d.obras||[]).forEach(o=>{by[o.id]=o;n[o.id]=(n[o.id]||0)+1}));
+  if(!dias.some(d=>d.fecha===P.fecha))P.obras.forEach(o=>{by[o.id]=o;n[o.id]=(n[o.id]||0)+1});
+  _sem=Object.values(by).map(o=>({...enriquecer(o),dias:n[o.id],k:Math.max(dias.length,1)}));return _sem;
+}
+const enZona=(o,z)=>z.circ?o.circuito===z.circ:z.secc?secc(o.circuito)===z.secc:true;
+function alcance(z=S){const todas=(z.per==='semana'?obrasSemana():obras).filter(o=>enZona(o,z));return {todas,reales:todas.filter(o=>!o.grupo),grupos:todas.filter(o=>o.grupo)}}
+const SECCS=uniq(reales.concat(obrasSemana().filter(o=>!o.grupo)).map(o=>o.secc)).sort(ordSecc);
+const zonaId=z=>`z_${z.secc||'ciudad'}${z.circ?'_'+z.circ:''}_${z.per}`;
+const zonaRotulo=z=>z.secc?`Seccional ${z.secc}${z.circ?' · circuito '+z.circ:''}`:'Toda la ciudad';
+function resumenZona(z=S){ // pieza automática para una zona y un período: habla de barrios, nunca de la seccional
+  const {reales:R2,grupos:G2}=alcance(z); if(!R2.length)return null;
+  const sem=z.per==='semana', id=zonaId(z), k=s=>pick(s,{id},'z');
+  const bs=uniq(R2.flatMap(o=>o.barrioList||[]));
+  const lb=n=>bs.length>n?bs.slice(0,n).map(b=>'Barrio '+b).join(', ')+` y ${bs.length-n===1?'otro barrio':'otros '+(bs.length-n)+' barrios'}`:lista(bs.map(b=>'Barrio '+b));
+  const donde=bs.length?`en ${lb(4)}`:(z.secc==='1'?'en la zona céntrica':'en el sector'), dondeCorto=bs.length?`en ${lb(2)}`:(z.secc==='1'?'en la zona céntrica':'en el sector');
+  const por=TIPO_ORDEN.map(t=>[t,R2.filter(o=>o.tipo===t)]).filter(([,a])=>a.length);
+  const nb=a=>uniq(a.flatMap(o=>o.barrioList||[])).length;
+  const frase=(t,a)=>{const n=a.length;switch(t){
+    case 'mant':return (nb(a)||n)===1?'mantenimiento de calles de tierra':`mantenimiento de calles en ${nb(a)||n} barrios`;
+    case 'frio':return (nb(a)||n)===1?'bacheo en frío':`bacheo en frío en ${nb(a)||n} barrios`;
+    case 'rampas':return `${sum(a,o=>o.rampas)} rampas de accesibilidad en ${n} ${n===1?'esquina':'esquinas'}`;
+    case 'bacheo':return `${n} ${n===1?'frente':'frentes'} de bacheo con asfalto`;
+    case 'rehab':return `${n} ${n===1?'frente':'frentes'} de rehabilitación con asfalto`;
+    case 'hormigon':return `${n} ${n===1?'frente':'frentes'} de rehabilitación con hormigón`;
+    case 'pav':return `pavimentación de ${sum(a,o=>o.m.cuadras)} cuadras`;
+    case 'plaza':return `renovación de ${n} ${n===1?'plaza':'plazas'}`;}};
+  const frases=por.map(([t,a])=>frase(t,a)), fr=lista(frases), frCorto=frases.length>2?frases.slice(0,2).join(', ')+', entre otras obras':lista(frases);
+  const ejes=uniq(R2.map(o=>o.eje)), eje=ejes.length===1?ejes[0]:'calle', e=EJES[eje], U=R2.length;
+  const {dias,w}=diasSemana(); const porDia=sem&&dias.length?Math.round(dias.map(d=>(d.obras||[]).filter(o=>!o.grupo&&enZona(o,z)).length).reduce((a,b)=>a+b,0)/dias.length):null;
+  const cuando=sem?'En la última semana':'Hoy', obrasTxt=`${U} ${U===1?'obra':'obras'}`;
+  const dato=sem?`${cuando}, ${GOB} ejecutaron ${obrasTxt} distintas ${donde}: ${fr}${porDia?`. En promedio hubo ${porDia} ${porDia===1?'obra':'obras'} en ejecución por día en la zona`:''}`
+               :`${cuando}, ${GOB} ejecutan ${obrasTxt} ${donde}: ${fr}`;
+  const cierre=k(CIERRES), cta=k(CTAS), tags=e.tags.join(' ');
+  const titulos=uniq([`${U} ${U===1?'obra':'obras'} ${sem?'en la última semana':'en ejecución'} ${dondeCorto}`,`Hacer para Crecer: ${obrasTxt} ${donde}`,bs.length?`${bs.length===1?'El barrio':'Los barrios'} ${lista(bs.slice(0,3))}: ${frCorto}`:`${frCorto} ${donde}`].map(x=>x[0].toUpperCase()+x.slice(1))).map(limpio);
+  const ig=limpio(`${e.emoji} ${up(obrasTxt)} ${up(sem?'ESTA SEMANA':'EN EJECUCIÓN')} ${up(dondeCorto)}\n\n${dato}.\n\n${k(e.cortos)}\n\n${cierre}\n\n👉 ${cta}\n\n${tags}`);
+  const ht=e.tags.slice(0,2).join(' '), cab=`${e.emoji} ${sem?'Esta semana':'Hoy'}, ${obrasTxt} ${donde}: ${fr}.`, cab2=`${e.emoji} ${sem?'Esta semana':'Hoy'}, ${obrasTxt} ${dondeCorto}: ${frCorto}.`, cab3=`${e.emoji} ${sem?'Esta semana':'Hoy'}, ${obrasTxt} ${dondeCorto}.`;
+  const x=limpio([`${cab}\n${cierre}\n${ht}`,`${cab}\n${ht}`,`${cab2}\n${cierre}\n${ht}`,`${cab2}\n${ht}`,`${cab3}\n${ht}`].find(t=>t.length<=280)||cab3);
+  const smsAlc=bs.length===1?'barrio':'sector', smsCuando=sem?'esta semana ':'';
+  const sms=limpio(smsArmar(smsAlc,[`${smsCuando}${obrasTxt} en marcha ${donde}: ${frCorto}`,`${smsCuando}${obrasTxt} en marcha ${dondeCorto}`,`${smsCuando}${obrasTxt} en marcha ${bs.length?'en '+lb(1):donde}`,`${obrasTxt} en marcha cerca tuyo`],id));
+  const placa={eje,fotos:[],kicker:sem?'Lectura semanal':'Obras en ejecución',valor:String(U),etiqueta:sem?(U===1?'Obra en la última semana':'Obras en la última semana'):(U===1?'Obra en ejecución':'Obras en ejecución'),sub:bs.length?lb(3):(z.secc==='1'?'Zona céntrica':'En el sector'),extra:frCorto[0].toUpperCase()+frCorto.slice(1)};
+  const gac=limpio(gacetilla({titulo:titulos[0],bajada:frases.map(f=>f[0].toUpperCase()+f.slice(1)+'.').concat(['Hacer para Crecer: obra pública en cada barrio.']),lead:`${dato}.`,
+    secciones:[['Obra por obra',R2.map(o=>hecho(o)+'.')],['Los programas',ejes.map(x=>EJES[x].marco)]],cierre:MODELO}));
+  const out={id,titulo:`Resumen ${sem?'de la semana':'del día'} · ${zonaRotulo(z)}`,eje,titulos,ig,x,sms,placa,gac,incompleto:sem&&!w.completo?w:null,U,bs,grupos:G2.length};
+  const c=(CONT.zonas||{})[id]; if(c){if(c.titulos)out.titulos=c.titulos.map(limpio);if(c.ig)out.ig=limpio(c.ig);if(c.x)out.x=limpio(c.x);if(c.sms)out.sms=limpio(c.sms);if(c.gac)out.gac=limpio(c.gac);if(c.placa)Object.assign(out.placa,c.placa);out.redactado=true;}
+  return out;
+}
+const smsDePlaca=gx=>{const v=gx.placa||{},low=t=>t?t[0].toLowerCase()+t.slice(1):'';const b=v.valor?`${v.valor} ${low(v.etiqueta)}`:low(v.main||'');return smsArmar('ciudad',[v.sub?`${b}, ${low(v.sub)}`:null,b].filter(Boolean),gx.id||'')};
+
+/* ---------- foto propia y encuadre: viven en este navegador (localStorage), por obra o pieza ---------- */
+const FOTO_KEY='gc_obras_fotos'; let FOTOS={}; try{FOTOS=JSON.parse(localStorage.getItem(FOTO_KEY)||'{}')}catch(e){}
+const guardarFotos=()=>{try{localStorage.setItem(FOTO_KEY,JSON.stringify(FOTOS));return true}catch(e){return false}};
+const reducirFoto=file=>new Promise((res,rej)=>{const fr=new FileReader();fr.onerror=rej;fr.onload=()=>{const i=new Image();i.onerror=rej;i.onload=()=>{const M=1600,k=Math.min(1,M/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=Math.round(i.width*k);c.height=Math.round(i.height*k);c.getContext('2d').drawImage(i,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.85))};i.src=fr.result};fr.readAsDataURL(file)});
+// las fotos de la placa, en este orden: la propia (si hay), las del parte y las genéricas de la galería del rubro (origen 'galeria')
+// k = clave del encuadre guardado: 'propia', 'p0', 'p1'… (parte) y 'g:<archivo>' (galería)
+const galDe=r=>(r&&GAL[r])||[];
+const fotosDe=(id,base,rubro)=>{const f=FOTOS[id];return [...(f&&f.data?[{src:f.data,origen:'propia',k:'propia'}]:[]),
+  ...(base||[]).map((src,i)=>({src,origen:'parte',k:'p'+i,n:i+1})),...galDe(rubro).map(g=>({src:g.src,origen:'galeria',k:'g:'+g.nombre,nombre:g.nombre}))]};
+// foto inicial: la propia o la del parte; si no hay ninguna, una genérica que rota por id de obra (para que no se repita en todas)
+// foto inicial: una genérica elegida a mano (guardada en el navegador) manda; si no, la propia o la del parte; si no hay ninguna, una genérica que rota por id
+// rotación de genéricas: las obras de un rubro sin foto del parte, en el orden en que salen en el tablero (toda la ciudad, hoy; después las que
+// solo están en la semana), toman la genérica 1, 2, 3… y vuelven a empezar. Es fija por obra: no cambia con filtros, zona ni período.
+let _rot=null;
+function rotacion(){ if(_rot)return _rot; _rot={};const n={},
+  ord=(a,b)=>(parseInt(a.circuito)-parseInt(b.circuito))||String(a.circuito).localeCompare(String(b.circuito))||(b.grupo?1:0)-(a.grupo?1:0)||TIPO_ORDEN.indexOf(a.tipo)-TIPO_ORDEN.indexOf(b.tipo);
+  const hoy=reales.concat(obras.filter(o=>o.grupo)).sort(ord), ids=new Set(hoy.map(o=>o.id));
+  const sem=obrasSemana().filter(o=>!ids.has(o.id)).sort((a,b)=>(b.dias||0)-(a.dias||0)||(b.grupo?1:0)-(a.grupo?1:0)||ordSecc(a.circuito,b.circuito)||TIPO_ORDEN.indexOf(a.tipo)-TIPO_ORDEN.indexOf(b.tipo));
+  hoy.concat(sem).forEach(o=>{if(!o.fotos.length&&!(o.id in _rot)){_rot[o.id]=n[o.tipo]||0;n[o.tipo]=(n[o.tipo]||0)+1}});
+  return _rot;}
+// genéricas nítidas de un rubro, medidas en el navegador con la misma función que el Sugerido (nitidez >= UMBRAL_NITIDEZ).
+// Las borrosas quedan fuera de la rotación automática si hay al menos una nítida; siguen en la tira para elegir a mano.
+// Si no se puede medir (tablero abierto como archivo local), cuentan como nítidas.
+const _nit={};
+const galNitidas=r=>_nit[r]??=Promise.all(galDe(r).map(g=>loadImg(g.src).then(im=>{const q=calCache.get(im.src)||calCache.set(im.src,medirFoto(im)).get(im.src);return q.nitidez==null||q.nitidez>=UMBRAL_NITIDEZ?g.nombre:null}).catch(()=>g.nombre))).then(a=>new Set(a.filter(Boolean)));
+// foto inicial: una genérica elegida a mano (guardada en el navegador) manda; si no, la propia o la del parte; si no hay ninguna, la genérica que le toca en la rotación
+const fotoInicial=(id,items,nitidas)=>{const g=(FOTOS[id]||{}).gal,k=g?items.findIndex(x=>x.origen==='galeria'&&x.nombre===g):-1;
+  if(k>=0)return k; if(items.some(x=>x.origen!=='galeria'))return 0; if(!items.length)return 0;
+  const gen=items.map((x,i)=>[x,i]).filter(([x])=>x.origen==='galeria'), nit=nitidas?gen.filter(([x])=>nitidas.has(x.nombre)):gen, pool=nit.length?nit:gen;
+  const r=rotacion()[id];return pool[(r!=null?r:hash(id||''))%pool.length][1]};   // las piezas por tipo (no son obras) rotan por id
+const rubroTxt=r=>RUBRO_TXT[r]||(TIPOS[r]?TIPOS[r].label.toLowerCase():r);
+const EJE_COLOR={calle:'#17233d',accesible:'#eaab3b',plaza:'#4da070'};
+// piezas por tipo (generales y periódicos): usan la galería de su rubro
+const rubroPieza=id=>/(^g_plazas$|_plazas$)/.test(id)?'plaza':/(^g_accesible$|_rampas$)/.test(id)?'rampas':/(^g_cuadras$|_pav$)/.test(id)?'pav':null;
+const tagFoto=(conFoto,rubro)=>conFoto?['foto','Con foto']:galDe(rubro).length?['generica','Foto genérica']:['sinfoto','Sin foto'];
+/* ---------- UI ---------- */const ESTILOS_UI=[['sugerido','Sugerido'],['circulo','Círculo'],['marco','Marco'],['completa','Foto completa'],['sinfoto','Sin foto']];
+// tilde "Pie con marcas" (encendido por defecto): apagado, la placa sale sin franja, logos, cinta ni wordmark del eje
+const pieHTML=v=>`<label class="pie"><input type="checkbox" data-pie ${conPie(v)?'checked':''}> Pie con marcas</label>`;
+// recuadro Personalizado: misma placa al tamaño elegido, con su propio zoom (el encuadre se guarda también por tamaño)
+const pBoxHTML=(v,st,nf,est)=>{if(!TAM)return '';const z=(st&&st.encP&&st.encP.z)||1;
+  const fo=formaDe(TAM.w,TAM.h),noBanner=fo==='banner'&&nf&&(est==='circulo'||est==='marco');
+  return `<div class="fmt p"><div class="lbl">Personalizado · ${TAM.w}×${TAM.h} · ${fo}</div>${noBanner?`<div class="pvac">Este diseño no entra en banner: sale con el Sugerido para banner</div>`:''}<canvas data-fmt="p" class="${nf&&est!=='sinfoto'?'movible':''}"></canvas><div class="btns" style="justify-content:center"><button class="btn" data-dl="p">Bajar PNG</button></div>${nf&&est!=='sinfoto'?`<div class="encp">zoom <input type="range" min="0.5" max="2.5" step="0.05" value="${z}" data-zoomp> <span data-zoomvp>${Math.round(z*100)}%</span></div>`:''}</div>`};
+const placaHTML=(id,v,st)=>{const propia=!!(FOTOS[id]&&FOTOS[id].data), nf=(v.fotos||[]).length, est=(st&&st.estilo)||'sugerido', fi=(st&&st.foto)||0;
+ const items=(st&&st.items)||[], cur=items[fi], mini=(x,i,l)=>`<button class="mb ${i===fi?'on':''}" data-foto="${i}" title="${esc(x.nombre||l)}" aria-label="${esc(l)}"><img src="${x.src}" alt="">${l?esc(l):''}</button>`;
+ const propias=items.map((x,i)=>[x,i]).filter(([x])=>x.origen!=='galeria'), gen=items.map((x,i)=>[x,i]).filter(([x])=>x.origen==='galeria');
+ return `<div class="placa-ui" style="--eje:${EJE_COLOR[v.eje]||EJE_COLOR.calle}"><div class="fmts${TAM?' con-p':''}">${Object.entries(FMT).map(([k,f])=>`<div class="fmt"><div class="lbl">${f[2]}</div><canvas data-fmt="${k}" class="${nf&&est!=='sinfoto'?'movible':''}"></canvas><div class="btns" style="justify-content:center"><button class="btn" data-dl="${k}">Bajar PNG</button></div></div>`).join('')}${pBoxHTML(v,st,nf,est)}</div>
+ ${cur&&cur.origen==='galeria'&&est!=='sinfoto'?'<div class="fotosel"><span class="genaviso">Foto genérica del tipo de obra. Podés elegir otra o subir la tuya</span></div>':''}
+ ${conPie(v)?'':'<div class="fotosel"><span class="genaviso">Sin marcas: revisá que la foto tampoco tenga cartel institucional</span></div>'}
+ <div class="btns"><button class="btn sec" data-dlall>Bajar las ${TAM?4:3} placas</button></div>
+ <div class="fotosel">${nf?`Diseño: ${ESTILOS_UI.map(([k,l])=>`<button class="btn ${k===est?'':'sec'}" data-estilo="${k}" ${TAM&&formaDe(TAM.w,TAM.h)==='banner'&&(k==='circulo'||k==='marco')?'title="Este diseño no entra en banner: el recuadro Personalizado sale con el Sugerido para banner"':''}>${l}</button>`).join('')}`:''}${pieHTML(v)}</div>${nf?'<div class="fotosel" data-sug></div>':''}
+ ${propias.length?`<div class="fotosel">Foto: ${propias.map(([x,i])=>mini(x,i,x.origen==='propia'?'Propia':'Parte '+x.n)).join('')}</div>`:''}
+ ${gen.length?`<div class="fotosel gal"><span class="gt">Fotos genéricas de ${esc(rubroTxt(v._rubro))}</span>${gen.map(([x,i],j)=>mini(x,i,'')).join('')}</div>`:''}
+ <div class="fotosel">${propia?`<img class="mini" src="${FOTOS[id].data}" alt="">`:''}<label class="btn sec">${propia?'Cambiar foto propia':'Subir foto propia'}<input type="file" accept="image/*" data-subir></label>${propia?'<button class="btn sec" data-quitar>Quitar foto propia</button>':''}<span class="aviso" data-foto-aviso></span>
+  ${nf&&est!=='sinfoto'?`<span class="enc">Encuadre: arrastrá la foto en la placa · zoom <input type="range" min="0.5" max="2.5" step="0.05" value="${(st&&st.enc&&st.enc.z)||1}" data-zoom> <span data-zoomv>${Math.round(((st&&st.enc&&st.enc.z)||1)*100)}%</span></span>`:''}</div></div>`};
+function txHTML(ig,x,pl,gac,titulos,sms){return `
  ${titulos&&titulos.length?`<div class="tx"><div class="row"><label>Opciones de título</label></div>${titulos.map(t=>`<div class="titulo"><span>${esc(t)}</span><button class="btn sec" data-copytxt="${esc(t)}">Copiar</button></div>`).join('')}</div>`:''}
  <div class="tx"><div class="row"><label>Copy de Instagram</label><button class="btn" data-copy="ig">Copiar</button></div><textarea data-t="ig" rows="11">${esc(ig)}</textarea></div>
  <div class="tx"><div class="row"><label>Texto para X <span class="n" data-n></span></label><button class="btn" data-copy="x">Copiar</button></div><textarea data-t="x" rows="5">${esc(x)}</textarea></div>
+ ${sms!=null?`<div class="tx"><div class="row"><label>Texto para SMS <span class="n" data-nsms></span></label><span><button class="btn sec" data-tildes title="Algunos proveedores cuentan 70 caracteres si el texto lleva tildes">Sin tildes</button> <button class="btn" data-copy="sms">Copiar</button></span></div><textarea data-t="sms" rows="3">${esc(sms)}</textarea><div class="n" style="font-size:11px;color:var(--muted);font-weight:600;margin-top:3px">Un solo mensaje: hasta ${SMS_MAX} caracteres, contando el marcador ${LINK} como un link corto de ${LINK_LEN}. Pegar el link recortado en lugar de ${LINK}.</div></div>`:''}
  <div class="tx"><div class="row"><label>Texto de la placa <span class="n">(editable: cambia la placa)</span></label><button class="btn" data-copy="pl">Copiar</button></div><textarea data-t="pl" rows="4">${esc(pl)}</textarea></div>${gac?`<div class="tx"><div class="row"><label>Gacetilla de prensa</label><button class="btn" data-copy="gac">Copiar</button></div><textarea data-t="gac" rows="16">${esc(gac)}</textarea></div>`:'' }`;}
 function wire(card,id,v){
-  const state={foto:0,estilo:'sugerido',done:false};
-  const draw=()=>card.querySelectorAll('canvas').forEach(c=>renderPlaca(c,v,c.dataset.fmt,state.foto,state.estilo));
-  const sug=card.querySelector('[data-sug]');
-  const mostrarSug=async()=>{if(!sug)return;const im=await loadImg(v.fotos[state.foto%v.fotos.length]);const q=calCache.get(im.src)||calCache.set(im.src,medirFoto(im)).get(im.src);const k=window.__estiloSugerido(v,im);
-    sug.textContent=`Sugerido: ${{circulo:'Círculo',marco:'Marco',completa:'Foto completa'}[k]} · foto de ${q.ancho}×${q.alto}px, ${q.vertical?'vertical':'horizontal'}, nitidez ${Math.round(q.nitidez)}`;};
-  card.addEventListener('toggle',()=>{if(card.open&&!state.done){state.done=true;draw();mostrarSug()}});
+  const state={foto:0,estilo:'sugerido',done:false,base:(v.fotos||[]).slice(),items:[]};
+  const armar=()=>{state.items=fotosDe(id,state.base,v._rubro);v._items=state.items;v.fotos=state.items.map(x=>x.src)};
+  armar();state.foto=fotoInicial(id,state.items);v._pie=!(FOTOS[id]&&FOTOS[id].sinPie);   // el tilde se guarda por pieza en el navegador, como el encuadre
+  const tagEl=card.querySelector(':scope > summary [data-ft]');
+  const retag=()=>{if(!tagEl)return;const [c,t]=tagFoto(state.base.length>0||!!(FOTOS[id]&&FOTOS[id].data),v._rubro);tagEl.className='tag '+c;tagEl.textContent=t};
+  const generica=()=>{const x=state.items[state.foto];return !!x&&x.origen==='galeria'&&state.estilo!=='sinfoto'};
+  // encuadre de la foto que se está usando (propia, del parte o genérica), guardado en el navegador por obra y por foto
+  const fkey=()=>(state.items[state.foto]||{k:'p0'}).k;
+  const encDe=()=>((FOTOS[id]||{}).enc||{})[fkey()]||null;
+  const kP=()=>`${fkey()}@${TAM.w}x${TAM.h}`;                                          // encuadre del personalizado: por foto y por tamaño
+  const encP=()=>TAM?(((FOTOS[id]||{}).enc||{})[kP()]||encDe()):null;              // si todavía no se tocó, toma el de los tres formatos
+  const draw=()=>{v._enc=encDe();const ep=encP();card.querySelectorAll(':scope > .body > .grid canvas').forEach(c=>{c.classList.toggle('movible',!!(v.fotos&&v.fotos.length)&&state.estilo!=='sinfoto');
+    if(c.dataset.fmt==='p'&&!TAM)return;const vv=c.dataset.fmt==='p'?Object.assign({},v,{_enc:ep}):v;
+    renderPlaca(lienzo(c),vv,c.dataset.fmt,state.foto,state.estilo).then(()=>mostrar(c))})};
+  let sug=card.querySelector('[data-sug]');
+  const refrescarUI=()=>{const box=card.querySelector(':scope > .body > .grid .placa-ui');if(!box)return;state.enc=encDe();state.encP=encP();box.outerHTML=placaHTML(id,v,state);sug=card.querySelector('[data-sug]');draw();mostrarSug()};
+  const grid=card.querySelector(':scope > .body > .grid');
+  grid.addEventListener('change',async ev=>{const inp=ev.target;
+    if(inp.dataset.subir!==undefined&&inp.files&&inp.files[0]){try{const data=await reducirFoto(inp.files[0]);FOTOS[id]=Object.assign({},FOTOS[id]||{},{data});delete (FOTOS[id].enc||{}).propia;delete FOTOS[id].gal;const ok=guardarFotos();armar();state.foto=0;if(state.estilo==='sinfoto')state.estilo='sugerido';refrescarUI();retag();if(!ok)card.querySelector('[data-foto-aviso]').textContent='La foto se usa ahora pero no entró en la memoria del navegador (hay muchas guardadas): quitá otras.'}catch(e){card.querySelector('[data-foto-aviso]').textContent='No se pudo leer la imagen.'}}
+    else if(inp.dataset.zoom!==undefined||inp.dataset.zoomp!==undefined)guardarFotos()
+    else if(inp.dataset.pie!==undefined){v._pie=inp.checked;if(inp.checked){if(FOTOS[id])delete FOTOS[id].sinPie}else (FOTOS[id]??={}).sinPie=true;guardarFotos();refrescarUI()}});
+  grid.addEventListener('input',ev=>{if(ev.target.dataset.zoomp!==undefined&&TAM){const zv=card.querySelector('[data-zoomvp]');if(zv)zv.textContent=Math.round(ev.target.value*100)+'%';
+      const f=FOTOS[id]??={};(f.enc??={})[kP()]=Object.assign({},encP()||{},{z:+ev.target.value});if(!state._raf){state._raf=requestAnimationFrame(()=>{state._raf=null;draw()})}return}
+    if(ev.target.dataset.zoom===undefined)return;const zv=card.querySelector('[data-zoomv]');if(zv)zv.textContent=Math.round(ev.target.value*100)+'%';const f=FOTOS[id]??={};(f.enc??={})[fkey()]=Object.assign({},f.enc[fkey()]||{},{z:+ev.target.value});if(!state._raf){state._raf=requestAnimationFrame(()=>{state._raf=null;draw()})}});
+  let arr=null;const fmts=()=>card.querySelector(':scope > .body > .grid .fmts');
+  grid.addEventListener('pointerdown',ev=>{const c=ev.target.closest('canvas');if(!c||!c.classList.contains('movible')||c.closest('.fmts')!==fmts())return;const pp=c.dataset.fmt==='p'&&TAM,e=(pp?encP():encDe())||{};const r=c.getBoundingClientRect();arr={x:ev.clientX,y:ev.clientY,fx:e.fx??.5,fy:e.fy??.5,w:r.width,h:r.height,k:pp?kP():fkey(),base:e};c.setPointerCapture(ev.pointerId);ev.preventDefault()});
+  grid.addEventListener('pointermove',ev=>{if(!arr)return;const f=FOTOS[id]??={};const o=(f.enc??={})[arr.k]=Object.assign({},arr.base,f.enc[arr.k]||{});o.fx=Math.min(1,Math.max(0,arr.fx-(ev.clientX-arr.x)/arr.w*1.2));o.fy=Math.min(1,Math.max(0,arr.fy-(ev.clientY-arr.y)/arr.h*1.2));if(!state._raf){state._raf=requestAnimationFrame(()=>{state._raf=null;draw()})}});
+  const finArr=()=>{if(arr){arr=null;guardarFotos()}};grid.addEventListener('pointerup',finArr);grid.addEventListener('pointercancel',finArr);
+  const mostrarSug=async()=>{if(!sug)return;const im=await loadImg(v.fotos[state.foto%v.fotos.length]);const q=calCache.get(im.src)||calCache.set(im.src,medirFoto(im)).get(im.src);const k=window.__estiloSugerido(v,im,esGen(v,state.foto));
+    sug.textContent=`Sugerido: ${{circulo:'Círculo',marco:'Marco',completa:'Foto completa'}[k]} · foto de ${q.ancho}×${q.alto}px, ${q.vertical?'vertical':'horizontal'}, ${q.nitidez==null?'nitidez no medible (archivo local)':'nitidez '+Math.round(q.nitidez)}${esGen(v,state.foto)?' · genérica':''}`;};
+  const alTam=()=>{if(!card.isConnected){window.removeEventListener('gc-tam',alTam);return}if(state.done)refrescarUI()};window.addEventListener('gc-tam',alTam);   // cambió el tamaño personalizado
+  card.addEventListener('toggle',async()=>{if(card.open&&!state.done){state.done=true;   // las miniaturas se arman al abrir la tarjeta
+    if(galDe(v._rubro).length){state.nit=await galNitidas(v._rubro);state.foto=fotoInicial(id,state.items,state.nit)}refrescarUI()}});
   card.addEventListener('click',ev=>{const b=ev.target.closest('button');if(!b)return;
-    if(b.dataset.dl){const c=card.querySelector(`canvas[data-fmt="${b.dataset.dl}"]`);descargar(c,`${id}_${b.dataset.dl}`)}
-    else if(b.dataset.dlall){[...card.querySelectorAll('canvas')].forEach((c,i)=>setTimeout(()=>descargar(c,`${id}_${c.dataset.fmt}`),i*400))}
-    else if(b.dataset.foto!==undefined){state.foto=+b.dataset.foto;draw();mostrarSug()}
-    else if(b.dataset.estilo){state.estilo=b.dataset.estilo;card.querySelectorAll('[data-estilo]').forEach(x=>x.classList.toggle('sec',x!==b));draw()}
+    const suf=()=>`${generica()?'_generica':''}${conPie(v)?'':'_sinmarca'}`;   // se descarga el canvas completo, no la vista previa
+    if(b.dataset.dl){const c=card.querySelector(`:scope > .body > .grid canvas[data-fmt="${b.dataset.dl}"]`);if(c)descargar(lienzo(c),`${id}_${fmtNombre(b.dataset.dl)}${suf()}`)}
+    else if(b.dataset.dlall!==undefined){[...card.querySelectorAll(':scope > .body > .grid canvas')].forEach((c,i)=>setTimeout(()=>descargar(lienzo(c),`${id}_${fmtNombre(c.dataset.fmt)}${suf()}`),i*400))}
+    else if(b.dataset.quitar!==undefined){if(FOTOS[id]){delete FOTOS[id].data;delete (FOTOS[id].enc||{}).propia}guardarFotos();armar();state.foto=fotoInicial(id,state.items,state.nit);refrescarUI();retag()}
+    else if(b.dataset.foto!==undefined){state.foto=+b.dataset.foto;const x=state.items[state.foto];   // la genérica elegida a mano se recuerda por obra, como el encuadre
+      if(x&&x.origen==='galeria')(FOTOS[id]??={}).gal=x.nombre;else if(FOTOS[id])delete FOTOS[id].gal;guardarFotos();refrescarUI()}
+    else if(b.dataset.estilo){state.estilo=b.dataset.estilo;refrescarUI()}
     else if(b.dataset.copytxt!==undefined){copiar(b.dataset.copytxt,b)}
     else if(b.dataset.copy){copiar(card.querySelector(`textarea[data-t="${b.dataset.copy}"]`).value,b)}});
   const x=card.querySelector('textarea[data-t="x"]'),n=card.querySelector('[data-n]');const cnt=()=>{n.textContent=x.value.length+'/280';n.classList.toggle('bad',x.value.length>280)};x.addEventListener('input',cnt);cnt();
+  const sm=card.querySelector('textarea[data-t="sms"]'),ns=card.querySelector('[data-nsms]');
+  if(sm){const cs=()=>{const L=smsLen(sm.value);ns.textContent=`${L}/${SMS_MAX}${/[áéíóúÁÉÍÓÚ]/.test(sm.value)?' · con tildes':' · sin tildes'}`;ns.classList.toggle('bad',L>SMS_MAX)};sm.addEventListener('input',cs);cs();
+    card.querySelector('[data-tildes]').addEventListener('click',()=>{sm.value=sinTildes(sm.value);cs()});}
   const pl=card.querySelector('textarea[data-t="pl"]');let tm;pl.addEventListener('input',()=>{leerPlaca(v,pl.value);clearTimeout(tm);tm=setTimeout(draw,350)});  // el texto editado se refleja en la placa
 }
-function obraCard(o){
-  const v=placaDe(o),e=EJES[o.eje];
+function obraCard(o,ult){ // ult: fecha del último parte en que apareció (vista semanal)
+  const v=placaDe(o),e=EJES[o.eje];v._rubro=o.tipo;
+  const [tc,tt]=tagFoto(o.fotos.length>0||!!(FOTOS[o.id]&&FOTOS[o.id].data),o.tipo);   // el filtro Con foto / Sin foto sigue contando solo la foto del parte
   const el=document.createElement('details');el.className='card e-'+o.eje;
   const tit=o.tipo==='plaza'?o.via:(o.via||o.sector)+(o.entre?` · entre ${o.entre}`:'');
   el.innerHTML=`<summary><div class="tt"><b>${esc(tit)}</b><span>${esc(TIPOS[o.tipo].label)}${bar(o)?' · Barrio '+esc(bar(o)):''}${o.tipo==='rampas'&&!o.grupo?` · ${o.rampas} ${o.rampas===1?'rampa':'rampas'}`:''}${o.grupo?` · grupo de ${esq(o)} esquinas, ${o.rampas} rampas`:''}</span></div>
-   ${o.grupo?'<span class="tag grupo">Grupo</span>':''}<span class="tag ${o.fotos.length?'foto':'sinfoto'}">${o.fotos.length?'Con foto':'Sin foto'}</span><span class="tag ${o.eje}">${esc(e.nombre.split(' – ')[0])}</span></summary>
-   <div class="body"><div class="grid"><div>${placaHTML(o.id,v)}</div><div>${txHTML(textoIG(o),textoX(o),textoPlaca(v))}</div></div>
+   ${o.grupo?'<span class="tag grupo">Grupo</span>':''}${o.dias!=null&&S.per==='semana'?`<span class="tag dias">en ${o.dias} de ${o.k} partes${ult?' · último '+ddmm(ult):''}</span><span class="tag circ">${esc(o.circuito)}</span>`:''}<span class="tag ${tc}" data-ft>${tt}</span><span class="tag ${o.eje}">${esc(e.nombre.split(' – ')[0])}</span></summary>
+   <div class="body"><div class="grid"><div>${placaHTML(o.id,v)}</div><div>${txHTML(textoIG(o),textoX(o),textoPlaca(v),null,null,textoSMS(o))}</div></div>
    <div class="meta">Parte: circuito ${esc(o.circuito)}${o.circNombre?' · '+esc(o.circNombre):''} · ${o.driveUrl?`<a href="${esc(o.driveUrl)}" target="_blank" rel="noopener">Doc/archivo en Drive</a>`:'sin link de Drive'}</div>
    ${o.docTxt?`<details class="doc"><summary>Texto original del doc</summary><pre>${esc(o.docTxt)}</pre></details>`:''}</div>`;
   wire(el,o.id,v);return el;
 }
 function renderObras(root){
-  const f=reales.filter(o=>(!S.circ||o.circuito===S.circ)&&(!S.tipo||o.tipo===S.tipo)&&(!S.foto||(S.foto==='con')===(o.fotos.length>0))&&(!S.q||norm([o.via,o.sector,o.barrio,o.entre,o.circNombre,o.circuito].filter(Boolean).join(' ')).includes(norm(S.q))));
-  const grupos=obras.filter(o=>o.grupo&&(!S.circ||o.circuito===S.circ)&&(!S.tipo||o.tipo===S.tipo)&&(!S.foto||(S.foto==='con')===(o.fotos.length>0)));
-  const circs=uniq(reales.map(o=>o.circuito)).sort((a,b)=>parseInt(a)-parseInt(b)||a.localeCompare(b));
-  const cn=c=>reales.filter(o=>o.circuito===c).length, nCon=reales.filter(o=>o.fotos.length).length;
-  root.innerHTML=`<div class="filters"><h4>Circuito del parte · tocá para filtrar</h4><div class="chips" id="fc">${circs.map(c=>`<button class="chip ${S.circ===c?'on':''}" data-c="${c}">${c}<small>${cn(c)}</small></button>`).join('')}</div>
-   <h4>Tipo de obra</h4><div class="chips" id="ft">${TIPO_ORDEN.map(t=>`<button class="chip t-${TIPOS[t].eje} ${S.tipo===t?'on':''}" data-t="${t}">${TIPOS[t].corto}<small>${reales.filter(o=>o.tipo===t).length}</small></button>`).join('')}</div>
-   <h4>Foto</h4><div class="chips" id="ff"><button class="chip ${S.foto==='con'?'on':''}" data-f="con">Con foto<small>${nCon}</small></button><button class="chip ${S.foto==='sin'?'on':''}" data-f="sin">Sin foto<small>${reales.length-nCon}</small></button></div>
-   <input class="search" placeholder="Buscar calle, barrio…" value="${esc(S.q)}" id="q"></div>
-   <div class="count">${f.length} de ${reales.length} obras${S.circ||S.tipo||S.foto||S.q?' · <a href="#" id="clr">limpiar filtros</a>':''}</div><div id="list"></div>`;
-  const list=$('#list',root);const byC={};f.concat(grupos).forEach(o=>(byC[o.circuito]??=[]).push(o));
-  Object.keys(byC).sort((a,b)=>parseInt(a)-parseInt(b)||a.localeCompare(b)).forEach(c=>{
-    const h=document.createElement('div');h.className='circ-head';h.innerHTML=`${esc(c)} <small>${esc(CIRC[c]||'(sin nombre en data/circuitos.json)')} · ${byC[c].filter(o=>!o.grupo).length} obras</small>`;list.appendChild(h);
-    byC[c].sort((a,b)=>(b.grupo?1:0)-(a.grupo?1:0)||TIPO_ORDEN.indexOf(a.tipo)-TIPO_ORDEN.indexOf(b.tipo)).forEach(o=>list.appendChild(obraCard(o)));});
-  root.onclick=ev=>{const b=ev.target.closest('.chip');if(b&&b.dataset.c){S.circ=S.circ===b.dataset.c?null:b.dataset.c;renderObras(root)}else if(b&&b.dataset.t){S.tipo=S.tipo===b.dataset.t?null:b.dataset.t;renderObras(root)}else if(b&&b.dataset.f){S.foto=S.foto===b.dataset.f?null:b.dataset.f;renderObras(root)}else if(ev.target.id==='clr'){ev.preventDefault();S.circ=S.tipo=S.foto=null;S.q='';renderObras(root)}};
-  $('#q',root).oninput=ev=>{S.q=ev.target.value;clearTimeout(S._t);S._t=setTimeout(()=>{renderObras(root);const q=$('#q',root);q.focus();q.setSelectionRange(q.value.length,q.value.length)},250)};
+  const {reales:RZ,grupos:GZ}=alcance(), sem=S.per==='semana', {w,dias}=diasSemana();
+  const f=RZ.filter(o=>(!S.tipo||o.tipo===S.tipo)&&(!S.foto||(S.foto==='con')===(o.fotos.length>0))&&(!S.q||norm([o.via,o.sector,o.barrio,o.entre,o.circNombre,o.circuito].filter(Boolean).join(' ')).includes(norm(S.q))));
+  const grupos=GZ.filter(o=>(!S.tipo||o.tipo===S.tipo)&&(!S.foto||(S.foto==='con')===(o.fotos.length>0)));
+  const reales=RZ, ult={};
+  if(sem){dias.forEach(d=>(d.obras||[]).forEach(o=>{ult[o.id]=d.fecha}));if(!dias.some(d=>d.fecha===P.fecha))P.obras.forEach(o=>{ult[o.id]=P.fecha})}
+  root.innerHTML=`${sem?`<div class="note">Vista semanal: obras distintas de los últimos 7 días, cada una con los datos de su último parte, ordenadas por cantidad de partes (lo que estuvo toda la semana, primero).${w.completo?'':` Faltan partes: hay ${w.k} de ${w.req} días hábiles.`} Los copys hablan de la obra; para el resumen de la semana, ver “Resumen”.</div>`:''}
+   <div class="listbar"><div class="count">${f.length} de ${reales.length} obras${S.tipo||S.foto||S.q?' · <a href="#" id="clr">limpiar filtros</a>':''}</div>${f.length+grupos.length?'<button class="btn sec" id="abrir">Abrir todas</button>':''}</div><div id="list"></div>`;
+  const list=$('#list',root), todas=f.concat(grupos);
+  if(sem){ // semana: una sola lista, de más a menos partes
+    todas.sort((a,b)=>(b.dias||0)-(a.dias||0)||(b.grupo?1:0)-(a.grupo?1:0)||ordSecc(a.circuito,b.circuito)||TIPO_ORDEN.indexOf(a.tipo)-TIPO_ORDEN.indexOf(b.tipo)).forEach(o=>list.appendChild(obraCard(o,ult[o.id])));
+  }else{
+    const byC={};todas.forEach(o=>(byC[o.circuito]??=[]).push(o));
+    Object.keys(byC).sort((a,b)=>parseInt(a)-parseInt(b)||a.localeCompare(b)).forEach(c=>{
+      const h=document.createElement('div');h.className='circ-head';h.innerHTML=`${esc(c)} <small>${esc(CIRC[c]||'(sin nombre en data/circuitos.json)')} · ${byC[c].filter(o=>!o.grupo).length} obras</small>`;list.appendChild(h);
+      byC[c].sort((a,b)=>(b.grupo?1:0)-(a.grupo?1:0)||TIPO_ORDEN.indexOf(a.tipo)-TIPO_ORDEN.indexOf(b.tipo)).forEach(o=>list.appendChild(obraCard(o)));});
+  }
+  const ab=$('#abrir',root), cards=()=>[...list.querySelectorAll('details.card')];
+  const rotular=()=>{if(ab)ab.textContent=cards().length&&cards().every(c=>c.open)?'Cerrar todas':'Abrir todas'};
+  list.addEventListener('toggle',rotular,true);
+  root.onclick=ev=>{if(ev.target.id==='clr'){ev.preventDefault();S.tipo=S.foto=null;S.q='';go()}
+    else if(ev.target.id==='abrir'){const abrir=!cards().every(c=>c.open);cards().forEach(c=>{c.open=abrir});rotular()}};
 }
 function tarjetaContenido(gx,rotulo){
-  const el=document.createElement('details');el.className='card e-'+gx.eje;
+  const el=document.createElement('details');el.className='card e-'+gx.eje;gx.placa._rubro=rubroPieza(gx.id);
   el.innerHTML=`<summary><div class="tt"><b>${esc(gx.titulo)}</b><span>${esc(gx.placa.valor||'')} ${esc(gx.placa.etiqueta||'')}</span></div><span class="tag ${gx.eje}">${rotulo}</span></summary>
-   <div class="body"><div class="grid"><div>${placaHTML(gx.id,gx.placa)}</div><div>${txHTML(gx.ig,gx.x,textoPlaca(gx.placa),gx.gac,gx.titulos)}</div></div></div>`;
+   <div class="body"><div class="grid"><div>${placaHTML(gx.id,gx.placa)}</div><div>${txHTML(gx.ig,gx.x,textoPlaca(gx.placa),gx.gac,gx.titulos,gx.sms!=null?gx.sms:smsDePlaca(gx))}</div></div></div>`;
   wire(el,gx.id,gx.placa);return el;
 }
 function renderGenerales(root){
-  root.innerHTML=`<div class="note">Estos contenidos se calculan <b>sumando el parte del día</b> (${R.obras} obras, ${R.rampas} rampas, ${R.cuadras} cuadras de las memorias). Sin montos ni cifras fiscales: el relato del modelo cordobés va con los mensajes oficiales.</div><div class="gen-grid" id="gl"></div>`;
-  generales().forEach(gx=>$('#gl',root).appendChild(tarjetaContenido(gx,'General')));
+  const sem=S.per==='semana', N=perN(S.per);
+  if(N>7){ // lecturas de 10, 15 y 30 días: son de toda la ciudad
+    const ps=periodicos().filter(p=>new RegExp('^p_'+N+'(_|$)').test(p.id)), v=VENT.find(x=>x[0]===N);
+    root.innerHTML=`<div class="note">Resumen de <b>${esc(v?v[1]:N+' días')}</b> para toda la ciudad: la lectura general y las piezas por tipo de obra.${S.secc?' Las lecturas de 10, 15 y 30 días no se arman por zona.':''} Las demás lecturas están más abajo, en “Otras lecturas”.</div><div class="gen-grid" id="gl"></div><div id="otras"></div>`;
+    ps.forEach(p=>{if(p.estado){const d=document.createElement('div');d.className='list';d.innerHTML=`<h3>${esc(p.titulo)}</h3><div style="font-size:12.5px;color:var(--muted);font-weight:600">${esc(p.estado)}</div>`;$('#gl',root).appendChild(d);return}$('#gl',root).appendChild(tarjetaContenido(p,'Periódico'))});
+    renderPeriodicos($('#otras',root),ps.map(p=>p.id));return;}
+  if(!S.secc){ // toda la ciudad: lo del período elegido y, al final, las otras lecturas
+    let mostradas=[];
+    if(!sem){
+      root.innerHTML=`<div class="note">Estos contenidos se calculan <b>sumando el parte del día</b> (${R.obras} obras, ${R.rampas} rampas, ${R.cuadras} cuadras de las memorias). Sin montos ni cifras fiscales: el relato del modelo cordobés va con los mensajes oficiales.</div><div class="gen-grid" id="gl"></div><div id="otras"></div>`;
+      generales().forEach(gx=>$('#gl',root).appendChild(tarjetaContenido(gx,'General')));
+    }else{ // semana: las lecturas de 7 días
+      const ps=periodicos().filter(p=>/^p_7(_|$)/.test(p.id));mostradas=ps.map(p=>p.id);
+      root.innerHTML=`<div class="note">Resumen semanal de toda la ciudad: las lecturas de 7 días, con su texto para SMS. Las de 10, 15 y 30 días y las piezas por tipo están más abajo, en “Otras lecturas”.</div><div class="gen-grid" id="gl"></div><div id="otras"></div>`;
+      ps.forEach(p=>{if(p.estado){const d=document.createElement('div');d.className='list';d.innerHTML=`<h3>${esc(p.titulo)}</h3><div style="font-size:12.5px;color:var(--muted);font-weight:600">${esc(p.estado)}</div>`;$('#gl',root).appendChild(d);return}$('#gl',root).appendChild(tarjetaContenido(p,'Semanal'))});
+    }
+    renderPeriodicos($('#otras',root),mostradas);return;}
+  const rz=resumenZona();
+  root.innerHTML=`<div class="note">Resumen ${sem?'de la última semana':'del día'} para <b>${esc(zonaRotulo(S))}</b>, armado automáticamente con las obras de la zona${rz&&rz.bs.length?` (${rz.bs.length} ${rz.bs.length===1?'barrio':'barrios'})`:''}. Los textos nombran barrios: nunca la seccional ni el circuito. Las lecturas de 10, 15 y 30 días y por tipo están en el Resumen de “Toda la ciudad”.${rz&&rz.incompleto?` <b>Ojo:</b> la semana tiene ${rz.incompleto.k} de ${rz.incompleto.req} partes.`:''}</div><div class="gen-grid" id="gl"></div>`;
+  if(!rz){$('#gl',root).innerHTML=`<div class="list"><h3>Sin obras en esta zona</h3><div style="font-size:12.5px;color:var(--muted);font-weight:600">No hay obras ${sem?'en los últimos 7 días':'en el parte del día'} para ${esc(zonaRotulo(S))}.</div></div>`;return}
+  $('#gl',root).appendChild(tarjetaContenido(rz,sem?'Semanal · zona':'Diario · zona'));
 }
-function renderPeriodicos(root){
+function renderPeriodicos(root,excluir=[]){ // "Otras lecturas" al pie del Resumen de toda la ciudad: 7, 10, 15 y 30 días y piezas por tipo
   const F=P.finalizadas||0, m50=redondo(F,50), prox=m50+50;
-  root.innerHTML=`<div class="note">Los contenidos periódicos se arman acumulando los partes diarios guardados: <b>${HIST.length} ${HIST.length===1?'parte cargado':'partes cargados'}</b> (${HIST.map(h=>h.fecha).join(', ')}). Cada día que me pases un parte nuevo se suma al histórico.</div>
+  root.innerHTML=`<h2 class="otras">Otras lecturas</h2><div class="note">Las lecturas periódicas se arman acumulando los partes diarios guardados: <b>${HIST.length} ${HIST.length===1?'parte cargado':'partes cargados'}</b> (${HIST.map(h=>ddmm(h.fecha)).join(', ')}). Cada día que me pases un parte nuevo se suma al histórico.</div>
    <div class="list"><h3>Números redondos para titulares</h3><ul>
     ${FINOK?`<li>${F%50===0?`<b>Ya se finalizaron ${F} obras</b> en la ciudad: número redondo para titular.`:`Obras finalizadas: ${F}. Titular posible hoy: “Ya se finalizaron más de ${m50} obras”. Faltan ${prox-F} para llegar a ${prox}.`}</li>`:'<li>El parte de hoy no trae el total de obras finalizadas: no se arman titulares con ese dato.</li>'}
-    <li>Obras en ejecución hoy: ${R.obras}. Puestos de trabajo directos: ${nf(P.puestos)}.</li></ul></div><div class="gen-grid" id="gl"></div>`;
-  periodicos().forEach(p=>{
-    if(p.estado){const d=document.createElement('div');d.className='list';d.innerHTML=`<h3>${esc(p.titulo)}</h3><div style="font-size:12.5px;color:var(--muted);font-weight:600">${esc(p.estado)}</div>`;$('#gl',root).appendChild(d);return}
-    $('#gl',root).appendChild(tarjetaContenido(p,'Periódico'));});
+    <li>Obras en ejecución hoy: ${R.obras}. Puestos de trabajo directos: ${nf(P.puestos)}.</li></ul></div><div class="gen-grid" id="pl"></div>`;
+  periodicos().filter(p=>!excluir.includes(p.id)).forEach(p=>{
+    if(p.estado){const d=document.createElement('div');d.className='list';d.innerHTML=`<h3>${esc(p.titulo)}</h3><div style="font-size:12.5px;color:var(--muted);font-weight:600">${esc(p.estado)}</div>`;$('#pl',root).appendChild(d);return}
+    $('#pl',root).appendChild(tarjetaContenido(p,'Periódico'));});
 }
 function renderCalidad(root){
   // textos publicables que se revisan
-  const T=[];reales.concat(obras.filter(o=>o.grupo)).forEach(o=>{const v=placaDe(o);T.push([o.id+' · Instagram',textoIG(o)],[o.id+' · X',textoX(o)],[o.id+' · placa',textoPlaca(v)])});
-  generales().concat(periodicos().filter(p=>!p.estado)).forEach(g=>{T.push([g.id+' · Instagram',g.ig],[g.id+' · X',g.x],[g.id+' · gacetilla',g.gac],[g.id+' · placa',textoPlaca(g.placa)]);g.titulos.forEach((t,i)=>T.push([g.id+' · título '+(i+1),t]))});
+  const T=[];reales.concat(obras.filter(o=>o.grupo)).forEach(o=>{const v=placaDe(o);T.push([o.id+' · Instagram',textoIG(o)],[o.id+' · X',textoX(o)],[o.id+' · placa',textoPlaca(v)],[o.id+' · SMS',textoSMS(o)])});
+  obrasSemana().filter(o=>!P.obras.some(p=>p.id===o.id)).forEach(o=>T.push([o.id+' (semana) · SMS',textoSMS(o)],[o.id+' (semana) · X',textoX(o)]));
+  const zonas=[];['hoy','semana'].forEach(per=>SECCS.forEach(sc=>{const r=resumenZona({secc:sc,circ:null,per});if(r)zonas.push(r)}));
+  generales().concat(periodicos().filter(p=>!p.estado)).concat(zonas).forEach(g=>{T.push([g.id+' · Instagram',g.ig],[g.id+' · X',g.x],[g.id+' · gacetilla',g.gac],[g.id+' · placa',textoPlaca(g.placa)],[g.id+' · SMS',g.sms!=null?g.sms:smsDePlaca(g)]);g.titulos.forEach((t,i)=>T.push([g.id+' · título '+(i+1),t]))});
   const test=(re)=>T.filter(([,t])=>re.test(t)).map(([n])=>n);
-  const reglas=[['No menciona “circuito” ni “seccional”',test(/circuito|seccional/i)],['No menciona montos ni signos de pesos',test(/\$|presupuesto|monto/i)],['No usa barras “/” (salvo en links)',T.filter(([,t])=>/\//.test(t.replace(/https?:\/\/\S+/g,''))).map(([n])=>n)],['No menciona asistencia social en textos de obras',test(/asistencia social/i)],['Las piezas generales y periódicas no repiten la misma frase larga',(()=>{const c={};T.filter(([n])=>/^(g_|p_)/.test(n)&&!/· X$/.test(n)&&!/· placa$/.test(n)).forEach(([n,t])=>new Set(t.split(/(?<=[.!?])\s+/).filter(s=>s.length>70)).forEach(s=>{(c[s]=c[s]||[]).push(n.split(' ')[0])}));return Object.entries(c).filter(([,v])=>v.length>2).map(([s,v])=>s.slice(0,40)+'… ('+v.length+' piezas)')})()],['Los textos de X no superan 280 caracteres',T.filter(([n,t])=>/· X$/.test(n)&&t.length>280).map(([n])=>n)],['Los textos de X no terminan cortados (…)',T.filter(([n,t])=>/· X$/.test(n)&&/…/.test(t)).map(([n])=>n)],['Las obras con barrio lo nombran con la palabra “Barrio”',reales.filter(o=>bar(o)&&!new RegExp('Barrio '+bar(o).replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).test(textoIG(o))&&o.tipo!=='rampas').map(o=>o.id)]];
-  const sf=reales.filter(o=>!o.fotos.length), sd=reales.filter(o=>!o.docTxt), sm=reales.filter(o=>!['rampas','plaza'].includes(o.tipo)&&!o.m.m2&&!o.m.ml&&!o.m.cuadras), sb=reales.filter(o=>!bar(o));
+  const SMS=T.filter(([n])=>/ · SMS$/.test(n));
+  const reglas=[['No menciona “circuito”, “seccional” ni “subcircuito”',test(/circuito|seccional/i)],
+    [`SMS de un solo mensaje (hasta ${SMS_MAX} caracteres, con link corto de ${LINK_LEN})`,SMS.filter(([,t])=>smsLen(t)>SMS_MAX).map(([n])=>n)],
+    ['SMS: dice qué se hace antes del link y termina con el link',SMS.filter(([,t])=>!/\S.*\. Más info: \[link\]$/.test(t)).map(([n])=>n)],
+['No menciona montos ni signos de pesos',test(/\$|presupuesto|monto/i)],['No usa barras “/” (salvo en links)',T.filter(([,t])=>/\//.test(t.replace(/https?:\/\/\S+/g,''))).map(([n])=>n)],['No menciona asistencia social en textos de obras',test(/asistencia social/i)],['Las piezas generales y periódicas no repiten la misma frase larga',(()=>{const c={};T.filter(([n])=>/^(g_|p_)/.test(n)&&!/· X$/.test(n)&&!/· placa$/.test(n)).forEach(([n,t])=>new Set(t.split(/(?<=[.!?])\s+/).filter(s=>s.length>70)).forEach(s=>{(c[s]=c[s]||[]).push(n.split(' ')[0])}));return Object.entries(c).filter(([,v])=>v.length>2).map(([s,v])=>s.slice(0,40)+'… ('+v.length+' piezas)')})()],['Los textos de X no superan 280 caracteres',T.filter(([n,t])=>/· X$/.test(n)&&t.length>280).map(([n])=>n)],['Los textos de X no terminan cortados (…)',T.filter(([n,t])=>/· X$/.test(n)&&/…/.test(t)).map(([n])=>n)],['Las obras con barrio lo nombran con la palabra “Barrio”',reales.filter(o=>bar(o)&&!new RegExp('Barrio '+bar(o).replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).test(textoIG(o))&&o.tipo!=='rampas').map(o=>o.id)]];
+  const sf=reales.filter(o=>!o.fotos.length&&!galDe(o.tipo).length), sg=reales.filter(o=>!o.fotos.length&&galDe(o.tipo).length), sd=reales.filter(o=>!o.docTxt), sm=reales.filter(o=>!['rampas','plaza'].includes(o.tipo)&&!o.m.m2&&!o.m.ml&&!o.m.cuadras), sb=reales.filter(o=>!bar(o));
   const nm=o=>esc((o.via||o.sector)+(o.entre?` (${o.entre})`:''));
   const L=(t,a,hint)=>`<div class="list"><h3>${t} <small>(${a.length})</small></h3>${hint?`<div class="hint">${hint}</div>`:''}<ul>${a.map(x=>`<li>${x}</li>`).join('')||'<li>Nada pendiente</li>'}</ul></div>`;
   root.innerHTML=`<div class="note gris">Chequeo automático de los textos publicables y datos que faltan. No se rellena ningún dato: lo que falta queda fuera del texto.</div>
    <div class="list gris"><h3>Reglas de redacción</h3><ul>${reglas.map(([n,bad])=>`<li>${bad.length?'✖':'✔'} ${n}${bad.length?` — <b>${bad.length}</b> casos: ${esc(bad.slice(0,4).join(', '))}${bad.length>4?'…':''}`:''}</li>`).join('')}</ul><div class="hint">${T.length} textos revisados.</div></div>
    ${L('Avisos y contradicciones (parte vs. docs)',P.avisos.map(esc))}
    ${L('Obras sin foto (placa solo texto)',sf.map(nm),'Soltá la foto como <code>entrada/'+P.fecha+'/fotos/&lt;id-obra&gt;.jpg</code> o agregá el link de Drive en el parte.')}
+   ${sg.length?L('Obras sin foto del parte (salen con foto genérica)',sg.map(nm),'Su rubro tiene galería. Para usar la foto real, soltala como <code>entrada/'+P.fecha+'/fotos/&lt;id-obra&gt;.jpg</code> o agregá el link de Drive en el parte.'):''}
+   <div class="list"><h3>Pie con marcas</h3><div class="hint">El tilde “Pie con marcas” se guarda por pieza en este navegador.</div><ul><li>Piezas con pie apagado: ${Object.values(FOTOS).filter(f=>f&&f.sinPie).length}</li></ul></div>
+   <div class="list"><h3>Tamaño personalizado</h3><div class="hint">Se elige en la fila del período y vale para todo el tablero de Obras (se guarda en este navegador; Anuncios tiene el suyo).</div><ul><li>Tamaño personalizado: ${tamDesc()}</li></ul></div>
+   <div class="list"><h3>Galería de fotos genéricas</h3><div class="hint">Las fotos van en <code>assets/galeria/&lt;rubro&gt;/</code> y entran al volver a correr el build.</div><ul><li>Rubros sin galería: ${esc(lista(TIPO_ORDEN.filter(t=>!galDe(t).length).map(t=>TIPOS[t].label))||'ninguno')}</li></ul></div>
    ${L('Obras sin texto de Drive',sd.map(nm))}
    ${L('Obras sin magnitud (m², cuadras o metros)',sm.map(nm),'Con un dato de magnitud el texto y la placa ganan una cifra concreta.')}
    ${L('Obras sin barrio informado',sb.map(nm),'Se nombran por calle o esquina; si el parte trae el barrio, se usa siempre.')}`;
 }
+function renderSide(){ // columna lateral: período y zona (valen para todo el tablero) y, en la pestaña de obras, tipo, foto y búsqueda
+  const sem=S.per==='semana', base=sem?obrasSemana().filter(o=>!o.grupo):reales;
+  const nS=x=>base.filter(o=>o.secc===x).length, subs=S.secc?uniq(base.filter(o=>o.secc===S.secc).map(o=>o.circuito)).sort(ordSecc):[];
+  const nz=alcance().reales.length, nzOtro=alcance({...S,per:sem?'hoy':'semana'}).reales.length;
+  const RZ=alcance().reales, nCon=RZ.filter(o=>o.fotos.length).length, obrasTab=S.tab==='obras';
+  const zb=(x,label,n)=>`<button class="${x===null?'todo ':''}${(x===null?!S.secc:S.secc===x)?'on':''}" data-z="${x===null?'':x}"><span>${label}</span><small>${n}</small></button>`;
+  $('#side').innerHTML=`
+   <div class="sec"><h4>Zona</h4><div class="zl">${zb(null,'Toda la ciudad',base.length)}${SECCS.map(x=>zb(x,x==='?'?'Sin código':'Secc. '+x,nS(x))+(S.secc===x&&subs.length>1?`<div class="subs">${subs.map(c=>`<button class="chip ${S.circ===c?'on':''}" data-zc="${c}">${esc(c)}<small>${base.filter(o=>o.circuito===c).length}</small></button>`).join('')}</div>`:'')).join('')}</div>
+    <div class="res">${esc(zonaRotulo(S))}: <b>${nz}</b> ${nz===1?'obra':'obras'} ${sem?'en la semana':'hoy'} · ${nzOtro} ${sem?'hoy':'en la semana'}</div></div>
+   ${obrasTab?`<div class="sec"><h4>Tipo de obra</h4><div class="chips">${TIPO_ORDEN.map(t=>`<button class="chip t-${TIPOS[t].eje} ${S.tipo===t?'on':''}" data-t="${t}">${TIPOS[t].corto}<small>${RZ.filter(o=>o.tipo===t).length}</small></button>`).join('')}</div></div>
+   <div class="sec"><h4>Foto</h4><div class="chips"><button class="chip ${S.foto==='con'?'on':''}" data-f="con">Con foto<small>${nCon}</small></button><button class="chip ${S.foto==='sin'?'on':''}" data-f="sin">Sin foto<small>${RZ.length-nCon}</small></button></div></div>
+   <div class="sec"><input class="search" placeholder="Buscar calle, barrio…" value="${esc(S.q)}" id="q">${S.tipo||S.foto||S.q?'<button class="clr" data-clr>Limpiar filtros</button>':''}</div>`:''}
+   <div class="sec"><details class="datos"${S.datos?' open':''}><summary>Datos del parte</summary><div class="kpis">${[[P.enEjecucion,'en ejecución'],[P.finalizadas??'—','finalizadas'],[nf(P.puestos),'puestos directos'],[R.barrios,'barrios (mínimo)'],[R.rampas,'rampas'],[R.cuadras,'cuadras (memorias)']].map(([a,b])=>`<div class="kpi"><b>${a}</b><span>${b}</span></div>`).join('')}</div></details></div>`;
+  $('details.datos',$('#side')).ontoggle=ev=>{S.datos=ev.target.open};
+  $('#side').onclick=ev=>{const b=ev.target.closest('button');if(!b)return;
+    if(b.dataset.z!==undefined){S.secc=b.dataset.z||null;S.circ=null;go()}
+    else if(b.dataset.zc){S.circ=S.circ===b.dataset.zc?null:b.dataset.zc;go()}
+    else if(b.dataset.t){S.tipo=S.tipo===b.dataset.t?null:b.dataset.t;go()}
+    else if(b.dataset.f){S.foto=S.foto===b.dataset.f?null:b.dataset.f;go()}
+    else if(b.dataset.clr!==undefined){S.tipo=S.foto=null;S.q='';go()}};
+  const q=$('#q');if(q)q.oninput=ev=>{S.q=ev.target.value;clearTimeout(S._t);S._t=setTimeout(()=>{renderObras($('#main'));renderSide();renderCtx();const q2=$('#q');q2.focus();q2.setSelectionRange(q2.value.length,q2.value.length)},250)};
+}
+/* fechas para la interfaz (no entran en textos publicables) */
+const MESES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const DIAS=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+const fch=s=>new Date(s+'T00:00:00'), ddmm=s=>{const d=fch(s);return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')};
+const iniSemana=()=>{const d=fch(P.fecha);d.setDate(d.getDate()-6);return d};
+function rangoCorto(){const a=iniSemana(),b=fch(P.fecha);return a.getMonth()===b.getMonth()?`${String(a.getDate()).padStart(2,'0')} al ${ddmm(P.fecha)}`:`${String(a.getDate()).padStart(2,'0')}/${String(a.getMonth()+1).padStart(2,'0')} al ${ddmm(P.fecha)}`}
+function rangoLargo(){const a=iniSemana(),b=fch(P.fecha);return a.getMonth()===b.getMonth()?`del ${a.getDate()} al ${b.getDate()} de ${MESES[b.getMonth()]}`:`del ${a.getDate()} de ${MESES[a.getMonth()]} al ${b.getDate()} de ${MESES[b.getMonth()]}`}
+const perN=p=>p==='semana'?7:(+((/^d(\d+)$/.exec(p)||[])[1])||0); // 0 = hoy; 7 = semana; 10, 15 y 30 = lecturas periódicas (solo en Resumen)
+function renderCtx(){ // rótulo de contexto: zona, período con sus fechas y alcance
+  const sem=S.per==='semana', N=perN(S.per), {reales:RZ}=alcance(), {dias}=diasSemana(), d=fch(P.fecha);
+  const c=$('#ctx');c.className='ctx '+(sem?'semana':'hoy');
+  if(S.tab==='calidad'){c.innerHTML=`<div class="l1">Chequeo de calidad</div><div class="l2">Textos publicables y datos que faltan, revisados con las reglas del módulo</div>`;return}
+  const zona=S.secc?(S.secc==='?'?'Sin código de zona':`Seccional ${S.secc}`)+(S.circ?` · subcircuito ${S.circ}`:''):'Toda la ciudad';
+  if(N>7){const v=VENT.find(x=>x[0]===N),w=ventana(N);c.innerHTML=`<div class="l1">Toda la ciudad<span class="sep">·</span><span class="pt">Resumen de ${esc(v?v[1]:N+' días')}</span></div><div class="l2">${w.k} ${w.k===1?'parte':'partes'} de ${w.req} días hábiles${w.completo?` · ${w.unicas} obras distintas`:' · faltan partes'}</div>`;return}
+  const nb=uniq(RZ.flatMap(o=>o.barrioList||[])).length, nO=RZ.length, res=S.tab==='generales';
+  const per=sem?`${res?'Resumen de la semana':'Semana'} · ${rangoLargo()} · ${dias.length} ${dias.length===1?'parte':'partes'}`:`${res?'Resumen del día':'Hoy'} · parte del ${DIAS[d.getDay()]} ${d.getDate()} de ${MESES[d.getMonth()]}`;
+  const alc=`${nO} ${nO===1?'obra':'obras'}${sem?(nO===1?' distinta':' distintas'):' en ejecución'} · ${nb} ${nb===1?'barrio':'barrios'}`;
+  c.innerHTML=`<div class="l1">${esc(zona)}<span class="sep">·</span><span class="pt">${esc(per)}</span></div><div class="l2">${esc(alc)}</div>`;
+}
+function renderVista(){ // barra de vista (cruza toda la hoja) y, debajo, el período que esa vista admite
+  const tabs=[['obras','Obra por obra','copys, placas y textos de cada obra'],['generales','Resumen','lecturas generales y periódicas']];
+  const cal=S._cal; // resultado del chequeo (se calcula una vez, después del primer dibujo)
+  $('#vista').innerHTML=tabs.map(([k,l,s])=>`<button role="tab" class="tab ${S.tab===k?'on':''}" data-k="${k}" aria-selected="${S.tab===k}">${l}<small>${s}</small></button>`).join('')+
+   `<button class="chequeo ${S.tab==='calidad'?'on':''} ${cal&&cal.n?'avisos':''}" data-k="calidad" title="Chequeo de calidad"><span class="dot"></span>Chequeo de calidad${cal?(cal.n?` · ${cal.n} ${cal.n===1?'regla con casos':'reglas con casos'}`:' · todo ✔'):''}</button>`;
+  $('#vista').onclick=ev=>{const b=ev.target.closest('button[data-k]');if(b){S.tab=b.dataset.k;go()}};
+  const per=$('#per');
+  if(S.tab==='calidad'){per.innerHTML='';per.hidden=true;return}
+  per.hidden=false;
+  const chips=S.tab==='obras'
+    ?[['hoy','Hoy',ddmm(P.fecha),''],['semana','Últimos 7 días',rangoCorto(),'semana'],['fin','Finalizadas','próximamente','no']]
+    :[['hoy','Del día',ddmm(P.fecha),''],['semana','Semana',rangoCorto(),'semana'],...[[10,'Últimos 10 días'],[15,'Últimos 15 días'],[30,'Último mes']].map(([N,l])=>{const w=ventana(N);return ['d'+N,l,w.completo?`${w.k} partes`:'faltan partes',w.completo?'':'no']})];
+  per.innerHTML=`<span class="lbl">Período</span>`+chips.map(([k,l,s,c])=>`<button class="pchip ${c==='no'?'':c} ${S.per===k?'on':''}" data-per="${k}" ${c==='no'?'disabled title="'+(k==='fin'?'Todavía no hay datos de obras finalizadas por obra':'Faltan partes para armar esta lectura')+'"':''}>${l}<small>${s}</small></button>`).join('')+tamHTML();
+  per.onclick=ev=>{const b=ev.target.closest('button[data-per]');if(b&&!b.disabled){S.per=b.dataset.per;go()}};
+}
 function renderHeader(){
   const lk='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(A.svg['gobierno-color']);$('#lockup').src=lk;$('#lockup2').src=lk;
-  $('#sub').textContent=P.fecha_texto+' · parte de obras';
-  $('#kpis').innerHTML=[[P.enEjecucion,'en ejecución'],[P.finalizadas??'—','finalizadas'],[nf(P.puestos),'puestos directos'],[R.barrios,'barrios (mínimo)'],[R.rampas,'rampas'],[R.cuadras,'cuadras (memorias)']].map(([a,b])=>`<div class="kpi"><b>${a}</b><span>${b}</span></div>`).join('');
-  const tabs=[['obras','Contenidos de obras del día'],['generales','Contenidos generales del día'],['periodicos','Contenidos periódicos'],['calidad','Chequeo de calidad']];
-  $('#tabs').innerHTML=tabs.map(([k,l])=>`<button data-k="${k}" class="${S.tab===k?'on':''}${k==='calidad'?' cal':''}">${l}</button>`).join('');
-  $('#tabs').onclick=ev=>{const b=ev.target.closest('button');if(b){S.tab=b.dataset.k;go()}};
+  $('#sub').innerHTML=`Última actualización: <b>parte del ${esc(P.fecha_texto)}</b>`;
+  renderVista();
+  document.documentElement.style.setProperty('--hh',$('header').offsetHeight+'px');
+  renderSide();renderCtx();
 }
-function go(){renderHeader();const m=$('#main');m.onclick=null;({obras:renderObras,generales:renderGenerales,periodicos:renderPeriodicos,calidad:renderCalidad})[S.tab](m)}
+function go(){if(!['obras','generales','calidad'].includes(S.tab))S.tab='obras';
+  if(S.tab!=='generales'&&perN(S.per)>7)S.per='hoy'; // las lecturas de 10, 15 y 30 días existen solo en Resumen
+  renderHeader();const m=$('#main');m.onclick=null;({obras:renderObras,generales:renderGenerales,calidad:renderCalidad})[S.tab](m);
+  if(!S._cal){S._cal={n:null};setTimeout(()=>{try{const d=document.createElement('div');renderCalidad(d);const li=[...d.querySelectorAll('.list.gris li')];S._cal={n:li.filter(x=>x.textContent.trim().startsWith('✖')).length}}catch(e){S._cal={n:null}}renderVista()},0)}}
+window.addEventListener('resize',()=>document.documentElement.style.setProperty('--hh',$('header').offsetHeight+'px'));
+tamWire($('#per'));
 go();
 })();
 </script>
