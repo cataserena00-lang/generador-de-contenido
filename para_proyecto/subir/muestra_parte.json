@@ -1,8 +1,8 @@
 {
- "fecha": "2026-11-12",
- "fecha_texto": "jueves 12 de noviembre de 2026",
- "enEjecucion": 106,
- "puestos": 893,
+ "fecha": "2026-11-13",
+ "fecha_texto": "viernes 13 de noviembre de 2026",
+ "enEjecucion": 112,
+ "puestos": 960,
  "finalizadas": 192,
  "acumulados": {
   "cuadras_pavimentadas": 1100,
@@ -39,21 +39,23 @@
    "metricas": {}
   },
   {
-   "id": "frio_villa-9-de-julio",
-   "circuito": "14O",
+   "id": "frio_ciudad-villa-retiro",
+   "circuito": "13G",
    "tipo": "frio",
    "via": null,
    "entre": null,
-   "sector": "Villa 9 de Julio",
-   "barrio": "Villa 9 de Julio",
+   "sector": "Ciudad Villa Retiro",
+   "barrio": "Ciudad Villa Retiro",
    "rampas": null,
-   "doc": null,
+   "doc": "d_1zlorzjm",
    "grupo": false,
    "estado": "ejecucion",
    "nota": [],
    "barrio_inferido": null,
    "circ_inferido": false,
-   "metricas": {}
+   "metricas": {
+    "driveUrl": "https://docs.google.com/document/d/1zloRZJmLhy_U7WDLMI-3wBrYGQBYOqTYu9SyiO3m0cU/edit?tab=t.0"
+   }
   },
   {
    "id": "rampas_12-de-octubre-y-san-martin",
@@ -116,17 +118,20 @@
    "circuito": "6",
    "tipo": "hormigon",
    "via": "Av. Patria",
-   "entre": "Av. 24 de Septiembre y Armenia",
+   "entre": "Av. 24 de Septiembre y Charcas",
    "sector": null,
    "barrio": "Hogar Propio",
    "rampas": null,
-   "doc": null,
+   "doc": "av_patria",
    "grupo": false,
    "estado": "ejecucion",
    "nota": [],
    "barrio_inferido": null,
    "circ_inferido": false,
-   "metricas": {}
+   "metricas": {
+    "driveUrl": "https://docs.google.com/document/d/1IR15IiJuRKY8YOuxOMNJ-8wdwsQHsRI7f9Zv7EybbUQ/edit?tab=t.0",
+    "m2": 1200
+   }
   },
   {
    "id": "pav_san-felipe",
@@ -191,11 +196,11 @@
    "id": "rampas_grupo_centro",
    "circuito": "1",
    "tipo": "rampas",
-   "via": "Zona céntrica · 44 esquinas",
+   "via": "Zona céntrica · 49 esquinas",
    "entre": null,
    "sector": null,
    "barrio": null,
-   "rampas": 102,
+   "rampas": 116,
    "doc": "rampas_centro",
    "grupo": true,
    "estado": "ejecucion",
@@ -203,10 +208,10 @@
    "barrio_inferido": null,
    "circ_inferido": false,
    "metricas": {
-    "esquinas": 44,
+    "esquinas": 49,
     "driveUrl": "https://docs.google.com/document/d/1YyUUisxhuyZYLOLtpjfPMlf45z2OjMhK_Z6HRk0qPXg/edit?tab=t.0"
    }
   }
  ],
- "_nota": "MUESTRA: 10 de 107 obras del parte 2026-11-12 (una por tipo, más un grupo de rampas)"
+ "_nota": "MUESTRA: 10 de 112 obras del parte 2026-11-13 (una por tipo, más un grupo de rampas)"
 }
