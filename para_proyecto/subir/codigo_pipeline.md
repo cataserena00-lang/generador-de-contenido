@@ -490,17 +490,21 @@ CORR = {"Industial": "Industrial", "Rio": "Río", "Olayon": "Olayón", "Andres":
         "Jose": "José", "Guemes": "Güemes", "Ombu": "Ombú", "Seccion": "Sección", "Aeronautico": "Aeronáutico", "Platanos": "Plátanos", "America": "América", "Maria": "María",
         "Adrian": "Adrián", "Gaston": "Gastón", "Nicolas": "Nicolás", "Malbran": "Malbrán", "Hipolito": "Hipólito", "Escolastico": "Escolástico",
         "Magan": "Magán", "Velez": "Vélez", "Geronimo": "Gerónimo", "Fermin": "Fermín", "Martinez": "Martínez", "Arguello": "Argüello", "Paraiso": "Paraíso",
-        "Tristan": "Tristán", "Raul": "Raúl", "Cesar": "César", "Cañada": "Cañada", "Dean": "Deán", "Rincon": "Rincón", "Simon": "Simón", "Galvez": "Gálvez"}
+        "Tristan": "Tristán", "Ampliacion": "Ampliación", "O.s.n": "O.S.N.", "Hipica": "Hípica", "Martin": "Martín", "Damian": "Damián", "Jeronimo": "Jerónimo",
+        "Bolivar": "Bolívar", "Marcelos": "Marcelo", "Gral.": "General", "Raul": "Raúl", "Cesar": "César", "Cañada": "Cañada", "Dean": "Deán", "Rincon": "Rincón", "Simon": "Simón", "Galvez": "Gálvez"}
 def tc(s):  # mayúscula inicial en palabras en minúscula o todas en mayúscula; respeta el resto; repone tildes frecuentes
     out = []
     for i, w in enumerate(s.split()):
         if re.fullmatch(r"\(\w\)", w): out.append(w.upper()); continue
+        if re.fullmatch(r"[IVX]{2,4}", w): out.append(w); continue          # números romanos: "Nuestro Hogar III"
         if w.lower() in CHICAS and i and (w.isupper() or w.islower()): out.append(w.lower()); continue
         if (w.isupper() and len(w) > 2 and w not in ("IPV", "EPEC", "UPC")) or w.islower():
             w = w[:1].upper() + w[1:].lower()
-        out.append(CORR.get(w, w))
+        out.append("/".join(CORR.get(x, x) for x in w.split("/")))      # "Julio/Ampliacion" también se corrige
     return " ".join(out)
 def limpiar(s): return re.sub(r"\s+", " ", s).strip(" .,-–·")
+# nombres que el parte abrevia; la forma larga sale del documento oficial de la obra
+SECTOR_NOMBRE = {"coop. los andes - el renuevo": "Cooperativa Los Andes/El Renuevo"}   # doc: "B° COOPERATIVA LOS ANDES/ EL RENUEVO"
 
 # ---------- encabezado ----------
 puestos = int(re.search(r"Puestos de trabajos?\s+directos\s+(\d+)", txt, re.I).group(1))
@@ -517,22 +521,26 @@ def rubro_de(l):
 
 OBRAS = []
 items, rubro, estado = [], None, "ejecucion"
+numerada = False      # la sección trae ítems "1.", "2."…; si no (parte del 16/11), cada renglón es un ítem
 for raw in txt.splitlines():
     l = re.sub(r"[\u200b-\u200f\u2060-\u2064\ufeff]", "", raw).strip().lstrip("•●").strip()
     if not l or re.match(r"LISTA DE DIFUSI", l, re.I) or re.match(r"(Puestos de trabajos?|OBRAS EN EJECUCI)", l, re.I): continue
     r = rubro_de(l)
-    if r: rubro, estado = r, "ejecucion"; continue
+    if r: rubro, estado, numerada = r, "ejecucion", False; continue
     n = norm(l).upper()
     if n in ("EN EJECUCION",) or re.match(r"BARRIOS? EN EJECUCION", n): estado = "ejecucion"; continue
     if n in ("TERMINADAS", "FINALIZADAS"): estado = "terminada"; continue
     if rubro is None: continue
-    solo_link = re.fullmatch(r"https?://\S+", l)
+    solo_link = re.fullmatch(r"(?:https?://\S+\s*)+", l)               # uno o más links solos en el renglón
     num = re.match(r"^(\d+)[\.\)]\s*(.*)$", l)
     es_rampa = rubro == "rampas" and re.search(r"·\s*\d+\s*rampa", l)
     es_alumbrado = rubro == "alumbrado" and not solo_link        # el programa lista sus barrios sin numerar
+    if num: numerada = True
+    continua = re.match(r"b(?:arrio)?\s*:", l, re.I)              # "BARRIO: …" en el renglón de abajo
+    sin_numero = not solo_link and not num and not numerada and not continua and rubro != "rampas"
     if solo_link:
         if items: items[-1]["links"].append(l)
-    elif num or es_rampa or es_alumbrado:
+    elif num or es_rampa or es_alumbrado or sin_numero:
         items.append(dict(rubro=rubro, estado=estado, texto=(num.group(2) if num and not es_rampa else l), links=[]))
         if es_rampa and num and re.match(r"^\d+[\.\)]", l): items[-1]["texto"] = num.group(2)
     elif items and rubro != "rampas" and items[-1]["rubro"] == rubro:
@@ -565,7 +573,10 @@ def leer(it):
         c = re.search(r"(\d+)\s*rampa", t); d["rampas"] = int(c.group(1))
         esq = corregir_pueyrredon(t.split("·")[0]); esq = re.sub(r"\s+x\s+", " y ", esq); esq = re.sub(r"\s+y\s*\.?\s*$", "", esq)
         d["via"] = tc(limpiar(esq)); d["nota"] = [f"{c.group(1)} {'rampa' if c.group(1)=='1' else 'rampas'}"]
-        d["codigo"] = "10G" if "Pueyrred" in d["via"] else "1"      # las rampas de este parte son siempre de dos zonas
+        cs = re.match(r"(.+?) y Centro de Salud\s*N\s*°?\s*(\d+)\s*-?\s*(.*)$", d["via"], re.I)   # "Dirección x Centro de Salud N° 71 - Nombre": no es una esquina
+        if cs: d["via"] = f"Centro de Salud N° {cs.group(2)} {cs.group(3)[:1].upper() + cs.group(3)[1:]} ({cs.group(1)})".replace("  ", " ")
+        if not code: code = "heredar"                              # sin código: el de la esquina anterior (se marca inferido)
+        d["codigo"] = code                                          # el código del parte gana (1, 10G, 14D, 12B…)
         return d
     b = re.split(r"\bb(?:arrio)?\s*:\s*", t, maxsplit=1, flags=re.I)
     calle, barrio = (b[0], b[1]) if len(b) == 2 else (t, None)
@@ -577,7 +588,7 @@ def leer(it):
         nombre = nombre.split(":")[0]                                   # EPEC: "Nombre: coordenadas o dirección"
         nombre = re.sub(r"^\s*plaza\s*/?\s*", "", nombre.replace("/", " "), flags=re.I)
         nombre = tc(limpiar(nombre))
-        d["via"] = nombre if re.match(r"plazoleta\b", nombre, re.I) else "Plaza " + nombre
+        d["via"] = nombre if re.match(r"plazoleta\b", nombre, re.I) else re.sub(r"^Plaza De ", "Plaza de ", "Plaza " + nombre)
     elif d["tipo"] in ("bacheo", "rehab", "hormigon"):
         calle = re.sub(r"\s+", " ", calle)
         m = re.search(r"\s(?:e/\s*|entre\s+|e\s+)", calle)
@@ -589,7 +600,8 @@ def leer(it):
         d["sector"] = tc(limpiar(re.sub(r"^\s*en distintos sectores del\s+", "", s, flags=re.I)))
         barrio = d["sector"]
     else:  # mant, frio, pav: la línea completa es el nombre (y el barrio)
-        s = re.sub(r"^\s*B[°º]?\s+", "", calle.strip())
+        s = re.sub(r"^\s*B(?:arrio|[°º])?\s+", "", calle.strip())          # "Barrio 1 de Julio/…" sin repetir "Barrio"
+        s = SECTOR_NOMBRE.get(norm(limpiar(s)), s)
         d["sector"] = tc(limpiar(s))
         if d["tipo"] in ("mant", "frio") and not re.search(r"\b(e/|entre)\b", calle, re.I): barrio = d["sector"]
     d["barrio"] = tc(limpiar(barrio)) if barrio else None
@@ -643,6 +655,7 @@ for o in OBRAS:
     if o["tipo"] == "rampas": continue                               # nunca se infiere barrio en rampas
     if o["tipo"] == "pav" and not o["barrio"] and o.get("memoria"):  # ajuste propio: el barrio de la memoria va antes que inferir por código
         o["barrio"], o["barrio_inferido"] = o["memoria"].get("barrio") or o["sector"], "memoria"
+    if o["tipo"] == "pav" and not o["barrio"]: continue           # pavimentación sin memoria: el renglón es el barrio (no se deduce por código)
     if not o["barrio"] and o["codigo"] and o["codigo"] in por_codigo:
         o["barrio"], o["barrio_inferido"] = por_codigo[o["codigo"]], "codigo"
     if not o["codigo"]:
@@ -663,14 +676,27 @@ for o in OBRAS:
     o["doc_key"] = DOCS.get(ids[0], "d_" + ids[0][:8].lower()) if ids else None
     o["doc_url"] = next((u for u in o["links"] if doc_id(u)), None)
     if o["doc_key"]: usos[o["doc_key"]] = usos.get(o["doc_key"], 0) + 1
+# obras que cambiaron de nombre al corregir erratas: conservan el id de antes para que la semana no las cuente dos veces
+ID_ALIAS = {"mant_1-de-julio-ampliacion-1-de-julio-portal-de-paz": "mant_barrio-1-de-julio-ampliacion-1-de-julio-portal-de-",
+            "rampas_av-marcelo-t-de-alvear-y-general-simon-bolivar": "rampas_av-marcelo-t-de-alvear-y-gral-simon-bolivar",
+            "rampas_blvd-san-juan-y-marcelo-t-de-alvear": "rampas_blvd-san-juan-y-marcelos-t-de-alvear",
+            "pav_cooperativa-los-andes-el-renuevo": "pav_coop-los-andes-el-renuevo"}
 ids_count = {}
 out = []
+# grupos de rampas: zona céntrica = código 1 del parte; Av. Pueyrredón = esquinas sobre la avenida (con dos o más).
+# Las demás esquinas (otros códigos) van solo como obras sueltas.
+def grupo_de(o):
+    if o["tipo"] != "rampas": return None
+    if o["codigo"] == "1": return "1"
+    if "Pueyrred" in (o["via"] or ""): return "10G"
+    return None
 grupos = {"1": dict(rampas=0, esquinas=0, doc="rampas_centro"), "10G": dict(rampas=0, esquinas=0, doc="rampas_pueyrredon")}
 for o in OBRAS:
     base = slug(o["via"] or o["sector"])
     base_id = f"{o['tipo']}_{base}"
     n = ids_count.get(base_id, 0); ids_count[base_id] = n + 1
     oid = base_id if n == 0 else base_id + "_" + (slug(o["entre"]) if o["entre"] else str(n + 1))
+    oid = ID_ALIAS.get(oid, oid)
     met = {}
     if o["doc_url"]: met["driveUrl"] = o["doc_url"]
     if "Nocturno" in o["nota"]: met["nocturno"] = True
@@ -678,7 +704,8 @@ for o in OBRAS:
     key = o["doc_key"]
     if o["tipo"] == "pav" and o.get("memoria"): key = key or o["memoria"]["memoria"]
     if o["tipo"] == "rampas":
-        g = grupos[o["codigo"]]; g["rampas"] += o["rampas"]; g["esquinas"] += 1; key = None
+        key = None
+        if grupo_de(o): g = grupos[grupo_de(o)]; g["rampas"] += o["rampas"]; g["esquinas"] += 1
     elif key and texto_doc(key):
         t = texto_doc(key); tn = norm(t)
         ok = usos.get(o["doc_key"], 1) == 1 or bool(o["entre"] and norm(o["entre"]) in tn)   # un doc compartido solo vale para el tramo que nombra
@@ -693,9 +720,9 @@ for o in OBRAS:
                     circ_inferido=bool(o.get("circ_inferido")), metricas=met))
 # grupos de rampas (placa y texto de conjunto)
 for c, g in grupos.items():
-    if not g["esquinas"]: continue
+    if g["esquinas"] < 2: continue
     via = "Zona céntrica · %d esquinas" % g["esquinas"] if c == "1" else "Av. J. M. de Pueyrredón · %d esquinas" % g["esquinas"]
-    link = next((u for o in OBRAS if o["tipo"] == "rampas" and o["codigo"] == c for u in o["links"] if doc_id(u)), None)
+    link = next((u for o in OBRAS if grupo_de(o) == c for u in o["links"] if doc_id(u)), None)
     out.append(dict(id="rampas_grupo_" + ("centro" if c == "1" else "pueyrredon"), circuito=c, tipo="rampas", via=via, entre=None, sector=None, barrio=None,
                     rampas=g["rampas"], doc=g["doc"], grupo=True, estado="ejecucion", nota=[], barrio_inferido=None, circ_inferido=False,
                     metricas=dict(esquinas=g["esquinas"], **({"driveUrl": link} if link else {}))))
