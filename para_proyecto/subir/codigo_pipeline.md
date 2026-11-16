@@ -616,7 +616,7 @@ for it in items:
     OBRAS.append(leer(it))
 
 # plazas: el parte las nombra a veces distinto o las repite; se unifican para no contarlas dos veces
-PLAZA_ALIAS = {"plaza luis galeano": "Plaza Pedro Luis Galeano", "plaza barrios unidos": "Plaza Centro América"}   # mismas plazas con otro nombre en el parte
+PLAZA_ALIAS = {"plaza luis galeano": "Plaza Pedro Luis Galeano"}   # mismas plazas con otro nombre en el parte. Plaza Barrios Unidos va como la nombra el parte (decisión del 16/11)
 vistas, filtradas = set(), []
 for o in OBRAS:
     if o["tipo"] == "plaza":

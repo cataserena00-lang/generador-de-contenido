@@ -3,7 +3,7 @@
  "fecha_texto": "lunes 16 de noviembre de 2026",
  "enEjecucion": 111,
  "puestos": 971,
- "finalizadas": 192,
+ "finalizadas": 281,
  "acumulados": {
   "cuadras_pavimentadas": 1100,
   "rampas_programa": 2100
@@ -34,7 +34,7 @@
   "Código 10 sin circuito registrado en data/circuitos.json (Corro): revisar.",
   "Código 8B sin circuito registrado en data/circuitos.json (Av. Patria): revisar.",
   "Código 12H sin circuito registrado en data/circuitos.json (Av. Celso Barrios y Calle Pública 7): revisar.",
-  "Código 13A sin circuito registrado en data/circuitos.json (Plaza Centro América): revisar.",
+  "Código 13A sin circuito registrado en data/circuitos.json (Plaza Barrios Unidos): revisar.",
   "Código 4 sin circuito registrado en data/circuitos.json (Plaza Faro de Córdoba): revisar.",
   "Código 4 sin circuito registrado en data/circuitos.json (Plaza Cubierta Verde del Cc): revisar.",
   "Código 4 sin circuito registrado en data/circuitos.json (Plaza Parque de las Tejas): revisar.",
@@ -1848,10 +1848,10 @@
    "metricas": {}
   },
   {
-   "id": "plaza_plaza-centro-america",
+   "id": "plaza_plaza-barrios-unidos",
    "circuito": "13A",
    "tipo": "plaza",
-   "via": "Plaza Centro América",
+   "via": "Plaza Barrios Unidos",
    "entre": null,
    "sector": null,
    "barrio": "Centro América",

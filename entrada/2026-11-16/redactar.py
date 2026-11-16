@@ -3,8 +3,9 @@ Corre:  python entrada/2026-11-16/redactar.py   ->  escribe contenido.json
 Las cifras NO se escriben a mano: se calculan desde parte.json (mismo criterio que el tablero), así que si cambia
 el conteo (por ejemplo, Plaza Hípica una o dos veces) basta con volver a correr parse_lista.py y este archivo.
 Datos del parte: 110 obras publicables (el encabezado dice 111: el parte repite "Plaza Hípica" con el mismo documento,
-y por la regla de deduplicar plazas por nombre se cuenta una vez), 971 puestos de trabajo directos, 192 finalizadas
-(stock que se arrastra: el parte no trae dato nuevo). Bacheo en frío sin obras hoy.
+y por la regla de deduplicar plazas por nombre se cuenta una vez), 971 puestos de trabajo directos. Bacheo en frío sin obras hoy.
+Finalizadas: 281, del parte de finalizadas del 16/11 (finalizadas.txt). El desglose por tipo se cuenta de ese archivo:
+no incluye pavimentación ni plazas, así que los textos de finalizadas no las nombran.
 Pavimentación: 7 obras; 5 tienen memoria descriptiva (205 cuadras). Cooperativa Los Andes y El Renuevo y Ampliación
 General Artigas no tienen memoria cargada: no suman cuadras.
 Periódicos: no se redactan. En la ventana de 7 días hábiles solo están los partes del 12/11 y del 16/11; el tablero
@@ -46,6 +47,25 @@ for k, v in dict(obras=OBRAS, barrios=BARRIOS, puestos=PUESTOS, fin=FIN, calzada
     print(f"  {k}: {v}")
 N_CENT, R_CENT = len(CENT), sum(o["rampas"] for o in CENT)
 N_OTR, R_OTR = len(OTRAS), sum(o["rampas"] for o in OTRAS)
+# ---------------------------------------------------------------- finalizadas por tipo (parte de finalizadas del día)
+def finalizadas():
+    t = open(os.path.join(HERE, "finalizadas.txt"), encoding="utf-8").read()
+    sec, c, rampas = None, {}, 0
+    for l in t.splitlines():
+        u = l.strip().upper()
+        for k, v in (("MANTENIMIENTO", "mant"), ("RAMPAS", "rampas"), ("REHABILITACIÓN CON ASFALTO", "rehab"), ("BACHEO CON ASFALTO", "bacheo"), ("REHABILITACIÓN Y BACHEO", "hormigon")):
+            if u.startswith(k): sec = v
+        if sec and re.match(r"^\d+\.\s", l.strip()):
+            c[sec] = c.get(sec, 0) + 1
+            m = re.search(r"·\s*(\d+)\s*rampa", l); rampas += int(m.group(1)) if m else 0
+    total = int(re.search(r"Finalizadas:\s*(\d+)", t).group(1))
+    assert sum(c.values()) == total == FIN, (c, total, FIN)        # la lista, el encabezado y data/finalizadas.json coinciden
+    return c, rampas
+FC, FRAMP = finalizadas()
+print("  finalizadas por tipo:", FC, "rampas:", FRAMP)
+FIN_DET = (f"{FC['bacheo']} de bacheo con asfalto, {FC['mant']} de mantenimiento de calles de tierra, {FC['hormigon']} de "
+           f"rehabilitación y bacheo con hormigón, {FC['rampas']} de accesibilidad, con {FRAMP} rampas, y {FC['rehab']} de "
+           "rehabilitación con asfalto")
 PALABRA = {2: "dos", 3: "tres", 4: "cuatro", 5: "cinco", 6: "seis", 7: "siete"}
 
 def seg(i):  # párrafo de "Seguimiento diario", redactado distinto en cada pieza
@@ -305,26 +325,26 @@ G["g_acum"] = dict(
 # ---------------------------------------------------------------- 8. finalizadas
 G["g_fin"] = dict(
     titulos=[
-        f"La ciudad de Córdoba suma {FIN} obras finalizadas",
-        f"{FIN} obras terminadas y {OBRAS} en marcha en Córdoba",
-        "Obras que ya están en uso en los barrios de Córdoba",
+        f"Córdoba suma {FIN} obras finalizadas",
+        f"{FIN} obras terminadas en calles y esquinas de la ciudad de Córdoba",
+        f"{FIN} obras finalizadas y otras {OBRAS} en ejecución en Córdoba",
     ],
     ig=f"✅ {FIN} OBRAS FINALIZADAS\n\n"
-       f"La ciudad de Córdoba acumula {FIN} obras finalizadas, y hoy hay otras {OBRAS} en ejecución en {BARRIOS} barrios: "
-       "calles rehabilitadas, cuadras pavimentadas, rampas construidas y plazas renovadas.\n\n"
-       "Obras que ya se disfrutan en cada barrio.\n\n"
+       f"La ciudad de Córdoba suma {FIN} obras finalizadas: {FIN_DET}.\n\n"
+       f"Y hoy hay otras {OBRAS} obras en ejecución en {BARRIOS} barrios.\n\n"
        "#CórdobaMejora #CallePorCalle #HacerParaCrecer",
-    x=f"✅ Córdoba acumula {FIN} obras finalizadas y hoy tiene otras {OBRAS} en ejecución en {BARRIOS} barrios. "
+    x=f"✅ Córdoba suma {FIN} obras finalizadas y hoy tiene otras {OBRAS} en ejecución en {BARRIOS} barrios. "
       "#CórdobaMejora #HacerParaCrecer",
     gac=gac(
-        f"La ciudad de Córdoba suma {FIN} obras finalizadas",
-        ["El acumulado alcanza a calles, rampas, pavimento y plazas.",
+        f"Córdoba suma {FIN} obras finalizadas",
+        [f"{FC['bacheo']} obras de bacheo con asfalto y {FC['mant']} de mantenimiento de calles de tierra.",
+         f"{FC['hormigon']} obras de rehabilitación y bacheo con hormigón y {FC['rehab']} de rehabilitación con asfalto.",
+         f"{FC['rampas']} obras de accesibilidad, con {FRAMP} rampas.",
          f"En paralelo, hay {OBRAS} obras en ejecución en {BARRIOS} barrios."],
-        f"{MUNI} informa que la ciudad acumula {FIN} obras finalizadas. El número corresponde al total alcanzado hasta "
-        "la fecha e incluye intervenciones de todos los frentes de obra.",
-        [("Obras que ya están en uso",
-          ["Las obras terminadas abarcan calzadas rehabilitadas, cuadras pavimentadas, esquinas con rampas nuevas y "
-           "plazas puestas en valor, en distintos sectores de la ciudad."]),
+        f"{MUNI} informa que la ciudad suma {FIN} obras finalizadas. El número corresponde al total alcanzado hasta "
+        "la fecha.",
+        [("Qué se terminó",
+          [f"Las obras finalizadas comprenden {FIN_DET}."]),
          ("La obra continúa",
           [f"Mientras se suman obras finalizadas, hay {OBRAS} frentes abiertos en {BARRIOS} barrios, con {PUESTOS} "
            "puestos de trabajo directos."])],
