@@ -93,8 +93,9 @@ main{min-width:0}
 .foto .dis .chip:disabled{opacity:.45;cursor:not-allowed}
 .foto .sug{font-size:10.5px;color:var(--muted);font-weight:700;margin-left:2px}
 .foto .aviso{font-size:11px;color:var(--rojo);font-weight:700}
+.ptxt{margin-top:10px;display:grid;gap:6px;font-size:12px;font-weight:600} .ptxt label{display:grid;grid-template-columns:190px 1fr auto;align-items:center;gap:6px} .ptxt input{font:600 12.5px Poppins;border:1px solid var(--line);border-radius:8px;padding:5px 8px;min-width:0} .ptxt .hint{font-size:11px;color:#777;font-weight:600}
 .foto label.pie{display:inline-flex;align-items:center;gap:5px;font-weight:700;cursor:pointer} .foto label.pie input{margin:0;accent-color:var(--marino)}
-.pieaviso{display:inline-block;margin-top:8px;font-size:11.5px;font-weight:700;color:var(--marino);background:#eceef1;border-radius:6px;padding:3px 9px}
+.pieaviso{display:inline-block;margin-top:8px;font-size:11.5px;font-weight:700;color:var(--marino);background:#eceef1;border-radius:6px;padding:3px 9px} .pieaviso[hidden]{display:none}
 .foto .enc{flex-basis:100%;font-size:11px;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:6px} .foto .enc input{width:120px;margin:0}
 .fmt canvas.movible{cursor:grab} .fmt canvas.movible:active{cursor:grabbing}
 /* qué anuncios entran en la placa: casillas, con la placa y los copys rearmándose en vivo */
@@ -174,8 +175,9 @@ const disSugerido=v=>v.tipo==='lista'?'arriba':'completa';
 const selDe=id=>ED.seleccion[id]||(CONT.seleccion||{})[id]||null;
 const guardarED=()=>{try{localStorage.setItem(ED_KEY,JSON.stringify(ED))}catch(e){}};
 const edAnuncio=id=>Object.assign({},TX[id]||{},(CONT.anuncios||{})[id]||{},ED.anuncios[id]||{});
+const aplicarTxtFijos=(v,m)=>{v._pieDef??=v.pie||'';if(m.placaEnc!=null)v.encabezado=m.placaEnc;if(m.placaPie!=null)v.pie=m.placaPie};   // encabezado de la lista y línea del departamento: editables, vacío = no sale
 const aplicarEdicion=(out,tipo)=>{const m=Object.assign({},(CONT[tipo==='piezas'?'localidades_piezas':tipo]||{})[out.id]||{},(ED[tipo]||{})[out.id]||{});
-  if(m.ig)out.ig=limpio(m.ig);if(m.x)out.x=limpio(m.x);if(m.sms)out.sms=limpio(m.sms);if(m.gac)out.gac=limpio(m.gac);if(m.items)out.placa.items=m.items;if(m.placaTxt){out.placaTxt=m.placaTxt;if(out.placa.tipo!=='lista')leerPlaca(out.placa,m.placaTxt)}if(Object.keys(m).length)out.redactado=true;};
+  if(m.ig)out.ig=limpio(m.ig);if(m.x)out.x=limpio(m.x);if(m.sms)out.sms=limpio(m.sms);if(m.gac)out.gac=limpio(m.gac);if(m.items)out.placa.items=m.items;if(m.placaTxt){out.placaTxt=m.placaTxt;if(out.placa.tipo!=='lista')leerPlaca(out.placa,m.placaTxt)}aplicarTxtFijos(out.placa,m);if(Object.keys(m).length)out.redactado=true;};
 function exportarEdiciones(){const out={_nota:'Ediciones hechas en el tablero. Copiar a entrada/anuncios/<fecha>/contenido.json (se fusiona con lo que ya haya).',anuncios:Object.assign({},CONT.anuncios||{},ED.anuncios),localidades_piezas:Object.fromEntries(Object.entries(Object.assign({},CONT.localidades_piezas||{},ED.piezas)).map(([k,v])=>[k,Object.fromEntries(Object.entries(v).filter(([,x])=>x!=null))])),seleccion:Object.assign({},CONT.seleccion||{},ED.seleccion),localidades:CONT.localidades||{}};
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(out,null,1)],{type:'application/json'}));a.download='contenido.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
 const $=(s,r=document)=>r.querySelector(s), esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -286,7 +288,7 @@ function piezaAnuncio(a){ // placa individual
     `Hacer para Crecer\n\n${pick(F?sinObra(c.lineas):c.lineas,key+'g')} ${a.estado==='cumplido'?'Cada compromiso cumplido es parte de un modelo que prioriza el equilibrio fiscal para sostener la inversión en toda la provincia.':'Cada compromiso en marcha es parte de un modelo que prioriza el equilibrio fiscal para sostener la inversión en toda la provincia.'}`,
     a.fuente_anuncio?`Fuente del anuncio: ${a.fuente_anuncio}`:null,'Material de descarga: [pegar enlace]'].filter(Boolean).join('\n\n'));
   const out={id:key,ig,x,sms,gac,placa,a,redactado:!!(e.placa||e.ig)};
-  aplicarEdicion(out,'anuncios'); if(e.placa){out.placa.texto=limpio(e.placa)} return out;
+  aplicarEdicion(out,'anuncios'); aplicarTxtFijos(out.placa,e); if(e.placa){out.placa.texto=limpio(e.placa)} return out;
 }
 function piezaDepartamento(dep,g){ // conteo por departamento: volumen y presencia, nunca "en X localidades" (el que falta se cuenta solo)
   const c=CAMP[g[0].estado], d=DEP[dep]||{nombre_publicable:dep}, N=g.length, key=`d_${g[0].estado}_${dep}`, cum=g[0].estado==='cumplido';
@@ -380,10 +382,13 @@ function pildora(g,v,acc,xr,pyy,pillH){
   const pfs=pillH*.58; g.font=`900 ${pfs}px Poppins`; const ir=pillH*.3, ptw=g.measureText(v.palabra).width+ir*2+pillH*1.1, pxx=xr-ptw;
   g.fillStyle=acc; rrect(g,pxx,pyy,ptw,pillH,pillH/2); g.fill(); icono(g,pxx+pillH*.4+ir,pyy+pillH/2,ir,'#fff',acc,v.estado);
   g.fillStyle='#fff'; g.textAlign='left'; g.fillText(v.palabra,pxx+pillH*.4+ir*2+pillH*.22,pyy+pillH*.7); return ptw}
+// encabezado de la lista: editable por pieza (vacío = sin encabezado); por defecto según el estado
+const encDef=v=>v.estado==='en_ejecucion'?'Lo que estamos haciendo:':v.hayFocom?'Lo que ya cumplimos:':'Lo que ya es una realidad:';
+const encDe=v=>v.encabezado!=null?v.encabezado:encDef(v);
 // bloques de texto de la placa: individual (etiqueta en píldora de contorno, título, bajada), lista (encabezado y un ítem con tilde por anuncio) o dato (número grande)
 function bloquesAnuncio(v,u,tinta,z=1){
   if(v.tipo==='una')return [{t:v.etiqueta,w:600,s:u*.03*z,c:tinta,chip:true,gap:u*.045*z},{t:v.texto,w:900,s:u*.082*z,c:tinta,lh:1.05,gap:u*.03*z},{t:v.cuando,w:500,s:u*.04*z,c:tinta,lh:1.2,op:.95}];
-  if(v.tipo==='lista'){const n=(v.items||[]).length,b=[{t:n>1?(v.estado==='en_ejecucion'?'Lo que estamos haciendo:':v.hayFocom?'Lo que ya cumplimos:':'Lo que ya es una realidad:'):'',w:600,s:u*.036*z,c:tinta,gap:u*.035*z}];
+  if(v.tipo==='lista'){const n=(v.items||[]).length,b=[{t:n>1?encDe(v):'',w:600,s:u*.036*z,c:tinta,gap:u*.035*z}];
     (v.items||[]).forEach(t=>b.push({t,w:800,s:u*(n>4?.046:n>2?.05:.056)*z,c:tinta,lh:1.12,check:true,estado:v.estado,ind:u*.08*z,gap:u*.02*z}));return b}
   return [{t:v.valor,w:900,s:u*.3*z,c:tinta,lh:1,gap:u*.005*z},{t:v.etiqueta,w:900,s:u*.06*z,c:tinta,up:true,gap:u*.03*z},{t:v.sub,w:600,s:u*.038*z,c:tinta,op:.9}]}
 // banner (W/H de 2,2 a 3,2): una sola franja. A la izquierda, la zona y la píldora en un bloque blanco; en el medio, el texto; a la derecha, el lockup.
@@ -489,8 +494,11 @@ const encTam=id=>{const f=FOTOS[id]||{};return Object.assign({fx:f.fx,fy:f.fy,z:
 const pBoxHTML=(id,v)=>{if(!TAM)return '';const f=FOTOS[id]||{},con=!!f.data&&(f.dis||'')!=='sin',z=encTam(id).z||1;
   const fo=formaDe(TAM.w,TAM.h),dis=f.data?(f.dis||disSugerido(v||{})):'sin';
   return `<div class="fmt p"><div class="lbl">Personalizado · ${TAM.w}×${TAM.h} · ${fo}</div>${fo==='banner'&&dis==='arriba'?'<div class="pvac">Foto arriba no entra en banner: sale con Foto completa</div>':''}${fo==='apaisado'&&dis==='arriba'?'<div class="pvac">En apaisado, Foto arriba va a la izquierda</div>':''}<canvas data-fmt="p"></canvas><div class="btns" style="justify-content:center"><button class="btn" data-dl="p">Bajar PNG</button></div>${f.data?`<div class="encp">zoom <input type="range" min="0.5" max="2.5" step="0.05" value="${z}" data-zoomp> <span data-zoomvp>${Math.round(z*100)}%</span></div>`:''}</div>`};
+const ptxtHTML=v=>{const f=(k,lbl,val,def)=>`<label>${lbl}<input data-ptxt="${k}" value="${esc(val)}" placeholder="(vacío: no sale en la placa)"><button class="btn sec" data-ptxt-def="${k}" title="${esc(def||'(sin texto)')}">Original</button></label>`;
+  return `<div class="ptxt">${v.tipo==='lista'?f('enc','Encabezado de la lista',encDe(v),encDef(v)):''}${f('pie','Departamento (línea de abajo)',v.pie||'',v._pieDef)}<span class="hint">Se pueden cambiar o borrar: vacío no sale en la placa. Se guarda en este navegador y sale con “Exportar ediciones”.</span></div>`};
 const placaHTML=(v,id)=>`<div class="fmts${TAM?' con-p':''}">${Object.entries(FMT).map(([k,f])=>`<div class="fmt"><div class="lbl">${f[2]}</div><canvas data-fmt="${k}"></canvas><div class="btns" style="justify-content:center"><button class="btn" data-dl="${k}">Bajar PNG</button></div></div>`).join('')}${pBoxHTML(id,v)}</div>
  <div class="pieaviso" data-pieaviso ${id&&SINPIE[id]?'':'hidden'}>Sin marcas: revisá que la foto tampoco tenga cartel institucional</div>
+ ${id?ptxtHTML(v):''}
  <div class="btns"><button class="btn sec" data-dlall>Bajar las ${TAM?4:3} placas</button><span style="margin-left:8px">Color:</span>${(PALETA[v.estado]||PALETA.cumplido).map(k=>`<span class="sw ${k===v.color?'on':''}" data-col="${k}" style="background:${COLORES[k]}${k==='blanco'?';box-shadow:0 0 0 1px #bbb':''}" title="${k}"></span>`).join('')}</div>${id?fotoHTML(id,v):''}`;
 const txHTML=(ig,x,pl,sms,rotPl,gac)=>`
  <div class="tx"><div class="row"><label>Copy de Instagram</label><button class="btn" data-copy="ig">Copiar</button></div><textarea data-t="ig" rows="9">${esc(ig)}</textarea></div>
@@ -539,6 +547,9 @@ function wire(card,id,v){
   const pl=card.querySelector(':scope > .body > .grid textarea[data-t="pl"]');let tm;pl.addEventListener('input',()=>{leerPlaca(v,pl.value);clearTimeout(tm);tm=setTimeout(draw,350)});
   // toda edición queda guardada en este navegador (y sale con "Exportar ediciones")
   const esAn=/^a_(\d+)$/.exec(id), bucket=esAn?ED.anuncios:ED.piezas, k=esAn?+esAn[1]:id;
+  const campoTxt={enc:'placaEnc',pie:'placaPie'}, ponTxt=(c,val)=>{if(c==='enc')v.encabezado=val;else v.pie=val};
+  card.querySelectorAll(':scope > .body > .grid input[data-ptxt]').forEach(inp=>{let tp;inp.addEventListener('input',()=>{const o=bucket[k]??={};o[campoTxt[inp.dataset.ptxt]]=inp.value;ponTxt(inp.dataset.ptxt,inp.value);guardarED();card.dataset.editado='1';clearTimeout(tp);tp=setTimeout(draw,350)})});
+  card.querySelectorAll(':scope > .body > .grid [data-ptxt-def]').forEach(b=>b.addEventListener('click',ev=>{ev.preventDefault();ev.stopPropagation();const c=b.dataset.ptxtDef,o=bucket[k]??={};delete o[campoTxt[c]];if(c==='enc')delete v.encabezado;else v.pie=v._pieDef;guardarED();const inp=card.querySelector(`:scope > .body > .grid input[data-ptxt="${c}"]`);if(inp)inp.value=c==='enc'?encDef(v):(v._pieDef||'');draw()}));
   card.querySelectorAll(':scope > .body > .grid textarea').forEach(t=>t.addEventListener('input',()=>{const o=bucket[k]??={};
     if(t.dataset.t==='pl'){if(esAn)o.placa=v.texto;else if(v.tipo==='lista')o.items=v.items.slice();else o.placaTxt=t.value}else o[t.dataset.t]=t.value;guardarED();card.dataset.editado='1'}));
 }
@@ -665,7 +676,7 @@ function renderCalidad(root){
    ${L('Anuncios no publicables (en trámite, espera de documentación, suspendidos)',noPub.map(nm),'Se excluyen de las placas salvo que se marque “Mostrar también los no publicables”.')}
    ${Object.keys(TX).length?L('Redacción con IA: dudas sobre si publicar',A.filter(a=>(TX[a.id]||{}).duda).map(a=>nm(a)+' <small>('+esc(TX[a.id].duda)+')</small>'),`${Object.values(TX).filter(t=>!t.revisado).length} textos de IA todavía sin revisar. Marcar revisado=true en data/anuncios_textos.json cuando estén vistos.`):'<div class="list"><h3>Redacción con IA</h3><div class="hint">Todavía no se corrió tools/redactar_anuncios.py: los textos de placa son la limpieza automática del parser.</div></div>'}
    ${L('Avisos de la base',D.avisos.map(esc))}
-   <div class="list"><h3>Pie con marcas</h3><div class="hint">El tilde “Pie con marcas” se guarda por pieza en este navegador.</div><ul><li>Piezas con pie apagado: ${Object.keys(SINPIE).length}</li></ul></div>
+   <div class="list"><h3>Pie con marcas</h3><div class="hint">El tilde “Pie con marcas” se guarda por pieza en este navegador.</div><ul><li>Piezas con pie apagado: ${Object.keys(SINPIE).length}</li><li>Placas con encabezado o línea del departamento editados: ${[...Object.values(ED.piezas||{}),...Object.values(ED.anuncios||{})].filter(o=>o&&(o.placaEnc!=null||o.placaPie!=null)).length}</li></ul></div>
    <div class="list"><h3>Tamaño personalizado</h3><div class="hint">Se elige en la fila de campaña y vale para todo el tablero de Anuncios (se guarda en este navegador; Obras tiene el suyo).</div><ul><li>Tamaño personalizado: ${tamDesc()}</li></ul></div>`;
 }
 function renderFicha(root){

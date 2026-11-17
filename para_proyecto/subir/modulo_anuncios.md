@@ -160,3 +160,10 @@ Los dos tableros se enlazan desde la cabecera: "Obras" (`index.html`) y "Anuncio
 - Archivos: data/anuncios_textos.json, entrada/anuncios/2026-11-11/contenido.json, tools/plantilla_anuncios.html, anuncios.html, deploy/anuncios.html, este archivo.
 - Verificado en navegador sin pantalla (jsdom): sin errores; el Chequeo queda igual que el 11/11 más la regla FOCOM en ✔ (único ✖: meta 1659, ya conocido). El código de main, rearmado, coincide byte a byte con el anuncios.html publicado: el cambio es solo FOCOM.
 - Estado: build listo, sin publicar. Sube quien tiene la cuenta, con el "sí" del equipo.
+
+## Traspaso · encabezado de la lista y departamento editables (17/11)
+- Hecho: debajo de cada placa hay dos campos editables, "Encabezado de la lista" ("Lo que estamos haciendo:", "Lo que ya cumplimos:" o "Lo que ya es una realidad:"; solo en placas de lista) y "Departamento (línea de abajo)" ("DEPARTAMENTO X", "CÓRDOBA" o "PLAN DE IGUALDAD TERRITORIAL"). Vacío = no sale en la placa; "Original" vuelve al texto automático. Se guardan como las demás ediciones (`placaEnc` y `placaPie` en `gc_anuncios_ediciones`, por pieza o por anuncio) y salen con "Exportar ediciones" en `localidades_piezas` y `anuncios` del `contenido.json`. El Chequeo suma "Placas con encabezado o línea del departamento editados: N". Además, el aviso "Sin marcas" ya no aparece con el pie encendido (el CSS le ganaba al atributo hidden).
+- Verificado (base del 11/11, Chromium sin pantalla): en San Francisco, vaciar los dos campos redibuja la placa (sin encabezado ni departamento entran más ítems); al recargar la edición sigue y la placa es idéntica a la editada; "Original" la deja idéntica a la de antes; en una placa individual se vacía el departamento y se guarda en `anuncios`. Sin errores de consola.
+- Archivos: tools/plantilla_anuncios.html, deploy/anuncios.html, anuncios.html y este archivo.
+- Estado: build listo, sin publicar.
+- Dudas: los campos valen para cada placa por separado (no hay un "sacar en todas"); si se quiere sacar el departamento de todas las placas de una vez, es otro cambio.
