@@ -44,6 +44,7 @@
   "Código 14I sin circuito registrado en data/circuitos.json (Plaza Benito Quinquela Martín): revisar.",
   "Código 9A sin circuito registrado en data/circuitos.json (Plaza 11 de Setiembre de 1888): revisar.",
   "Código 4B sin circuito registrado en data/circuitos.json (Plaza Hípica): revisar.",
+  "Código 4B sin circuito registrado en data/circuitos.json (Plaza Hípica): revisar.",
   "Código 12G sin circuito registrado en data/circuitos.json (Plaza Georg Nicolai): revisar.",
   "Código 5I sin circuito registrado en data/circuitos.json (Plaza de los Abuelos Sur): revisar.",
   "Código 13A sin circuito registrado en data/circuitos.json (Plaza Padre José Jerónimo Dieser): revisar.",
@@ -2012,6 +2013,25 @@
   },
   {
    "id": "plaza_plaza-hipica",
+   "circuito": "4B",
+   "tipo": "plaza",
+   "via": "Plaza Hípica",
+   "entre": null,
+   "sector": null,
+   "barrio": "Jardines del Jockey",
+   "rampas": null,
+   "doc": "d_1docb3l0",
+   "grupo": false,
+   "estado": "ejecucion",
+   "nota": [],
+   "barrio_inferido": null,
+   "circ_inferido": false,
+   "metricas": {
+    "driveUrl": "https://docs.google.com/document/d/1DOcb3L0YK58R-zw4fd66c-dryfpstzx14w5y8eIVq30/edit?usp=sharing"
+   }
+  },
+  {
+   "id": "plaza_plaza-hipica_2",
    "circuito": "4B",
    "tipo": "plaza",
    "via": "Plaza Hípica",

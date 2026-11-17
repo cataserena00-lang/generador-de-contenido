@@ -617,11 +617,13 @@ for it in items:
 
 # plazas: el parte las nombra a veces distinto o las repite; se unifican para no contarlas dos veces
 PLAZA_ALIAS = {"plaza luis galeano": "Plaza Pedro Luis Galeano"}   # mismas plazas con otro nombre en el parte. Plaza Barrios Unidos va como la nombra el parte (decisión del 16/11)
+# plazas que el parte repite con el mismo nombre y que el equipo confirmó como obras distintas (no se deduplican)
+PLAZAS_DOBLES = {"plaza hipica"}   # 16/11: dos entradas con coordenadas a unos 95 metros; decisión del equipo: dos obras
 vistas, filtradas = set(), []
 for o in OBRAS:
     if o["tipo"] == "plaza":
         o["via"] = PLAZA_ALIAS.get(norm(o["via"]), o["via"])
-        if slug(o["via"]) in vistas: continue
+        if slug(o["via"]) in vistas and norm(o["via"]) not in PLAZAS_DOBLES: continue
         vistas.add(slug(o["via"]))
     filtradas.append(o)
 OBRAS = filtradas

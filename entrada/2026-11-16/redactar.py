@@ -2,8 +2,8 @@
 Corre:  python entrada/2026-11-16/redactar.py   ->  escribe contenido.json
 Las cifras NO se escriben a mano: se calculan desde parte.json (mismo criterio que el tablero), así que si cambia
 el conteo (por ejemplo, Plaza Hípica una o dos veces) basta con volver a correr parse_lista.py y este archivo.
-Datos del parte: 110 obras publicables (el encabezado dice 111: el parte repite "Plaza Hípica" con el mismo documento,
-y por la regla de deduplicar plazas por nombre se cuenta una vez), 971 puestos de trabajo directos. Bacheo en frío sin obras hoy.
+Datos del parte: 111 obras publicables, igual que el encabezado (Plaza Hípica figura dos veces y el equipo confirmó que
+son dos obras), 971 puestos de trabajo directos. Bacheo en frío sin obras hoy.
 Finalizadas: 281, del parte de finalizadas del 16/11 (finalizadas.txt). El desglose por tipo se cuenta de ese archivo:
 no incluye pavimentación ni plazas, así que los textos de finalizadas no las nombran.
 Pavimentación: 7 obras; 5 tienen memoria descriptiva (205 cuadras). Cooperativa Los Andes y El Renuevo y Ampliación
