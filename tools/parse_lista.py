@@ -125,9 +125,8 @@ def leer(it):
     if d["tipo"] == "plaza":
         nombre = re.sub(r"^\s*(?:\d+´\s*/?\s*(?:\d+)?\s*)", "", calle)
         nombre = nombre.split(":")[0]                                   # EPEC: "Nombre: coordenadas o dirección"
-        nombre = re.sub(r"^\s*plaza\s*/?\s*", "", nombre.replace("/", " "), flags=re.I)
-        nombre = tc(limpiar(nombre))
-        d["via"] = nombre if re.match(r"plazoleta\b", nombre, re.I) else re.sub(r"^Plaza De ", "Plaza de ", "Plaza " + nombre)
+        nombre = tc(limpiar(re.sub(r"^\s*plaza\s*/\s*", "Plaza ", nombre, flags=re.I).replace("/", " ")))
+        d["via"] = nombre                                               # el nombre como viene en el parte, sin anteponer "Plaza" (decisión del 17/11)
     elif d["tipo"] in ("bacheo", "rehab", "hormigon"):
         calle = re.sub(r"\s+", " ", calle)
         m = re.search(r"\s(?:e/\s*|entre\s+|e\s+)", calle)
@@ -235,6 +234,7 @@ def grupo_de(o):
 grupos = {"1": dict(rampas=0, esquinas=0, doc="rampas_centro"), "10G": dict(rampas=0, esquinas=0, doc="rampas_pueyrredon")}
 for o in OBRAS:
     base = slug(o["via"] or o["sector"])
+    if o["tipo"] == "plaza" and not re.match(r"plaza|plazoleta", norm(o["via"])): base = slug("Plaza " + o["via"])   # mismo id que antes de quitar el "Plaza" agregado
     base_id = f"{o['tipo']}_{base}"
     n = ids_count.get(base_id, 0); ids_count[base_id] = n + 1
     oid = base_id if n == 0 else base_id + "_" + (slug(o["entre"]) if o["entre"] else str(n + 1))
