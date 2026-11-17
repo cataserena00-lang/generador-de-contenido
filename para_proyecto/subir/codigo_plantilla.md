@@ -241,6 +241,7 @@ function placaDe(o){
   else if(o.tipo==='pav'&&m.cuadras){valor=nf(m.cuadras);etiqueta='Cuadras a pavimentar';sub=B;}
   else if(o.tipo==='pav'){main=TIPOS[o.tipo].label;sub=B;}   // sin memoria descriptiva: sin cuadras ni plazo
   else if(o.tipo==='alumbrado'){main=TIPOS[o.tipo].label;sub=B;}   // va antes que m2 y ml: el alumbrado no se mide en calzada
+  else if(o.tipo==='plaza'){main=o.via;sub='Renovación integral de espacios públicos';extra=B||'';}   // antes que m2: la superficie de una plaza no es calzada
   else if(m.m2){valor=nf(m.m2);etiqueta='m² de '+({bacheo:'bacheo con asfalto',frio:'bacheo en frío',hormigon:'rehabilitación y bacheo con hormigón',rehab:'rehabilitación con asfalto'}[o.tipo]||'calzada intervenida');sub=o.via||B;extra=o.via?(B||''):'';}
   else if(m.ml){valor=nf(m.ml);etiqueta=o.tipo==='mant'?'metros lineales de calles de tierra':'metros lineales de calzada rehabilitada';sub=o.tipo==='mant'?B:(o.via||B);extra=o.tipo==='mant'?'':(B||'');}
   else if(o.tipo==='plaza'){main=o.via;sub='Renovación integral de espacios públicos';extra=B||'';}
