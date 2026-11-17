@@ -28,7 +28,7 @@ CORR = {"Industial": "Industrial", "Rio": "Río", "Olayon": "Olayón", "Andres":
         "Adrian": "Adrián", "Gaston": "Gastón", "Nicolas": "Nicolás", "Malbran": "Malbrán", "Hipolito": "Hipólito", "Escolastico": "Escolástico",
         "Magan": "Magán", "Velez": "Vélez", "Geronimo": "Gerónimo", "Fermin": "Fermín", "Martinez": "Martínez", "Arguello": "Argüello", "Paraiso": "Paraíso",
         "Tristan": "Tristán", "Ampliacion": "Ampliación", "O.s.n": "O.S.N.", "Hipica": "Hípica", "Martin": "Martín", "Damian": "Damián", "Jeronimo": "Jerónimo",
-        "Bolivar": "Bolívar", "Marcelos": "Marcelo", "Gral.": "General", "Raul": "Raúl", "Cesar": "César", "Cañada": "Cañada", "Dean": "Deán", "Rincon": "Rincón", "Simon": "Simón", "Galvez": "Gálvez"}
+        "Bolivar": "Bolívar", "Marcelos": "Marcelo", "Gral.": "General", "Carloz": "Carlos", "Publica": "Pública", "Quiros": "Quirós", "Av": "Av.", "Raul": "Raúl", "Cesar": "César", "Cañada": "Cañada", "Dean": "Deán", "Rincon": "Rincón", "Simon": "Simón", "Galvez": "Gálvez"}
 def tc(s):  # mayúscula inicial en palabras en minúscula o todas en mayúscula; respeta el resto; repone tildes frecuentes
     out = []
     for i, w in enumerate(s.split()):
@@ -41,6 +41,7 @@ def tc(s):  # mayúscula inicial en palabras en minúscula o todas en mayúscula
     return " ".join(out)
 def limpiar(s): return re.sub(r"\s+", " ", s).strip(" .,-–·")
 # nombres que el parte abrevia; la forma larga sale del documento oficial de la obra
+VIA_NOMBRE = {"duarte quiros n°1400 - frente a shopping": "Duarte Quirós 1400, frente al shopping"}   # 17/11: dirección sin "N°" ni guion
 SECTOR_NOMBRE = {"coop. los andes - el renuevo": "Cooperativa Los Andes/El Renuevo"}   # doc: "B° COOPERATIVA LOS ANDES/ EL RENUEVO"
 
 # ---------- encabezado ----------
@@ -105,6 +106,7 @@ def leer(it):
     if not code:
         m = re.search(r"[-–]\s*0?(\d{1,2}[A-Za-z]?)\s*(?=[-–]\s*b(?:arrio)?\s*:)", t, re.I)
         if m: code = m.group(1).upper(); t = t[:m.start()] + " " + t[m.end():]
+    if code == "heredar" and it["rubro"] != "rampas": code = None   # "-" sin código fuera de rampas: se busca por barrio (data/barrio_circuito.json)
     d = dict(tipo=it["rubro"], estado=it["estado"], links=it["links"], nota=nota, codigo=code, rampas=None, barrio=None, via=None, entre=None, sector=None, orden=len(OBRAS))
     if it["rubro"] == "rampas":
         c = re.search(r"(\d+)\s*rampa", t); d["rampas"] = int(c.group(1))
@@ -132,12 +134,13 @@ def leer(it):
         via, entre = (calle[:m.start()], calle[m.end():]) if m else (calle, None)
         entre = re.sub(r"N°\s*", "", entre) if entre else entre
         d["via"], d["entre"] = tc(limpiar(via)), (tc(limpiar(entre)) if entre else None)
+        d["via"] = VIA_NOMBRE.get(norm(d["via"]), d["via"])
     elif d["tipo"] == "alumbrado":
         s = barrio or calle
         d["sector"] = tc(limpiar(re.sub(r"^\s*en distintos sectores del\s+", "", s, flags=re.I)))
         barrio = d["sector"]
     else:  # mant, frio, pav: la línea completa es el nombre (y el barrio)
-        s = re.sub(r"^\s*B(?:arrio|[°º])?\s+", "", calle.strip())          # "Barrio 1 de Julio/…" sin repetir "Barrio"
+        s = re.sub(r"^\s*B(?:arrio|[°º])?\s+", "", calle.strip(), flags=re.I)   # "Barrio 1 de Julio/…" o "BARRIO CAPDEVILLA" sin repetir "Barrio"
         s = SECTOR_NOMBRE.get(norm(limpiar(s)), s)
         d["sector"] = tc(limpiar(s))
         if d["tipo"] in ("mant", "frio") and not re.search(r"\b(e/|entre)\b", calle, re.I): barrio = d["sector"]
