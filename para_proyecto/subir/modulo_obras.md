@@ -16,11 +16,13 @@ Archivos de este módulo: esquema_parte.md, muestra_parte.json, historico_resume
 
 ## Reglas de datos del parte
 - Esquina = UNA obra (con N rampas). Rampas siempre sin barrio; las placas dicen "Rampas en ejecución".
+- Rampas: cada esquina toma el código del parte (1, 10G, 14D, 12B…); sin código, hereda el de la anterior. Grupos: "Zona céntrica" = código 1; "Av. J. M. de Pueyrredón" = esquinas sobre la avenida, solo si hay dos o más. Las esquinas que nombran los textos de grupo salen del parte del día. "Dirección x Centro de Salud N° X - Nombre" se publica como "Centro de Salud N° X Nombre (Dirección)", sin la palabra esquina.
+- Ítems sin numerar: si una sección no trae "1.", "2."…, cada renglón es una obra (salvo los links y los renglones que empiezan con "BARRIO:"). Un renglón con dos links seguidos es solo links.
 - Rubro = título de la sección. Calle y entre-calles: "e/", "entre", " e ". Notas: Nocturno, 2.ª intervención, 3.ª etapa.
-- Barrio: el del parte. En Mantenimiento y Bacheo en frío la línea entera es el barrio. Pavimentación: barrio, cuadras y plazo de `data/memorias.json`.
+- Barrio: el del parte. En Mantenimiento y Bacheo en frío la línea entera es el barrio. Pavimentación: barrio, cuadras y plazo de `data/memorias.json`; sin memoria, el renglón es el barrio (no se deduce por código) y los textos van sin cuadras ni plazo.
 - Circuito: el código del parte gana ("-6ª" = 6A). Es dato interno y nunca se publica.
-- Plazas: se deduplican por nombre dentro del día; alias en la plantilla (ALIAS) y en parse_lista.py (PLAZA_ALIAS).
-- `finalizadas` es un stock acumulado: solo para acumulados. 1.100 cuadras y 2.100 rampas son planes ("prevé", "contempla").
+- Plazas: se deduplican por nombre dentro del día, salvo las de PLAZAS_DOBLES en parse_lista.py (Plaza Hípica: dos obras, decisión del 16/11); alias en la plantilla (ALIAS) y en parse_lista.py (PLAZA_ALIAS). Se publican con el nombre del parte: Plaza Barrios Unidos no pasa a Centro América (decisión del 16/11; los partes del 19 al 22/10 la guardaron como Centro América y no se tocaron).
+- `finalizadas` es un stock acumulado: solo para acumulados. Sale del parte de finalizadas ("Obras Finalizadas: N"), que se guarda tal cual en `entrada/<fecha>/finalizadas.txt`; redactar.py cuenta el desglose por tipo de ese archivo y verifica que sume N. Los textos de finalizadas nombran solo los tipos que están en ese parte. 1.100 cuadras y 2.100 rampas son planes ("prevé", "contempla").
 - Periódicos: ventanas por días hábiles (no hay parte los fines de semana); si faltan partes se avisa. "Obras distintas" = ids únicos.
 - Puestos de trabajo, finalizadas y presupuesto son datos de toda la ciudad.
 
@@ -61,14 +63,16 @@ Poppins; colores y pies por eje en marca_resumen.md. Placas con 3 diseños de fo
 - `vercel.json` con BOM rompe el build. PowerShell 5.1 rompe `$` y comillas en parches: usar Python o el editor.
 - Favicon con "#" sin codificar (usar %23). Bundle > 10 MB: las fotos se recomprimen a 1500 px.
 - Subida web a GitHub: confirmar el commit solo cuando termina la barra de carga.
-- Erratas del parte: "Gral." → General, "Ombu" → Ombú, "-6ª", "zz" sueltos, "Barrio:Barrio:".
+- Erratas del parte: "Gral." → General, "Ombu" → Ombú, "-6ª", "zz" sueltos, "Barrio:Barrio:". Números romanos ("Nuestro Hogar III", no "Iii"). Si una corrección cambia el id de una obra que ya estaba en un parte anterior, sumar el id viejo a ID_ALIAS (parse_lista.py) para que la semana no la cuente dos veces.
+- Pavimentación sin memoria descriptiva salía con "undefined cuadras" y "NaN" en la placa (pasaba también el 12/11). El Chequeo tiene ahora la regla "No hay datos vacíos (undefined, NaN, null)".
 
 ## Pendientes del módulo
 - Formatos apaisados y banner: hechos en el personalizado (ver Estilo visual). Falta que el equipo los apruebe en el preview y decidir la Portada de LinkedIn (4:1, fuera de rango).
-- Plaza Barrios Unidos vs. Plaza Centro América: ¿son la misma? Con la confirmación, agregar el alias y recontar plazas y obras distintas.
 - Periódicos de 15 días y mensual: faltan partes (11 y 22 días hábiles).
 - Filtro y contenidos por seccional (número del código: 7A, 7B y 7G = 7): la primera versión se eliminó; falta definir cómo será.
 - Códigos sin circuito registrado: dic_circuitos.csv cubre 14A, 5E, 7G y 9G; faltan 6A, 2R y 4.
+- Avisos fijos de `data/avisos.json` desactualizados: siguen hablando de tramos de partes viejos (Adolfo Alsina con Villacorta Ocaña, Av. Patria en Hogar Propio, Río Negro con 750 m²). Revisarlos y dejar solo los vigentes.
+- Pavimentación de Cooperativa Los Andes y El Renuevo y de Ampliación General Artigas: sin memoria descriptiva. Sus docs dicen 32 y 53 cuadras; cargarlas en `data/memorias.json` solo con la memoria o con el visto bueno del equipo.
 - Catalina confirma Root Directory en Vercel; si publica la raíz, pasar a deploy y borrar las copias de la raíz.
 
 ## Traspaso · pasada de UX del tablero (30/10)
@@ -133,3 +137,9 @@ Poppins; colores y pies por eje en marca_resumen.md. Placas con 3 diseños de fo
 - Archivos: entrada/2026-11-12/ (lista.txt, parte.json, redactar.py, contenido.json), tools/parse_lista.py, tools/plantilla.html, para_proyecto/armar_para_proyecto.py, data/finalizadas.json, data/docs.json, data/barrio_circuito.json, deploy/index.html, index.html y los espejos de para_proyecto/subir/. Periódicos sin redactar: entre el 29/10 y el 12/11 no hay partes, las ventanas tienen 1 de 7 días hábiles y el tablero lo avisa solo.
 - Estado: build listo y verificado (servido por HTTP desde deploy/): sin errores de consola ni respuestas fallidas, Chequeo todo ✔ con 672 textos revisados, X más largo 205 caracteres, barra y textos coinciden en 105 obras y 48 barrios. **Sin publicar**, a la espera del sí.
 - Dudas: (1) El encabezado del parte dice 106 y se publican 105: el parte repite "Plaza Benjamín Viel I" con el mismo documento y coordenadas a 3 metros, así que se cuenta una sola vez (decisión del equipo el 12/11); confirmar con la Municipalidad si son una o dos. (2) El rubro alumbrado no tiene galería de fotos genéricas: el Chequeo lo lista en "Rubros sin galería". (3) El barrio sale como "Parque Liceo 3era Sección", tal como lo escribe el parte. (4) El tablero pesa 8,3 MB (antes 3,2 MB): este parte trae 27 obras con foto; sigue bajo los 10 MB pero conviene vigilarlo.
+
+## Traspaso · parte del 16/11 (16/11)
+- Hecho: parte del 16/11 cargado (111 obras publicables, igual que el encabezado, 971 puestos, 45 barrios, 281 finalizadas del parte de finalizadas: 136 de bacheo con asfalto, 60 de mantenimiento, 47 de hormigón, 20 de rampas con 53 rampas y 18 de rehabilitación con asfalto). El parte llegó sin numeración y el parser solo leía 66 de 111: ahora acepta ítems sin numerar. Rampas con el código del parte (antes todo lo que no era Pueyrredón caía en "zona céntrica", también el 12/11) y textos de grupo armados con las esquinas del día (antes nombraban esquinas fijas, como Bv. Mitre, que hoy no están). Pavimentación sin memoria sin "undefined" ni "NaN", regla nueva en el Chequeo, rampas de centros de salud, tildes y nombres (Hípica, Bolívar, Martín, Jerónimo, Nuestro Hogar III, O.S.N., Ampliación), y placas generales de Calle por Calle y Plazas con las cifras del texto. `redactar.py` calcula todas las cifras desde parte.json.
+- Archivos: entrada/2026-11-16/ (lista.txt, finalizadas.txt, parte.json, redactar.py, contenido.json), CLAUDE.md, tools/parse_lista.py, tools/plantilla.html, data/finalizadas.json, data/docs.json, data/barrio_circuito.json, entrada/_cache/ (docs y fotos nuevas), deploy/index.html, index.html, este archivo y los espejos de para_proyecto/subir/. Periódicos sin redactar: en la ventana de 7 días hábiles solo están el 12/11 y el 16/11; el tablero lo avisa solo.
+- Estado: build listo y verificado (Chromium sin pantalla, sin errores de consola ni respuestas fallidas): Chequeo todo ✔ con 730 textos revisados, X redactados de hasta 184 caracteres, barra y textos coinciden en 111 obras, 24 plazas y 45 barrios; 137 obras distintas en la semana. Tablero 9,0 MB. Publicación aprobada por el equipo el 17/11.
+- Dudas: (1) Resuelto: Plaza Hípica cuenta como dos obras (mismo nombre y documento, coordenadas a unos 95 metros); las dos tarjetas salen con el mismo nombre, como en el parte. (2) Resuelto: Plaza Barrios Unidos va con el nombre del parte. (3) El tablero pesa 9,0 MB (31 obras con foto): queda poco margen hasta los 10 MB. (4) El build del 12/11, si se vuelve a armar con la plantilla nueva, cambia sus placas de pavimentación (antes salían con NaN); su parte.json no se tocó.

@@ -221,13 +221,18 @@ const reales=obras.filter(o=>!o.grupo);
 const dnde=o=>o.via?`${o.via}${o.entre?`, entre ${o.entre}`:''}`:o.sector;
 const bar=o=>o.barrioList?o.barrioList.join(' y Barrio '):null;      // 'Barrio ' + bar(o) => 'Barrio A y Barrio B'
 const BAR=o=>bar(o)?`Barrio ${bar(o)}`:null;
-const lugarRampas=o=>/ y /.test(o.via)?`la esquina de ${o.via}`:o.via;
+const lugarRampas=o=>/^Centro de Salud/.test(o.via)?`el ${o.via}`:/ y /.test(o.via)?`la esquina de ${o.via}`:o.via;
+/* grupos de rampas: zona céntrica = código 1 del parte; Av. Pueyrredón = esquinas sobre la avenida. Las esquinas que se nombran salen del parte del día. */
+const esPue=o=>/Pueyrred/.test(o.via||'');
+const miembros=g=>reales.filter(o=>o.tipo==='rampas'&&(g.circuito==='1'?o.circuito==='1':esPue(o)));
+const cruces=g=>miembros(g).map(o=>g.circuito==='1'?o.via.replace(/^Av\. /,''):o.via.replace(/^Av\. J\. M\. de Pueyrredón y /,''));
 const esq=o=>o.metricas.esquinas;
 
 function placaDe(o){
   const m=o.m,B=BAR(o); let valor=null,etiqueta=null,main=null,sub='',extra='';
   if(o.tipo==='rampas'){valor=nf(o.rampas);etiqueta=o.rampas===1?'Rampa en ejecución':'Rampas en ejecución';sub=o.via;}
-  else if(o.tipo==='pav'){valor=nf(m.cuadras);etiqueta='Cuadras a pavimentar';sub=B;}
+  else if(o.tipo==='pav'&&m.cuadras){valor=nf(m.cuadras);etiqueta='Cuadras a pavimentar';sub=B;}
+  else if(o.tipo==='pav'){main=TIPOS[o.tipo].label;sub=B;}   // sin memoria descriptiva: sin cuadras ni plazo
   else if(o.tipo==='alumbrado'){main=TIPOS[o.tipo].label;sub=B;}   // va antes que m2 y ml: el alumbrado no se mide en calzada
   else if(m.m2){valor=nf(m.m2);etiqueta='m² de '+({bacheo:'bacheo con asfalto',frio:'bacheo en frío',hormigon:'rehabilitación y bacheo con hormigón',rehab:'rehabilitación con asfalto'}[o.tipo]||'calzada intervenida');sub=o.via||B;extra=o.via?(B||''):'';}
   else if(m.ml){valor=nf(m.ml);etiqueta=o.tipo==='mant'?'metros lineales de calles de tierra':'metros lineales de calzada rehabilitada';sub=o.tipo==='mant'?B:(o.via||B);extra=o.tipo==='mant'?'':(B||'');}
@@ -239,7 +244,7 @@ function placaDe(o){
 function tituloIG(o){
   const B=bar(o);
   switch(o.tipo){
-    case 'rampas': return o.grupo?`CÓRDOBA ACCESIBLE: ${o.rampas} RAMPAS EN ${o.circuito==='1'?'LA ZONA CÉNTRICA':'LA AV. J. M. DE PUEYRREDÓN'}`:`CÓRDOBA ACCESIBLE: ${o.rampas} ${o.rampas===1?'RAMPA':'RAMPAS'} EN ${up(o.via)}`;
+    case 'rampas': return o.grupo?`CÓRDOBA ACCESIBLE: ${o.rampas} RAMPAS EN ${o.circuito==='1'?'LA ZONA CÉNTRICA':'LA AV. J. M. DE PUEYRREDÓN'}`:`CÓRDOBA ACCESIBLE: ${o.rampas} ${o.rampas===1?'RAMPA':'RAMPAS'} EN ${up(o.via.replace(/\s*\(.*\)$/,''))}`;   // la dirección del centro de salud queda en el texto, no en el título
     case 'plaza': return `BARRIO ${up(B)}: RENOVACIÓN DE ${up(o.via)}`;
     case 'pav': return `BARRIO ${up(B)}: PAVIMENTACIÓN`;
     case 'mant': return `BARRIO ${up(B)}: MANTENIMIENTO DE CALLES`;
@@ -250,8 +255,8 @@ function hecho(o){
   const m=o.m,B=BAR(o),en=B?`, en el ${B}`:'';
   switch(o.tipo){
     case 'rampas':
-      if(o.grupo&&o.circuito==='1') return `En la zona céntrica de la ciudad avanzamos con la colocación de ${o.rampas} rampas en ${esq(o)} esquinas, entre ellas 12 de Octubre y San Martín, 27 de Abril y Marcelo T. de Alvear, Bulevar Mitre y San Martín, Deán Funes y Marcelo T. de Alvear, y Obispo Trejo e Hipólito Yrigoyen`;
-      if(o.grupo) return `Avanzamos con la colocación de ${o.rampas} rampas en ${esq(o)} esquinas de la Av. J. M. de Pueyrredón: La Pampa, Río Negro, Santa Cruz y Misiones`;
+      if(o.grupo&&o.circuito==='1'){const c=cruces(o).slice(0,5);return `En la zona céntrica de la ciudad avanzamos con la colocación de ${o.rampas} rampas en ${esq(o)} esquinas, entre ellas ${c.length>1?c.slice(0,-1).join(', ')+', y '+c[c.length-1]:c[0]}`;}
+      if(o.grupo) return `Avanzamos con la colocación de ${o.rampas} rampas en ${esq(o)} esquinas de la Av. J. M. de Pueyrredón: ${lista(cruces(o))}`;
       return `${pick(['Avanzamos con la colocación de','Colocamos','Se ejecutan'],o,'a')} ${o.rampas} ${o.rampas===1?'rampa':'rampas'} en ${lugarRampas(o)}`;
     case 'plaza': return `${pick(['Avanzan los trabajos de renovación de la','Continúa la renovación de la','Se trabaja en la puesta en valor de la'],o,'a')} ${o.via}${en}`;
     case 'mant': return m.ml?`${pick(['Avanza el mantenimiento de calles en el','Continúan las tareas de mantenimiento en el'],o,'a')} ${B}: las tareas abarcan ${nf(m.ml)} metros lineales de calles de tierra`:`${pick(['Avanzan las tareas de mantenimiento de calles en el','Continúa el mantenimiento de calles en el'],o,'a')} ${B}`;
@@ -259,7 +264,7 @@ function hecho(o){
     case 'bacheo': return `${pick(['Avanzan las tareas de bacheo con asfalto sobre','Continúan los trabajos de bacheo con asfalto sobre','Se ejecutan tareas de bacheo con asfalto sobre'],o,'a')} ${dnde(o)}${en}${m.m2?`, con ${nf(m.m2)} m² de calzada intervenida`:''}`;
     case 'rehab': return `Avanzan las tareas de rehabilitación con asfalto sobre ${dnde(o)}${en}${m.ml?`, con ${nf(m.ml)} metros lineales de calzada`:''}${m.nocturno?', en horario nocturno':''}`;
     case 'hormigon': return `${pick(['Avanzan las tareas de rehabilitación y bacheo con hormigón sobre','Continúan los trabajos de rehabilitación y bacheo con hormigón sobre','Se trabaja en la rehabilitación y el bacheo con hormigón sobre'],o,'a')} ${dnde(o)}${(o.nota||[]).filter(n=>/etapa/.test(n)).map(n=>` (${n})`).join('')}${en}${m.m2?`, con ${nf(m.m2)} m² intervenidos`:''}`;
-    case 'pav': return `Avanza la obra de pavimentación en el ${B}, que alcanza ${m.cuadras} cuadras y tiene un plazo de ejecución de ${m.plazo} días calendario`;
+    case 'pav': return `Avanza la obra de pavimentación en el ${B}${m.cuadras?`, que alcanza ${m.cuadras} cuadras${m.plazo?` y tiene un plazo de ejecución de ${m.plazo} días calendario`:''}`:''}`;
   }
 }
 function contexto(o){ // una oración de contexto que explica para qué sirve la obra (de los docs y las memorias)
@@ -283,7 +288,7 @@ function hechoX(o){ // versión corta: sin el detalle de calles
     case 'frio': return `Avanza el bacheo en frío en el ${B}${m.nocturno?', en horario nocturno':''}`;
     case 'rehab': return `Avanza la rehabilitación con asfalto sobre ${o.via}${en}${m.ml?`: ${nf(m.ml)} metros lineales`:''}`;
     case 'hormigon': return `Avanza la rehabilitación y el bacheo con hormigón sobre ${o.via}${en}${m.m2?`: ${nf(m.m2)} m² intervenidos`:''}`;
-    case 'pav': return `Avanza la pavimentación del ${B}: ${m.cuadras} cuadras, con un plazo de ${m.plazo} días calendario`;
+    case 'pav': return `Avanza la pavimentación del ${B}${m.cuadras?`: ${m.cuadras} cuadras${m.plazo?`, con un plazo de ${m.plazo} días calendario`:''}`:''}`;
   }
 }
 const pie=o=>BAR(o)?`📍 ${BAR(o)}\n\n`:'';
@@ -324,7 +329,7 @@ function textoSMS(o){
     case 'bacheo': largo=`bacheo con asfalto sobre ${o.via}${m.m2?` (${nf(m.m2)} m²)`:''}${en}`;corto=`bacheo con asfalto en ${o.via}${en}`;sinB=`bacheo con asfalto sobre ${o.via}${m.m2?` (${nf(m.m2)} m²)`:''}`;break;
     case 'rehab': largo=`rehabilitación con asfalto sobre ${o.via}${m.ml?` (${nf(m.ml)} metros)`:''}${en}`;corto=`rehabilitación de ${o.via}${en}`;sinB=`rehabilitación con asfalto sobre ${o.via}${m.ml?` (${nf(m.ml)} metros)`:''}`;break;
     case 'hormigon': largo=`rehabilitación con hormigón sobre ${o.via}${m.m2?` (${nf(m.m2)} m²)`:''}${en}`;corto=`rehabilitación con hormigón en ${o.via}${en}`;sinB=`rehabilitación con hormigón sobre ${o.via}${m.m2?` (${nf(m.m2)} m²)`:''}`;break;
-    case 'pav': largo=`pavimentación de ${m.cuadras} cuadras${en}`;corto=largo;sinB=`pavimentación de ${m.cuadras} cuadras`;break;
+    case 'pav': sinB=m.cuadras?`pavimentación de ${m.cuadras} cuadras`:'pavimentación';largo=sinB+en;corto=largo;break;
   }
   if(o.tipo!=='rampas'&&B&&hash((o.id||'')+'sb')%4===3)return smsArmar('barrio',[sinB,sinB&&sinB.replace(/ \(.*?\)/,'')],o.id||'',[`${B}: `]);   // una de cada cuatro abre con el nombre del barrio
   const alcance=o.tipo==='rampas'?'sector':(B?'barrio':'sector');
@@ -348,7 +353,7 @@ const R={obras:reales.length};
 const rampasObras=reales.filter(o=>o.tipo==='rampas');
 R.rampas=sum(rampasObras,o=>o.rampas); R.esquinas=rampasObras.length;
 const calleObras=reales.filter(o=>o.eje==='calle'); R.calle=calleObras.length;
-const pavs=reales.filter(o=>o.tipo==='pav'); R.pav=pavs.length; R.cuadras=sum(pavs,o=>o.m.cuadras);
+const pavs=reales.filter(o=>o.tipo==='pav'); R.pav=pavs.length; R.cuadras=sum(pavs,o=>o.m.cuadras||0); const pavsM=pavs.filter(o=>o.m.cuadras);   // pavsM: con memoria descriptiva (cuadras y plazo)
 const plazas=reales.filter(o=>o.tipo==='plaza'); R.plazas=plazas.length;
 const norm=s=>s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/\(.*?\)/g,'').replace(/ etapa ii| zona este/g,'').replace(/^policial.*/,'policial').replace(/\s+/g,' ').trim();
 const barrios=uniq(reales.flatMap(o=>o.barrioList||[]).map(norm));
@@ -369,9 +374,11 @@ function generales(){
   const G=[]; const tg=k=>EJES[k].tags.join(' '), ptos=nf(P.puestos), hoy=P.fecha_texto;
   const add=(id,titulo,eje,titulos,ig,x,placa,gac)=>G.push({id,titulo,eje,titulos:titulos.map(limpio),ig:limpio(ig),x:limpio(x),placa:{eje,fotos:[],extra:'',...placa},gac:limpio(gacetilla(gac))});
   const brs=`al menos ${R.barrios} barrios`;
-  const cent=rampasObras.filter(o=>o.circuito==='1'&&!o.grupo), pue=rampasObras.filter(o=>o.circuito==='10G'&&!o.grupo);
+  const cent=rampasObras.filter(o=>o.circuito==='1'&&!o.grupo), pue=rampasObras.filter(o=>esPue(o)&&!o.grupo), otras=rampasObras.filter(o=>!o.grupo&&!cent.includes(o)&&!pue.includes(o));
+  const esqN=n=>`${n} ${n===1?'esquina':'esquinas'}`, rampN=n=>`${n} ${n===1?'rampa':'rampas'}`;
   const esqTxt=a=>a.map(o=>`${o.via} (${o.rampas})`);
   const listaBarrios=a=>lista(uniq(a.map(bar).filter(Boolean)).map(b=>`Barrio ${b}`));
+  const nBarrios=a=>uniq(a.flatMap(o=>o.barrioList||[]).map(norm)).length;
 
   add('g_total','Panorama general de obras','calle',
    [`Córdoba tiene ${R.obras} obras en ejecución en ${brs} de la ciudad`,`Hacer para Crecer: ${R.obras} obras en marcha y ${ptos} puestos de trabajo directos`,FINOK?`Con ${P.finalizadas} obras finalizadas, Córdoba mantiene ${R.obras} en ejecución`:`Córdoba mantiene ${R.obras} obras en ejecución en ${brs} de la ciudad`],
@@ -398,13 +405,13 @@ function generales(){
 
   add('g_accesible','Córdoba Accesible – total de rampas','accesible',
    [`Córdoba Accesible: avanza la colocación de ${R.rampas} rampas en ${R.esquinas} esquinas`,`Una Córdoba inclusiva, pensada para todos: ${R.rampas} rampas en ejecución`,`${R.rampas} rampas en marcha para mejorar la movilidad peatonal en la ciudad`],
-   `♿ CÓRDOBA ACCESIBLE: ${R.rampas} RAMPAS EN EJECUCIÓN\n\nHoy se ejecuta la colocación de ${R.rampas} rampas en ${R.esquinas} esquinas de la ciudad: ${cent.length} esquinas en la zona céntrica, con ${sum(cent,o=>o.rampas)} rampas, y ${pue.length} esquinas de la Av. J. M. de Pueyrredón, con ${sum(pue,o=>o.rampas)} rampas.\n\n${EJES.accesible.corto}\n\n${MODELO}\n\n${tg('accesible')}`,
+   `♿ CÓRDOBA ACCESIBLE: ${R.rampas} RAMPAS EN EJECUCIÓN\n\nHoy se ejecuta la colocación de ${R.rampas} rampas en ${R.esquinas} esquinas de la ciudad: ${lista([cent.length?`${esqN(cent.length)} en la zona céntrica, con ${rampN(sum(cent,o=>o.rampas))}`:'',pue.length?`${esqN(pue.length)} de la Av. J. M. de Pueyrredón, con ${rampN(sum(pue,o=>o.rampas))}`:'',otras.length?`${esqN(otras.length)} en otros sectores de la ciudad, con ${rampN(sum(otras,o=>o.rampas))}`:''].filter(Boolean))}.\n\n${EJES.accesible.corto}\n\n${MODELO}\n\n${tg('accesible')}`,
    `♿ Córdoba Accesible: hoy se ejecutan ${R.rampas} rampas en ${R.esquinas} esquinas de la ciudad. Una Córdoba inclusiva, pensada para todos. #CórdobaAccesible #HacerParaCrecer`,
    {kicker:'Córdoba Accesible',valor:String(R.rampas),etiqueta:'Rampas en ejecución',sub:`En ${R.esquinas} esquinas de la ciudad`},
    {titulo:`Córdoba Accesible: avanza la colocación de ${R.rampas} rampas en ${R.esquinas} esquinas de la ciudad`,
     bajada:['Una Córdoba inclusiva, pensada para todos.',`El programa contempla la instalación de ${nf(P.programaRampas.total)} rampas en el ejido capitalino.`,'Hacer para Crecer: más accesibilidad en el espacio público.'],
     lead:`El Gobierno de la Provincia, en conjunto con la Municipalidad de Córdoba, avanza con el programa Córdoba Accesible: hoy se ejecuta la colocación de ${R.rampas} rampas en ${R.esquinas} esquinas de la ciudad.`,
-    secciones:[['Dónde se trabaja',[`En la zona céntrica hay ${sum(cent,o=>o.rampas)} rampas en ${cent.length} esquinas: ${lista(esqTxt(cent))}.`,`En ${pue.length} esquinas de la Av. J. M. de Pueyrredón hay ${sum(pue,o=>o.rampas)} rampas: ${lista(esqTxt(pue))}.`]],
+    secciones:[['Dónde se trabaja',[cent.length?`En la zona céntrica hay ${rampN(sum(cent,o=>o.rampas))} en ${esqN(cent.length)}: ${lista(esqTxt(cent))}.`:'',pue.length?`En la Av. J. M. de Pueyrredón hay ${rampN(sum(pue,o=>o.rampas))} en ${esqN(pue.length)}: ${lista(esqTxt(pue))}.`:'',otras.length?`En otros sectores de la ciudad hay ${rampN(sum(otras,o=>o.rampas))} en ${esqN(otras.length)}: ${lista(esqTxt(otras))}.`:''].filter(Boolean)],
                ['Una Córdoba inclusiva, pensada para todos',[`Córdoba Accesible contempla la instalación de ${nf(P.programaRampas.total)} rampas en el ejido capitalino: se construirán ${nf(P.programaRampas.nuevas)} rampas nuevas, de las cuales ${nf(P.programaRampas.en_esquinas_sin_rampa)} se ubicarán en esquinas que hoy carecen de esta infraestructura, y se repararán otras ${P.programaRampas.reparadas} con daños menores.`,'El objetivo es favorecer la autonomía, la movilidad y la integración de todos los vecinos en el espacio público.']]],
     cierre:MODELO});
 
@@ -421,14 +428,14 @@ function generales(){
     cierre:MODELO});
 
   add('g_cuadras','Pavimentación – cuadras','calle',
-   [`Cinco obras de pavimentación alcanzan ${R.cuadras} cuadras en Córdoba`,`Calle por Calle: ${R.cuadras} cuadras en proceso de pavimentación`,`Hacer para Crecer: se pavimentan ${R.cuadras} cuadras en cinco barrios`],
-   `🛣️ ${R.cuadras} CUADRAS A PAVIMENTAR\n\nLas ${R.pav} obras de pavimentación que hoy se ejecutan en la ciudad, en ${listaBarrios(pavs)}, alcanzan ${R.cuadras} cuadras: ${lista(pavs.map(o=>`${o.m.cuadras} en el Barrio ${bar(o)}`))}.\n\nLas obras mejoran el drenaje superficial de las aguas pluviales y el tránsito vehicular y peatonal, y dejan materializadas las líneas de vereda.\n\n${EJES.calle.corto}\n\n${MODELO}\n\n${tg('calle')}`,
-   `🛣️ Cinco obras de pavimentación alcanzan ${R.cuadras} cuadras en ${listaBarrios(pavs)}. Más calles pavimentadas para los cordobeses. #CallePorCalle #HacerParaCrecer`,
-   {kicker:'Pavimentación',valor:String(R.cuadras),etiqueta:'Cuadras a pavimentar',sub:`${R.pav} obras en ejecución`,extra:'En cinco barrios de la ciudad'},
-   {titulo:`Cinco obras de pavimentación alcanzan ${R.cuadras} cuadras en Córdoba`,
-    bajada:pavs.map(o=>`Barrio ${bar(o)}: ${o.m.cuadras} cuadras.`).concat(['Hacer para Crecer: más calles pavimentadas en los barrios.']),
-    lead:`Las ${R.pav} obras de pavimentación que hoy ejecutan ${GOB} alcanzan ${R.cuadras} cuadras, en ${listaBarrios(pavs)}.`,
-    secciones:[['Cada obra',pavs.map(o=>`Barrio ${bar(o)}: ${o.m.cuadras} cuadras, con un plazo de ejecución de ${o.m.plazo} días calendario.`)],
+   [`${R.pav} obras de pavimentación avanzan en ${nBarrios(pavs)} barrios de Córdoba`,`Calle por Calle: ${R.cuadras} cuadras en proceso de pavimentación`,`Hacer para Crecer: la pavimentación llega a ${nBarrios(pavs)} barrios`],
+   `🛣️ PAVIMENTACIÓN EN ${nBarrios(pavs)} BARRIOS\n\nLas ${R.pav} obras de pavimentación que hoy se ejecutan en la ciudad llegan a ${listaBarrios(pavs)}. ${pavsM.length===R.pav?'Alcanzan':`Las ${pavsM.length} que tienen memoria descriptiva alcanzan`} ${R.cuadras} cuadras: ${lista(pavsM.map(o=>`${o.m.cuadras} en el Barrio ${bar(o)}`))}.\n\nLas obras mejoran el drenaje superficial de las aguas pluviales y el tránsito vehicular y peatonal, y dejan materializadas las líneas de vereda.\n\n${EJES.calle.corto}\n\n${MODELO}\n\n${tg('calle')}`,
+   `🛣️ ${R.pav} obras de pavimentación avanzan en ${nBarrios(pavs)} barrios de Córdoba. Más calles pavimentadas para los cordobeses. #CallePorCalle #HacerParaCrecer`,
+   {kicker:'Pavimentación',valor:String(R.cuadras),etiqueta:'Cuadras a pavimentar',sub:`${R.pav} obras en ejecución`,extra:pavsM.length===R.pav?`En ${nBarrios(pavs)} barrios de la ciudad`:`Cuadras de las ${pavsM.length} obras con memoria descriptiva`},
+   {titulo:`${R.pav} obras de pavimentación avanzan en ${nBarrios(pavs)} barrios de Córdoba`,
+    bajada:pavsM.map(o=>`Barrio ${bar(o)}: ${o.m.cuadras} cuadras.`).concat(['Hacer para Crecer: más calles pavimentadas en los barrios.']),
+    lead:`Las ${R.pav} obras de pavimentación que hoy ejecutan ${GOB} llegan a ${listaBarrios(pavs)}. ${pavsM.length===R.pav?'Alcanzan':`Las ${pavsM.length} con memoria descriptiva alcanzan`} ${R.cuadras} cuadras.`,
+    secciones:[['Cada obra',pavs.map(o=>o.m.cuadras?`Barrio ${bar(o)}: ${o.m.cuadras} cuadras${o.m.plazo?`, con un plazo de ejecución de ${o.m.plazo} días calendario`:''}.`:`Barrio ${bar(o)}: obra de pavimentación en ejecución.`)],
                ['Para qué',['Las obras mejoran el drenaje superficial de las aguas pluviales y el tránsito vehicular y peatonal, reducen los costos de mantenimiento de las calles de firme natural y dejan materializadas las líneas de vereda, con una mayor consolidación de la urbanización existente.']]],
     cierre:MODELO});
 
@@ -940,7 +947,7 @@ function resumenZona(z=S){ // pieza automática para una zona y un período: hab
     case 'bacheo':return `${n} ${n===1?'frente':'frentes'} de bacheo con asfalto`;
     case 'rehab':return `${n} ${n===1?'frente':'frentes'} de rehabilitación con asfalto`;
     case 'hormigon':return `${n} ${n===1?'frente':'frentes'} de rehabilitación con hormigón`;
-    case 'pav':return `pavimentación de ${sum(a,o=>o.m.cuadras)} cuadras`;
+    case 'pav':{const c=sum(a,o=>o.m.cuadras||0),sm=a.filter(o=>!o.m.cuadras).length;return c?`pavimentación de ${c} cuadras${sm?` y ${sm} ${sm===1?'obra':'obras'} más de pavimentación`:''}`:`${n} ${n===1?'obra':'obras'} de pavimentación`;}
     case 'plaza':return `renovación de ${n} ${n===1?'plaza':'plazas'}`;
     case 'alumbrado':return (nb(a)||n)===1?'modernización del alumbrado público':`modernización del alumbrado público en ${nb(a)||n} barrios`;
     default:return `${n} ${n===1?'obra':'obras'} de ${((TIPOS[t]||{}).label||t).toLowerCase()}`;}};   // un rubro nuevo nunca deja la frase vacía
@@ -1162,7 +1169,7 @@ function renderCalidad(root){
   const reglas=[['No menciona “circuito”, “seccional” ni “subcircuito”',test(/circuito|seccional/i)],
     [`SMS de un solo mensaje (hasta ${SMS_MAX} caracteres, con link corto de ${LINK_LEN})`,SMS.filter(([,t])=>smsLen(t)>SMS_MAX).map(([n])=>n)],
     ['SMS: dice qué se hace antes del link y termina con el link',SMS.filter(([,t])=>!/\S.*\. Más info: \[link\]$/.test(t)).map(([n])=>n)],
-['No menciona montos ni signos de pesos',test(/\$|presupuesto|monto/i)],['No usa barras “/” (salvo en links)',T.filter(([,t])=>/\//.test(t.replace(/https?:\/\/\S+/g,''))).map(([n])=>n)],['No menciona asistencia social en textos de obras',test(/asistencia social/i)],['Las piezas generales y periódicas no repiten la misma frase larga',(()=>{const c={};T.filter(([n])=>/^(g_|p_)/.test(n)&&!/· X$/.test(n)&&!/· placa$/.test(n)).forEach(([n,t])=>new Set(t.split(/(?<=[.!?])\s+/).filter(s=>s.length>70)).forEach(s=>{(c[s]=c[s]||[]).push(n.split(' ')[0])}));return Object.entries(c).filter(([,v])=>v.length>2).map(([s,v])=>s.slice(0,40)+'… ('+v.length+' piezas)')})()],['Los textos de X no superan 280 caracteres',T.filter(([n,t])=>/· X$/.test(n)&&t.length>280).map(([n])=>n)],['Los textos de X no terminan cortados (…)',T.filter(([n,t])=>/· X$/.test(n)&&/…/.test(t)).map(([n])=>n)],['Las obras con barrio lo nombran con la palabra “Barrio”',reales.filter(o=>bar(o)&&!new RegExp('Barrio '+bar(o).replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).test(textoIG(o))&&o.tipo!=='rampas').map(o=>o.id)]];
+['No menciona montos ni signos de pesos',test(/\$|presupuesto|monto/i)],['No hay datos vacíos (undefined, NaN, null)',test(/\b(undefined|NaN|null)\b/)],['No usa barras “/” (salvo en links)',T.filter(([,t])=>/\//.test(t.replace(/https?:\/\/\S+/g,''))).map(([n])=>n)],['No menciona asistencia social en textos de obras',test(/asistencia social/i)],['Las piezas generales y periódicas no repiten la misma frase larga',(()=>{const c={};T.filter(([n])=>/^(g_|p_)/.test(n)&&!/· X$/.test(n)&&!/· placa$/.test(n)).forEach(([n,t])=>new Set(t.split(/(?<=[.!?])\s+/).filter(s=>s.length>70)).forEach(s=>{(c[s]=c[s]||[]).push(n.split(' ')[0])}));return Object.entries(c).filter(([,v])=>v.length>2).map(([s,v])=>s.slice(0,40)+'… ('+v.length+' piezas)')})()],['Los textos de X no superan 280 caracteres',T.filter(([n,t])=>/· X$/.test(n)&&t.length>280).map(([n])=>n)],['Los textos de X no terminan cortados (…)',T.filter(([n,t])=>/· X$/.test(n)&&/…/.test(t)).map(([n])=>n)],['Las obras con barrio lo nombran con la palabra “Barrio”',reales.filter(o=>bar(o)&&!new RegExp('Barrio '+bar(o).replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).test(textoIG(o))&&o.tipo!=='rampas').map(o=>o.id)]];
   const sf=reales.filter(o=>!o.fotos.length&&!galDe(o.tipo).length), sg=reales.filter(o=>!o.fotos.length&&galDe(o.tipo).length), sd=reales.filter(o=>!o.docTxt), sm=reales.filter(o=>!['rampas','plaza'].includes(o.tipo)&&!o.m.m2&&!o.m.ml&&!o.m.cuadras), sb=reales.filter(o=>!bar(o));
   const nm=o=>esc((o.via||o.sector)+(o.entre?` (${o.entre})`:''));
   const L=(t,a,hint)=>`<div class="list"><h3>${t} <small>(${a.length})</small></h3>${hint?`<div class="hint">${hint}</div>`:''}<ul>${a.map(x=>`<li>${x}</li>`).join('')||'<li>Nada pendiente</li>'}</ul></div>`;

@@ -33,7 +33,8 @@ Nunca inventar datos: montos, cifras, metros, plazos, empleo, nombres, citas. Si
 ## Reglas de datos clave
 - Una esquina es UNA obra. Rampas sin barrio; placas dicen "Rampas en ejecución".
 - El código de circuito del parte gana ("-6ª" = 6A); es dato interno.
-- `finalizadas` es un stock; 1.100 cuadras y 2.100 rampas son planes.
+- `finalizadas` es un stock; 1.100 cuadras y 2.100 rampas son planes. El dato sale del parte de finalizadas ("Obras Finalizadas: N"), que se guarda en `entrada/<fecha>/finalizadas.txt`.
+- Plazas: se publican con el nombre del parte (Plaza Barrios Unidos no se cambia a Centro América).
 - Los periódicos cuentan días hábiles y avisan si faltan partes.
 
 ## Cuidados técnicos (Windows, PowerShell 5.1)
@@ -53,7 +54,6 @@ Nunca escribir claves, tokens ni usuarios en archivos, chats ni documentos. Arch
 - Cambios de código: uno por vez, con el motivo. Nada destructivo en git (reset --hard, push --force, checkout o clean sobre cambios ajenos, borrar ramas): solo commits nuevos.
 
 ## Pendientes y decisiones abiertas
-- Plaza Barrios Unidos vs. Plaza Centro América: ¿son la misma? Agregar el alias solo con confirmación.
 - Filtro y contenidos por seccional (número del código): la primera versión se eliminó; falta definir cómo será.
 - Periódicos de 15 y 30 días: faltan partes.
 - Alcance provincial: definir organismos, marcas, identificación de zona y quién valida los datos de cada fuente.
