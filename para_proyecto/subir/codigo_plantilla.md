@@ -228,6 +228,8 @@ const reales=obras.filter(o=>!o.grupo);
 const dnde=o=>o.via?`${o.via}${o.entre?`, entre ${o.entre}`:''}`:o.sector;
 const bar=o=>o.barrioList?o.barrioList.join(' y Barrio '):null;      // 'Barrio ' + bar(o) => 'Barrio A y Barrio B'
 const BAR=o=>bar(o)?`Barrio ${bar(o)}`:null;
+/* plazas con el nombre del parte (17/11): sin anteponer "Plaza"; el artículo sale de la primera palabra */
+const dePlaza=o=>/^(Plaza|Plazoleta)\b/i.test(o.via)?`de la ${o.via}`:/^Parque\b/i.test(o.via)?`del ${o.via}`:`del espacio ${o.via}`;
 const lugarRampas=o=>/^Centro de Salud/.test(o.via)?`el ${o.via}`:/ y /.test(o.via)?`la esquina de ${o.via}`:o.via;
 /* grupos de rampas: zona céntrica = código 1 del parte; Av. Pueyrredón = esquinas sobre la avenida. Las esquinas que se nombran salen del parte del día. */
 const esPue=o=>/Pueyrred/.test(o.via||'');
@@ -241,6 +243,7 @@ function placaDe(o){
   else if(o.tipo==='pav'&&m.cuadras){valor=nf(m.cuadras);etiqueta='Cuadras a pavimentar';sub=B;}
   else if(o.tipo==='pav'){main=TIPOS[o.tipo].label;sub=B;}   // sin memoria descriptiva: sin cuadras ni plazo
   else if(o.tipo==='alumbrado'){main=TIPOS[o.tipo].label;sub=B;}   // va antes que m2 y ml: el alumbrado no se mide en calzada
+  else if(o.tipo==='plaza'){main=o.via;sub='Renovación integral de espacios públicos';extra=B||'';}   // antes que m2: la superficie de una plaza no es calzada
   else if(m.m2){valor=nf(m.m2);etiqueta='m² de '+({bacheo:'bacheo con asfalto',frio:'bacheo en frío',hormigon:'rehabilitación y bacheo con hormigón',rehab:'rehabilitación con asfalto'}[o.tipo]||'calzada intervenida');sub=o.via||B;extra=o.via?(B||''):'';}
   else if(m.ml){valor=nf(m.ml);etiqueta=o.tipo==='mant'?'metros lineales de calles de tierra':'metros lineales de calzada rehabilitada';sub=o.tipo==='mant'?B:(o.via||B);extra=o.tipo==='mant'?'':(B||'');}
   else if(o.tipo==='plaza'){main=o.via;sub='Renovación integral de espacios públicos';extra=B||'';}
@@ -265,7 +268,7 @@ function hecho(o){
       if(o.grupo&&o.circuito==='1'){const c=cruces(o).slice(0,5);return `En la zona céntrica de la ciudad avanzamos con la colocación de ${o.rampas} rampas en ${esq(o)} esquinas, entre ellas ${c.length>1?c.slice(0,-1).join(', ')+', y '+c[c.length-1]:c[0]}`;}
       if(o.grupo) return `Avanzamos con la colocación de ${o.rampas} rampas en ${esq(o)} esquinas de la Av. J. M. de Pueyrredón: ${lista(cruces(o))}`;
       return `${pick(['Avanzamos con la colocación de','Colocamos','Se ejecutan'],o,'a')} ${o.rampas} ${o.rampas===1?'rampa':'rampas'} en ${lugarRampas(o)}`;
-    case 'plaza': return `${pick(['Avanzan los trabajos de renovación de la','Continúa la renovación de la','Se trabaja en la puesta en valor de la'],o,'a')} ${o.via}${en}`;
+    case 'plaza': return `${pick(['Avanzan los trabajos de renovación','Continúa la renovación','Se trabaja en la puesta en valor'],o,'a')} ${dePlaza(o)}${en}`;
     case 'mant': return m.ml?`${pick(['Avanza el mantenimiento de calles en el','Continúan las tareas de mantenimiento en el'],o,'a')} ${B}: las tareas abarcan ${nf(m.ml)} metros lineales de calles de tierra`:`${pick(['Avanzan las tareas de mantenimiento de calles en el','Continúa el mantenimiento de calles en el'],o,'a')} ${B}`;
     case 'frio': return `${pick(['Avanzan las tareas de bacheo en frío en el','Continúa el bacheo en frío en el'],o,'a')} ${B}${m.nocturno?', en horario nocturno':''}`;
     case 'bacheo': return `${pick(['Avanzan las tareas de bacheo con asfalto sobre','Continúan los trabajos de bacheo con asfalto sobre','Se ejecutan tareas de bacheo con asfalto sobre'],o,'a')} ${dnde(o)}${en}${m.m2?`, con ${nf(m.m2)} m² de calzada intervenida`:''}`;
@@ -289,7 +292,7 @@ function hechoX(o){ // versión corta: sin el detalle de calles
   const m=o.m,B=BAR(o),en=B?` (${B})`:'';
   switch(o.tipo){
     case 'rampas': return o.grupo?(o.circuito==='1'?`Avanzamos con la colocación de ${o.rampas} rampas en ${esq(o)} esquinas de la zona céntrica`:`Avanzamos con la colocación de ${o.rampas} rampas en ${esq(o)} esquinas de la Av. J. M. de Pueyrredón`):`Avanzamos con la colocación de ${o.rampas} ${o.rampas===1?'rampa':'rampas'} en ${lugarRampas(o)}`;
-    case 'plaza': return `Avanzan los trabajos de renovación de la ${o.via}${en}`;
+    case 'plaza': return `Avanzan los trabajos de renovación ${dePlaza(o)}${en}`;
     case 'mant': return m.ml?`Avanza el mantenimiento de calles en el ${B}: ${nf(m.ml)} metros lineales de calles de tierra`:`Avanzan las tareas de mantenimiento de calles en el ${B}`;
     case 'bacheo': return `Avanza el bacheo con asfalto sobre ${o.via}${en}${m.m2?`: ${nf(m.m2)} m² intervenidos`:''}`;
     case 'frio': return `Avanza el bacheo en frío en el ${B}${m.nocturno?', en horario nocturno':''}`;
@@ -330,7 +333,7 @@ function textoSMS(o){
   let largo,corto,sinB;
   switch(o.tipo){
     case 'rampas': largo=o.grupo?`${r} rampas de accesibilidad en ${esq(o)} esquinas de ${o.circuito==='1'?'la zona céntrica':'la Av. J. M. de Pueyrredón'}`:`${r} ${rr} de accesibilidad en ${lugarRampas(o)}`;corto=o.grupo?`${r} rampas en ${o.circuito==='1'?'la zona céntrica':'la Av. Pueyrredón'}`:`${r} ${rr} en ${o.via}`;break;
-    case 'plaza': largo=`renovación integral de la ${o.via}${en}`;corto=`renovación de la ${o.via}${en}`;sinB=`renovación integral de la ${o.via}`;break;
+    case 'plaza': largo=`renovación integral ${dePlaza(o)}${en}`;corto=`renovación ${dePlaza(o)}${en}`;sinB=`renovación integral ${dePlaza(o)}`;break;
     case 'mant': largo=`mantenimiento de calles de tierra${m.ml?` (${nf(m.ml)} metros lineales)`:''}${en}`;corto=`mantenimiento de calles${en}`;sinB=`mantenimiento de calles de tierra${m.ml?` (${nf(m.ml)} metros lineales)`:''}`;break;
     case 'frio': largo=`bacheo en frío${m.nocturno?' en horario nocturno':''}${en}`;corto=`bacheo en frío${en}`;sinB=`bacheo en frío${m.nocturno?' en horario nocturno':''}`;break;
     case 'bacheo': largo=`bacheo con asfalto sobre ${o.via}${m.m2?` (${nf(m.m2)} m²)`:''}${en}`;corto=`bacheo con asfalto en ${o.via}${en}`;sinB=`bacheo con asfalto sobre ${o.via}${m.m2?` (${nf(m.m2)} m²)`:''}`;break;

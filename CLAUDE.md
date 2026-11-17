@@ -34,7 +34,7 @@ Nunca inventar datos: montos, cifras, metros, plazos, empleo, nombres, citas. Si
 - Una esquina es UNA obra. Rampas sin barrio; placas dicen "Rampas en ejecución".
 - El código de circuito del parte gana ("-6ª" = 6A); es dato interno.
 - `finalizadas` es un stock; 1.100 cuadras y 2.100 rampas son planes. El dato sale del parte de finalizadas ("Obras Finalizadas: N"), que se guarda en `entrada/<fecha>/finalizadas.txt`.
-- Plazas: se publican con el nombre del parte (Plaza Barrios Unidos no se cambia a Centro América).
+- Plazas: se publican con el nombre del parte, sin anteponer "Plaza" (Faro de Córdoba, Pedro Cavia) y sin alias (Plaza Barrios Unidos no se cambia a Centro América).
 - Los periódicos cuentan días hábiles y avisan si faltan partes.
 
 ## Cuidados técnicos (Windows, PowerShell 5.1)
